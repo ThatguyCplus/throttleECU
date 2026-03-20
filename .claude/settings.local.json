@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Muhammed Shah/**)",
+      "Bash(python -c \":*)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\Documents\\\\Arduino\\\\libraries' -iname *can*.h -o -iname *can*.cpp)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32' -iname *can*.h -o -iname *can*.cpp)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32' -iname hardwarecan* -o -iname *can*.cpp)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32\\\\2.12.0' -type f \\\\\\(-name *.h -o -name *.cpp \\\\\\))",
+      "Bash(xargs grep:*)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics' -name *.h -type f)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32\\\\2.12.0' -name *.md)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32\\\\2.12.0' -path */examples/* -name *.ino)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\Documents\\\\Arduino\\\\throttleECU' -name *.h -o -name *.cpp -o -name *.ino)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32\\\\2.12.0' -name *.h -type f)",
+      "Bash(find 'C:\\\\Users\\\\Muhammed Shah\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\STMicroelectronics\\\\hardware\\\\stm32\\\\2.12.0\\\\cores' -name *.h -o -name *.cpp)"
+    ]
+  }
+}
