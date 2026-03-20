@@ -63,6 +63,14 @@ float Ki = 0.3f;
 float Kd = 1.5f;
 
 // ═══════════════════════════════════
+// NOISE REDUCTION CONFIG
+// ═══════════════════════════════════
+const int32_t PID_DEADBAND    = 50;    // 0.50° — wider deadband stops hunting noise
+const uint16_t MIN_DUTY_THRESH = 50;   // Below this duty, motor vibrates but won't move
+const uint32_t SETTLE_TIME_MS  = 500;  // After reaching target, disable motor after this delay
+const int32_t  SETTLE_WINDOW   = 100;  // 1.00° — position must stay within this to settle
+
+// ═══════════════════════════════════
 // STATE
 // ═══════════════════════════════════
 enum Mode { MODE_MANUAL = 0, MODE_PID = 1, MODE_SAFE = 2 };
@@ -76,6 +84,10 @@ int16_t  throttlePct = 0;
 float   pidIntegral = 0.0f;
 int32_t pidPrevErr  = 0;
 uint32_t pidLastUs  = 0;
+
+// Settle state — tracks when motor has reached target and can coast
+bool     settled      = false;
+uint32_t settleStart  = 0;
 
 // Encoder
 volatile uint32_t encRise   = 0;
@@ -127,13 +139,29 @@ void setMotor(int32_t cmd) {
   if (mode == MODE_SAFE) {
     analogWrite(PIN_RPWM, 0);
     analogWrite(PIN_LPWM, 0);
+    digitalWrite(PIN_REN, LOW);
+    digitalWrite(PIN_LEN, LOW);
     return;
   }
 
   cmd = constrain(cmd, -(int32_t)PWM_MAX, (int32_t)PWM_MAX);
-  if (cmd > 0)      { analogWrite(PIN_LPWM, 0); analogWrite(PIN_RPWM, (uint16_t)cmd); }
-  else if (cmd < 0) { analogWrite(PIN_RPWM, 0); analogWrite(PIN_LPWM, (uint16_t)(-cmd)); }
-  else              { analogWrite(PIN_RPWM, 0); analogWrite(PIN_LPWM, 0); }
+  if (cmd > 0) {
+    digitalWrite(PIN_REN, HIGH);
+    digitalWrite(PIN_LEN, HIGH);
+    analogWrite(PIN_LPWM, 0);
+    analogWrite(PIN_RPWM, (uint16_t)cmd);
+  } else if (cmd < 0) {
+    digitalWrite(PIN_REN, HIGH);
+    digitalWrite(PIN_LEN, HIGH);
+    analogWrite(PIN_RPWM, 0);
+    analogWrite(PIN_LPWM, (uint16_t)(-cmd));
+  } else {
+    // Coast mode — disable H-bridge enables so motor isn't actively braking
+    analogWrite(PIN_RPWM, 0);
+    analogWrite(PIN_LPWM, 0);
+    digitalWrite(PIN_REN, LOW);
+    digitalWrite(PIN_LEN, LOW);
+  }
 }
 
 uint16_t adcAvg(uint8_t pin) {
@@ -160,8 +188,8 @@ int32_t runPID(int32_t current, int32_t target) {
 
   int32_t err = target - current;
 
-  const int32_t DEADBAND = 15;
-  if (abs(err) < DEADBAND) {
+  // Wide deadband — prevents constant micro-corrections that cause audible noise
+  if (abs(err) < PID_DEADBAND) {
     pidIntegral = 0;
     pidPrevErr  = 0;
     return 0;
@@ -174,7 +202,12 @@ int32_t runPID(int32_t current, int32_t target) {
   pidPrevErr   = err;
 
   float output = pTerm + pidIntegral + dTerm;
-  return constrain((int32_t)output, -(int32_t)PWM_MAX, (int32_t)PWM_MAX);
+  int32_t cmd = constrain((int32_t)output, -(int32_t)PWM_MAX, (int32_t)PWM_MAX);
+
+  // Minimum duty cutoff — below this threshold the motor buzzes but can't move
+  if (abs(cmd) < (int32_t)MIN_DUTY_THRESH) cmd = 0;
+
+  return cmd;
 }
 
 void resetPID() {
@@ -250,6 +283,8 @@ void processCmd(const char* s) {
     throttlePct = (int16_t)pct;
     targetAngle = ANGLE_MIN + (int32_t)((int64_t)(ANGLE_MAX - ANGLE_MIN) * pct / 100);
     mode = MODE_PID;
+    settled = false;
+    settleStart = 0;
     resetPID();
   }
   else if (s[0] == 'd' || s[0] == 'D') {
@@ -328,8 +363,29 @@ void loop() {
   switch (mode) {
     case MODE_PID:
       if (angle >= 0) {
-        int32_t cmd = runPID(angle, targetAngle);
-        setMotor(cmd);
+        int32_t err = abs(targetAngle - angle);
+
+        // Settle detection: if within window, start/continue settle timer
+        if (err < SETTLE_WINDOW) {
+          if (!settled) {
+            if (settleStart == 0) {
+              settleStart = millis();
+            } else if ((millis() - settleStart) >= SETTLE_TIME_MS) {
+              settled = true;  // Position held long enough — coast
+            }
+          }
+        } else {
+          // Position drifted out — re-engage PID
+          settled = false;
+          settleStart = 0;
+        }
+
+        if (settled) {
+          setMotor(0);  // Coast — motor off, no buzzing
+        } else {
+          int32_t cmd = runPID(angle, targetAngle);
+          setMotor(cmd);
+        }
       } else {
         setMotor(0);
       }
