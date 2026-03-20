@@ -1,26 +1,19 @@
 // ═══════════════════════════════════════════════════════════════════════
 // Throttle ECU — PID Position Control (NO CAN)
 // Target: STM32F411CE (WeAct BlackPill)
+// Safety: Encoder loss, overcurrent, watchdog, power monitoring
 // ═══════════════════════════════════════════════════════════════════════
 
 #include <Arduino.h>
+#include "initialsafe.h"
 
 // ═══════════════════════════════════
 // SERIAL PORT SELECTION (STM32)
-// - On STM32duino, the "Serial Monitor" port might be USB CDC or a UART,
-//   depending on Tools settings.
-// - Prefer the core's monitor/USB macros when available.
 // ═══════════════════════════════════
 #if defined(SERIAL_PORT_MONITOR)
   #define MON_PORT SERIAL_PORT_MONITOR
 #else
   #define MON_PORT Serial
-#endif
-
-#if defined(SERIAL_PORT_USBVIRTUAL)
-  #define USB_PORT SERIAL_PORT_USBVIRTUAL
-#else
-  #define USB_PORT MON_PORT
 #endif
 
 // ═══════════════════════════════════
@@ -45,8 +38,8 @@ const uint16_t PWM_MAX     = (1u << PWM_BITS) - 1;  // 4095
 // ═══════════════════════════════════
 // AS5048A ENCODER
 // ═══════════════════════════════════
-const uint16_t ENC_OFFSET = 16;
-const uint16_t ENC_DATA   = 4095;
+const uint16_t ENC_OFFSET      = 16;
+const uint16_t ENC_DATA        = 4095;
 const uint16_t ENC_PERIOD_CLKS = 4119;
 
 // ═══════════════════════════════════
@@ -65,7 +58,7 @@ float Kd = 1.5f;
 // ═══════════════════════════════════
 // NOISE REDUCTION CONFIG
 // ═══════════════════════════════════
-const int32_t PID_DEADBAND    = 50;    // 0.50° — wider deadband stops hunting noise
+const int32_t  PID_DEADBAND    = 50;   // 0.50° — wider deadband stops hunting noise
 const uint16_t MIN_DUTY_THRESH = 50;   // Below this duty, motor vibrates but won't move
 const uint32_t SETTLE_TIME_MS  = 500;  // After reaching target, disable motor after this delay
 const int32_t  SETTLE_WINDOW   = 100;  // 1.00° — position must stay within this to settle
@@ -81,13 +74,13 @@ int32_t  targetAngle = ANGLE_MIN;
 int16_t  throttlePct = 0;
 
 // PID state
-float   pidIntegral = 0.0f;
-int32_t pidPrevErr  = 0;
-uint32_t pidLastUs  = 0;
+float    pidIntegral = 0.0f;
+int32_t  pidPrevErr  = 0;
+uint32_t pidLastUs   = 0;
 
 // Settle state — tracks when motor has reached target and can coast
-bool     settled      = false;
-uint32_t settleStart  = 0;
+bool     settled     = false;
+uint32_t settleStart = 0;
 
 // Encoder
 volatile uint32_t encRise   = 0;
@@ -100,7 +93,8 @@ static char    usbBuf[32],  uartBuf[32];
 static uint8_t usbLen = 0,  uartLen = 0;
 
 // Telemetry
-uint32_t lastPrint = 0;
+uint32_t lastPrint    = 0;
+uint32_t lastSafeTick = 0;
 
 // ═══════════════════════════════════
 // ENCODER ISR
@@ -219,7 +213,7 @@ void resetPID() {
 // ═══════════════════════════════════
 // SAFE STATE
 // ═══════════════════════════════════
-void enterSafeState() {
+void enterSafeState(const char* reason) {
   mode = MODE_SAFE;
   analogWrite(PIN_RPWM, 0);
   analogWrite(PIN_LPWM, 0);
@@ -227,9 +221,15 @@ void enterSafeState() {
   digitalWrite(PIN_LEN, LOW);
   digitalWrite(PIN_RELAY, LOW);
   pidIntegral = 0;
-  duty = 0;
+  duty        = 0;
   throttlePct = 0;
   targetAngle = ANGLE_MIN;
+  settled     = false;
+  settleStart = 0;
+
+  char msg[64];
+  snprintf(msg, sizeof(msg), "[SAFE] %s", reason);
+  printBoth(msg);
 }
 
 // ═══════════════════════════════════
@@ -263,10 +263,18 @@ void processCmd(const char* s) {
   }
   else if (strcasecmp(s, "reset") == 0) {
     if (mode == MODE_SAFE) {
-      mode = MODE_MANUAL;
-      digitalWrite(PIN_REN, HIGH);
-      digitalWrite(PIN_LEN, HIGH);
-      printBoth("Safe state cleared");
+      if (safe_can_recover()) {
+        safe_attempt_recovery();
+        safe_clear_faults();
+        mode = MODE_MANUAL;
+        digitalWrite(PIN_REN, HIGH);
+        digitalWrite(PIN_LEN, HIGH);
+        printBoth("Safe state cleared");
+      } else {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "Cannot recover — faults active: 0x%02X", safe_get_fault_flags());
+        printBoth(buf);
+      }
     }
   }
   else if (strcasecmp(s, "on") == 0) {
@@ -277,17 +285,26 @@ void processCmd(const char* s) {
     digitalWrite(PIN_RELAY, LOW);
     printBoth("Relay OFF");
   }
+  else if (strcasecmp(s, "diag") == 0) {
+    safe_print_status(printBoth);
+  }
+  else if (strcasecmp(s, "clearfaults") == 0) {
+    safe_clear_faults();
+    printBoth("Faults cleared");
+  }
   else if (s[0] == 't' || s[0] == 'T') {
+    if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
     long pct = atol(s + 1);
     pct = constrain(pct, 0L, 100L);
     throttlePct = (int16_t)pct;
     targetAngle = ANGLE_MIN + (int32_t)((int64_t)(ANGLE_MAX - ANGLE_MIN) * pct / 100);
-    mode = MODE_PID;
-    settled = false;
+    mode        = MODE_PID;
+    settled     = false;
     settleStart = 0;
     resetPID();
   }
   else if (s[0] == 'd' || s[0] == 'D') {
+    if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
     long v = atol(s + 1);
     duty = (uint16_t)constrain(v, 0L, (long)PWM_MAX);
     mode = MODE_MANUAL;
@@ -317,14 +334,9 @@ void processCmd(const char* s) {
 // SETUP
 // ═══════════════════════════════════
 void setup() {
-  // Start both ports:
-  // - MON_PORT: whatever the core uses for Serial Monitor (often USB CDC if enabled)
-  // - Serial1 : TTL UART (pins depend on variant; commonly PA9/PA10 or PB6/PB7)
   MON_PORT.begin(115200);
   Serial1.begin(115200);
 
-  // Don't block forever waiting for a host connection.
-  // Some STM32 core/USB configurations never make `while(!Serial)` true.
   uint32_t t0 = millis();
   while ((millis() - t0) < 250) { /* brief settle */ }
 
@@ -344,48 +356,71 @@ void setup() {
   analogReadResolution(12);
   setMotor(0);
 
+  // Initialize safety module (also checks for watchdog resets)
+  safe_init();
+
   printBoth("═══════════════════════════════════");
   printBoth("  Throttle ECU — PID Control");
   printBoth("═══════════════════════════════════");
+
+  if (safe_was_reset_by_watchdog()) {
+    printBoth("[WARN] Recovered from watchdog reset!");
+  }
+
   printBoth("Commands: t0-t100, d0-d4095, f, r, s");
   printBoth("         p## i## k##, on, off, reset");
+  printBoth("         diag, clearfaults");
 }
 
 // ═══════════════════════════════════
 // MAIN LOOP
 // ═══════════════════════════════════
 void loop() {
-  if (readLine(MON_PORT,  usbBuf,  usbLen,  sizeof(usbBuf)))  processCmd(usbBuf);
-  if (readLine(Serial1, uartBuf, uartLen, sizeof(uartBuf))) processCmd(uartBuf);
+  if (readLine(MON_PORT, usbBuf,  usbLen,  sizeof(usbBuf)))  processCmd(usbBuf);
+  if (readLine(Serial1,  uartBuf, uartLen, sizeof(uartBuf))) processCmd(uartBuf);
 
-  int32_t angle = getAngle();
+  int32_t  angle = getAngle();
+  uint32_t now   = millis();
 
+  // Read currents (needed for safety checks and telemetry)
+  uint16_t ris = adcAvg(PIN_RIS);
+  uint16_t lis = adcAvg(PIN_LIS);
+
+  // ── Safety checks ──────────────────
+  safe_check_encoder(angle >= 0, now);
+  safe_check_current(ris, lis, now);
+
+  // If safety module has tripped, enter safe state
+  if (g_safety.safe_state_active && mode != MODE_SAFE) {
+    enterSafeState("Safety fault");
+  }
+
+  // Periodic safety tick (watchdog kick + recovery polling)
+  if ((now - lastSafeTick) >= 100) {
+    lastSafeTick = now;
+    safe_tick(now);
+  }
+
+  // ── Motor control ──────────────────
   switch (mode) {
     case MODE_PID:
       if (angle >= 0) {
-        int32_t err = abs(targetAngle - angle);
+        int32_t posErr = abs(targetAngle - angle);
 
-        // Settle detection: if within window, start/continue settle timer
-        if (err < SETTLE_WINDOW) {
+        if (posErr < SETTLE_WINDOW) {
           if (!settled) {
             if (settleStart == 0) {
-              settleStart = millis();
-            } else if ((millis() - settleStart) >= SETTLE_TIME_MS) {
-              settled = true;  // Position held long enough — coast
+              settleStart = now;
+            } else if ((now - settleStart) >= SETTLE_TIME_MS) {
+              settled = true;
             }
           }
         } else {
-          // Position drifted out — re-engage PID
-          settled = false;
+          settled     = false;
           settleStart = 0;
         }
 
-        if (settled) {
-          setMotor(0);  // Coast — motor off, no buzzing
-        } else {
-          int32_t cmd = runPID(angle, targetAngle);
-          setMotor(cmd);
-        }
+        setMotor(settled ? 0 : runPID(angle, targetAngle));
       } else {
         setMotor(0);
       }
@@ -400,11 +435,9 @@ void loop() {
       break;
   }
 
-  uint32_t now = millis();
-  if (now - lastPrint >= 200) {
+  // ── Telemetry (200ms) ──────────────
+  if ((now - lastPrint) >= 200) {
     lastPrint = now;
-    uint16_t ris = adcAvg(PIN_RIS);
-    uint16_t lis = adcAvg(PIN_LIS);
 
     int16_t actPct = -1;
     if (angle >= 0) {
@@ -414,19 +447,21 @@ void loop() {
       );
     }
 
+    uint8_t errFlags = safe_get_fault_flags();
     static const char* modeStr[] = {"MAN", "PID", "SAFE"};
-    char line[120];
+    char line[128];
+
     if (angle >= 0) {
       snprintf(line, sizeof(line),
-        "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=%ld.%02ld thr=%d%% tgt=%d%%",
+        "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=%ld.%02ld thr=%d%% tgt=%d%% err=0x%02X",
         modeStr[mode], dir > 0 ? "F" : "R", duty, ris, lis,
         (long)(angle / 100), (long)(angle % 100),
-        (int)actPct, (int)throttlePct);
+        (int)actPct, (int)throttlePct, errFlags);
     } else {
       snprintf(line, sizeof(line),
-        "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=--- thr=---%% tgt=%d%%",
+        "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=--- thr=---%% tgt=%d%% err=0x%02X",
         modeStr[mode], dir > 0 ? "F" : "R", duty, ris, lis,
-        (int)throttlePct);
+        (int)throttlePct, errFlags);
     }
     printBoth(line);
   }
