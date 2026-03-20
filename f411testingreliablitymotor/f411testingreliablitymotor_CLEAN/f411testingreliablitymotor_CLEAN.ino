@@ -263,18 +263,12 @@ void processCmd(const char* s) {
   }
   else if (strcasecmp(s, "reset") == 0) {
     if (mode == MODE_SAFE) {
-      if (safe_can_recover()) {
-        safe_attempt_recovery();
-        safe_clear_faults();
-        mode = MODE_MANUAL;
-        digitalWrite(PIN_REN, HIGH);
-        digitalWrite(PIN_LEN, HIGH);
-        printBoth("Safe state cleared");
-      } else {
-        char buf[64];
-        snprintf(buf, sizeof(buf), "Cannot recover — faults active: 0x%02X", safe_get_fault_flags());
-        printBoth(buf);
-      }
+      safe_clear_faults();
+      mode = MODE_MANUAL;
+      duty = 0;
+      digitalWrite(PIN_REN, HIGH);
+      digitalWrite(PIN_LEN, HIGH);
+      printBoth("Safe state cleared — mode=MAN");
     }
   }
   else if (strcasecmp(s, "on") == 0) {
