@@ -53,8 +53,11 @@ void safe_check_encoder(bool is_valid, uint32_t now_ms) {
   if (is_valid) {
     g_safety.last_encoder_update = now_ms;
     g_safety.fault_count[0] = 0;
-    g_safety.faults &= ~FAULT_ENCODER_STALE;
-    g_safety.faults &= ~FAULT_ENCODER_INVALID;
+    // Only clear flags if NOT in safe state — keep them visible until manual reset
+    if (!g_safety.safe_state_active) {
+      g_safety.faults &= ~FAULT_ENCODER_STALE;
+      g_safety.faults &= ~FAULT_ENCODER_INVALID;
+    }
   } else {
     if ((now_ms - g_safety.last_encoder_update) > SAFE_ENCODER_TIMEOUT_MS) {
       g_safety.fault_count[0]++;
@@ -85,7 +88,9 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
     }
   } else {
     g_safety.fault_count[1] = 0;
-    g_safety.faults &= ~FAULT_OVERCURRENT_L;
+    if (!g_safety.safe_state_active) {
+      g_safety.faults &= ~FAULT_OVERCURRENT_L;
+    }
   }
 
   // Check right motor current (PA1)
@@ -99,7 +104,9 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
     }
   } else {
     g_safety.fault_count[2] = 0;
-    g_safety.faults &= ~FAULT_OVERCURRENT_R;
+    if (!g_safety.safe_state_active) {
+      g_safety.faults &= ~FAULT_OVERCURRENT_R;
+    }
   }
 }
 
@@ -117,7 +124,9 @@ void safe_check_power(uint16_t supply_mv) {
     }
   } else {
     g_safety.fault_count[3] = 0;
-    g_safety.faults &= ~FAULT_POWER_LOW;
+    if (!g_safety.safe_state_active) {
+      g_safety.faults &= ~FAULT_POWER_LOW;
+    }
   }
 }
 
