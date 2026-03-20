@@ -206,6 +206,70 @@ void resetPID() {
 }
 
 // ═══════════════════════════════════
+// PASSIVE END-STOP LEARNING
+// ═══════════════════════════════════
+struct EndStopLearner {
+  int32_t  lastAngle;
+  uint32_t stallStart;
+  bool     minLearned;
+  bool     maxLearned;
+} endstop = {-1, 0, false, false};
+
+void endstopCheck(int32_t currentAngle, uint16_t currentDuty, int32_t pidError) {
+  if (currentAngle < 0) return;
+
+  uint16_t dutyThresh = (uint16_t)((uint32_t)PWM_MAX * CFG_ENDSTOP_DUTY_THRESH / 100);
+
+  if (currentDuty < dutyThresh) {
+    endstop.stallStart = 0;
+    endstop.lastAngle = currentAngle;
+    return;
+  }
+
+  if (endstop.lastAngle >= 0) {
+    int32_t delta = abs(currentAngle - endstop.lastAngle);
+
+    if (delta < CFG_ENDSTOP_STALL_THRESH) {
+      if (endstop.stallStart == 0) {
+        endstop.stallStart = millis();
+      } else if ((millis() - endstop.stallStart) >= CFG_ENDSTOP_STALL_MS) {
+        char buf[80];
+
+        if (pidError > 0) {
+          int32_t newMax = currentAngle - CFG_ENDSTOP_MARGIN;
+          if (abs(newMax - CFG_ANGLE_MAX) <= CFG_ENDSTOP_SANITY) {
+            if (newMax < ANGLE_MAX) {
+              ANGLE_MAX = newMax;
+              endstop.maxLearned = true;
+              snprintf(buf, sizeof(buf), "[LEARN] Open stop: %ld.%02ld°",
+                       (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
+              printBoth(buf);
+            }
+          }
+        } else if (pidError < 0) {
+          int32_t newMin = currentAngle + CFG_ENDSTOP_MARGIN;
+          if (abs(newMin - CFG_ANGLE_MIN) <= CFG_ENDSTOP_SANITY) {
+            if (newMin > ANGLE_MIN) {
+              ANGLE_MIN = newMin;
+              endstop.minLearned = true;
+              snprintf(buf, sizeof(buf), "[LEARN] Closed stop: %ld.%02ld°",
+                       (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
+              printBoth(buf);
+            }
+          }
+        }
+
+        endstop.stallStart = 0;
+      }
+    } else {
+      endstop.stallStart = 0;
+    }
+  }
+
+  endstop.lastAngle = currentAngle;
+}
+
+// ═══════════════════════════════════
 // SAFE STATE
 // ═══════════════════════════════════
 void enterSafeState(const char* reason) {
@@ -371,91 +435,6 @@ void processCmd(const char* s) {
     snprintf(buf, sizeof(buf), "Kd=%.2f", (double)Kd);
     printBoth(buf);
   }
-}
-
-// ═══════════════════════════════════
-// PASSIVE END-STOP LEARNING
-// ═══════════════════════════════════
-// Learns the real mechanical end stops during normal operation.
-// Never moves the throttle on its own — only observes.
-// If PID is driving hard (duty near max) but angle isn't changing,
-// we've hit a physical stop → tighten the range.
-
-struct EndStopLearner {
-  int32_t  lastAngle;         // Previous angle reading
-  uint32_t stallStart;        // When we first noticed no movement
-  bool     minLearned;        // Has ANGLE_MIN been updated?
-  bool     maxLearned;        // Has ANGLE_MAX been updated?
-} endstop = {-1, 0, false, false};
-
-// Call every loop iteration during PID mode.
-// currentAngle: current encoder reading (centidegrees)
-// currentDuty:  absolute PID output duty (0–PWM_MAX)
-void endstopCheck(int32_t currentAngle, uint16_t currentDuty, int32_t pidError) {
-  if (currentAngle < 0) return;  // No valid reading
-
-  uint16_t dutyThresh = (uint16_t)((uint32_t)PWM_MAX * CFG_ENDSTOP_DUTY_THRESH / 100);
-
-  // Only check when motor is driving hard
-  if (currentDuty < dutyThresh) {
-    endstop.stallStart = 0;  // Not driving hard, reset
-    endstop.lastAngle = currentAngle;
-    return;
-  }
-
-  // Check if angle is barely changing
-  if (endstop.lastAngle >= 0) {
-    int32_t delta = abs(currentAngle - endstop.lastAngle);
-
-    if (delta < CFG_ENDSTOP_STALL_THRESH) {
-      // Angle not moving while duty is high
-      if (endstop.stallStart == 0) {
-        endstop.stallStart = millis();
-      } else if ((millis() - endstop.stallStart) >= CFG_ENDSTOP_STALL_MS) {
-        // Confirmed stall — determine which end stop we hit
-        // based on PID error direction
-        char buf[80];
-
-        if (pidError > 0) {
-          // PID wants to go HIGHER but can't → we hit the MAX stop
-          int32_t newMax = currentAngle - CFG_ENDSTOP_MARGIN;
-
-          // Sanity check: must be within ±SANITY of initial estimate
-          if (abs(newMax - CFG_ANGLE_MAX) <= CFG_ENDSTOP_SANITY) {
-            // Only tighten, never loosen (learned max must be ≤ initial max)
-            if (newMax < ANGLE_MAX) {
-              ANGLE_MAX = newMax;
-              endstop.maxLearned = true;
-              snprintf(buf, sizeof(buf), "[LEARN] Open stop: %ld.%02ld°",
-                       (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
-              printBoth(buf);
-            }
-          }
-        } else if (pidError < 0) {
-          // PID wants to go LOWER but can't → we hit the MIN stop
-          int32_t newMin = currentAngle + CFG_ENDSTOP_MARGIN;
-
-          // Sanity check
-          if (abs(newMin - CFG_ANGLE_MIN) <= CFG_ENDSTOP_SANITY) {
-            // Only tighten, never loosen (learned min must be ≥ initial min)
-            if (newMin > ANGLE_MIN) {
-              ANGLE_MIN = newMin;
-              endstop.minLearned = true;
-              snprintf(buf, sizeof(buf), "[LEARN] Closed stop: %ld.%02ld°",
-                       (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
-              printBoth(buf);
-            }
-          }
-        }
-
-        endstop.stallStart = 0;  // Reset so we don't spam
-      }
-    } else {
-      endstop.stallStart = 0;  // Moving again, reset
-    }
-  }
-
-  endstop.lastAngle = currentAngle;
 }
 
 // ═══════════════════════════════════
