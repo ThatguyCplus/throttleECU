@@ -287,7 +287,10 @@ void processCmd(const char* s) {
     printBoth("  Active Configuration (config.h)");
     printBoth("═══════════════════════════════════");
     snprintf(buf, sizeof(buf), "PWM:       %luHz  %u-bit  (max=%u)", (unsigned long)CFG_PWM_FREQ_HZ, CFG_PWM_BITS, PWM_MAX);        printBoth(buf);
-    snprintf(buf, sizeof(buf), "Throttle:  %.2f° closed  →  %.2f° open  %s", ANGLE_MIN/100.0, ANGLE_MAX/100.0, CFG_AUTO_CAL_ENABLE ? "(auto-cal)" : "(fixed)");  printBoth(buf);
+    snprintf(buf, sizeof(buf), "Throttle:  %.2f° – %.2f°  min:%s max:%s",
+             ANGLE_MIN/100.0, ANGLE_MAX/100.0,
+             endstop.minLearned ? "learned" : "initial",
+             endstop.maxLearned ? "learned" : "initial");  printBoth(buf);
     snprintf(buf, sizeof(buf), "PID:       Kp=%.2f  Ki=%.2f  Kd=%.2f", (double)Kp, (double)Ki, (double)Kd);                         printBoth(buf);
     snprintf(buf, sizeof(buf), "Deadband:  %.2f°   MinDuty=%u", CFG_PID_DEADBAND/100.0, CFG_MIN_DUTY_THRESH);                       printBoth(buf);
     snprintf(buf, sizeof(buf), "Settle:    %lums window  %ldms timer", (unsigned long)CFG_SETTLE_TIME_MS, (long)CFG_SETTLE_WINDOW);  printBoth(buf);
@@ -298,18 +301,39 @@ void processCmd(const char* s) {
     snprintf(buf, sizeof(buf), "Serial:    %lu baud", (unsigned long)CFG_SERIAL_BAUD);                                              printBoth(buf);
     printBoth("═══════════════════════════════════");
   }
-  else if (strcasecmp(s, "cal") == 0) {
-    #if CFG_AUTO_CAL_ENABLE
-      mode = MODE_MANUAL;
-      duty = 0;
-      setMotor(0);
-      resetPID();
-      runAutoCalibration();
-      targetAngle = ANGLE_MIN;
-      printBoth("Ready — send t0-t100");
-    #else
-      printBoth("Auto-cal disabled in config.h");
-    #endif
+  else if (strcasecmp(s, "learn") == 0) {
+    char buf[80];
+    printBoth("───────────────────────────────────");
+    printBoth("  End-Stop Learning Status");
+    printBoth("───────────────────────────────────");
+    snprintf(buf, sizeof(buf), "  Initial:  %ld.%02ld° – %ld.%02ld°",
+             (long)(CFG_ANGLE_MIN / 100), (long)(CFG_ANGLE_MIN % 100),
+             (long)(CFG_ANGLE_MAX / 100), (long)(CFG_ANGLE_MAX % 100));
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "  Current:  %ld.%02ld° – %ld.%02ld°",
+             (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100),
+             (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "  Min learned: %s    Max learned: %s",
+             endstop.minLearned ? "YES" : "no",
+             endstop.maxLearned ? "YES" : "no");
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "  Usable range: %ld.%02ld°",
+             (long)((ANGLE_MAX - ANGLE_MIN) / 100),
+             (long)((ANGLE_MAX - ANGLE_MIN) % 100));
+    printBoth(buf);
+    printBoth("───────────────────────────────────");
+  }
+  else if (strcasecmp(s, "relearn") == 0) {
+    // Reset learned values back to initial estimates
+    ANGLE_MIN = CFG_ANGLE_MIN;
+    ANGLE_MAX = CFG_ANGLE_MAX;
+    endstop.minLearned = false;
+    endstop.maxLearned = false;
+    endstop.stallStart = 0;
+    endstop.lastAngle = -1;
+    targetAngle = ANGLE_MIN;
+    printBoth("End-stop learning reset to initial values");
   }
   else if (s[0] == 't' || s[0] == 'T') {
     if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
@@ -350,172 +374,89 @@ void processCmd(const char* s) {
 }
 
 // ═══════════════════════════════════
-// AUTO-CALIBRATION
+// PASSIVE END-STOP LEARNING
 // ═══════════════════════════════════
-#if CFG_AUTO_CAL_ENABLE
+// Learns the real mechanical end stops during normal operation.
+// Never moves the throttle on its own — only observes.
+// If PID is driving hard (duty near max) but angle isn't changing,
+// we've hit a physical stop → tighten the range.
 
-// Drive motor in one direction until it stalls, return the stall angle.
-// direction: +1 = forward (RPWM), -1 = reverse (LPWM)
-int32_t findEndStop(int8_t direction) {
-  int32_t lastAngle = -1;
-  uint32_t stallStart = 0;
-  char buf[64];
+struct EndStopLearner {
+  int32_t  lastAngle;         // Previous angle reading
+  uint32_t stallStart;        // When we first noticed no movement
+  bool     minLearned;        // Has ANGLE_MIN been updated?
+  bool     maxLearned;        // Has ANGLE_MAX been updated?
+} endstop = {-1, 0, false, false};
 
-  snprintf(buf, sizeof(buf), "  Sweeping %s...", direction > 0 ? "OPEN" : "CLOSED");
-  printBoth(buf);
+// Call every loop iteration during PID mode.
+// currentAngle: current encoder reading (centidegrees)
+// currentDuty:  absolute PID output duty (0–PWM_MAX)
+void endstopCheck(int32_t currentAngle, uint16_t currentDuty, int32_t pidError) {
+  if (currentAngle < 0) return;  // No valid reading
 
-  // Enable H-bridge
-  digitalWrite(PIN_REN, HIGH);
-  digitalWrite(PIN_LEN, HIGH);
+  uint16_t dutyThresh = (uint16_t)((uint32_t)PWM_MAX * CFG_ENDSTOP_DUTY_THRESH / 100);
 
-  uint32_t timeout = millis() + 10000;  // 10s safety timeout
+  // Only check when motor is driving hard
+  if (currentDuty < dutyThresh) {
+    endstop.stallStart = 0;  // Not driving hard, reset
+    endstop.lastAngle = currentAngle;
+    return;
+  }
 
-  while (millis() < timeout) {
-    // Feed watchdog during calibration
-    safe_kick_watchdog();
+  // Check if angle is barely changing
+  if (endstop.lastAngle >= 0) {
+    int32_t delta = abs(currentAngle - endstop.lastAngle);
 
-    // Drive motor at calibration duty
-    if (direction > 0) {
-      analogWrite(PIN_LPWM, 0);
-      analogWrite(PIN_RPWM, CFG_AUTO_CAL_DUTY);
-    } else {
-      analogWrite(PIN_RPWM, 0);
-      analogWrite(PIN_LPWM, CFG_AUTO_CAL_DUTY);
-    }
+    if (delta < CFG_ENDSTOP_STALL_THRESH) {
+      // Angle not moving while duty is high
+      if (endstop.stallStart == 0) {
+        endstop.stallStart = millis();
+      } else if ((millis() - endstop.stallStart) >= CFG_ENDSTOP_STALL_MS) {
+        // Confirmed stall — determine which end stop we hit
+        // based on PID error direction
+        char buf[80];
 
-    delay(20);  // 50Hz sample rate during cal
+        if (pidError > 0) {
+          // PID wants to go HIGHER but can't → we hit the MAX stop
+          int32_t newMax = currentAngle - CFG_ENDSTOP_MARGIN;
 
-    int32_t angle = getAngle();
-    if (angle < 0) continue;  // No encoder signal yet, keep trying
+          // Sanity check: must be within ±SANITY of initial estimate
+          if (abs(newMax - CFG_ANGLE_MAX) <= CFG_ENDSTOP_SANITY) {
+            // Only tighten, never loosen (learned max must be ≤ initial max)
+            if (newMax < ANGLE_MAX) {
+              ANGLE_MAX = newMax;
+              endstop.maxLearned = true;
+              snprintf(buf, sizeof(buf), "[LEARN] Open stop: %ld.%02ld°",
+                       (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
+              printBoth(buf);
+            }
+          }
+        } else if (pidError < 0) {
+          // PID wants to go LOWER but can't → we hit the MIN stop
+          int32_t newMin = currentAngle + CFG_ENDSTOP_MARGIN;
 
-    // Check if stalled (angle not changing)
-    if (lastAngle >= 0) {
-      int32_t delta = abs(angle - lastAngle);
-      if (delta < CFG_AUTO_CAL_STALL_THRESH) {
-        // Angle barely changed
-        if (stallStart == 0) {
-          stallStart = millis();
-        } else if ((millis() - stallStart) >= CFG_AUTO_CAL_STALL_MS) {
-          // Stalled long enough — we've hit the mechanical stop
-          analogWrite(PIN_RPWM, 0);
-          analogWrite(PIN_LPWM, 0);
-          digitalWrite(PIN_REN, LOW);
-          digitalWrite(PIN_LEN, LOW);
-
-          snprintf(buf, sizeof(buf), "  Stop found at %ld.%02ld°",
-                   (long)(angle / 100), (long)(angle % 100));
-          printBoth(buf);
-          return angle;
+          // Sanity check
+          if (abs(newMin - CFG_ANGLE_MIN) <= CFG_ENDSTOP_SANITY) {
+            // Only tighten, never loosen (learned min must be ≥ initial min)
+            if (newMin > ANGLE_MIN) {
+              ANGLE_MIN = newMin;
+              endstop.minLearned = true;
+              snprintf(buf, sizeof(buf), "[LEARN] Closed stop: %ld.%02ld°",
+                       (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
+              printBoth(buf);
+            }
+          }
         }
-      } else {
-        stallStart = 0;  // Still moving, reset stall timer
+
+        endstop.stallStart = 0;  // Reset so we don't spam
       }
+    } else {
+      endstop.stallStart = 0;  // Moving again, reset
     }
-    lastAngle = angle;
   }
 
-  // Timeout — stop motor and return whatever angle we have
-  analogWrite(PIN_RPWM, 0);
-  analogWrite(PIN_LPWM, 0);
-  digitalWrite(PIN_REN, LOW);
-  digitalWrite(PIN_LEN, LOW);
-  printBoth("  [WARN] Cal timeout!");
-  return lastAngle;
+  endstop.lastAngle = currentAngle;
 }
-
-void runAutoCalibration() {
-  printBoth("───────────────────────────────────");
-  printBoth("  AUTO-CALIBRATION");
-  printBoth("───────────────────────────────────");
-
-  // Wait for encoder to start producing valid data
-  printBoth("  Waiting for encoder...");
-  uint32_t encWait = millis() + 3000;
-  while (millis() < encWait) {
-    safe_kick_watchdog();
-    if (getAngle() >= 0) break;
-    delay(10);
-  }
-
-  if (getAngle() < 0) {
-    printBoth("  [FAIL] No encoder signal — using fallback angles");
-    return;  // Keep CFG_ANGLE_MIN/MAX defaults
-  }
-
-  // Step 1: Find CLOSED stop (drive in reverse/closing direction)
-  int32_t closedAngle = findEndStop(-1);
-
-  delay(200);  // Brief pause between sweeps
-  safe_kick_watchdog();
-
-  // Step 2: Find OPEN stop (drive in forward/opening direction)
-  int32_t openAngle = findEndStop(+1);
-
-  // Validate results
-  if (closedAngle < 0 || openAngle < 0) {
-    printBoth("  [FAIL] Could not find both stops — using fallback angles");
-    return;
-  }
-
-  // Make sure min < max (swap if motor direction is reversed)
-  if (closedAngle > openAngle) {
-    int32_t tmp = closedAngle;
-    closedAngle = openAngle;
-    openAngle = tmp;
-  }
-
-  // Check that range is reasonable (at least 20° = 2000 centidegrees)
-  int32_t range = openAngle - closedAngle;
-  if (range < 2000) {
-    char buf[64];
-    snprintf(buf, sizeof(buf), "  [FAIL] Range too small: %ld.%02ld° — using fallback",
-             (long)(range / 100), (long)(range % 100));
-    printBoth(buf);
-    return;
-  }
-
-  // Apply safety margins (move inward from physical stops)
-  ANGLE_MIN = closedAngle + CFG_AUTO_CAL_MARGIN;
-  ANGLE_MAX = openAngle   - CFG_AUTO_CAL_MARGIN;
-
-  // Return throttle to closed position
-  printBoth("  Returning to closed...");
-  digitalWrite(PIN_REN, HIGH);
-  digitalWrite(PIN_LEN, HIGH);
-  analogWrite(PIN_RPWM, 0);
-  analogWrite(PIN_LPWM, CFG_AUTO_CAL_DUTY);
-
-  uint32_t returnTimeout = millis() + 5000;
-  while (millis() < returnTimeout) {
-    safe_kick_watchdog();
-    int32_t a = getAngle();
-    if (a >= 0 && a <= ANGLE_MIN + 200) break;  // Within 2° of closed
-    delay(20);
-  }
-  analogWrite(PIN_LPWM, 0);
-  digitalWrite(PIN_REN, LOW);
-  digitalWrite(PIN_LEN, LOW);
-
-  // Print results
-  char buf[80];
-  printBoth("───────────────────────────────────");
-  snprintf(buf, sizeof(buf), "  CLOSED: %ld.%02ld° (raw) → %ld.%02ld° (with margin)",
-           (long)(closedAngle / 100), (long)(closedAngle % 100),
-           (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
-  printBoth(buf);
-  snprintf(buf, sizeof(buf), "  OPEN:   %ld.%02ld° (raw) → %ld.%02ld° (with margin)",
-           (long)(openAngle / 100), (long)(openAngle % 100),
-           (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
-  printBoth(buf);
-  snprintf(buf, sizeof(buf), "  RANGE:  %ld.%02ld° usable",
-           (long)((ANGLE_MAX - ANGLE_MIN) / 100),
-           (long)((ANGLE_MAX - ANGLE_MIN) % 100));
-  printBoth(buf);
-  printBoth("  AUTO-CAL COMPLETE");
-  printBoth("───────────────────────────────────");
-}
-
-#endif // CFG_AUTO_CAL_ENABLE
 
 // ═══════════════════════════════════
 // SETUP
@@ -550,12 +491,7 @@ void setup() {
   printBoth("  Throttle ECU — PID Control");
   printBoth("═══════════════════════════════════");
 
-  // Run auto-calibration (finds actual end stops for this session)
-  #if CFG_AUTO_CAL_ENABLE
-    runAutoCalibration();
-  #endif
-
-  // Set initial target to calibrated closed position
+  // Set initial target to closed position (will be refined by end-stop learning)
   targetAngle = ANGLE_MIN;
 
   if (safe_was_reset_by_watchdog()) {
@@ -564,7 +500,8 @@ void setup() {
 
   printBoth("Commands: t0-t100, d0-d4095, f, r, s");
   printBoth("         p## i## k##, on, off, reset");
-  printBoth("         diag, clearfaults, config, cal");
+  printBoth("         diag, clearfaults, config");
+  printBoth("         learn, relearn");
 }
 
 // ═══════════════════════════════════
@@ -600,7 +537,10 @@ void loop() {
   switch (mode) {
     case MODE_PID:
       if (angle >= 0) {
-        int32_t posErr = abs(targetAngle - angle);
+        // Clamp target to current learned range
+        int32_t clampedTarget = constrain(targetAngle, ANGLE_MIN, ANGLE_MAX);
+        int32_t posErr = abs(clampedTarget - angle);
+        int32_t pidErr = clampedTarget - angle;  // signed error for end-stop learning
 
         if (posErr < SETTLE_WINDOW) {
           if (!settled) {
@@ -615,7 +555,11 @@ void loop() {
           settleStart = 0;
         }
 
-        setMotor(settled ? 0 : runPID(angle, targetAngle));
+        int32_t pidCmd = settled ? 0 : runPID(angle, clampedTarget);
+        setMotor(pidCmd);
+
+        // Passive end-stop learning: check if stalled at a mechanical limit
+        endstopCheck(angle, (uint16_t)abs(pidCmd), pidErr);
       } else {
         setMotor(0);
       }

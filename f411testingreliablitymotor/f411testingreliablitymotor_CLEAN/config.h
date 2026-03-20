@@ -71,50 +71,54 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 4: THROTTLE CALIBRATION
 // ─────────────────────────────────────────────────────────────────────────────
-//  Two modes:
+//  PASSIVE END-STOP LEARNING:
+//    Starts with the hardcoded ANGLE_MIN/MAX as initial estimates.
+//    During normal PID operation, if the motor is driving at high duty
+//    but the angle has stopped changing, we've hit a physical end stop.
+//    The firmware quietly tightens the range to match reality.
 //
-//  AUTO-CALIBRATION (recommended):
-//    Set AUTO_CAL_ENABLE to 1. On every boot the firmware will:
-//      1. Slowly drive motor toward CLOSED stop until stalled
-//      2. Record actual closed angle
-//      3. Slowly drive motor toward OPEN stop until stalled
-//      4. Record actual open angle
-//      5. Apply safety margin inward from each stop
-//    This eliminates encoder drift between power cycles.
+//    NO active sweep, NO calibration routine, NEVER moves the throttle
+//    on its own. Only learns from commands the driver is already sending.
 //
-//  MANUAL CALIBRATION (fallback):
-//    Set AUTO_CAL_ENABLE to 0. Uses the fixed ANGLE_MIN/MAX below.
-//    Only use this if auto-cal causes problems or for bench testing.
+//  ANGLE_MIN / ANGLE_MAX → Initial angle estimates (0.01° units).
+//                           Measure roughly with serial monitor.
+//                           These are the STARTING values — the firmware
+//                           will tighten them if it detects end stops.
 //
-//  ANGLE_MIN / ANGLE_MAX → Fallback angles (0.01° units)
-//                           Only used when AUTO_CAL_ENABLE = 0
+//  ENDSTOP_DUTY_THRESH → PID duty must be above this % of PWM_MAX to
+//                          consider the motor "driving hard."
+//                          80 = 80% of 4095 = 3276. If duty is below
+//                          this, the motor isn't stalled, just cruising.
 //
-//  AUTO_CAL_DUTY    → PWM duty during calibration sweep (0–4095).
-//                      Low = slow and gentle. 400–800 recommended.
-//                      Too high = slams into stops. Too low = won't move.
+//  ENDSTOP_STALL_MS    → How long (ms) the angle must stop changing
+//                          while duty is high before we believe it's a
+//                          real mechanical stop (not just slow movement).
+//                          500 = half second. Longer = more conservative.
 //
-//  AUTO_CAL_STALL_MS → How long (ms) the angle must stop changing
-//                       to consider the motor stalled at a mechanical stop.
-//                       300 = 0.3 seconds (good for small actuators)
+//  ENDSTOP_STALL_THRESH → Maximum angle change (0.01° units) per tick
+//                          that counts as "not moving."
+//                          30 = 0.30° — if angle changes less than this
+//                          while duty is saturated, we're at a stop.
 //
-//  AUTO_CAL_MARGIN  → Safety margin inward from each stop (0.01° units).
-//                      100 = 1.00°. Prevents PID from driving into the
-//                      mechanical end stop and stalling.
+//  ENDSTOP_MARGIN      → Safety margin (0.01° units) applied inward
+//                          from a learned end stop. Prevents PID from
+//                          commanding exactly at the mechanical limit.
+//                          50 = 0.50°
 //
-//  AUTO_CAL_STALL_THRESH → Angle change (0.01° units) below which the
-//                           motor is considered stalled.
-//                           30 = 0.30° — if angle changes less than this
-//                           across STALL_MS, we're at the stop.
+//  ENDSTOP_SANITY      → Maximum allowed deviation (0.01° units) from
+//                          the hardcoded ANGLE_MIN/MAX. Rejects garbage
+//                          readings from sensor glitches.
+//                          500 = 5.00° — learned stop must be within
+//                          5° of the initial estimate or it's rejected.
 // ─────────────────────────────────────────────────────────────────────────────
-#define CFG_AUTO_CAL_ENABLE       1       // 1 = auto-cal on boot, 0 = use fixed angles
-#define CFG_AUTO_CAL_DUTY         600     // PWM duty during sweep (gentle)
-#define CFG_AUTO_CAL_STALL_MS     300     // ms of no movement = stalled
-#define CFG_AUTO_CAL_MARGIN       100     // 1.00° inward from each stop
-#define CFG_AUTO_CAL_STALL_THRESH 30      // 0.30° movement threshold
+#define CFG_ANGLE_MIN             7032    // 70.32° closed (initial estimate)
+#define CFG_ANGLE_MAX             17940   // 179.40° wide open (initial estimate)
 
-// Fallback angles (used when AUTO_CAL_ENABLE = 0)
-#define CFG_ANGLE_MIN    7032    // 70.32° closed
-#define CFG_ANGLE_MAX    17940   // 179.40° wide open
+#define CFG_ENDSTOP_DUTY_THRESH   80      // % of PWM_MAX (80% = driving hard)
+#define CFG_ENDSTOP_STALL_MS      500     // ms of no movement while duty high
+#define CFG_ENDSTOP_STALL_THRESH  30      // 0.30° movement = "not moving"
+#define CFG_ENDSTOP_MARGIN        50      // 0.50° inward from learned stop
+#define CFG_ENDSTOP_SANITY        500     // 5.00° max deviation from initial
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 5: PID CONTROLLER
