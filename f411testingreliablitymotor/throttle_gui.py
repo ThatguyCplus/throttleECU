@@ -20,21 +20,22 @@ ANGLE_MIN = 70.32
 ANGLE_MAX = 179.40
 
 # ── Serial telemetry regex ──
-# mode=MAN dir=F duty=1234 RIS=456 LIS=789 pos=123.45 thr=50% tgt=50%
+# mode=MAN dir=F duty=1234 RIS=456 LIS=789 pos=123.45 thr=50% tgt=50% err=0x00
 TELEM_RE = re.compile(
     r"mode=(\w+)\s+dir=([FR])\s+duty=(\d+)\s+RIS=(\d+)\s+LIS=(\d+)\s+"
-    r"pos=([\d.]+|---)\s+thr=([\d]+|---)%\s+tgt=(\d+)%"
+    r"pos=([\d.]+|---)\s+thr=([\d]+|---)%\s+tgt=(\d+)%\s+err=0x([0-9A-Fa-f]+)"
 )
 
-# Error flag bit definitions (must match firmware)
+# Error flag bit definitions (must match initialsafe.h)
 ERR_NAMES = [
-    (0x01, "ENC_LOST",   "Encoder signal lost"),
-    (0x02, "HB_TIMEOUT", "CAN heartbeat timeout"),
-    (0x04, "E2E_SEQ",    "CAN E2E sequence error"),
-    (0x08, "OVERCURR",   "Motor overcurrent"),
-    (0x10, "PID_SAT",    "PID output saturated"),
+    (0x01, "ENC_STALE",  "Encoder stale >500ms"),
+    (0x02, "ENC_INVAL",  "Encoder signal invalid"),
+    (0x04, "OVERCURR_L", "Left motor overcurrent"),
+    (0x08, "OVERCURR_R", "Right motor overcurrent"),
+    (0x10, "POWER_LOW",  "Supply voltage low"),
     (0x20, "WDG_RST",    "Watchdog reset recovery"),
-    (0x40, "SAFE_ACT",   "Safe state active"),
+    (0x40, "PID_SAT",    "PID output saturated"),
+    (0x80, "TEMP_HIGH",  "Temperature high"),
 ]
 
 MODE_LABELS = {
@@ -120,7 +121,7 @@ class SerialThread:
                                 t = m.group(7)
                                 self.thr_actual = int(t) if t != "---" else None
                                 self.thr_target = int(m.group(8))
-                                self.err_flags = 0
+                                self.err_flags = int(m.group(9), 16)
                 else:
                     time.sleep(0.01)
             except Exception:
@@ -325,7 +326,7 @@ class ThrottleGUI:
                    command=lambda: self.serial.send("diag")).pack(side="right", padx=2)
         tk.Button(diag_row, text="CLR LOG", bg=self.OVERLAY, fg=self.FG,
                    font=("Consolas", 8), width=7, relief="flat",
-                   command=lambda: self.serial.send("clearlog")).pack(side="right", padx=2)
+                   command=lambda: self.serial.send("clearfaults")).pack(side="right", padx=2)
 
         self.err_indicators = []
         err_grid = tk.Frame(err_frame, bg=self.DARK_RED)
