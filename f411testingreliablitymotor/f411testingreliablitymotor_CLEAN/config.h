@@ -60,7 +60,8 @@
 //  unless you are using a different encoder model.
 //
 //  ENC_OFFSET       → Number of init/error clock cycles to strip from PWM
-//  ENC_DATA         → Number of data clock cycles (14-bit = 4095)
+//  ENC_DATA         → Number of data clock cycles (12-bit PWM = 4095)
+//                      NOTE: 14-bit (16384) is SPI only. PWM is 12-bit.
 //  ENC_PERIOD_CLKS  → Total PWM period in clock cycles
 // ─────────────────────────────────────────────────────────────────────────────
 #define CFG_ENC_OFFSET        16
@@ -70,19 +71,48 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 4: THROTTLE CALIBRATION
 // ─────────────────────────────────────────────────────────────────────────────
-//  These define the mechanical limits of YOUR throttle body.
-//  Values are in 0.01° units (hundredths of a degree).
+//  Two modes:
 //
-//  HOW TO CALIBRATE:
-//    1. Flash firmware, open serial monitor at 115200
-//    2. Manually push throttle to fully CLOSED → read pos=XX.XX
-//    3. Manually push throttle to fully OPEN   → read pos=XX.XX
-//    4. Multiply each by 100 and enter below
-//       Example: 70.32° → 7032,  179.40° → 17940
+//  AUTO-CALIBRATION (recommended):
+//    Set AUTO_CAL_ENABLE to 1. On every boot the firmware will:
+//      1. Slowly drive motor toward CLOSED stop until stalled
+//      2. Record actual closed angle
+//      3. Slowly drive motor toward OPEN stop until stalled
+//      4. Record actual open angle
+//      5. Apply safety margin inward from each stop
+//    This eliminates encoder drift between power cycles.
 //
-//  ANGLE_MIN  → Encoder angle when throttle is fully CLOSED  (0%)
-//  ANGLE_MAX  → Encoder angle when throttle is fully OPEN  (100%)
+//  MANUAL CALIBRATION (fallback):
+//    Set AUTO_CAL_ENABLE to 0. Uses the fixed ANGLE_MIN/MAX below.
+//    Only use this if auto-cal causes problems or for bench testing.
+//
+//  ANGLE_MIN / ANGLE_MAX → Fallback angles (0.01° units)
+//                           Only used when AUTO_CAL_ENABLE = 0
+//
+//  AUTO_CAL_DUTY    → PWM duty during calibration sweep (0–4095).
+//                      Low = slow and gentle. 400–800 recommended.
+//                      Too high = slams into stops. Too low = won't move.
+//
+//  AUTO_CAL_STALL_MS → How long (ms) the angle must stop changing
+//                       to consider the motor stalled at a mechanical stop.
+//                       300 = 0.3 seconds (good for small actuators)
+//
+//  AUTO_CAL_MARGIN  → Safety margin inward from each stop (0.01° units).
+//                      100 = 1.00°. Prevents PID from driving into the
+//                      mechanical end stop and stalling.
+//
+//  AUTO_CAL_STALL_THRESH → Angle change (0.01° units) below which the
+//                           motor is considered stalled.
+//                           30 = 0.30° — if angle changes less than this
+//                           across STALL_MS, we're at the stop.
 // ─────────────────────────────────────────────────────────────────────────────
+#define CFG_AUTO_CAL_ENABLE       1       // 1 = auto-cal on boot, 0 = use fixed angles
+#define CFG_AUTO_CAL_DUTY         600     // PWM duty during sweep (gentle)
+#define CFG_AUTO_CAL_STALL_MS     300     // ms of no movement = stalled
+#define CFG_AUTO_CAL_MARGIN       100     // 1.00° inward from each stop
+#define CFG_AUTO_CAL_STALL_THRESH 30      // 0.30° movement threshold
+
+// Fallback angles (used when AUTO_CAL_ENABLE = 0)
 #define CFG_ANGLE_MIN    7032    // 70.32° closed
 #define CFG_ANGLE_MAX    17940   // 179.40° wide open
 
@@ -133,7 +163,7 @@
 //                       of the target for SETTLE_TIME_MS to count.
 //                       100 = 1.00°
 // ─────────────────────────────────────────────────────────────────────────────
-#define CFG_PID_DEADBAND      50      // 0.50°
+#define CFG_PID_DEADBAND      100      // 1°
 #define CFG_MIN_DUTY_THRESH   50      // PWM counts
 #define CFG_SETTLE_TIME_MS    500     // ms
 #define CFG_SETTLE_WINDOW     100     // 0.01° units (1.00°)
@@ -145,9 +175,24 @@
 //  The actual amps depend on your H-bridge current sense resistor.
 //
 //  OVERCURRENT_THRESH  → ADC count above which overcurrent is flagged.
-//                         3950 ≈ 5A on most BTS7960 modules.
-//                         Lower = more sensitive, higher = more tolerant.
-//                         MAX possible: 4095 (disables overcurrent check)
+//                         Set to 4095 to DISABLE (current sense needs
+//                         resistor swap before this works properly).
+//
+//                         BTS7960 current sense math (kILIS = 8500:1):
+//                           V_per_amp = R_sense / 8500
+//                           ADC_count = (V_per_amp * amps / 3.3) * 4095
+//
+//                         With 10kΩ sense resistor (factory default):
+//                           1A = 1460 counts, 2A = 2920, 2.8A = 4095 (MAX)
+//                           Cannot measure above ~2.8A!
+//
+//                         With 2.2kΩ sense resistor (recommended for 8A motors):
+//                           5A = 1374 counts, 8A = 2199, 10A = 2749
+//                           Set threshold to ~2750 for 10A trip
+//
+//                         With 3.3kΩ parallel to 10kΩ (effective 2.48kΩ):
+//                           5A = 1548 counts, 8A = 2477, 10A = 3096
+//                           Set threshold to ~3100 for 10A trip
 //
 //  OVERCURRENT_DEBOUNCE → Number of consecutive loop iterations the
 //                          current must exceed the threshold before
@@ -156,8 +201,8 @@
 //                          3 ticks ≈ 30ms at 10kHz loop rate
 //                          Range: 1–10
 // ─────────────────────────────────────────────────────────────────────────────
-#define CFG_OVERCURRENT_THRESH    3950    // ADC counts (~5A)
-#define CFG_OVERCURRENT_DEBOUNCE  3       // consecutive ticks
+#define CFG_OVERCURRENT_THRESH    4095    // DISABLED — swap sense resistor first
+#define CFG_OVERCURRENT_DEBOUNCE  10      // consecutive ticks
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 8: SAFETY — ENCODER TIMEOUT

@@ -44,8 +44,9 @@ const uint16_t ENC_OFFSET      = CFG_ENC_OFFSET;
 const uint16_t ENC_DATA        = CFG_ENC_DATA;
 const uint16_t ENC_PERIOD_CLKS = CFG_ENC_PERIOD_CLKS;
 
-const int32_t  ANGLE_MIN = CFG_ANGLE_MIN;
-const int32_t  ANGLE_MAX = CFG_ANGLE_MAX;
+// Throttle range — set by auto-cal on boot, or fallback from config.h
+int32_t  ANGLE_MIN = CFG_ANGLE_MIN;
+int32_t  ANGLE_MAX = CFG_ANGLE_MAX;
 
 const int32_t  PID_DEADBAND    = CFG_PID_DEADBAND;
 const uint16_t MIN_DUTY_THRESH = CFG_MIN_DUTY_THRESH;
@@ -286,7 +287,7 @@ void processCmd(const char* s) {
     printBoth("  Active Configuration (config.h)");
     printBoth("═══════════════════════════════════");
     snprintf(buf, sizeof(buf), "PWM:       %luHz  %u-bit  (max=%u)", (unsigned long)CFG_PWM_FREQ_HZ, CFG_PWM_BITS, PWM_MAX);        printBoth(buf);
-    snprintf(buf, sizeof(buf), "Throttle:  %.2f° closed  →  %.2f° open", CFG_ANGLE_MIN/100.0, CFG_ANGLE_MAX/100.0);                 printBoth(buf);
+    snprintf(buf, sizeof(buf), "Throttle:  %.2f° closed  →  %.2f° open  %s", ANGLE_MIN/100.0, ANGLE_MAX/100.0, CFG_AUTO_CAL_ENABLE ? "(auto-cal)" : "(fixed)");  printBoth(buf);
     snprintf(buf, sizeof(buf), "PID:       Kp=%.2f  Ki=%.2f  Kd=%.2f", (double)Kp, (double)Ki, (double)Kd);                         printBoth(buf);
     snprintf(buf, sizeof(buf), "Deadband:  %.2f°   MinDuty=%u", CFG_PID_DEADBAND/100.0, CFG_MIN_DUTY_THRESH);                       printBoth(buf);
     snprintf(buf, sizeof(buf), "Settle:    %lums window  %ldms timer", (unsigned long)CFG_SETTLE_TIME_MS, (long)CFG_SETTLE_WINDOW);  printBoth(buf);
@@ -296,6 +297,19 @@ void processCmd(const char* s) {
     snprintf(buf, sizeof(buf), "Telemetry: %ums   ADC avg=%u samples", CFG_TELEMETRY_RATE_MS, CFG_ADC_OVERSAMPLE);                  printBoth(buf);
     snprintf(buf, sizeof(buf), "Serial:    %lu baud", (unsigned long)CFG_SERIAL_BAUD);                                              printBoth(buf);
     printBoth("═══════════════════════════════════");
+  }
+  else if (strcasecmp(s, "cal") == 0) {
+    #if CFG_AUTO_CAL_ENABLE
+      mode = MODE_MANUAL;
+      duty = 0;
+      setMotor(0);
+      resetPID();
+      runAutoCalibration();
+      targetAngle = ANGLE_MIN;
+      printBoth("Ready — send t0-t100");
+    #else
+      printBoth("Auto-cal disabled in config.h");
+    #endif
   }
   else if (s[0] == 't' || s[0] == 'T') {
     if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
@@ -336,6 +350,174 @@ void processCmd(const char* s) {
 }
 
 // ═══════════════════════════════════
+// AUTO-CALIBRATION
+// ═══════════════════════════════════
+#if CFG_AUTO_CAL_ENABLE
+
+// Drive motor in one direction until it stalls, return the stall angle.
+// direction: +1 = forward (RPWM), -1 = reverse (LPWM)
+int32_t findEndStop(int8_t direction) {
+  int32_t lastAngle = -1;
+  uint32_t stallStart = 0;
+  char buf[64];
+
+  snprintf(buf, sizeof(buf), "  Sweeping %s...", direction > 0 ? "OPEN" : "CLOSED");
+  printBoth(buf);
+
+  // Enable H-bridge
+  digitalWrite(PIN_REN, HIGH);
+  digitalWrite(PIN_LEN, HIGH);
+
+  uint32_t timeout = millis() + 10000;  // 10s safety timeout
+
+  while (millis() < timeout) {
+    // Feed watchdog during calibration
+    safe_kick_watchdog();
+
+    // Drive motor at calibration duty
+    if (direction > 0) {
+      analogWrite(PIN_LPWM, 0);
+      analogWrite(PIN_RPWM, CFG_AUTO_CAL_DUTY);
+    } else {
+      analogWrite(PIN_RPWM, 0);
+      analogWrite(PIN_LPWM, CFG_AUTO_CAL_DUTY);
+    }
+
+    delay(20);  // 50Hz sample rate during cal
+
+    int32_t angle = getAngle();
+    if (angle < 0) continue;  // No encoder signal yet, keep trying
+
+    // Check if stalled (angle not changing)
+    if (lastAngle >= 0) {
+      int32_t delta = abs(angle - lastAngle);
+      if (delta < CFG_AUTO_CAL_STALL_THRESH) {
+        // Angle barely changed
+        if (stallStart == 0) {
+          stallStart = millis();
+        } else if ((millis() - stallStart) >= CFG_AUTO_CAL_STALL_MS) {
+          // Stalled long enough — we've hit the mechanical stop
+          analogWrite(PIN_RPWM, 0);
+          analogWrite(PIN_LPWM, 0);
+          digitalWrite(PIN_REN, LOW);
+          digitalWrite(PIN_LEN, LOW);
+
+          snprintf(buf, sizeof(buf), "  Stop found at %ld.%02ld°",
+                   (long)(angle / 100), (long)(angle % 100));
+          printBoth(buf);
+          return angle;
+        }
+      } else {
+        stallStart = 0;  // Still moving, reset stall timer
+      }
+    }
+    lastAngle = angle;
+  }
+
+  // Timeout — stop motor and return whatever angle we have
+  analogWrite(PIN_RPWM, 0);
+  analogWrite(PIN_LPWM, 0);
+  digitalWrite(PIN_REN, LOW);
+  digitalWrite(PIN_LEN, LOW);
+  printBoth("  [WARN] Cal timeout!");
+  return lastAngle;
+}
+
+void runAutoCalibration() {
+  printBoth("───────────────────────────────────");
+  printBoth("  AUTO-CALIBRATION");
+  printBoth("───────────────────────────────────");
+
+  // Wait for encoder to start producing valid data
+  printBoth("  Waiting for encoder...");
+  uint32_t encWait = millis() + 3000;
+  while (millis() < encWait) {
+    safe_kick_watchdog();
+    if (getAngle() >= 0) break;
+    delay(10);
+  }
+
+  if (getAngle() < 0) {
+    printBoth("  [FAIL] No encoder signal — using fallback angles");
+    return;  // Keep CFG_ANGLE_MIN/MAX defaults
+  }
+
+  // Step 1: Find CLOSED stop (drive in reverse/closing direction)
+  int32_t closedAngle = findEndStop(-1);
+
+  delay(200);  // Brief pause between sweeps
+  safe_kick_watchdog();
+
+  // Step 2: Find OPEN stop (drive in forward/opening direction)
+  int32_t openAngle = findEndStop(+1);
+
+  // Validate results
+  if (closedAngle < 0 || openAngle < 0) {
+    printBoth("  [FAIL] Could not find both stops — using fallback angles");
+    return;
+  }
+
+  // Make sure min < max (swap if motor direction is reversed)
+  if (closedAngle > openAngle) {
+    int32_t tmp = closedAngle;
+    closedAngle = openAngle;
+    openAngle = tmp;
+  }
+
+  // Check that range is reasonable (at least 20° = 2000 centidegrees)
+  int32_t range = openAngle - closedAngle;
+  if (range < 2000) {
+    char buf[64];
+    snprintf(buf, sizeof(buf), "  [FAIL] Range too small: %ld.%02ld° — using fallback",
+             (long)(range / 100), (long)(range % 100));
+    printBoth(buf);
+    return;
+  }
+
+  // Apply safety margins (move inward from physical stops)
+  ANGLE_MIN = closedAngle + CFG_AUTO_CAL_MARGIN;
+  ANGLE_MAX = openAngle   - CFG_AUTO_CAL_MARGIN;
+
+  // Return throttle to closed position
+  printBoth("  Returning to closed...");
+  digitalWrite(PIN_REN, HIGH);
+  digitalWrite(PIN_LEN, HIGH);
+  analogWrite(PIN_RPWM, 0);
+  analogWrite(PIN_LPWM, CFG_AUTO_CAL_DUTY);
+
+  uint32_t returnTimeout = millis() + 5000;
+  while (millis() < returnTimeout) {
+    safe_kick_watchdog();
+    int32_t a = getAngle();
+    if (a >= 0 && a <= ANGLE_MIN + 200) break;  // Within 2° of closed
+    delay(20);
+  }
+  analogWrite(PIN_LPWM, 0);
+  digitalWrite(PIN_REN, LOW);
+  digitalWrite(PIN_LEN, LOW);
+
+  // Print results
+  char buf[80];
+  printBoth("───────────────────────────────────");
+  snprintf(buf, sizeof(buf), "  CLOSED: %ld.%02ld° (raw) → %ld.%02ld° (with margin)",
+           (long)(closedAngle / 100), (long)(closedAngle % 100),
+           (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
+  printBoth(buf);
+  snprintf(buf, sizeof(buf), "  OPEN:   %ld.%02ld° (raw) → %ld.%02ld° (with margin)",
+           (long)(openAngle / 100), (long)(openAngle % 100),
+           (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
+  printBoth(buf);
+  snprintf(buf, sizeof(buf), "  RANGE:  %ld.%02ld° usable",
+           (long)((ANGLE_MAX - ANGLE_MIN) / 100),
+           (long)((ANGLE_MAX - ANGLE_MIN) % 100));
+  printBoth(buf);
+  printBoth("  AUTO-CAL COMPLETE");
+  printBoth("───────────────────────────────────");
+}
+
+#endif // CFG_AUTO_CAL_ENABLE
+
+// ═══════════════════════════════════
 // SETUP
 // ═══════════════════════════════════
 void setup() {
@@ -368,13 +550,21 @@ void setup() {
   printBoth("  Throttle ECU — PID Control");
   printBoth("═══════════════════════════════════");
 
+  // Run auto-calibration (finds actual end stops for this session)
+  #if CFG_AUTO_CAL_ENABLE
+    runAutoCalibration();
+  #endif
+
+  // Set initial target to calibrated closed position
+  targetAngle = ANGLE_MIN;
+
   if (safe_was_reset_by_watchdog()) {
     printBoth("[WARN] Recovered from watchdog reset!");
   }
 
   printBoth("Commands: t0-t100, d0-d4095, f, r, s");
   printBoth("         p## i## k##, on, off, reset");
-  printBoth("         diag, clearfaults, config");
+  printBoth("         diag, clearfaults, config, cal");
 }
 
 // ═══════════════════════════════════
