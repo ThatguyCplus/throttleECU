@@ -390,9 +390,9 @@ void loop() {
   safe_check_encoder(angle >= 0, now);
   safe_check_current(ris, lis, now);
 
-  // If safety module has tripped, enter safe state
+  // If safety module has tripped, enter safe state with the actual reason
   if (g_safety.safe_state_active && mode != MODE_SAFE) {
-    enterSafeState("Safety fault");
+    enterSafeState(g_safety.last_reason);
   }
 
   // Periodic safety tick (watchdog kick + recovery polling)

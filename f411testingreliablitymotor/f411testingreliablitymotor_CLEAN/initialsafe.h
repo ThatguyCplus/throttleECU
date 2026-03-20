@@ -27,7 +27,7 @@
 // CONFIGURATION
 // ═══════════════════════════════════
 #define SAFE_ENCODER_TIMEOUT_MS    500    // Stale data timeout
-#define SAFE_OVERCURRENT_THRESH    3800   // ADC counts (approx 2.5A @ 10mOhm)
+#define SAFE_OVERCURRENT_THRESH    3950   // ADC counts (~5A — raise if still false-tripping)
 #define SAFE_POWER_LOW_MV          9000   // 9.0V minimum supply
 #define SAFE_RECOVERY_DELAY_MS     1000   // Time before recovering from safe state
 #define SAFE_WATCHDOG_TIMEOUT_US   200000 // 200ms in microseconds
@@ -46,6 +46,8 @@ typedef struct {
 
   bool     safe_state_active;      // True if in safe state
   uint32_t safe_state_entered;     // Timestamp when safe state was entered
+
+  char     last_reason[24];        // Human-readable reason for last safe state entry
 
   uint32_t watchdog_kick_count;    // Incremented each kick (diagnostics)
   uint32_t recovery_attempts;      // Number of recovery attempts made

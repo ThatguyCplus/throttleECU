@@ -132,6 +132,8 @@ void safe_enter_safe_state(const char* reason) {
   g_safety.safe_state_active = true;
   g_safety.safe_state_entered = millis();
   g_safety.safe_transitions++;
+  strncpy(g_safety.last_reason, reason, sizeof(g_safety.last_reason) - 1);
+  g_safety.last_reason[sizeof(g_safety.last_reason) - 1] = '\0';
 }
 
 bool safe_can_recover(void) {
