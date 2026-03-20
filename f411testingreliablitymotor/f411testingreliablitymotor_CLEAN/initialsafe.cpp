@@ -58,9 +58,9 @@ void safe_check_encoder(bool is_valid, uint32_t now_ms) {
     }
   } else {
     if ((now_ms - g_safety.last_encoder_update) > SAFE_ENCODER_TIMEOUT_MS) {
-      if (g_safety.fault_count[0] < 2) {
+      if (g_safety.fault_count[0] < SAFE_ENCODER_DEBOUNCE) {
         g_safety.fault_count[0]++;
-        if (g_safety.fault_count[0] >= 2) {
+        if (g_safety.fault_count[0] >= SAFE_ENCODER_DEBOUNCE) {
           g_safety.faults |= (FAULT_ENCODER_STALE | FAULT_ENCODER_INVALID);
           g_safety.faults_latched |= FAULT_ENCODER_INVALID;
           g_safety.encoder_timeouts++;
@@ -79,9 +79,9 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
 
   // Check left motor current (PA0)
   if (lis > SAFE_OVERCURRENT_THRESH) {
-    if (g_safety.fault_count[1] < 3) {
+    if (g_safety.fault_count[1] < SAFE_OVERCURRENT_DEBOUNCE) {
       g_safety.fault_count[1]++;
-      if (g_safety.fault_count[1] >= 3) {
+      if (g_safety.fault_count[1] >= SAFE_OVERCURRENT_DEBOUNCE) {
         g_safety.faults |= FAULT_OVERCURRENT_L;
         g_safety.faults_latched |= FAULT_OVERCURRENT_L;
         g_safety.overcurrent_events++;
@@ -97,9 +97,9 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
 
   // Check right motor current (PA1)
   if (ris > SAFE_OVERCURRENT_THRESH) {
-    if (g_safety.fault_count[2] < 3) {
+    if (g_safety.fault_count[2] < SAFE_OVERCURRENT_DEBOUNCE) {
       g_safety.fault_count[2]++;
-      if (g_safety.fault_count[2] >= 3) {
+      if (g_safety.fault_count[2] >= SAFE_OVERCURRENT_DEBOUNCE) {
         g_safety.faults |= FAULT_OVERCURRENT_R;
         g_safety.faults_latched |= FAULT_OVERCURRENT_R;
         g_safety.overcurrent_events++;
@@ -120,7 +120,7 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
 void safe_check_power(uint16_t supply_mv) {
   if (supply_mv < SAFE_POWER_LOW_MV) {
     g_safety.fault_count[3]++;
-    if (g_safety.fault_count[3] >= 4) {
+    if (g_safety.fault_count[3] >= SAFE_POWER_DEBOUNCE) {
       g_safety.faults |= FAULT_POWER_LOW;
       g_safety.faults_latched |= FAULT_POWER_LOW;
       g_safety.power_low_events++;
