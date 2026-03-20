@@ -2,9 +2,17 @@
 // Throttle ECU — PID Position Control (NO CAN)
 // Target: STM32F411CE (WeAct BlackPill)
 // Safety: Encoder loss, overcurrent, watchdog, power monitoring
+//
+//  ┌───────────────────────────────────────────────────────┐
+//  │  ALL TUNABLE PARAMETERS ARE IN config.h               │
+//  │  Open that file to change pins, limits, gains, etc.   │
+//  │  Do NOT edit values in this file.                     │
+//  └───────────────────────────────────────────────────────┘
+//
 // ═══════════════════════════════════════════════════════════════════════
 
 #include <Arduino.h>
+#include "config.h"
 #include "initialsafe.h"
 
 // ═══════════════════════════════════
@@ -17,51 +25,37 @@
 #endif
 
 // ═══════════════════════════════════
-// PIN ASSIGNMENTS
+// DERIVED CONSTANTS (from config.h)
 // ═══════════════════════════════════
-const uint8_t PIN_RPWM  = PA9;
-const uint8_t PIN_LPWM  = PA8;
-const uint8_t PIN_REN   = PB0;
-const uint8_t PIN_LEN   = PB1;
-const uint8_t PIN_RIS   = PA1;
-const uint8_t PIN_LIS   = PA0;
-const uint8_t PIN_RELAY = PB10;
-const uint8_t PIN_ENC   = PB4;   // AS5048A PWM
+const uint8_t  PIN_RPWM  = CFG_PIN_RPWM;
+const uint8_t  PIN_LPWM  = CFG_PIN_LPWM;
+const uint8_t  PIN_REN   = CFG_PIN_REN;
+const uint8_t  PIN_LEN   = CFG_PIN_LEN;
+const uint8_t  PIN_RIS   = CFG_PIN_RIS;
+const uint8_t  PIN_LIS   = CFG_PIN_LIS;
+const uint8_t  PIN_RELAY = CFG_PIN_RELAY;
+const uint8_t  PIN_ENC   = CFG_PIN_ENC;
 
-// ═══════════════════════════════════
-// MOTOR PWM CONFIG
-// ═══════════════════════════════════
-const uint32_t PWM_FREQ_HZ = 20000;
-const uint8_t  PWM_BITS    = 12;
-const uint16_t PWM_MAX     = (1u << PWM_BITS) - 1;  // 4095
+const uint32_t PWM_FREQ_HZ = CFG_PWM_FREQ_HZ;
+const uint8_t  PWM_BITS    = CFG_PWM_BITS;
+const uint16_t PWM_MAX     = (1u << CFG_PWM_BITS) - 1;
 
-// ═══════════════════════════════════
-// AS5048A ENCODER
-// ═══════════════════════════════════
-const uint16_t ENC_OFFSET      = 16;
-const uint16_t ENC_DATA        = 4095;
-const uint16_t ENC_PERIOD_CLKS = 4119;
+const uint16_t ENC_OFFSET      = CFG_ENC_OFFSET;
+const uint16_t ENC_DATA        = CFG_ENC_DATA;
+const uint16_t ENC_PERIOD_CLKS = CFG_ENC_PERIOD_CLKS;
 
-// ═══════════════════════════════════
-// THROTTLE CALIBRATION (0.01° units)
-// ═══════════════════════════════════
-const int32_t ANGLE_MIN = 7032;   // 70.32° = closed (0%)
-const int32_t ANGLE_MAX = 17940;  // 179.40° = wide open (100%)
+const int32_t  ANGLE_MIN = CFG_ANGLE_MIN;
+const int32_t  ANGLE_MAX = CFG_ANGLE_MAX;
 
-// ═══════════════════════════════════
-// PID GAINS
-// ═══════════════════════════════════
-float Kp = 12.0f;
-float Ki = 0.3f;
-float Kd = 1.5f;
+const int32_t  PID_DEADBAND    = CFG_PID_DEADBAND;
+const uint16_t MIN_DUTY_THRESH = CFG_MIN_DUTY_THRESH;
+const uint32_t SETTLE_TIME_MS  = CFG_SETTLE_TIME_MS;
+const int32_t  SETTLE_WINDOW   = CFG_SETTLE_WINDOW;
 
-// ═══════════════════════════════════
-// NOISE REDUCTION CONFIG
-// ═══════════════════════════════════
-const int32_t  PID_DEADBAND    = 50;   // 0.50° — wider deadband stops hunting noise
-const uint16_t MIN_DUTY_THRESH = 50;   // Below this duty, motor vibrates but won't move
-const uint32_t SETTLE_TIME_MS  = 500;  // After reaching target, disable motor after this delay
-const int32_t  SETTLE_WINDOW   = 100;  // 1.00° — position must stay within this to settle
+// PID gains (live-tunable via serial, defaults from config.h)
+float Kp = CFG_KP_DEFAULT;
+float Ki = CFG_KI_DEFAULT;
+float Kd = CFG_KD_DEFAULT;
 
 // ═══════════════════════════════════
 // STATE
@@ -160,8 +154,8 @@ void setMotor(int32_t cmd) {
 
 uint16_t adcAvg(uint8_t pin) {
   uint32_t s = 0;
-  for (uint8_t i = 0; i < 16; i++) s += analogRead(pin);
-  return s >> 4;
+  for (uint8_t i = 0; i < CFG_ADC_OVERSAMPLE; i++) s += analogRead(pin);
+  return s / CFG_ADC_OVERSAMPLE;
 }
 
 void printBoth(const char* msg) {
@@ -191,7 +185,7 @@ int32_t runPID(int32_t current, int32_t target) {
 
   float pTerm = Kp * err;
   pidIntegral += Ki * err * dt;
-  pidIntegral  = constrain(pidIntegral, -2000.0f, 2000.0f);
+  pidIntegral  = constrain(pidIntegral, -CFG_PID_INTEGRAL_LIMIT, CFG_PID_INTEGRAL_LIMIT);
   float dTerm  = (dt > 0) ? Kd * (err - pidPrevErr) / dt : 0;
   pidPrevErr   = err;
 
@@ -286,6 +280,23 @@ void processCmd(const char* s) {
     safe_clear_faults();
     printBoth("Faults cleared");
   }
+  else if (strcasecmp(s, "config") == 0) {
+    char buf[80];
+    printBoth("═══════════════════════════════════");
+    printBoth("  Active Configuration (config.h)");
+    printBoth("═══════════════════════════════════");
+    snprintf(buf, sizeof(buf), "PWM:       %luHz  %u-bit  (max=%u)", (unsigned long)CFG_PWM_FREQ_HZ, CFG_PWM_BITS, PWM_MAX);        printBoth(buf);
+    snprintf(buf, sizeof(buf), "Throttle:  %.2f° closed  →  %.2f° open", CFG_ANGLE_MIN/100.0, CFG_ANGLE_MAX/100.0);                 printBoth(buf);
+    snprintf(buf, sizeof(buf), "PID:       Kp=%.2f  Ki=%.2f  Kd=%.2f", (double)Kp, (double)Ki, (double)Kd);                         printBoth(buf);
+    snprintf(buf, sizeof(buf), "Deadband:  %.2f°   MinDuty=%u", CFG_PID_DEADBAND/100.0, CFG_MIN_DUTY_THRESH);                       printBoth(buf);
+    snprintf(buf, sizeof(buf), "Settle:    %lums window  %ldms timer", (unsigned long)CFG_SETTLE_TIME_MS, (long)CFG_SETTLE_WINDOW);  printBoth(buf);
+    snprintf(buf, sizeof(buf), "OC Thresh: %u ADC counts  (debounce=%u)", CFG_OVERCURRENT_THRESH, CFG_OVERCURRENT_DEBOUNCE);        printBoth(buf);
+    snprintf(buf, sizeof(buf), "Enc Tout:  %ums  (debounce=%u)", CFG_ENCODER_TIMEOUT_MS, CFG_ENCODER_DEBOUNCE);                     printBoth(buf);
+    snprintf(buf, sizeof(buf), "Watchdog:  %lums", (unsigned long)(CFG_WATCHDOG_TIMEOUT_US/1000));                                   printBoth(buf);
+    snprintf(buf, sizeof(buf), "Telemetry: %ums   ADC avg=%u samples", CFG_TELEMETRY_RATE_MS, CFG_ADC_OVERSAMPLE);                  printBoth(buf);
+    snprintf(buf, sizeof(buf), "Serial:    %lu baud", (unsigned long)CFG_SERIAL_BAUD);                                              printBoth(buf);
+    printBoth("═══════════════════════════════════");
+  }
   else if (s[0] == 't' || s[0] == 'T') {
     if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
     long pct = atol(s + 1);
@@ -328,11 +339,11 @@ void processCmd(const char* s) {
 // SETUP
 // ═══════════════════════════════════
 void setup() {
-  MON_PORT.begin(115200);
-  Serial1.begin(115200);
+  MON_PORT.begin(CFG_SERIAL_BAUD);
+  Serial1.begin(CFG_SERIAL_BAUD);
 
   uint32_t t0 = millis();
-  while ((millis() - t0) < 250) { /* brief settle */ }
+  while ((millis() - t0) < CFG_USB_SETTLE_MS) { /* USB CDC enumerate */ }
 
   pinMode(PIN_REN, OUTPUT);
   pinMode(PIN_LEN, OUTPUT);
@@ -363,7 +374,7 @@ void setup() {
 
   printBoth("Commands: t0-t100, d0-d4095, f, r, s");
   printBoth("         p## i## k##, on, off, reset");
-  printBoth("         diag, clearfaults");
+  printBoth("         diag, clearfaults, config");
 }
 
 // ═══════════════════════════════════
@@ -430,7 +441,7 @@ void loop() {
   }
 
   // ── Telemetry (200ms) ──────────────
-  if ((now - lastPrint) >= 200) {
+  if ((now - lastPrint) >= CFG_TELEMETRY_RATE_MS) {
     lastPrint = now;
 
     int16_t actPct = -1;

@@ -3,6 +3,13 @@
 // Detects: encoder loss, power failures, overcurrent, watchdog resets
 // Target: STM32F411CE (WeAct BlackPill)
 // Uses STM32duino built-in IWatchdog library
+//
+//  ┌───────────────────────────────────────────────────────┐
+//  │  ALL TUNABLE PARAMETERS ARE IN config.h               │
+//  │  Open that file to change thresholds, timeouts, etc.  │
+//  │  Do NOT edit values in this file.                     │
+//  └───────────────────────────────────────────────────────┘
+//
 // ═══════════════════════════════════════════════════════════════════════
 
 #ifndef INITIALSAFE_H
@@ -10,6 +17,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "config.h"
 
 // ═══════════════════════════════════
 // FAULT FLAG DEFINITIONS
@@ -24,13 +32,16 @@
 #define FAULT_TEMP_HIGH        0x80   // Temperature sensor above threshold (future)
 
 // ═══════════════════════════════════
-// CONFIGURATION
+// MAP config.h VALUES → INTERNAL NAMES
 // ═══════════════════════════════════
-#define SAFE_ENCODER_TIMEOUT_MS    500    // Stale data timeout
-#define SAFE_OVERCURRENT_THRESH    3950   // ADC counts (~5A — raise if still false-tripping)
-#define SAFE_POWER_LOW_MV          9000   // 9.0V minimum supply
-#define SAFE_RECOVERY_DELAY_MS     1000   // Time before recovering from safe state
-#define SAFE_WATCHDOG_TIMEOUT_US   200000 // 200ms in microseconds
+#define SAFE_ENCODER_TIMEOUT_MS    CFG_ENCODER_TIMEOUT_MS
+#define SAFE_OVERCURRENT_THRESH    CFG_OVERCURRENT_THRESH
+#define SAFE_OVERCURRENT_DEBOUNCE  CFG_OVERCURRENT_DEBOUNCE
+#define SAFE_ENCODER_DEBOUNCE      CFG_ENCODER_DEBOUNCE
+#define SAFE_POWER_LOW_MV          CFG_POWER_LOW_MV
+#define SAFE_POWER_DEBOUNCE        CFG_POWER_DEBOUNCE
+#define SAFE_RECOVERY_DELAY_MS     CFG_RECOVERY_DELAY_MS
+#define SAFE_WATCHDOG_TIMEOUT_US   CFG_WATCHDOG_TIMEOUT_US
 
 // ═══════════════════════════════════
 // SAFETY STATE STRUCTURE
