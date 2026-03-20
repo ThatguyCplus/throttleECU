@@ -34,10 +34,8 @@ void safe_init(void) {
 // WATCHDOG MANAGEMENT
 // ═══════════════════════════════════
 void safe_kick_watchdog(void) {
-  if (g_safety.safe_state_active) {
-    // Don't feed watchdog in safe state — let it bite and reset MCU
-    return;
-  }
+  // Always feed watchdog — safe state is a controlled state, not a hang.
+  // Watchdog should only bite if the loop truly stops running.
   IWatchdog.reload();
   g_safety.watchdog_kick_count++;
 }
@@ -60,12 +58,14 @@ void safe_check_encoder(bool is_valid, uint32_t now_ms) {
     }
   } else {
     if ((now_ms - g_safety.last_encoder_update) > SAFE_ENCODER_TIMEOUT_MS) {
-      g_safety.fault_count[0]++;
-      if (g_safety.fault_count[0] >= 2) {
-        g_safety.faults |= (FAULT_ENCODER_STALE | FAULT_ENCODER_INVALID);
-        g_safety.faults_latched |= FAULT_ENCODER_INVALID;
-        g_safety.encoder_timeouts++;
-        safe_enter_safe_state("Encoder timeout");
+      if (g_safety.fault_count[0] < 2) {
+        g_safety.fault_count[0]++;
+        if (g_safety.fault_count[0] >= 2) {
+          g_safety.faults |= (FAULT_ENCODER_STALE | FAULT_ENCODER_INVALID);
+          g_safety.faults_latched |= FAULT_ENCODER_INVALID;
+          g_safety.encoder_timeouts++;
+          safe_enter_safe_state("Encoder timeout");
+        }
       }
     }
   }
@@ -79,12 +79,14 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
 
   // Check left motor current (PA0)
   if (lis > SAFE_OVERCURRENT_THRESH) {
-    g_safety.fault_count[1]++;
-    if (g_safety.fault_count[1] >= 3) {
-      g_safety.faults |= FAULT_OVERCURRENT_L;
-      g_safety.faults_latched |= FAULT_OVERCURRENT_L;
-      g_safety.overcurrent_events++;
-      safe_enter_safe_state("Overcurrent L");
+    if (g_safety.fault_count[1] < 3) {
+      g_safety.fault_count[1]++;
+      if (g_safety.fault_count[1] >= 3) {
+        g_safety.faults |= FAULT_OVERCURRENT_L;
+        g_safety.faults_latched |= FAULT_OVERCURRENT_L;
+        g_safety.overcurrent_events++;
+        safe_enter_safe_state("Overcurrent L");
+      }
     }
   } else {
     g_safety.fault_count[1] = 0;
@@ -95,12 +97,14 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms) {
 
   // Check right motor current (PA1)
   if (ris > SAFE_OVERCURRENT_THRESH) {
-    g_safety.fault_count[2]++;
-    if (g_safety.fault_count[2] >= 3) {
-      g_safety.faults |= FAULT_OVERCURRENT_R;
-      g_safety.faults_latched |= FAULT_OVERCURRENT_R;
-      g_safety.overcurrent_events++;
-      safe_enter_safe_state("Overcurrent R");
+    if (g_safety.fault_count[2] < 3) {
+      g_safety.fault_count[2]++;
+      if (g_safety.fault_count[2] >= 3) {
+        g_safety.faults |= FAULT_OVERCURRENT_R;
+        g_safety.faults_latched |= FAULT_OVERCURRENT_R;
+        g_safety.overcurrent_events++;
+        safe_enter_safe_state("Overcurrent R");
+      }
     }
   } else {
     g_safety.fault_count[2] = 0;
@@ -173,13 +177,8 @@ void safe_clear_faults(void) {
 // PERIODIC TICK (call ~100ms from main loop)
 // ═══════════════════════════════════
 void safe_tick(uint32_t now_ms) {
-  if (!g_safety.safe_state_active) {
-    safe_kick_watchdog();
-  }
-
-  if (safe_can_recover()) {
-    safe_attempt_recovery();
-  }
+  // Always kick watchdog — safe state is controlled, not a hang
+  safe_kick_watchdog();
 }
 
 // ═══════════════════════════════════
