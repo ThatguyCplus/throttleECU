@@ -15,7 +15,7 @@ import time
 import math
 import collections
 
-# ── Throttle calibration (must match firmware) ──
+# ── Throttle calibration (initial estimates — updated by end-stop learning) ──
 ANGLE_MIN = 70.32
 ANGLE_MAX = 179.40
 
@@ -25,6 +25,13 @@ TELEM_RE = re.compile(
     r"mode=(\w+)\s+dir=([FR])\s+duty=(\d+)\s+RIS=(\d+)\s+LIS=(\d+)\s+"
     r"pos=([\d.]+|---)\s+thr=([\d]+|---)%\s+tgt=(\d+)%\s+err=0x([0-9A-Fa-f]+)"
 )
+
+# Capture [LEARN] messages:  [LEARN] Open stop: 178.50°  or  [LEARN] Closed stop: 71.00°
+LEARN_RE = re.compile(r"\[LEARN\]\s*(Open|Closed)\s+stop:\s*([\d.]+)")
+# Capture [SAFE] reason
+SAFE_RE = re.compile(r"\[SAFE\]\s*(.+)")
+# Capture [WARN] messages
+WARN_RE = re.compile(r"\[WARN\]\s*(.+)")
 
 # Error flag bit definitions (must match initialsafe.h)
 ERR_NAMES = [
@@ -45,10 +52,6 @@ MODE_LABELS = {
 }
 
 
-# Regex to capture [SAFE] reason messages from firmware
-SAFE_RE = re.compile(r"\[SAFE\]\s*(.+)")
-
-
 class SerialThread:
     def __init__(self):
         self.ser = None
@@ -66,7 +69,13 @@ class SerialThread:
         self.err_flags = 0
         self.raw_line = ""
         self.safe_reason = ""
+        self.warn_msg = ""
         self.connected = False
+        # End-stop learning state
+        self.learned_min = None
+        self.learned_max = None
+        self.min_learned = False
+        self.max_learned = False
 
     def connect(self, port, baud=115200):
         self.disconnect()
@@ -113,6 +122,8 @@ class SerialThread:
                         if not line:
                             continue
                         self.raw_line = line
+
+                        # Parse telemetry
                         m = TELEM_RE.search(line)
                         if m:
                             with self.lock:
@@ -127,14 +138,33 @@ class SerialThread:
                                 self.thr_actual = int(t) if t != "---" else None
                                 self.thr_target = int(m.group(8))
                                 self.err_flags = int(m.group(9), 16)
-                                # Clear reason when no longer in safe state
                                 if self.mode != "SAFE":
                                     self.safe_reason = ""
-                        # Capture [SAFE] reason messages
+
+                        # Capture [LEARN] messages
+                        lm = LEARN_RE.search(line)
+                        if lm:
+                            with self.lock:
+                                which = lm.group(1)
+                                val = float(lm.group(2))
+                                if which == "Closed":
+                                    self.learned_min = val
+                                    self.min_learned = True
+                                elif which == "Open":
+                                    self.learned_max = val
+                                    self.max_learned = True
+
+                        # Capture [SAFE] reason
                         sm = SAFE_RE.search(line)
                         if sm:
                             with self.lock:
                                 self.safe_reason = sm.group(1).strip()
+
+                        # Capture [WARN] messages
+                        wm = WARN_RE.search(line)
+                        if wm:
+                            with self.lock:
+                                self.warn_msg = wm.group(1).strip()
                 else:
                     time.sleep(0.01)
             except Exception:
@@ -152,13 +182,14 @@ class ThrottleGUI:
     SURFACE = "#313244"
     OVERLAY = "#45475a"
     DARK_RED = "#45171d"
+    TEAL = "#94e2d5"
 
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Throttle ECU — PID Position Control")
         self.root.configure(bg=self.BG)
-        self.root.geometry("1020x800")
-        self.root.minsize(960, 750)
+        self.root.geometry("1100x860")
+        self.root.minsize(1050, 800)
 
         self.serial = SerialThread()
         self.pos_history = collections.deque(maxlen=200)
@@ -196,6 +227,10 @@ class ThrottleGUI:
         self.lbl_status = ttk.Label(conn_frame, text="Disconnected", foreground=self.RED)
         self.lbl_status.pack(side="left", padx=10)
 
+        # Warn banner (hidden by default)
+        self.lbl_warn = tk.Label(conn_frame, text="", bg=self.YELLOW, fg=self.BG,
+                                  font=("Consolas", 9, "bold"), padx=6)
+
         self.lbl_mode = ttk.Label(conn_frame, text="MODE: ---", style="Mode.TLabel", foreground=self.OVERLAY)
         self.lbl_mode.pack(side="right", padx=10)
 
@@ -215,14 +250,12 @@ class ThrottleGUI:
 
         ttk.Label(top_controls, text="MOSFET Relay", style="Title.TLabel").pack(side="left")
 
-        # E-STOP button (big, red)
         self.btn_estop = tk.Button(top_controls, text="E-STOP", bg="#c0392b", fg="white",
                                     font=("Segoe UI", 12, "bold"), width=8, relief="raised",
                                     activebackground="#e74c3c",
                                     command=lambda: self.serial.send("s"))
         self.btn_estop.pack(side="right", padx=(10, 0))
 
-        # Reset from safe state
         self.btn_reset = tk.Button(top_controls, text="RESET", bg=self.OVERLAY, fg=self.YELLOW,
                                     font=("Segoe UI", 10, "bold"), width=6, relief="flat",
                                     command=lambda: self.serial.send("reset"))
@@ -293,6 +326,78 @@ class ThrottleGUI:
                        font=("Segoe UI", 9, "bold"), width=5, relief="flat",
                        command=lambda v=pct: self._set_throttle(v)).pack(side="left", padx=2)
 
+        # ══════════════════════════════════════════
+        # ── PID TUNING PANEL ──
+        # ══════════════════════════════════════════
+        pid_frame = tk.Frame(left, bg=self.SURFACE, highlightbackground=self.TEAL,
+                              highlightthickness=1)
+        pid_frame.pack(fill="x", pady=(0, 6), ipady=4, ipadx=6)
+
+        ttk.Label(pid_frame, text="PID Tuning (live)",
+                  style="Title.TLabel", background=self.SURFACE).pack(anchor="w", padx=6, pady=(4, 0))
+
+        pid_row = tk.Frame(pid_frame, bg=self.SURFACE)
+        pid_row.pack(fill="x", padx=6, pady=4)
+
+        self.pid_entries = {}
+        for label, prefix, default in [("Kp", "p", "12.0"), ("Ki", "i", "0.3"), ("Kd", "k", "1.5")]:
+            tk.Label(pid_row, text=label, bg=self.SURFACE, fg=self.TEAL,
+                      font=("Consolas", 10, "bold")).pack(side="left", padx=(0, 2))
+            entry = tk.Entry(pid_row, width=6, font=("Consolas", 11),
+                              bg=self.OVERLAY, fg=self.GREEN, insertbackground=self.FG,
+                              relief="flat", justify="center")
+            entry.insert(0, default)
+            entry.pack(side="left", padx=(0, 4))
+            entry.bind("<Return>", lambda e, p=prefix, en=entry: self._send_pid(p, en))
+            self.pid_entries[prefix] = entry
+
+        tk.Button(pid_row, text="SEND ALL", bg=self.TEAL, fg=self.BG,
+                   font=("Segoe UI", 9, "bold"), width=9, relief="flat",
+                   command=self._send_all_pid).pack(side="left", padx=(8, 0))
+
+        # ══════════════════════════════════════════
+        # ── END-STOP LEARNING STATUS ──
+        # ══════════════════════════════════════════
+        learn_frame = tk.Frame(left, bg=self.SURFACE, highlightbackground=self.OVERLAY,
+                                highlightthickness=1)
+        learn_frame.pack(fill="x", pady=(0, 6), ipady=4, ipadx=6)
+
+        learn_title_row = tk.Frame(learn_frame, bg=self.SURFACE)
+        learn_title_row.pack(fill="x", padx=6, pady=(4, 0))
+        ttk.Label(learn_title_row, text="End-Stop Learning",
+                  style="Title.TLabel", background=self.SURFACE).pack(side="left")
+
+        tk.Button(learn_title_row, text="RELEARN", bg=self.OVERLAY, fg=self.YELLOW,
+                   font=("Consolas", 9, "bold"), width=9, relief="flat",
+                   command=lambda: self.serial.send("relearn")).pack(side="right", padx=2)
+        tk.Button(learn_title_row, text="STATUS", bg=self.OVERLAY, fg=self.FG,
+                   font=("Consolas", 9, "bold"), width=7, relief="flat",
+                   command=lambda: self.serial.send("learn")).pack(side="right", padx=2)
+
+        learn_data = tk.Frame(learn_frame, bg=self.SURFACE)
+        learn_data.pack(fill="x", padx=6, pady=4)
+
+        tk.Label(learn_data, text="Closed (0%):", bg=self.SURFACE, fg=self.FG,
+                  font=("Consolas", 9)).grid(row=0, column=0, sticky="w")
+        self.lbl_learn_min = tk.Label(learn_data, text=f"{ANGLE_MIN:.2f}\u00b0 (initial)",
+                                       bg=self.SURFACE, fg=self.OVERLAY,
+                                       font=("Consolas", 10, "bold"))
+        self.lbl_learn_min.grid(row=0, column=1, sticky="w", padx=(6, 0))
+
+        tk.Label(learn_data, text="Open (100%):", bg=self.SURFACE, fg=self.FG,
+                  font=("Consolas", 9)).grid(row=1, column=0, sticky="w")
+        self.lbl_learn_max = tk.Label(learn_data, text=f"{ANGLE_MAX:.2f}\u00b0 (initial)",
+                                       bg=self.SURFACE, fg=self.OVERLAY,
+                                       font=("Consolas", 10, "bold"))
+        self.lbl_learn_max.grid(row=1, column=1, sticky="w", padx=(6, 0))
+
+        tk.Label(learn_data, text="Range:", bg=self.SURFACE, fg=self.FG,
+                  font=("Consolas", 9)).grid(row=2, column=0, sticky="w")
+        self.lbl_learn_range = tk.Label(learn_data, text=f"{ANGLE_MAX - ANGLE_MIN:.2f}\u00b0",
+                                         bg=self.SURFACE, fg=self.ACCENT,
+                                         font=("Consolas", 10, "bold"))
+        self.lbl_learn_range.grid(row=2, column=1, sticky="w", padx=(6, 0))
+
         # ── Manual duty override ──
         manual_frame = ttk.Frame(left)
         manual_frame.pack(fill="x", pady=(0, 6))
@@ -331,14 +436,12 @@ class ThrottleGUI:
                                      fg=self.OVERLAY, font=("Consolas", 11))
         self.lbl_err_hex.pack(side="right")
 
-        # Big fault reason label — shows WHY safe state was triggered
         self.lbl_fault_reason = tk.Label(self.err_frame, text="ALL CLEAR",
                                           bg=self.DARK_RED, fg="#2d5016",
                                           font=("Consolas", 14, "bold"),
                                           anchor="w")
         self.lbl_fault_reason.pack(fill="x", padx=6, pady=(4, 2))
 
-        # Fault indicators — each shows short name + description
         self.err_indicators = []
         err_grid = tk.Frame(self.err_frame, bg=self.DARK_RED)
         err_grid.pack(fill="x", padx=6, pady=2)
@@ -358,7 +461,6 @@ class ThrottleGUI:
             desc_lbl.pack(side="left", padx=(4, 0))
             self.err_indicators.append((bit, dot, name_lbl, desc_lbl))
 
-        # Button row
         btn_row = tk.Frame(self.err_frame, bg=self.DARK_RED)
         btn_row.pack(fill="x", padx=6, pady=(4, 2))
         tk.Button(btn_row, text="DIAG", bg=self.OVERLAY, fg=self.FG,
@@ -367,6 +469,9 @@ class ThrottleGUI:
         tk.Button(btn_row, text="CLEAR FAULTS", bg=self.OVERLAY, fg=self.YELLOW,
                    font=("Consolas", 9, "bold"), width=14, relief="flat",
                    command=lambda: self.serial.send("clearfaults")).pack(side="left", padx=2)
+        tk.Button(btn_row, text="CONFIG", bg=self.OVERLAY, fg=self.TEAL,
+                   font=("Consolas", 9, "bold"), width=8, relief="flat",
+                   command=lambda: self.serial.send("config")).pack(side="left", padx=2)
 
         # ── Live telemetry ──
         telem_frame = ttk.Frame(left)
@@ -410,6 +515,10 @@ class ThrottleGUI:
                                  font=("Consolas", 8), relief="flat", state="disabled",
                                  wrap="word")
         self.log_text.pack(fill="both", expand=True, pady=4)
+        # Tag for [LEARN] messages
+        self.log_text.tag_configure("learn", foreground=self.TEAL)
+        self.log_text.tag_configure("safe", foreground=self.RED)
+        self.log_text.tag_configure("warn", foreground=self.YELLOW)
 
     # ── Port ──
     def _refresh_ports(self):
@@ -430,6 +539,18 @@ class ThrottleGUI:
                 self.lbl_status.config(text=f"Connected: {port}", foreground=self.GREEN)
             else:
                 self.lbl_status.config(text="Failed to connect", foreground=self.RED)
+
+    # ── PID tuning ──
+    def _send_pid(self, prefix, entry):
+        try:
+            val = float(entry.get())
+            self.serial.send(f"{prefix}{val}")
+        except ValueError:
+            pass
+
+    def _send_all_pid(self):
+        for prefix, entry in self.pid_entries.items():
+            self._send_pid(prefix, entry)
 
     # ── Throttle controls ──
     def _on_thr_slider(self, val):
@@ -477,8 +598,12 @@ class ThrottleGUI:
 
         c.create_oval(cx - r, cy - r, cx + r, cy + r, outline=self.OVERLAY, width=2)
 
-        start_arc = 90 - ANGLE_MAX
-        extent_arc = ANGLE_MAX - ANGLE_MIN
+        # Use learned range if available
+        amin = self.serial.learned_min if self.serial.min_learned else ANGLE_MIN
+        amax = self.serial.learned_max if self.serial.max_learned else ANGLE_MAX
+
+        start_arc = 90 - amax
+        extent_arc = amax - amin
         c.create_arc(cx - r + 5, cy - r + 5, cx + r - 5, cy + r - 5,
                       start=start_arc, extent=extent_arc,
                       outline=self.ORANGE, width=4, style="arc")
@@ -578,6 +703,10 @@ class ThrottleGUI:
         plot_h = h - 2 * margin
         plot_w = w - 2 * margin
 
+        # Use learned range for plot scaling
+        amin = self.serial.learned_min if self.serial.min_learned else ANGLE_MIN
+        amax = self.serial.learned_max if self.serial.max_learned else ANGLE_MAX
+
         for pct in [0, 25, 50, 75, 100]:
             y = margin + plot_h - (pct / 100.0) * plot_h
             c.create_line(margin + 25, y, w - margin, y, fill=self.OVERLAY, dash=(2, 4))
@@ -603,7 +732,7 @@ class ThrottleGUI:
             for i, val in enumerate(pos_data):
                 x = margin + 25 + (i / (len(pos_data) - 1)) * (plot_w - 25)
                 if val is not None:
-                    pct = (val - ANGLE_MIN) / (ANGLE_MAX - ANGLE_MIN) * 100.0
+                    pct = (val - amin) / (amax - amin) * 100.0 if amax != amin else 0
                     pct = max(0, min(100, pct))
                     y = margin + plot_h - (pct / 100.0) * plot_h
                 else:
@@ -622,16 +751,10 @@ class ThrottleGUI:
         self.lbl_err_hex.config(text=f"0x{flags:02X}")
         any_active = flags != 0
 
-        # Update fault reason label
         if any_active:
-            # Build reason from active flags if no serial reason available
             if reason:
                 display_reason = reason
             else:
-                active = [short for bit, _, short, _ in
-                          [(b, d, s, ds) for b, s, ds in ERR_NAMES for d in [None]]
-                          if flags & bit]
-                # Simpler approach:
                 active = []
                 for bit, dot, name_lbl, desc_lbl in self.err_indicators:
                     if flags & bit:
@@ -646,7 +769,6 @@ class ThrottleGUI:
             self.err_frame.config(highlightbackground=self.OVERLAY, highlightthickness=1)
             self.lbl_err_hex.config(fg=self.OVERLAY)
 
-        # Update each indicator row
         for bit, dot, name_lbl, desc_lbl in self.err_indicators:
             if flags & bit:
                 dot.config(fg=self.RED)
@@ -656,6 +778,31 @@ class ThrottleGUI:
                 dot.config(fg=self.OVERLAY)
                 name_lbl.config(fg=self.OVERLAY, bg=self.DARK_RED)
                 desc_lbl.config(fg=self.OVERLAY, bg=self.DARK_RED)
+
+    # ── Update end-stop learning display ──
+    def _update_learning(self):
+        s = self.serial
+        if s.min_learned:
+            self.lbl_learn_min.config(
+                text=f"{s.learned_min:.2f}\u00b0 (learned)",
+                fg=self.GREEN)
+        else:
+            self.lbl_learn_min.config(
+                text=f"{ANGLE_MIN:.2f}\u00b0 (initial)",
+                fg=self.OVERLAY)
+
+        if s.max_learned:
+            self.lbl_learn_max.config(
+                text=f"{s.learned_max:.2f}\u00b0 (learned)",
+                fg=self.GREEN)
+        else:
+            self.lbl_learn_max.config(
+                text=f"{ANGLE_MAX:.2f}\u00b0 (initial)",
+                fg=self.OVERLAY)
+
+        cur_min = s.learned_min if s.min_learned else ANGLE_MIN
+        cur_max = s.learned_max if s.max_learned else ANGLE_MAX
+        self.lbl_learn_range.config(text=f"{cur_max - cur_min:.2f}\u00b0")
 
     # ── Poll ──
     def _poll(self):
@@ -672,6 +819,7 @@ class ThrottleGUI:
                 err = self.serial.err_flags
                 raw = self.serial.raw_line
                 safe_reason = self.serial.safe_reason
+                warn_msg = self.serial.warn_msg
 
             # Mode indicator
             mode_text, mode_color = MODE_LABELS.get(mode, (f"MODE: {mode}", self.FG))
@@ -684,6 +832,13 @@ class ThrottleGUI:
             else:
                 self.root.configure(bg=self.BG)
                 self.btn_reset.config(bg=self.OVERLAY, fg=self.YELLOW)
+
+            # Watchdog reset warning banner
+            if warn_msg:
+                self.lbl_warn.config(text=f"  {warn_msg}  ")
+                self.lbl_warn.pack(side="left", padx=6)
+            else:
+                self.lbl_warn.pack_forget()
 
             # Telemetry
             dir_color = self.GREEN if d == "F" else self.YELLOW
@@ -710,6 +865,9 @@ class ThrottleGUI:
             # Error flags with reason
             self._update_errors(err, safe_reason)
 
+            # End-stop learning
+            self._update_learning()
+
             # Gauges
             self._draw_gauge(pos)
             self._draw_thr_gauge(thr, tgt)
@@ -719,10 +877,20 @@ class ThrottleGUI:
             self.thr_history.append(thr)
             self._draw_plot()
 
-            # Log
+            # Log with color-coded messages
             if raw:
                 self.log_text.config(state="normal")
-                self.log_text.insert("end", raw + "\n")
+                tag = None
+                if "[LEARN]" in raw:
+                    tag = "learn"
+                elif "[SAFE]" in raw:
+                    tag = "safe"
+                elif "[WARN]" in raw:
+                    tag = "warn"
+                if tag:
+                    self.log_text.insert("end", raw + "\n", tag)
+                else:
+                    self.log_text.insert("end", raw + "\n")
                 self.log_text.see("end")
                 lines = int(self.log_text.index("end-1c").split(".")[0])
                 if lines > 200:
