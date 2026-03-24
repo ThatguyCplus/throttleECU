@@ -1,0 +1,32 @@
+# CCS build output directories
+CPU1_RAM/
+CPU1_FLASH/
+Debug/
+Release/
+
+# Compiled object files and dependency files
+*.obj
+*.d
+*.out
+*.map
+*.hex
+*.bin
+*.lst
+
+# CCS internal/generated files
+.ccsproject.bak
+ccsObjs.opt
+objects.mk
+makefile
+
+# SysConfig generated output (regenerated at build)
+CPU1_RAM/syscfg/
+CPU1_FLASH/syscfg/
+
+# IDE workspace settings (machine-specific)
+.settings/
+.theia/
+
+# Claude Code local settings
+.claude/settings.local.json
+.mcp.json
