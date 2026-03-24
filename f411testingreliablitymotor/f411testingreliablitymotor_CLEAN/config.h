@@ -204,20 +204,61 @@
 #define CFG_ENCODER_DEBOUNCE      2       // consecutive ticks
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  SECTION 9: SAFETY — POWER SUPPLY
+//  SECTION 9: SAFETY — POWER SUPPLY VOLTAGE MONITORING
 // ─────────────────────────────────────────────────────────────────────────────
-//  Minimum supply voltage before entering safe state.
-//  Only active if you connect a voltage divider to an ADC pin.
-//  (Not connected by default — set to 0 to disable)
+//  Monitors motor supply voltage (12V battery / power supply) via a resistive
+//  voltage divider connected to an ADC pin. If voltage drops below threshold,
+//  the relay is disabled and safe state is entered.
 //
-//  POWER_LOW_MV        → Minimum voltage in millivolts.
-//                         12000 = 12.0V, 9000 = 9.0V, 0 = disabled
+//  *** STATUS: NOT YET WIRED — uncomment CFG_POWER_SENSE_ENABLED when ready ***
 //
-//  POWER_DEBOUNCE      → Consecutive ticks below threshold to trip.
-//                         4 = 4 ticks ≈ 400ms
+//  HARDWARE REQUIRED:
+//    Wire a voltage divider from your 12V motor supply to an ADC pin:
+//
+//      Motor 12V+ ─── R1 (47kΩ) ───┬─── R2 (10kΩ) ─── GND
+//                                   │
+//                                   ├─── 100nF cap ─── GND  (noise filter)
+//                                   │
+//                                   └─── PA3 (ADC pin)
+//
+//    Parts needed:
+//      R1 = 47kΩ  1% metal film 0805
+//      R2 = 10kΩ  1% metal film 0805
+//      C1 = 100nF ceramic 0805
+//      Optional: BAT54S Schottky clamp diode (transient protection)
+//      Optional: SMBJ18A TVS diode at input (load dump protection)
+//
+//    Divider ratio = 10 / (47 + 10) = 0.1754
+//      14.4V (running) → 2.53V at ADC
+//      12.0V (resting) → 2.11V at ADC
+//       9.0V (low)     → 1.58V at ADC → ~1960 ADC counts
+//      16.0V (max)     → 2.81V at ADC (safe, under 3.3V)
+//
+//    Conversion formula:
+//      V_batt_mV = ADC_count * 3300 * (47 + 10) / (10 * 4095)
+//      V_batt_mV = ADC_count * 188100 / 40950
+//      V_batt_mV = ADC_count * 4593 / 1000  (simplified)
+//
+//  CONFIGURATION:
+//    PIN_VBATT_SENSE   → ADC pin connected to voltage divider midpoint
+//    R1_KOHM / R2_KOHM → Resistor values (for conversion formula)
+//    POWER_LOW_MV      → Below this voltage, relay disables + safe state
+//    POWER_DEBOUNCE    → Consecutive ticks below threshold to trip
+//
+//  TO ENABLE:
+//    1. Wire the voltage divider (see above)
+//    2. Uncomment the #define CFG_POWER_SENSE_ENABLED line below
+//    3. Recompile and reflash
 // ─────────────────────────────────────────────────────────────────────────────
-#define CFG_POWER_LOW_MV          9000    // millivolts (0 = disabled)
-#define CFG_POWER_DEBOUNCE        4       // consecutive ticks
+
+// Uncomment this line when the voltage divider is wired up:
+// #define CFG_POWER_SENSE_ENABLED
+
+#define CFG_PIN_VBATT_SENSE   PA3     // ADC pin for voltage divider
+#define CFG_VBATT_R1_KOHM     47      // Top resistor (kΩ)
+#define CFG_VBATT_R2_KOHM     10      // Bottom resistor (kΩ)
+#define CFG_POWER_LOW_MV      9000    // 9.0V — relay disables below this
+#define CFG_POWER_DEBOUNCE    4       // consecutive ticks (~400ms)
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 10: SAFETY — WATCHDOG TIMER

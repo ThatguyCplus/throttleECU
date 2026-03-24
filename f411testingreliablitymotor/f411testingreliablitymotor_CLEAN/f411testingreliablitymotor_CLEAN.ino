@@ -378,6 +378,13 @@ void processCmd(const char* s) {
     snprintf(buf, sizeof(buf), "Serial:    %lu baud",
              (unsigned long)CFG_SERIAL_BAUD);
     printBoth(buf);
+    #ifdef CFG_POWER_SENSE_ENABLED
+    snprintf(buf, sizeof(buf), "V_batt:    pin=%s  R1=%ukΩ R2=%ukΩ  trip=%umV",
+             "PA3", CFG_VBATT_R1_KOHM, CFG_VBATT_R2_KOHM, CFG_POWER_LOW_MV);
+    printBoth(buf);
+    #else
+    printBoth("V_batt:    NOT WIRED (see config.h SECTION 9)");
+    #endif
     printBoth("═══════════════════════════════════");
   }
   else if (s[0] == 't' || s[0] == 'T') {
@@ -485,6 +492,19 @@ void loop() {
   // ── Safety checks ──────────────────
   safe_check_encoder(angle >= 0, now);
   safe_check_current(ris, lis, now);
+
+  // ── TODO: Battery voltage monitoring ──────────────────
+  // Uncomment when voltage divider is wired (see config.h SECTION 9)
+  #ifdef CFG_POWER_SENSE_ENABLED
+  {
+    uint16_t vbattRaw = adcAvg(CFG_PIN_VBATT_SENSE);
+    // Convert ADC to millivolts: V_batt = ADC * 3300 * (R1+R2) / (R2 * 4095)
+    uint16_t vbattMv = (uint16_t)((uint32_t)vbattRaw * 3300UL
+                       * (CFG_VBATT_R1_KOHM + CFG_VBATT_R2_KOHM)
+                       / ((uint32_t)CFG_VBATT_R2_KOHM * 4095UL));
+    safe_check_power(vbattMv);
+  }
+  #endif
 
   // If safety module has tripped, enter safe state with the actual reason
   if (g_safety.safe_state_active && mode != MODE_SAFE) {
