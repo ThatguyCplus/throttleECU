@@ -15,9 +15,13 @@ import time
 import math
 import collections
 
-# ── Throttle calibration (initial estimates — updated by end-stop learning) ──
+# ── Throttle calibration (must match config.h) ──
 ANGLE_MIN = 70.32
 ANGLE_MAX = 179.40
+# Usable range (5-95% of physical range)
+ANGLE_RANGE = ANGLE_MAX - ANGLE_MIN
+USABLE_MIN = ANGLE_MIN + ANGLE_RANGE * 0.05
+USABLE_MAX = ANGLE_MIN + ANGLE_RANGE * 0.95
 
 # ── Serial telemetry regex ──
 # mode=MAN dir=F duty=1234 RIS=456 LIS=789 pos=123.45 thr=50% tgt=50% err=0x00
@@ -26,8 +30,6 @@ TELEM_RE = re.compile(
     r"pos=([\d.]+|---)\s+thr=([\d]+|---)%\s+tgt=(\d+)%\s+err=0x([0-9A-Fa-f]+)"
 )
 
-# Capture [LEARN] messages:  [LEARN] Open stop: 178.50°  or  [LEARN] Closed stop: 71.00°
-LEARN_RE = re.compile(r"\[LEARN\]\s*(Open|Closed)\s+stop:\s*([\d.]+)")
 # Capture [SAFE] reason
 SAFE_RE = re.compile(r"\[SAFE\]\s*(.+)")
 # Capture [WARN] messages
@@ -71,11 +73,6 @@ class SerialThread:
         self.safe_reason = ""
         self.warn_msg = ""
         self.connected = False
-        # End-stop learning state
-        self.learned_min = None
-        self.learned_max = None
-        self.min_learned = False
-        self.max_learned = False
 
     def connect(self, port, baud=115200):
         self.disconnect()
@@ -140,19 +137,6 @@ class SerialThread:
                                 self.err_flags = int(m.group(9), 16)
                                 if self.mode != "SAFE":
                                     self.safe_reason = ""
-
-                        # Capture [LEARN] messages
-                        lm = LEARN_RE.search(line)
-                        if lm:
-                            with self.lock:
-                                which = lm.group(1)
-                                val = float(lm.group(2))
-                                if which == "Closed":
-                                    self.learned_min = val
-                                    self.min_learned = True
-                                elif which == "Open":
-                                    self.learned_max = val
-                                    self.max_learned = True
 
                         # Capture [SAFE] reason
                         sm = SAFE_RE.search(line)
@@ -356,47 +340,26 @@ class ThrottleGUI:
                    command=self._send_all_pid).pack(side="left", padx=(8, 0))
 
         # ══════════════════════════════════════════
-        # ── END-STOP LEARNING STATUS ──
+        # ── THROTTLE RANGE INFO ──
         # ══════════════════════════════════════════
-        learn_frame = tk.Frame(left, bg=self.SURFACE, highlightbackground=self.OVERLAY,
+        range_frame = tk.Frame(left, bg=self.SURFACE, highlightbackground=self.OVERLAY,
                                 highlightthickness=1)
-        learn_frame.pack(fill="x", pady=(0, 6), ipady=4, ipadx=6)
+        range_frame.pack(fill="x", pady=(0, 6), ipady=4, ipadx=6)
 
-        learn_title_row = tk.Frame(learn_frame, bg=self.SURFACE)
-        learn_title_row.pack(fill="x", padx=6, pady=(4, 0))
-        ttk.Label(learn_title_row, text="End-Stop Learning",
-                  style="Title.TLabel", background=self.SURFACE).pack(side="left")
+        range_data = tk.Frame(range_frame, bg=self.SURFACE)
+        range_data.pack(fill="x", padx=6, pady=4)
 
-        tk.Button(learn_title_row, text="RELEARN", bg=self.OVERLAY, fg=self.YELLOW,
-                   font=("Consolas", 9, "bold"), width=9, relief="flat",
-                   command=lambda: self.serial.send("relearn")).pack(side="right", padx=2)
-        tk.Button(learn_title_row, text="STATUS", bg=self.OVERLAY, fg=self.FG,
-                   font=("Consolas", 9, "bold"), width=7, relief="flat",
-                   command=lambda: self.serial.send("learn")).pack(side="right", padx=2)
+        tk.Label(range_data, text="Usable Range (5-95%):", bg=self.SURFACE, fg=self.TEAL,
+                  font=("Consolas", 9, "bold")).grid(row=0, column=0, sticky="w")
+        tk.Label(range_data, text=f"{USABLE_MIN:.2f}\u00b0 – {USABLE_MAX:.2f}\u00b0",
+                  bg=self.SURFACE, fg=self.GREEN,
+                  font=("Consolas", 10, "bold")).grid(row=0, column=1, sticky="w", padx=(6, 0))
 
-        learn_data = tk.Frame(learn_frame, bg=self.SURFACE)
-        learn_data.pack(fill="x", padx=6, pady=4)
-
-        tk.Label(learn_data, text="Closed (0%):", bg=self.SURFACE, fg=self.FG,
-                  font=("Consolas", 9)).grid(row=0, column=0, sticky="w")
-        self.lbl_learn_min = tk.Label(learn_data, text=f"{ANGLE_MIN:.2f}\u00b0 (initial)",
-                                       bg=self.SURFACE, fg=self.OVERLAY,
-                                       font=("Consolas", 10, "bold"))
-        self.lbl_learn_min.grid(row=0, column=1, sticky="w", padx=(6, 0))
-
-        tk.Label(learn_data, text="Open (100%):", bg=self.SURFACE, fg=self.FG,
+        tk.Label(range_data, text="Physical Range:", bg=self.SURFACE, fg=self.FG,
                   font=("Consolas", 9)).grid(row=1, column=0, sticky="w")
-        self.lbl_learn_max = tk.Label(learn_data, text=f"{ANGLE_MAX:.2f}\u00b0 (initial)",
-                                       bg=self.SURFACE, fg=self.OVERLAY,
-                                       font=("Consolas", 10, "bold"))
-        self.lbl_learn_max.grid(row=1, column=1, sticky="w", padx=(6, 0))
-
-        tk.Label(learn_data, text="Range:", bg=self.SURFACE, fg=self.FG,
-                  font=("Consolas", 9)).grid(row=2, column=0, sticky="w")
-        self.lbl_learn_range = tk.Label(learn_data, text=f"{ANGLE_MAX - ANGLE_MIN:.2f}\u00b0",
-                                         bg=self.SURFACE, fg=self.ACCENT,
-                                         font=("Consolas", 10, "bold"))
-        self.lbl_learn_range.grid(row=2, column=1, sticky="w", padx=(6, 0))
+        tk.Label(range_data, text=f"{ANGLE_MIN:.2f}\u00b0 – {ANGLE_MAX:.2f}\u00b0",
+                  bg=self.SURFACE, fg=self.OVERLAY,
+                  font=("Consolas", 10)).grid(row=1, column=1, sticky="w", padx=(6, 0))
 
         # ── Manual duty override ──
         manual_frame = ttk.Frame(left)
@@ -515,10 +478,9 @@ class ThrottleGUI:
                                  font=("Consolas", 8), relief="flat", state="disabled",
                                  wrap="word")
         self.log_text.pack(fill="both", expand=True, pady=4)
-        # Tag for [LEARN] messages
-        self.log_text.tag_configure("learn", foreground=self.TEAL)
         self.log_text.tag_configure("safe", foreground=self.RED)
         self.log_text.tag_configure("warn", foreground=self.YELLOW)
+        self.log_text.tag_configure("config", foreground=self.TEAL)
 
     # ── Port ──
     def _refresh_ports(self):
@@ -598,12 +560,9 @@ class ThrottleGUI:
 
         c.create_oval(cx - r, cy - r, cx + r, cy + r, outline=self.OVERLAY, width=2)
 
-        # Use learned range if available
-        amin = self.serial.learned_min if self.serial.min_learned else ANGLE_MIN
-        amax = self.serial.learned_max if self.serial.max_learned else ANGLE_MAX
-
-        start_arc = 90 - amax
-        extent_arc = amax - amin
+        # Show usable range (5-95%) as the orange arc
+        start_arc = 90 - USABLE_MAX
+        extent_arc = USABLE_MAX - USABLE_MIN
         c.create_arc(cx - r + 5, cy - r + 5, cx + r - 5, cy + r - 5,
                       start=start_arc, extent=extent_arc,
                       outline=self.ORANGE, width=4, style="arc")
@@ -703,10 +662,6 @@ class ThrottleGUI:
         plot_h = h - 2 * margin
         plot_w = w - 2 * margin
 
-        # Use learned range for plot scaling
-        amin = self.serial.learned_min if self.serial.min_learned else ANGLE_MIN
-        amax = self.serial.learned_max if self.serial.max_learned else ANGLE_MAX
-
         for pct in [0, 25, 50, 75, 100]:
             y = margin + plot_h - (pct / 100.0) * plot_h
             c.create_line(margin + 25, y, w - margin, y, fill=self.OVERLAY, dash=(2, 4))
@@ -732,7 +687,7 @@ class ThrottleGUI:
             for i, val in enumerate(pos_data):
                 x = margin + 25 + (i / (len(pos_data) - 1)) * (plot_w - 25)
                 if val is not None:
-                    pct = (val - amin) / (amax - amin) * 100.0 if amax != amin else 0
+                    pct = (val - USABLE_MIN) / (USABLE_MAX - USABLE_MIN) * 100.0 if USABLE_MAX != USABLE_MIN else 0
                     pct = max(0, min(100, pct))
                     y = margin + plot_h - (pct / 100.0) * plot_h
                 else:
@@ -778,31 +733,6 @@ class ThrottleGUI:
                 dot.config(fg=self.OVERLAY)
                 name_lbl.config(fg=self.OVERLAY, bg=self.DARK_RED)
                 desc_lbl.config(fg=self.OVERLAY, bg=self.DARK_RED)
-
-    # ── Update end-stop learning display ──
-    def _update_learning(self):
-        s = self.serial
-        if s.min_learned:
-            self.lbl_learn_min.config(
-                text=f"{s.learned_min:.2f}\u00b0 (learned)",
-                fg=self.GREEN)
-        else:
-            self.lbl_learn_min.config(
-                text=f"{ANGLE_MIN:.2f}\u00b0 (initial)",
-                fg=self.OVERLAY)
-
-        if s.max_learned:
-            self.lbl_learn_max.config(
-                text=f"{s.learned_max:.2f}\u00b0 (learned)",
-                fg=self.GREEN)
-        else:
-            self.lbl_learn_max.config(
-                text=f"{ANGLE_MAX:.2f}\u00b0 (initial)",
-                fg=self.OVERLAY)
-
-        cur_min = s.learned_min if s.min_learned else ANGLE_MIN
-        cur_max = s.learned_max if s.max_learned else ANGLE_MAX
-        self.lbl_learn_range.config(text=f"{cur_max - cur_min:.2f}\u00b0")
 
     # ── Poll ──
     def _poll(self):
@@ -865,9 +795,6 @@ class ThrottleGUI:
             # Error flags with reason
             self._update_errors(err, safe_reason)
 
-            # End-stop learning
-            self._update_learning()
-
             # Gauges
             self._draw_gauge(pos)
             self._draw_thr_gauge(thr, tgt)
@@ -881,9 +808,7 @@ class ThrottleGUI:
             if raw:
                 self.log_text.config(state="normal")
                 tag = None
-                if "[LEARN]" in raw:
-                    tag = "learn"
-                elif "[SAFE]" in raw:
+                if "[SAFE]" in raw:
                     tag = "safe"
                 elif "[WARN]" in raw:
                     tag = "warn"

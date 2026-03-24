@@ -68,57 +68,34 @@
 #define CFG_ENC_DATA          4095
 #define CFG_ENC_PERIOD_CLKS   4119
 
+//  ENC_SPIKE_THRESH → Maximum allowed jump (in 0.01° units) between
+//                       consecutive readings before it's rejected as noise.
+//                       500 = 5.00° — any reading more than 5° from the
+//                       rolling average is ignored (likely an EMI spike).
+//                       Lower = more aggressive filtering.
+//                       Higher = allows faster real movement.
+//                       Range: 200–2000
+#define CFG_ENC_SPIKE_THRESH  500
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 4: THROTTLE CALIBRATION
 // ─────────────────────────────────────────────────────────────────────────────
-//  PASSIVE END-STOP LEARNING:
-//    Starts with the hardcoded ANGLE_MIN/MAX as initial estimates.
-//    During normal PID operation, if the motor is driving at high duty
-//    but the angle has stopped changing, we've hit a physical end stop.
-//    The firmware quietly tightens the range to match reality.
+//  ANGLE_MIN / ANGLE_MAX → Physical end stops of the throttle in 0.01° units.
+//                           Measure with serial monitor: drive forward at
+//                           d4095 → that's your max, reverse d4095 → that's min.
 //
-//    NO active sweep, NO calibration routine, NEVER moves the throttle
-//    on its own. Only learns from commands the driver is already sending.
+//  The firmware uses only 5-95% of this range for actual throttle control.
+//  This avoids noisy encoder readings near the mechanical stops and
+//  prevents the PID from chasing an angle the hardware can't reach.
 //
-//  ANGLE_MIN / ANGLE_MAX → Initial angle estimates (0.01° units).
-//                           Measure roughly with serial monitor.
-//                           These are the STARTING values — the firmware
-//                           will tighten them if it detects end stops.
+//  Example: with min=70.32° and max=179.40°, the usable range is:
+//    0% throttle = 75.77°  (5% from closed)
+//    100% throttle = 173.95° (95% from closed)
 //
-//  ENDSTOP_DUTY_THRESH → PID duty must be above this % of PWM_MAX to
-//                          consider the motor "driving hard."
-//                          80 = 80% of 4095 = 3276. If duty is below
-//                          this, the motor isn't stalled, just cruising.
-//
-//  ENDSTOP_STALL_MS    → How long (ms) the angle must stop changing
-//                          while duty is high before we believe it's a
-//                          real mechanical stop (not just slow movement).
-//                          500 = half second. Longer = more conservative.
-//
-//  ENDSTOP_STALL_THRESH → Maximum angle change (0.01° units) per tick
-//                          that counts as "not moving."
-//                          30 = 0.30° — if angle changes less than this
-//                          while duty is saturated, we're at a stop.
-//
-//  ENDSTOP_MARGIN      → Safety margin (0.01° units) applied inward
-//                          from a learned end stop. Prevents PID from
-//                          commanding exactly at the mechanical limit.
-//                          50 = 0.50°
-//
-//  ENDSTOP_SANITY      → Maximum allowed deviation (0.01° units) from
-//                          the hardcoded ANGLE_MIN/MAX. Rejects garbage
-//                          readings from sensor glitches.
-//                          500 = 5.00° — learned stop must be within
-//                          5° of the initial estimate or it's rejected.
+//  This means t0 = 75.77° and t100 = 173.95°, with ~5° margin at each end.
 // ─────────────────────────────────────────────────────────────────────────────
-#define CFG_ANGLE_MIN             7032    // 70.32° closed (initial estimate)
-#define CFG_ANGLE_MAX             17940   // 179.40° wide open (initial estimate)
-
-#define CFG_ENDSTOP_DUTY_THRESH   80      // % of PWM_MAX (80% = driving hard)
-#define CFG_ENDSTOP_STALL_MS      500     // ms of no movement while duty high
-#define CFG_ENDSTOP_STALL_THRESH  30      // 0.30° movement = "not moving"
-#define CFG_ENDSTOP_MARGIN        50      // 0.50° inward from learned stop
-#define CFG_ENDSTOP_SANITY        500     // 5.00° max deviation from initial
+#define CFG_ANGLE_MIN             7032    // 70.32° fully closed
+#define CFG_ANGLE_MAX             17940   // 179.40° fully open
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SECTION 5: PID CONTROLLER

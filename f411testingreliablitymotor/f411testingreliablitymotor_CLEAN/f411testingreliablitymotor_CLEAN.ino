@@ -44,9 +44,14 @@ const uint16_t ENC_OFFSET      = CFG_ENC_OFFSET;
 const uint16_t ENC_DATA        = CFG_ENC_DATA;
 const uint16_t ENC_PERIOD_CLKS = CFG_ENC_PERIOD_CLKS;
 
-// Throttle range — set by auto-cal on boot, or fallback from config.h
-int32_t  ANGLE_MIN = CFG_ANGLE_MIN;
-int32_t  ANGLE_MAX = CFG_ANGLE_MAX;
+// Throttle range — hardcoded from config.h
+const int32_t  ANGLE_MIN = CFG_ANGLE_MIN;
+const int32_t  ANGLE_MAX = CFG_ANGLE_MAX;
+
+// Usable range (5-95%) — avoids noisy encoder edges near mechanical stops
+const int32_t  ANGLE_RANGE  = CFG_ANGLE_MAX - CFG_ANGLE_MIN;
+const int32_t  USABLE_MIN   = CFG_ANGLE_MIN + (ANGLE_RANGE * 5 / 100);   // 5% from closed
+const int32_t  USABLE_MAX   = CFG_ANGLE_MIN + (ANGLE_RANGE * 95 / 100);  // 95% from closed
 
 const int32_t  PID_DEADBAND    = CFG_PID_DEADBAND;
 const uint16_t MIN_DUTY_THRESH = CFG_MIN_DUTY_THRESH;
@@ -83,6 +88,12 @@ volatile uint32_t encHigh   = 0;
 volatile uint32_t encPeriod = 0;
 volatile bool     encValid  = false;
 
+// Encoder rolling average (kills random spikes)
+#define ENC_AVG_SIZE  8
+int32_t encBuf[ENC_AVG_SIZE];
+uint8_t encBufIdx = 0;
+uint8_t encBufCnt = 0;  // How many valid samples we have
+
 // Serial buffers
 static char    usbBuf[32],  uartBuf[32];
 static uint8_t usbLen = 0,  uartLen = 0;
@@ -105,7 +116,8 @@ void encISR() {
   }
 }
 
-int32_t getAngle() {
+// Get raw angle from encoder (no averaging)
+int32_t getAngleRaw() {
   noInterrupts();
   uint32_t h = encHigh;
   uint32_t p = encPeriod;
@@ -119,6 +131,35 @@ int32_t getAngle() {
   if (raw > 4094) raw = 4094;
 
   return (int32_t)((uint32_t)raw * 36000UL / ENC_DATA);
+}
+
+// Get averaged angle — rolling average of last ENC_AVG_SIZE readings
+// Rejects spikes: if a new reading is more than 5° (500 centideg) from
+// the current average, it's ignored (likely noise)
+int32_t getAngle() {
+  int32_t raw = getAngleRaw();
+  if (raw < 0) return -1;
+
+  // Spike rejection: if we have enough samples, reject outliers
+  if (encBufCnt >= 3) {
+    int32_t sum = 0;
+    for (uint8_t i = 0; i < encBufCnt; i++) sum += encBuf[i];
+    int32_t avg = sum / encBufCnt;
+
+    if (abs(raw - avg) > CFG_ENC_SPIKE_THRESH) {
+      return avg;  // Reject spike, return current average instead
+    }
+  }
+
+  // Add to rolling buffer
+  encBuf[encBufIdx] = raw;
+  encBufIdx = (encBufIdx + 1) % ENC_AVG_SIZE;
+  if (encBufCnt < ENC_AVG_SIZE) encBufCnt++;
+
+  // Compute average
+  int32_t sum = 0;
+  for (uint8_t i = 0; i < encBufCnt; i++) sum += encBuf[i];
+  return sum / encBufCnt;
 }
 
 // ═══════════════════════════════════
@@ -206,67 +247,20 @@ void resetPID() {
 }
 
 // ═══════════════════════════════════
-// PASSIVE END-STOP LEARNING
+// THROTTLE MAPPING (simplified)
 // ═══════════════════════════════════
-struct EndStopLearner {
-  int32_t  lastAngle;
-  uint32_t stallStart;
-  bool     minLearned;
-  bool     maxLearned;
-} endstop = {-1, 0, false, false};
+// Uses 5-95% of the physical range to avoid noisy encoder edges.
+// 0% throttle = USABLE_MIN, 100% throttle = USABLE_MAX.
+// PID targets are clamped to this range automatically.
+int32_t throttleToAngle(int16_t pct) {
+  pct = constrain(pct, (int16_t)0, (int16_t)100);
+  return USABLE_MIN + (int32_t)((int64_t)(USABLE_MAX - USABLE_MIN) * pct / 100);
+}
 
-void endstopCheck(int32_t currentAngle, uint16_t currentDuty, int32_t pidError) {
-  if (currentAngle < 0) return;
-
-  uint16_t dutyThresh = (uint16_t)((uint32_t)PWM_MAX * CFG_ENDSTOP_DUTY_THRESH / 100);
-
-  if (currentDuty < dutyThresh) {
-    endstop.stallStart = 0;
-    endstop.lastAngle = currentAngle;
-    return;
-  }
-
-  if (endstop.lastAngle >= 0) {
-    int32_t delta = abs(currentAngle - endstop.lastAngle);
-
-    if (delta < CFG_ENDSTOP_STALL_THRESH) {
-      if (endstop.stallStart == 0) {
-        endstop.stallStart = millis();
-      } else if ((millis() - endstop.stallStart) >= CFG_ENDSTOP_STALL_MS) {
-        char buf[80];
-
-        if (pidError > 0) {
-          int32_t newMax = currentAngle - CFG_ENDSTOP_MARGIN;
-          if (abs(newMax - CFG_ANGLE_MAX) <= CFG_ENDSTOP_SANITY) {
-            if (newMax < ANGLE_MAX) {
-              ANGLE_MAX = newMax;
-              endstop.maxLearned = true;
-              snprintf(buf, sizeof(buf), "[LEARN] Open stop: %ld.%02ld°",
-                       (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
-              printBoth(buf);
-            }
-          }
-        } else if (pidError < 0) {
-          int32_t newMin = currentAngle + CFG_ENDSTOP_MARGIN;
-          if (abs(newMin - CFG_ANGLE_MIN) <= CFG_ENDSTOP_SANITY) {
-            if (newMin > ANGLE_MIN) {
-              ANGLE_MIN = newMin;
-              endstop.minLearned = true;
-              snprintf(buf, sizeof(buf), "[LEARN] Closed stop: %ld.%02ld°",
-                       (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100));
-              printBoth(buf);
-            }
-          }
-        }
-
-        endstop.stallStart = 0;
-      }
-    } else {
-      endstop.stallStart = 0;
-    }
-  }
-
-  endstop.lastAngle = currentAngle;
+int16_t angleToThrottle(int32_t angle) {
+  if (angle < USABLE_MIN) return 0;
+  if (angle > USABLE_MAX) return 100;
+  return (int16_t)((int64_t)(angle - USABLE_MIN) * 100 / (USABLE_MAX - USABLE_MIN));
 }
 
 // ═══════════════════════════════════
@@ -346,65 +340,52 @@ void processCmd(const char* s) {
     printBoth("Faults cleared");
   }
   else if (strcasecmp(s, "config") == 0) {
+    // Config dump — prints to serial log (visible in GUI serial log panel)
     char buf[80];
     printBoth("═══════════════════════════════════");
     printBoth("  Active Configuration (config.h)");
     printBoth("═══════════════════════════════════");
-    snprintf(buf, sizeof(buf), "PWM:       %luHz  %u-bit  (max=%u)", (unsigned long)CFG_PWM_FREQ_HZ, CFG_PWM_BITS, PWM_MAX);        printBoth(buf);
-    snprintf(buf, sizeof(buf), "Throttle:  %.2f° – %.2f°  min:%s max:%s",
-             ANGLE_MIN/100.0, ANGLE_MAX/100.0,
-             endstop.minLearned ? "learned" : "initial",
-             endstop.maxLearned ? "learned" : "initial");  printBoth(buf);
-    snprintf(buf, sizeof(buf), "PID:       Kp=%.2f  Ki=%.2f  Kd=%.2f", (double)Kp, (double)Ki, (double)Kd);                         printBoth(buf);
-    snprintf(buf, sizeof(buf), "Deadband:  %.2f°   MinDuty=%u", CFG_PID_DEADBAND/100.0, CFG_MIN_DUTY_THRESH);                       printBoth(buf);
-    snprintf(buf, sizeof(buf), "Settle:    %lums window  %ldms timer", (unsigned long)CFG_SETTLE_TIME_MS, (long)CFG_SETTLE_WINDOW);  printBoth(buf);
-    snprintf(buf, sizeof(buf), "OC Thresh: %u ADC counts  (debounce=%u)", CFG_OVERCURRENT_THRESH, CFG_OVERCURRENT_DEBOUNCE);        printBoth(buf);
-    snprintf(buf, sizeof(buf), "Enc Tout:  %ums  (debounce=%u)", CFG_ENCODER_TIMEOUT_MS, CFG_ENCODER_DEBOUNCE);                     printBoth(buf);
-    snprintf(buf, sizeof(buf), "Watchdog:  %lums", (unsigned long)(CFG_WATCHDOG_TIMEOUT_US/1000));                                   printBoth(buf);
-    snprintf(buf, sizeof(buf), "Telemetry: %ums   ADC avg=%u samples", CFG_TELEMETRY_RATE_MS, CFG_ADC_OVERSAMPLE);                  printBoth(buf);
-    snprintf(buf, sizeof(buf), "Serial:    %lu baud", (unsigned long)CFG_SERIAL_BAUD);                                              printBoth(buf);
+    snprintf(buf, sizeof(buf), "PWM:       %luHz  %u-bit  (max=%u)",
+             (unsigned long)CFG_PWM_FREQ_HZ, CFG_PWM_BITS, PWM_MAX);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Full range:  %.2f° – %.2f°",
+             ANGLE_MIN/100.0, ANGLE_MAX/100.0);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Usable (5-95%%): %.2f° – %.2f°",
+             USABLE_MIN/100.0, USABLE_MAX/100.0);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "PID:       Kp=%.2f  Ki=%.2f  Kd=%.2f",
+             (double)Kp, (double)Ki, (double)Kd);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Deadband:  %.2f°   MinDuty=%u",
+             CFG_PID_DEADBAND/100.0, CFG_MIN_DUTY_THRESH);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Settle:    %lums window  %ldms timer",
+             (unsigned long)CFG_SETTLE_TIME_MS, (long)CFG_SETTLE_WINDOW);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "OC Thresh: %u ADC counts  (debounce=%u)",
+             CFG_OVERCURRENT_THRESH, CFG_OVERCURRENT_DEBOUNCE);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Enc Tout:  %ums  (debounce=%u)  AvgSize=%u  SpikeThresh=%u",
+             CFG_ENCODER_TIMEOUT_MS, CFG_ENCODER_DEBOUNCE, ENC_AVG_SIZE, CFG_ENC_SPIKE_THRESH);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Watchdog:  %lums",
+             (unsigned long)(CFG_WATCHDOG_TIMEOUT_US/1000));
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Telemetry: %ums   ADC avg=%u samples",
+             CFG_TELEMETRY_RATE_MS, CFG_ADC_OVERSAMPLE);
+    printBoth(buf);
+    snprintf(buf, sizeof(buf), "Serial:    %lu baud",
+             (unsigned long)CFG_SERIAL_BAUD);
+    printBoth(buf);
     printBoth("═══════════════════════════════════");
-  }
-  else if (strcasecmp(s, "learn") == 0) {
-    char buf[80];
-    printBoth("───────────────────────────────────");
-    printBoth("  End-Stop Learning Status");
-    printBoth("───────────────────────────────────");
-    snprintf(buf, sizeof(buf), "  Initial:  %ld.%02ld° – %ld.%02ld°",
-             (long)(CFG_ANGLE_MIN / 100), (long)(CFG_ANGLE_MIN % 100),
-             (long)(CFG_ANGLE_MAX / 100), (long)(CFG_ANGLE_MAX % 100));
-    printBoth(buf);
-    snprintf(buf, sizeof(buf), "  Current:  %ld.%02ld° – %ld.%02ld°",
-             (long)(ANGLE_MIN / 100), (long)(ANGLE_MIN % 100),
-             (long)(ANGLE_MAX / 100), (long)(ANGLE_MAX % 100));
-    printBoth(buf);
-    snprintf(buf, sizeof(buf), "  Min learned: %s    Max learned: %s",
-             endstop.minLearned ? "YES" : "no",
-             endstop.maxLearned ? "YES" : "no");
-    printBoth(buf);
-    snprintf(buf, sizeof(buf), "  Usable range: %ld.%02ld°",
-             (long)((ANGLE_MAX - ANGLE_MIN) / 100),
-             (long)((ANGLE_MAX - ANGLE_MIN) % 100));
-    printBoth(buf);
-    printBoth("───────────────────────────────────");
-  }
-  else if (strcasecmp(s, "relearn") == 0) {
-    // Reset learned values back to initial estimates
-    ANGLE_MIN = CFG_ANGLE_MIN;
-    ANGLE_MAX = CFG_ANGLE_MAX;
-    endstop.minLearned = false;
-    endstop.maxLearned = false;
-    endstop.stallStart = 0;
-    endstop.lastAngle = -1;
-    targetAngle = ANGLE_MIN;
-    printBoth("End-stop learning reset to initial values");
   }
   else if (s[0] == 't' || s[0] == 'T') {
     if (mode == MODE_SAFE) { printBoth("[SAFE] Cmd rejected"); return; }
     long pct = atol(s + 1);
     pct = constrain(pct, 0L, 100L);
     throttlePct = (int16_t)pct;
-    targetAngle = ANGLE_MIN + (int32_t)((int64_t)(ANGLE_MAX - ANGLE_MIN) * pct / 100);
+    targetAngle = throttleToAngle(throttlePct);
     mode        = MODE_PID;
     settled     = false;
     settleStart = 0;
@@ -470,8 +451,13 @@ void setup() {
   printBoth("  Throttle ECU — PID Control");
   printBoth("═══════════════════════════════════");
 
-  // Set initial target to closed position (will be refined by end-stop learning)
-  targetAngle = ANGLE_MIN;
+  // Set initial target to closed position (usable 5% point)
+  targetAngle = USABLE_MIN;
+
+  char bootBuf[80];
+  snprintf(bootBuf, sizeof(bootBuf), "Usable range: %.2f° – %.2f° (5-95%%)",
+           USABLE_MIN / 100.0, USABLE_MAX / 100.0);
+  printBoth(bootBuf);
 
   if (safe_was_reset_by_watchdog()) {
     printBoth("[WARN] Recovered from watchdog reset!");
@@ -480,7 +466,6 @@ void setup() {
   printBoth("Commands: t0-t100, d0-d4095, f, r, s");
   printBoth("         p## i## k##, on, off, reset");
   printBoth("         diag, clearfaults, config");
-  printBoth("         learn, relearn");
 }
 
 // ═══════════════════════════════════
@@ -516,10 +501,9 @@ void loop() {
   switch (mode) {
     case MODE_PID:
       if (angle >= 0) {
-        // Clamp target to current learned range
-        int32_t clampedTarget = constrain(targetAngle, ANGLE_MIN, ANGLE_MAX);
+        // Clamp target to usable range (5-95%)
+        int32_t clampedTarget = constrain(targetAngle, USABLE_MIN, USABLE_MAX);
         int32_t posErr = abs(clampedTarget - angle);
-        int32_t pidErr = clampedTarget - angle;  // signed error for end-stop learning
 
         if (posErr < SETTLE_WINDOW) {
           if (!settled) {
@@ -536,9 +520,6 @@ void loop() {
 
         int32_t pidCmd = settled ? 0 : runPID(angle, clampedTarget);
         setMotor(pidCmd);
-
-        // Passive end-stop learning: check if stalled at a mechanical limit
-        endstopCheck(angle, (uint16_t)abs(pidCmd), pidErr);
       } else {
         setMotor(0);
       }
@@ -559,10 +540,7 @@ void loop() {
 
     int16_t actPct = -1;
     if (angle >= 0) {
-      actPct = (int16_t)constrain(
-        (int32_t)((int64_t)(angle - ANGLE_MIN) * 100 / (ANGLE_MAX - ANGLE_MIN)),
-        0L, 100L
-      );
+      actPct = angleToThrottle(angle);
     }
 
     uint8_t errFlags = safe_get_fault_flags();
