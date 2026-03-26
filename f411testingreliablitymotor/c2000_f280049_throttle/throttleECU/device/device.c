@@ -316,11 +316,52 @@ bool Device_verifyXTAL(float freq)
 // Error handling function to be called when an ASSERT is violated
 //
 //*****************************************************************************
+/* Minimal direct-register SCI write used only inside __error__ to avoid
+ * calling back into driverlib (which could recurse if SCI itself asserted). */
+static void err_putchar(uint16_t c)
+{
+    uint32_t t = 100000U;
+    /* Wait for TX FIFO to have space (status bits 12:8 = fill level, max 16) */
+    while (((HWREGH(SCIA_BASE + SCI_O_FFTX) >> 8U) & 0x1FU) >= 16U && t > 0U) {
+        t--;
+    }
+    HWREGH(SCIA_BASE + SCI_O_TXBUF) = c & 0x00FFU;
+}
+
+static void err_puts(const char *s)
+{
+    if (s == NULL) { return; }
+    while (*s != '\0') {
+        err_putchar((uint16_t)(uint8_t)*s);
+        s++;
+    }
+}
+
+static void err_putu32(uint32_t n)
+{
+    char buf[11];
+    int i = 10;
+    buf[10] = '\0';
+    do {
+        buf[--i] = (char)('0' + (n % 10U));
+        n /= 10U;
+    } while (n > 0U);
+    err_puts(&buf[i]);
+}
+
 void __error__(const char *filename, uint32_t line)
 {
-    //
-    // An ASSERT condition was evaluated as false. You can use the filename and
-    // line parameters to determine what went wrong.
-    //
+    /* Safe all motor outputs immediately. */
+    GPIO_writePin(5U, 0U);   /* LEN off */
+    GPIO_writePin(6U, 0U);   /* REN off */
+    GPIO_writePin(7U, 0U);   /* Relay off */
+
+    /* Print assertion location to UART so it appears in the serial terminal. */
+    err_puts("\r\n[ASSERT] ");
+    err_puts(filename);
+    err_puts(":");
+    err_putu32(line);
+    err_puts("\r\n");
+
     ESTOP0;
 }

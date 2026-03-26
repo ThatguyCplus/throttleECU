@@ -24,11 +24,19 @@ void safe_init(void)
         }
         SysCtl_clearResetCause(rc);
     }
+
+    /* Enable hardware watchdog (~840 ms timeout at INTOSC2/512/64/256).
+     * If the main loop stops running for any reason (ESTOP0, hang, etc.)
+     * the WDT resets the MCU, which boots with relay and bridge off. */
+    SysCtl_setWatchdogPrescaler(SYSCTL_WD_PRESCALE_64);
+    SysCtl_enableWatchdog();
+    SysCtl_serviceWatchdog();
 }
 
 void safe_kick_watchdog(void)
 {
     g_safety.watchdog_kick_count++;
+    SysCtl_serviceWatchdog();   /* reset hardware WDT countdown */
 }
 
 bool safe_was_reset_by_watchdog(void)

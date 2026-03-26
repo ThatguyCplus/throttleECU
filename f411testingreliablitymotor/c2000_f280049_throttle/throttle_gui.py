@@ -27,18 +27,19 @@ USABLE_MAX    = ANGLE_MIN_RAW + ANGLE_RANGE * 95 // 100   # 95 %
 
 # ── Telemetry regex ────────────────────────────────────────────────────────────
 # Board sends every 200 ms:
-#   mode=MAN dir=F duty=0 RIS=0 LIS=0 pos=75.77 thr=0% tgt=0% err=0x00
-#   mode=MAN dir=F duty=0 RIS=0 LIS=0 pos=--- thr=---% tgt=0% err=0x00
+#   mode=MAN cmd=0 RIS=0 LIS=0 pos=75.77 thr=0% tgt=0% err=0x00
+#   mode=MAN cmd=0 RIS=0 LIS=0 pos=--- thr=---% tgt=0% err=0x00
+# cmd is signed (negative = reverse); replaces the old "duty" field
 TELEM_RE = re.compile(
-    r"mode=(\w+)\s+dir=([FR])\s+duty=(\d+)\s+"
+    r"mode=(\w+)\s+cmd=(-?\d+)\s+"
     r"RIS=(\d+)\s+LIS=(\d+)\s+"
     r"pos=([\d.]+|---)\s+"
     r"thr=(\d+|---)%\s+"
     r"tgt=(\d+)%\s+"
     r"err=0x([0-9A-Fa-f]+)"
 )
-SAFE_RE = re.compile(r"\[SAFE\]\s*(.+)")
-WARN_RE = re.compile(r"\[WARN\]\s*(.+)")
+SAFE_RE      = re.compile(r"\[SAFE\]\s*(.+)")
+WARN_RE      = re.compile(r"\[WARN\]\s*(.+)")
 
 # ── Fault bit definitions (must match safety.h) ────────────────────────────────
 FAULT_BITS = [
@@ -71,7 +72,7 @@ class SerialThread:
         # Latest parsed telemetry
         self.mode      = "MAN"
         self.dir       = "F"
-        self.duty      = 0
+        self.cmd       = 0   # signed motor command (-4095..4095)
         self.ris       = 0
         self.lis       = 0
         self.pos       = None      # float degrees, or None when invalid
@@ -132,16 +133,15 @@ class SerialThread:
                         if m:
                             with self.lock:
                                 self.mode = m.group(1)
-                                self.dir  = m.group(2)
-                                self.duty = int(m.group(3))
-                                self.ris  = int(m.group(4))
-                                self.lis  = int(m.group(5))
-                                p = m.group(6)
+                                self.cmd  = int(m.group(2))
+                                self.ris  = int(m.group(3))
+                                self.lis  = int(m.group(4))
+                                p = m.group(5)
                                 self.pos = float(p) if p != "---" else None
-                                t = m.group(7)
+                                t = m.group(6)
                                 self.thr_act   = int(t) if t != "---" else None
-                                self.thr_tgt   = int(m.group(8))
-                                self.err_flags = int(m.group(9), 16)
+                                self.thr_tgt   = int(m.group(7))
+                                self.err_flags = int(m.group(8), 16)
                                 if self.mode != "SAFE":
                                     self.safe_reason = ""
                             continue
@@ -156,6 +156,7 @@ class SerialThread:
                         if wm:
                             with self.lock:
                                 self.warn_msg = wm.group(1).strip()
+
                 else:
                     time.sleep(0.01)
             except Exception:
@@ -187,6 +188,18 @@ class ThrottleGUI:
 
         self.serial = SerialThread()
         self.log_lines = collections.deque(maxlen=300)
+
+        # PID response monitor state
+        self._err_history       = collections.deque(maxlen=400)
+        self._last_tgt          = None
+        self._step_time         = None   # time.time() when target last changed
+        self._step_error        = 0.0    # |error| at the moment of the step
+        self._approach_dir      = 0      # +1 or -1
+        self._crossed           = False  # has pos crossed setpoint yet?
+        self._peak_over         = 0.0    # peak overshoot (%)
+        self._rise_time         = None   # seconds from step to first ±5% entry
+        self._settle_time       = None   # seconds from step to settled
+        self._settle_band_start = None   # time.time() when entered ±2% band
 
         self._setup_styles()
         self._build_ui()
@@ -300,7 +313,7 @@ class ThrottleGUI:
         self.lbl_pos     = self._card(cards, "Position (deg)",     "---")
         self.lbl_thr_act = self._card(cards, "Throttle Actual",    "---%")
         self.lbl_thr_tgt = self._card(cards, "Throttle Target",    "0%")
-        self.lbl_duty    = self._card(cards, "PWM Duty",           "0")
+        self.lbl_duty    = self._card(cards, "Motor Cmd",          "0")
         self.lbl_ris     = self._card(cards, "Current RIS (ADC)",  "0")
         self.lbl_lis     = self._card(cards, "Current LIS (ADC)",  "0")
 
@@ -398,8 +411,9 @@ class ThrottleGUI:
         log_sb.pack(side="right", fill="y")
         self.log_text.pack(fill="both", expand=True)
 
-        # ── Right panel: PID + Faults ───────────────────────────────────────────
+        # ── Right panel: PID + Response Monitor + Faults ───────────────────────
         self._build_pid_panel(right)
+        self._build_pid_monitor(right)
         self._build_fault_panel(right)
         self._build_cmd_panel(right)
 
@@ -487,6 +501,119 @@ class ThrottleGUI:
                   font=("Segoe UI", 10, "bold"), relief="flat",
                   command=self._send_all_pid
                   ).grid(row=4, column=0, columnspan=3, pady=(8, 0), sticky="ew")
+
+    # ── PID response monitor panel ───────────────────────────────────────────────
+    def _build_pid_monitor(self, parent):
+        frame = tk.Frame(parent, bg=self.SURFACE, padx=10, pady=8)
+        frame.pack(fill="x", pady=(0, 8))
+
+        tk.Label(frame, text="PID Response",
+                 bg=self.SURFACE, fg=self.TEAL,
+                 font=("Segoe UI", 11, "bold")).pack(anchor="w", pady=(0, 4))
+
+        self.err_canvas = tk.Canvas(frame, height=120, bg="#11111b",
+                                    highlightthickness=1,
+                                    highlightbackground=self.OVERLAY)
+        self.err_canvas.pack(fill="x", pady=(0, 6))
+
+        stats = tk.Frame(frame, bg=self.SURFACE)
+        stats.pack(fill="x")
+
+        def _stat(label, init, color=None):
+            col = tk.Frame(stats, bg=self.SURFACE)
+            col.pack(side="left", expand=True)
+            tk.Label(col, text=label, bg=self.SURFACE, fg=self.OVERLAY,
+                     font=("Segoe UI", 7)).pack()
+            lbl = tk.Label(col, text=init, bg=self.SURFACE,
+                           fg=color or self.FG,
+                           font=("Consolas", 10, "bold"))
+            lbl.pack()
+            return lbl
+
+        self.lbl_err_cur    = _stat("Error",       "---")
+        self.lbl_err_over   = _stat("Overshoot",   "---", self.ORANGE)
+        self.lbl_err_rise   = _stat("Rise Time",   "---", self.TEAL)
+        self.lbl_err_settle = _stat("Settle Time", "---", self.GREEN)
+
+        self.lbl_pid_hint = tk.Label(
+            frame, text="Send tXX to begin tracking",
+            bg=self.SURFACE, fg=self.OVERLAY,
+            font=("Segoe UI", 8), wraplength=240, justify="left")
+        self.lbl_pid_hint.pack(anchor="w", pady=(5, 0))
+
+    def _draw_err_chart(self):
+        c = self.err_canvas
+        w = c.winfo_width()
+        h = c.winfo_height()
+        if w < 10 or h < 10:
+            return
+        c.delete("all")
+
+        BG_C   = "#11111b"
+        GRID   = "#313244"
+        ZERO   = "#585b70"
+        BAND   = "#1a2a1a"
+        Y_RNG  = 25.0
+        X_SPAN = 12.0
+
+        c.create_rectangle(0, 0, w, h, fill=BG_C, outline="")
+        mid_y = h / 2.0
+
+        def to_y(err):
+            return mid_y - (max(-Y_RNG, min(Y_RNG, err)) / Y_RNG) * mid_y
+
+        # Settle band (±5%)
+        c.create_rectangle(0, to_y(5), w, to_y(-5), fill=BAND, outline="")
+
+        # Grid lines
+        for pct in (20, 10, 5, -5, -10, -20):
+            c.create_line(0, to_y(pct), w, to_y(pct), fill=GRID, dash=(2, 4))
+
+        # Zero line
+        c.create_line(0, mid_y, w, mid_y, fill=ZERO, width=1)
+
+        # Time ticks
+        now_s = time.time()
+        for age in (2, 4, 6, 8, 10):
+            x = w * (1.0 - age / X_SPAN)
+            if x > 0:
+                c.create_line(x, mid_y - 3, x, mid_y + 3, fill=ZERO)
+                c.create_text(x, h - 2, text=f"-{age}s", fill=ZERO,
+                              font=("Consolas", 7), anchor="s")
+
+        # Axis labels
+        c.create_text(3, 2,      text=f"+{int(Y_RNG)}%", fill=ZERO,
+                      font=("Consolas", 7), anchor="nw")
+        c.create_text(3, h - 2,  text=f"-{int(Y_RNG)}%", fill=ZERO,
+                      font=("Consolas", 7), anchor="sw")
+        c.create_text(w - 3, mid_y, text="0", fill=ZERO,
+                      font=("Consolas", 7), anchor="e")
+
+        # Error trace — colored by magnitude
+        pts = []
+        for t, err in self._err_history:
+            age = now_s - t
+            if age > X_SPAN:
+                continue
+            pts.append((w * (1.0 - age / X_SPAN), to_y(err), err))
+
+        if len(pts) > 1:
+            for i in range(len(pts) - 1):
+                x1, y1, e1 = pts[i]
+                x2, y2, e2 = pts[i + 1]
+                avg = abs((e1 + e2) / 2.0)
+                col = ("#a6e3a1" if avg < 5.0
+                       else "#fab387" if avg < 15.0
+                       else "#f38ba8")
+                c.create_line(x1, y1, x2, y2, fill=col, width=2)
+
+        # Current dot
+        if pts:
+            x, y, e = pts[-1]
+            col = ("#a6e3a1" if abs(e) < 5.0
+                   else "#fab387" if abs(e) < 15.0
+                   else "#f38ba8")
+            c.create_oval(x - 3, y - 3, x + 3, y + 3, fill=col, outline="")
 
     # ── Fault panel ─────────────────────────────────────────────────────────────
     def _build_fault_panel(self, parent):
@@ -658,7 +785,7 @@ class ThrottleGUI:
             pos       = self.serial.pos
             thr_act   = self.serial.thr_act
             thr_tgt   = self.serial.thr_tgt
-            duty      = self.serial.duty
+            cmd       = self.serial.cmd
             ris       = self.serial.ris
             lis       = self.serial.lis
             err_flags = self.serial.err_flags
@@ -679,7 +806,7 @@ class ThrottleGUI:
             text=f"{thr_act}%" if thr_act is not None else "---%",
             fg=self.GREEN if thr_act is not None else self.OVERLAY)
         self.lbl_thr_tgt.configure(text=f"{thr_tgt}%")
-        self.lbl_duty.configure(text=str(duty))
+        self.lbl_duty.configure(text=str(cmd))
         self.lbl_ris.configure(
             text=str(ris),
             fg=self.RED if ris > 3500 else self.ORANGE if ris > 2500 else self.GREEN)
@@ -689,6 +816,115 @@ class ThrottleGUI:
 
         # Position bar
         self._draw_pos_bar(thr_act, thr_tgt)
+
+        # PID response monitor — use raw pos (degrees) for sub-percent resolution
+        # Integer thr_act has 1% steps (~0.2°) which hides fine behaviour
+        now_s = time.time()
+        _usable_deg = (USABLE_MAX - USABLE_MIN) / 100.0   # usable range in degrees
+        if pos is not None and mode == "PID":
+            target_deg = (USABLE_MIN + (USABLE_MAX - USABLE_MIN) * thr_tgt / 100.0) / 100.0
+            error = (target_deg - pos) / _usable_deg * 100.0  # signed %, +ve = undershoot
+
+            # Detect new step command
+            if self._last_tgt != thr_tgt:
+                self._last_tgt          = thr_tgt
+                self._step_time         = now_s
+                self._step_error        = abs(error)
+                self._approach_dir      = 1 if error > 0 else (-1 if error < 0 else 0)
+                self._crossed           = False
+                self._peak_over         = 0.0
+                self._rise_time         = None
+                self._settle_time       = None
+                self._settle_band_start = None
+                self._err_history.clear()
+
+            self._err_history.append((now_s, error))
+
+            if self._step_time is not None:
+                elapsed = now_s - self._step_time
+
+                # Rise time — first entry into ±5% band
+                if self._rise_time is None and abs(error) < 5.0:
+                    self._rise_time = elapsed
+
+                # Crossing detection
+                if (not self._crossed and self._approach_dir != 0
+                        and self._approach_dir * error < 0):
+                    self._crossed = True
+
+                # Overshoot — peak excursion past target after crossing
+                if self._crossed:
+                    over = -self._approach_dir * error
+                    if over > self._peak_over:
+                        self._peak_over = over
+
+                # Settle detection — stay within ±2% for 500 ms
+                if abs(error) < 2.0:
+                    if self._settle_band_start is None:
+                        self._settle_band_start = now_s
+                    elif (self._settle_time is None
+                          and (now_s - self._settle_band_start) >= 0.5):
+                        self._settle_time = elapsed
+                else:
+                    self._settle_band_start = None
+
+            # Stat labels
+            ecol = (self.GREEN if abs(error) < 5.0
+                    else self.ORANGE if abs(error) < 15.0
+                    else self.RED)
+            self.lbl_err_cur.configure(text=f"{error:+.1f}%", fg=ecol)
+
+            if self._peak_over > 0.5:
+                ocol = self.RED if self._peak_over > 10.0 else self.ORANGE
+                self.lbl_err_over.configure(
+                    text=f"{self._peak_over:.1f}%", fg=ocol)
+            else:
+                self.lbl_err_over.configure(text="none", fg=self.GREEN)
+
+            if self._rise_time is not None:
+                self.lbl_err_rise.configure(
+                    text=f"{self._rise_time * 1000:.0f} ms", fg=self.TEAL)
+            else:
+                self.lbl_err_rise.configure(text="---", fg=self.OVERLAY)
+
+            if self._settle_time is not None:
+                self.lbl_err_settle.configure(
+                    text=f"{self._settle_time * 1000:.0f} ms", fg=self.GREEN)
+            elif self._step_time is not None:
+                self.lbl_err_settle.configure(
+                    text=f"{(now_s - self._step_time) * 1000:.0f}...",
+                    fg=self.OVERLAY)
+            else:
+                self.lbl_err_settle.configure(text="---", fg=self.OVERLAY)
+
+            # Tuning hint — only meaningful after a real step (>10% change)
+            if self._step_error < 10.0:
+                hint = "Send a bigger step to evaluate (e.g. t0 then t60)"
+                hcol = self.OVERLAY
+            elif (self._step_time is not None
+                  and (now_s - self._step_time) > 5.0
+                  and self._rise_time is None):
+                hint = "Not converging — check encoder & gains"
+                hcol = self.RED
+            elif self._peak_over > 20.0:
+                hint = "High overshoot — reduce Kp or increase Kd"
+                hcol = self.RED
+            elif self._peak_over > 10.0:
+                hint = "Moderate overshoot — try increasing Kd"
+                hcol = self.ORANGE
+            elif (self._rise_time is not None and self._rise_time > 2.0
+                  and self._settle_time is None):
+                hint = "Slow rise — try increasing Kp"
+                hcol = self.YELLOW
+            elif self._settle_time is not None and self._peak_over < 5.0:
+                hint = "Well tuned — fast settle, low overshoot"
+                hcol = self.GREEN
+            else:
+                hint = "Tracking..."
+                hcol = self.OVERLAY
+            self.lbl_pid_hint.configure(text=hint, fg=hcol)
+
+        self._draw_err_chart()
 
         # Fault indicators
         for bit, dot in self.fault_labels.items():

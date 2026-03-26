@@ -25,7 +25,10 @@ static uint16_t readAvgSOC(ADC_SOCNumber soc, uint32_t oversample)
 
     for (i = 0U; i < oversample; i++) {
         ADC_forceSOC(ADCA_BASE, soc);
-        while (ADC_isBusy(ADCA_BASE)) {
+        /* Timeout prevents blocking forever if ADC is disrupted by motor noise */
+        uint32_t timeout = 50000U;
+        while (ADC_isBusy(ADCA_BASE) && (timeout > 0U)) {
+            timeout--;
         }
         sum += ADC_readResult(ADCARESULT_BASE, soc);
     }

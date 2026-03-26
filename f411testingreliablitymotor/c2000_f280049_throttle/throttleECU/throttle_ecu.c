@@ -34,11 +34,25 @@ static uint32_t s_settleStart = 0U;
 static uint32_t s_lastPrint    = 0U;
 static uint32_t s_lastSafeTick = 0U;
 
+static int32_t  s_motorCmd     = 0;   /* last command sent to setMotor() for telemetry */
+static uint8_t  s_relayOn      = 0U;  /* relay state — motor must not run when relay is off */
+
+/* Large-error fault: if |pos_error| > 15% of usable range for >2s, safe state */
+#define CFG_LARGE_ERR_THRESH_PCT  15
+#define CFG_LARGE_ERR_TIMEOUT_MS  2000U
+static uint32_t s_largeErrStart = 0U; /* Board_millis() when threshold was first exceeded, 0=clear */
+
 static const int32_t s_angleRange = (int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN;
 static const int32_t s_usableMin  =
     (int32_t)CFG_ANGLE_MIN + ((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN) * 5 / 100;
 static const int32_t s_usableMax  =
     (int32_t)CFG_ANGLE_MIN + ((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN) * 95 / 100;
+
+static void setRelay(uint8_t on)
+{
+    s_relayOn = on ? 1U : 0U;
+    Board_digitalRelay(s_relayOn);
+}
 
 static void printBoth(const char *msg)
 {
@@ -93,9 +107,10 @@ static int16_t angleToThrottle(int32_t angle)
 
 static void setMotor(int32_t cmd)
 {
+    s_motorCmd = cmd;
     const int32_t pwmMax = (int32_t)CFG_PWM_MAX;
 
-    if (s_mode == MODE_SAFE) {
+    if (s_mode == MODE_SAFE || !s_relayOn) {
         MotorEPwm_setCommand(0, pwmMax);
         Board_digitalEnables(0U);
         return;
@@ -125,13 +140,14 @@ static void enterSafeStateEc(const char *reason)
     s_mode = MODE_SAFE;
     MotorEPwm_setCommand(0, (int32_t)CFG_PWM_MAX);
     Board_digitalEnables(0U);
-    Board_digitalRelay(0U);
+    setRelay(0U);
     Pid_reset();
-    s_duty        = 0U;
-    s_throttlePct = 0;
-    s_targetAngle = CFG_ANGLE_MIN;
-    s_settled     = false;
-    s_settleStart = 0U;
+    s_duty         = 0U;
+    s_throttlePct  = 0;
+    s_targetAngle  = CFG_ANGLE_MIN;
+    s_settled      = false;
+    s_settleStart  = 0U;
+    s_largeErrStart = 0U;
 
     {
         char msg[72];
@@ -159,10 +175,11 @@ static void processCmd(char *s)
             printBoth("Safe state cleared — mode=MAN");
         }
     } else if (str_eq_ic(s, "on")) {
-        Board_digitalRelay(1U);
+        setRelay(1U);
         printBoth("Relay ON");
     } else if (str_eq_ic(s, "off")) {
-        Board_digitalRelay(0U);
+        setRelay(0U);
+        setMotor(0);
         printBoth("Relay OFF");
     } else if (str_eq_ic(s, "diag")) {
         safe_print_status(printBoth);
@@ -197,11 +214,12 @@ static void processCmd(char *s)
             if (pct > 100L) {
                 pct = 100L;
             }
-            s_throttlePct  = (int16_t)pct;
-            s_targetAngle  = throttleToAngle(s_throttlePct);
-            s_mode         = MODE_PID;
-            s_settled      = false;
-            s_settleStart  = 0U;
+            s_throttlePct   = (int16_t)pct;
+            s_targetAngle   = throttleToAngle(s_throttlePct);
+            s_mode          = MODE_PID;
+            s_settled       = false;
+            s_settleStart   = 0U;
+            s_largeErrStart = 0U;
             Pid_reset();
         }
     } else if ((s[0] == 'd') || (s[0] == 'D')) {
@@ -274,6 +292,10 @@ void Throttle_init(void)
 
 void Throttle_runOnce(void)
 {
+    /* Kick hardware WDT every iteration (~few ms apart) so the 840ms timeout
+     * can only fire if the CPU is completely halted, not merely slow. */
+    SysCtl_serviceWatchdog();
+
     char line[64];
 
     if (SciIo_readLine(line, sizeof(line))) {
@@ -340,8 +362,29 @@ void Throttle_runOnce(void)
                     }
                     setMotor(pidCmd);
                 }
+
+                /* ── Large-error fault ─────────────────────────────────────────
+                 * If |pos_error| > 15% of usable range persists for >2 s,
+                 * the motor is stuck or the encoder has failed — go safe. */
+                {
+                    int32_t posErr = clamped - angle;
+                    if (posErr < 0) { posErr = -posErr; }
+                    const int32_t errThresh =
+                        (s_usableMax - s_usableMin) * CFG_LARGE_ERR_THRESH_PCT / 100;
+
+                    if (posErr > errThresh) {
+                        if (s_largeErrStart == 0U) {
+                            s_largeErrStart = now;
+                        } else if ((now - s_largeErrStart) >= CFG_LARGE_ERR_TIMEOUT_MS) {
+                            enterSafeStateEc("pos error >15% for 2s");
+                        }
+                    } else {
+                        s_largeErrStart = 0U;
+                    }
+                }
             } else {
                 setMotor(0);
+                s_largeErrStart = 0U;  /* no valid angle — don't count */
             }
             break;
 
@@ -379,16 +422,16 @@ void Throttle_runOnce(void)
                         frac = -frac;
                     }
                     snprintf(out, sizeof(out),
-                             "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=%ld.%02ld thr=%d%% tgt=%d%% err=0x%02X",
-                             modeStr[s_mode], (s_dir > 0) ? "F" : "R",
-                             (unsigned)s_duty, (unsigned)ris, (unsigned)lis,
+                             "mode=%s cmd=%ld RIS=%u LIS=%u pos=%ld.%02ld thr=%d%% tgt=%d%% err=0x%02X",
+                             modeStr[s_mode], (long)s_motorCmd,
+                             (unsigned)ris, (unsigned)lis,
                              (long)(angle / 100), (long)frac,
                              (int)actPct, (int)s_throttlePct, (unsigned)errFlags);
                 } else {
                     snprintf(out, sizeof(out),
-                             "mode=%s dir=%s duty=%u RIS=%u LIS=%u pos=--- thr=---%% tgt=%d%% err=0x%02X",
-                             modeStr[s_mode], (s_dir > 0) ? "F" : "R",
-                             (unsigned)s_duty, (unsigned)ris, (unsigned)lis,
+                             "mode=%s cmd=%ld RIS=%u LIS=%u pos=--- thr=---%% tgt=%d%% err=0x%02X",
+                             modeStr[s_mode], (long)s_motorCmd,
+                             (unsigned)ris, (unsigned)lis,
                              (int)s_throttlePct, (unsigned)errFlags);
                 }
                 printBoth(out);
