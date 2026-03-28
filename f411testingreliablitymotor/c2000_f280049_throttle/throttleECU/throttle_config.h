@@ -64,4 +64,40 @@
 #define CFG_PWM_FREQ_HZ        20000U
 #define CFG_PWM_MAX            4095U
 
+/* ── CAN bus (CANA via WeAct CANFDSIO / IS2062A transceiver) ─────────────── */
+/* GPIO31/30: avoids onboard SN65 on 32/33 when using external transceiver; free vs 4/5 enc/LEN */
+#define CFG_CAN_TX_PIN         31U
+#define CFG_CAN_TX_CONFIG      GPIO_31_CANA_TX
+#define CFG_CAN_RX_PIN         30U
+#define CFG_CAN_RX_CONFIG      GPIO_30_CANA_RX
+
+/* 500 kbps — ISO 11898, standard automotive CAN */
+#define CFG_CAN_BITRATE        500000UL
+
+/* Mailbox IDs (1-32 for C2000 CANA) */
+#define CFG_CAN_RX_MAILBOX     1U
+#define CFG_CAN_TX_MAILBOX     2U
+
+/* Pin mux for CANA: 0=GPIO32/33 1=GPIO4/5 2=GPIO30/31 (recommended with external transceiver) */
+#define CFG_CAN_PINMUX         2U
+
+/* Application-level 11-bit CAN IDs */
+#define CFG_CAN_RX_ID          0x100U   /* commands from external controller → ECU */
+#define CFG_CAN_TX_ID          0x101U   /* telemetry from ECU → external controller */
+
+#define CFG_CAN_RX_DLC         4U
+#define CFG_CAN_TX_DLC         8U
+
+/* Timing */
+#define CFG_CAN_RX_TIMEOUT_MS  200U     /* >200 ms without RX → CAN_TIMEOUT fault  */
+#define CFG_CAN_TX_RATE_MS     20U      /* 50 Hz telemetry transmit rate            */
+
+/* After first valid 0x100 frame: require heartbeats within CFG_CAN_RX_TIMEOUT_MS */
+#define CFG_CAN_HEARTBEAT_EN   1U
+
+/* RX command byte flags (byte 0 of 4-byte RX frame) */
+#define CFG_CAN_FLAG_RELAY     0x01U    /* 1 = relay on,  0 = relay off */
+#define CFG_CAN_FLAG_PID       0x02U    /* 1 = PID mode,  0 = manual stop */
+#define CFG_CAN_FLAG_ESTOP     0x04U    /* 1 = trigger safe state immediately */
+
 #endif

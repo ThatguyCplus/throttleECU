@@ -10,6 +10,8 @@
 #define FAULT_OVERCURRENT_R    0x08U
 #define FAULT_POWER_LOW        0x10U
 #define FAULT_WATCHDOG_RESET   0x20U
+#define FAULT_CAN_TIMEOUT      0x40U
+#define FAULT_CAN_BUS_OFF      0x80U
 
 typedef struct {
     uint8_t  faults;
@@ -42,5 +44,10 @@ void safe_kick_watchdog(void);
 bool safe_was_reset_by_watchdog(void);
 void safe_print_status(void (*print_fn)(const char *));
 uint8_t safe_get_fault_flags(void);
+
+void safe_can_mark_rx(uint32_t now_ms);
+void safe_can_check_timeout(uint32_t now_ms);
+void safe_can_set_bus_off_fault(void);
+void safe_can_clear_bus_off_fault(void);
 
 #endif

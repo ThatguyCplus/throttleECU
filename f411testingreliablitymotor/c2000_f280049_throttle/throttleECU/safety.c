@@ -6,6 +6,11 @@
 #include "board.h"
 #include "throttle_config.h"
 
+#if CFG_CAN_HEARTBEAT_EN
+static uint32_t s_canLastRxMs      = 0U;
+static uint8_t  s_canHbArmed     = 0U;
+#endif
+
 SafetyState g_safety;
 
 #ifndef SYSCTL_CAUSE_WDRS
@@ -166,6 +171,9 @@ void safe_clear_faults(void)
     g_safety.faults_latched = 0U;
     memset(g_safety.fault_count, 0, sizeof(g_safety.fault_count));
     g_safety.safe_state_active = false;
+#if CFG_CAN_HEARTBEAT_EN
+    s_canHbArmed = 0U;
+#endif
 }
 
 void safe_tick(uint32_t now_ms)
@@ -190,8 +198,52 @@ const char *safe_fault_name(uint8_t fault_bit)
         return "POWER_LOW";
     case FAULT_WATCHDOG_RESET:
         return "WATCHDOG_RST";
+    case FAULT_CAN_TIMEOUT:
+        return "CAN_TIMEOUT";
+    case FAULT_CAN_BUS_OFF:
+        return "CAN_BUS_OFF";
     default:
         return "UNKNOWN";
+    }
+}
+
+void safe_can_mark_rx(uint32_t now_ms)
+{
+#if CFG_CAN_HEARTBEAT_EN
+    s_canLastRxMs  = now_ms;
+    s_canHbArmed   = 1U;
+#else
+    (void)now_ms;
+#endif
+}
+
+void safe_can_check_timeout(uint32_t now_ms)
+{
+#if CFG_CAN_HEARTBEAT_EN
+    if ((s_canHbArmed == 0U) || g_safety.safe_state_active) {
+        return;
+    }
+    if ((now_ms - s_canLastRxMs) > CFG_CAN_RX_TIMEOUT_MS) {
+        g_safety.faults |= FAULT_CAN_TIMEOUT;
+        g_safety.faults_latched |= FAULT_CAN_TIMEOUT;
+        safe_enter_safe_state("CAN heartbeat timeout");
+    }
+#else
+    (void)now_ms;
+#endif
+}
+
+void safe_can_set_bus_off_fault(void)
+{
+    g_safety.faults |= FAULT_CAN_BUS_OFF;
+    g_safety.faults_latched |= FAULT_CAN_BUS_OFF;
+    safe_enter_safe_state("CAN bus-off");
+}
+
+void safe_can_clear_bus_off_fault(void)
+{
+    if (!g_safety.safe_state_active) {
+        g_safety.faults &= (uint8_t)(~FAULT_CAN_BUS_OFF);
     }
 }
 

@@ -11,6 +11,7 @@
 #include "sci_io.h"
 #include "pid.h"
 #include "safety.h"
+#include "can_io.h"
 
 typedef enum {
     MODE_MANUAL = 0,
@@ -42,7 +43,6 @@ static uint8_t  s_relayOn      = 0U;  /* relay state — motor must not run when
 #define CFG_LARGE_ERR_TIMEOUT_MS  2000U
 static uint32_t s_largeErrStart = 0U; /* Board_millis() when threshold was first exceeded, 0=clear */
 
-static const int32_t s_angleRange = (int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN;
 static const int32_t s_usableMin  =
     (int32_t)CFG_ANGLE_MIN + ((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN) * 5 / 100;
 static const int32_t s_usableMax  =
@@ -153,6 +153,38 @@ static void enterSafeStateEc(const char *reason)
         char msg[72];
         snprintf(msg, sizeof(msg), "[SAFE] %s", (reason != NULL) ? reason : "?");
         printBoth(msg);
+    }
+}
+
+void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
+{
+    (void)seq;
+
+    if (s_mode == MODE_SAFE) {
+        return;
+    }
+
+    setRelay(((flags & CFG_CAN_FLAG_RELAY) != 0U) ? 1U : 0U);
+
+    if ((flags & CFG_CAN_FLAG_PID) != 0U) {
+        int16_t pct = (int16_t)throttle_pct;
+        if (pct < 0) {
+            pct = 0;
+        }
+        if (pct > 100) {
+            pct = 100;
+        }
+        s_throttlePct   = pct;
+        s_targetAngle   = throttleToAngle(s_throttlePct);
+        s_mode          = MODE_PID;
+        s_settled       = false;
+        s_settleStart   = 0U;
+        s_largeErrStart = 0U;
+        Pid_reset();
+    } else {
+        s_duty = 0U;
+        s_mode = MODE_MANUAL;
+        Pid_reset();
     }
 }
 
@@ -271,6 +303,7 @@ void Throttle_init(void)
     MotorEPwm_init();
     EncoderGpio_init();
     safe_init();
+    CanIo_init();
 
     setMotor(0);
 
@@ -281,6 +314,15 @@ void Throttle_init(void)
     printBoth("Commands: t0-t100, d0-d4095, f, r, s");
     printBoth("         p## i## k##, on, off, reset");
     printBoth("         diag, clearfaults, config");
+    {
+        char cbuf[96];
+        snprintf(cbuf, sizeof(cbuf),
+                 "CAN: cmd 0x%03lX telem 0x%03lX %lukbps GPIO%u/%u",
+                 (unsigned long)CFG_CAN_RX_ID, (unsigned long)CFG_CAN_TX_ID,
+                 (unsigned long)(CFG_CAN_BITRATE / 1000UL),
+                 (unsigned)CFG_CAN_RX_PIN, (unsigned)CFG_CAN_TX_PIN);
+        printBoth(cbuf);
+    }
 
     if (safe_was_reset_by_watchdog()) {
         printBoth("[WARN] Recovered from watchdog reset!");
@@ -310,6 +352,8 @@ void Throttle_runOnce(void)
         uint16_t ris = 0U;
         uint16_t lis = 0U;
         AdcSense_readCurrents(&ris, &lis);
+
+        CanIo_serviceRx(now);
 
         safe_check_encoder(angle >= 0, now);
         safe_check_current(ris, lis, now);
@@ -403,6 +447,23 @@ void Throttle_runOnce(void)
             break;
         }
 
+        {
+            uint8_t actSpi = 0xFFU;
+            if (angle >= 0) {
+                int16_t ap = angleToThrottle(angle);
+                if (ap < 0) {
+                    ap = 0;
+                }
+                if (ap > 100) {
+                    ap = 100;
+                }
+                actSpi = (uint8_t)ap;
+            }
+            CanIo_serviceTx(now, (uint8_t)s_mode, actSpi,
+                            (uint8_t)s_throttlePct, safe_get_fault_flags(),
+                            (int16_t)s_motorCmd, s_relayOn);
+        }
+
         if ((now - s_lastPrint) >= CFG_TELEMETRY_RATE_MS) {
             s_lastPrint = now;
 
@@ -412,7 +473,7 @@ void Throttle_runOnce(void)
             }
 
             {
-                uint8_t errFlags = safe_get_fault_flags();
+                uint16_t errFlags = (uint16_t)safe_get_fault_flags();
                 static const char *modeStr[] = {"MAN", "PID", "SAFE"};
                 char out[128];
 

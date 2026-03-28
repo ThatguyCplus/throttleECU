@@ -43,12 +43,14 @@ WARN_RE      = re.compile(r"\[WARN\]\s*(.+)")
 
 # ── Fault bit definitions (must match safety.h) ────────────────────────────────
 FAULT_BITS = [
-    (0x01, "ENC_STALE",   "Encoder stale (>500 ms without update)"),
-    (0x02, "ENC_INVALID", "Encoder signal invalid"),
-    (0x04, "OVERCURR_L",  "Left motor overcurrent"),
-    (0x08, "OVERCURR_R",  "Right motor overcurrent"),
-    (0x10, "POWER_LOW",   "Supply voltage below 9 V"),
-    (0x20, "WDG_RESET",   "Recovered from watchdog reset"),
+    (0x01, "ENC_STALE",    "Encoder stale (>500 ms without update)"),
+    (0x02, "ENC_INVALID",  "Encoder signal invalid"),
+    (0x04, "OVERCURR_L",   "Left motor overcurrent"),
+    (0x08, "OVERCURR_R",   "Right motor overcurrent"),
+    (0x10, "POWER_LOW",    "Supply voltage below 9 V"),
+    (0x20, "WDG_RESET",    "Recovered from watchdog reset"),
+    (0x40, "CAN_TIMEOUT",  "CAN RX heartbeat lost (>200 ms)"),
+    (0x80, "CAN_BUS_OFF",  "CAN controller bus-off — wire/termination fault"),
 ]
 
 MODE_STYLE = {
