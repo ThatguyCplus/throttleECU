@@ -1,0 +1,6 @@
+# Python
+__pycache__/
+*.pyc
+
+# Local editor / agent (do not commit)
+.claude/settings.local.json
