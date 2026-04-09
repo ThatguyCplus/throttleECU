@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//C/ti/ccs2050/ccs/theia/resources/ai/**)",
+      "Bash(cp \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/main.c\" \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/throttleECU/\")",
+      "Bash(cp \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/adc_sense.c\" \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/throttleECU/\")",
+      "Bash(cp \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/adc_sense.h\" \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/throttleECU/\")",
+      "Bash(cp \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/board.c\" \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/throttleECU/\")",
+      "Bash(cp \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/board.h\" \"c:/Users/Muhammed Shah/Documents/Arduino/throttleECU/f411testingreliablitymotor/c2000_f280049_throttle/throttleECU/\")",
+      "Bash(find C:/ti/ccs2050 -path */xds100* -name *.dll)",
+      "Read(//c/ti/**)",
+      "Bash(find C:/ti/ccs2050/ccs/ccs_base/emulation -name *.dll)",
+      "Bash(find C:/ti/ccs2050/ccs/ccs_base/emulation -name xds*server* -o -name xds100*)",
+      "Bash(cp \"C:/ti/ccs2050/ccs/ccs_base/common/uscif/jscserdes.dll\" \"C:/ti/ccs2050/ccs/ccs_base/emulation/analysis/bin/\")",
+      "Bash(cp \"C:/ti/ccs2050/ccs/ccs_base/common/uscif/jscserdesv3.dll\" \"C:/ti/ccs2050/ccs/ccs_base/emulation/analysis/bin/\")",
+      "Bash(cp \"C:/ti/ccs2050/ccs/ccs_base/common/uscif/jscxds110.dll\" \"C:/ti/ccs2050/ccs/ccs_base/emulation/analysis/bin/\")",
+      "Bash(cp \"C:/ti/ccs2050/ccs/ccs_base/common/uscif/jioserdesusb.dll\" \"C:/ti/ccs2050/ccs/ccs_base/emulation/analysis/bin/\")",
+      "Bash(cp \"C:/ti/ccs2050/ccs/ccs_base/common/uscif/jioserdesusbv3.dll\" \"C:/ti/ccs2050/ccs/ccs_base/emulation/analysis/bin/\")",
+      "Read(//c/Program Files/**)",
+      "Bash(reg query:*)"
+    ],
+    "ask": []
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1"
+  }
+}

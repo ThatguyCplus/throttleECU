@@ -1,0 +1,5 @@
+TI C2000 (F280049) throttle sources — single flat folder (no separate include path needed for app headers):
+
+  ../c2000_f280049_throttle/
+
+Open README_CCS.txt inside that folder for CCS steps.
