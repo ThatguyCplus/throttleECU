@@ -1,0 +1,2 @@
+2:34:43 PM: Failed to open 'C:\Users\Muhammed Shah\Documents\Arduino\throttleECU\f411testingreliablitymotor\c2000_f280049_throttle\throttleecupcb\TasaruV0.0.1\researchdata\ul_AS5147U_HTSM\KiCADv6' for reading (error 5: Access is denied.)
+2:34:43 PM: Failed to retrieve file times for 'C:\Users\Muhammed Shah\Documents\Arduino\throttleECU\f411testingreliablitymotor\c2000_f280049_throttle\throttleecupcb\TasaruV0.0.1\researchdata\ul_AS5147U_HTSM\KiCADv6' (error 5: Access is denied.)
