@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.762,
-          "height": 1.524,
-          "width": 1.524
+          "drill": 3.302,
+          "height": 3.302,
+          "width": 3.302
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -147,7 +147,7 @@
         "min_track_width": 0.0889,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.45,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -198,8 +198,14 @@
         0.0,
         0.127,
         0.254,
+        0.3,
+        0.4,
         0.508,
-        0.762
+        0.762,
+        1.0,
+        1.25,
+        2.0,
+        4.0
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -529,8 +535,21 @@
       "version": 5
     },
     "net_colors": null,
-    "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_assignments": {
+      "/PGOOD": [
+        "PGOOD"
+      ]
+    },
+    "netclass_patterns": [
+      {
+        "netclass": "Default",
+        "pattern": "PGOOD"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/<PGOOD>"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
@@ -671,6 +690,14 @@
       "version": 1
     },
     "net_format_name": "",
+    "ngspice": {
+      "fix_include_paths": true,
+      "meta": {
+        "version": 0
+      },
+      "model_mode": 4,
+      "workbook_filename": ""
+    },
     "page_layout_descr_file": "",
     "plot_directory": "",
     "reuse_designators": true,
@@ -689,7 +716,7 @@
         "uuid": "bbe07d15-6d5d-4c51-8970-8e2f931453e3"
       }
     ],
-    "used_designators": "#PWR40,#PWR43,#PWR72,#PWR78,#PWR97-101,DZ1,R19,R30-33,C25-26,C47,F2,JP13,U9,Q4",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [

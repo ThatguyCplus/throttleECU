@@ -1,0 +1,86 @@
+ERC report (2026-04-13T17:04:34, Encoding UTF8)
+Report includes: Errors
+
+***** Sheet /
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(4050 mils, 5800 mils): Symbol C18 Pin 2 [Input, Line]
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(7250 mils, 6600 mils): Symbol U3 Pin 16 [SRC, Output, Line]
+    @(7250 mils, 6500 mils): Symbol U3 Pin 17 [SRC, Output, Line]
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(7250 mils, 6800 mils): Symbol U3 Pin 14 [OUT2, Output, Line]
+    @(7250 mils, 6700 mils): Symbol U3 Pin 15 [OUT2, Output, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(8150 mils, 5900 mils): Symbol C28 Pin 2 [Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(8450 mils, 6100 mils): Symbol C30 Pin 2 [Input, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(10000 mils, 3400 mils): Symbol C36 Pin 2 [Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(4600 mils, 10200 mils): Symbol C13 Pin 2 [Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(4300 mils, 10650 mils): Symbol U2 Pin 5 [OUT, Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(4300 mils, 11250 mils): Symbol U2 Pin 2 [GND, Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(7450 mils, 10750 mils): Symbol C2 Pin 2 [Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(2750 mils, 13800 mils): Symbol #PWR04 Pin 1 [Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(8900 mils, 11550 mils): Symbol C8 Pin 2 [Input, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(15200 mils, 2100 mils): Symbol U6 Pin 1 [GND, Power output, Line]
+    @(19550 mils, 2850 mils): Symbol J1 Pin 2 [Pin_2, Power output, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(11650 mils, 10100 mils): Symbol U4 Pin 4 [VDD, Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(9200 mils, 13550 mils): Symbol C32 Pin 2 [Input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(10100 mils, 13850 mils): Symbol C37 Pin 2 [Input, Line]
+[pin_not_driven]: Input pin not driven by any Output pins
+    ; error
+    @(18550 mils, 3050 mils): Symbol J1 Pin 5 [Pin_5, Input, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(19550 mils, 2850 mils): Symbol J1 Pin 2 [Pin_2, Power output, Line]
+    @(19550 mils, 2950 mils): Symbol J1 Pin 4 [Pin_4, Power output, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(19550 mils, 2950 mils): Symbol J1 Pin 4 [Pin_4, Power output, Line]
+    @(19550 mils, 3050 mils): Symbol J1 Pin 6 [Pin_6, Power output, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(19550 mils, 3050 mils): Symbol J1 Pin 6 [Pin_6, Power output, Line]
+    @(19550 mils, 3150 mils): Symbol J1 Pin 8 [Pin_8, Power output, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(17800 mils, 9850 mils): Symbol U7 Pin 2 [GND, Power output, Line]
+    @(19550 mils, 3150 mils): Symbol J1 Pin 8 [Pin_8, Power output, Line]
+[pin_to_pin]: Pins of type Power output and Power output are connected
+    ; error
+    @(19400 mils, 11250 mils): Symbol U8 Pin 12 [VDD3V3, Power output, Line]
+    @(18550 mils, 2850 mils): Symbol J1 Pin 1 [Pin_1, Power output, Line]
+
+ ** ERC messages: 22  Errors 22  Warnings 0
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

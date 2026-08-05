@@ -1,9 +1,11 @@
 # Tasaru V0.0.1 — Firmware Pin Map & Hardware Reference
 
-> **Last Updated:** 2026-04-03
-> **MCU:** TMS320F280049C (TQFP-100)
-> **Board:** Cruise Control Actuator ECU (self-driving, start-stop compatible)
+> **Last Updated:** 2026-04-03  
+> **MCU:** TMS320F280049C (TQFP-100), schematic ref **U4**  
+> **Board:** Cruise Control Actuator ECU (self-driving, start-stop compatible)  
 > **Assembly:** Hot plate reflow — all SMD
+
+**Package pin ↔ net (for bring-up / layout):** use **`MCU_PIN_FUNCTION_MAP.md`** — it is generated from the **current PCB netlist** (physical pins **1–100**). Some sections below (e.g. SPI **GPIO8–11** column) describe *intent* in mux terms and may **not** match those physical pins until reconciled with **U4** on `TasaruV0.0.1.kicad_pcb` and the TRM pinmux table.
 
 ---
 

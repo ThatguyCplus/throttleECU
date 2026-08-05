@@ -4,3 +4,11 @@ __pycache__/
 
 # Local editor / agent (do not commit)
 .claude/settings.local.json
+
+# KiCad / VS Code editor artifacts
+.history/
+*.lck
+
+# Personal documents accidentally placed in project folders
+**/researchdata/TaxForm2025.pdf
+**/researchdata/ME147-FinalExam-d0.pdf
