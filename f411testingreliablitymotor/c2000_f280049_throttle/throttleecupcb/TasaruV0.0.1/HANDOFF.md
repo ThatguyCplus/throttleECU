@@ -1,8 +1,16 @@
 # Tasaru V0.0.1 — Agent Handoff Document
 
-> **Created:** 2026-04-02
-> **Purpose:** Complete context for any AI agent continuing work on this project
+> **Created:** 2026-04-02  
+> **Last updated:** 2026-04-11  
+> **Purpose:** Complete context for any AI agent continuing work on this project  
 > **Project:** Self-driving throttle actuator ECU for automotive start-stop vehicle
+
+### Revision history (high signal)
+
+| Date | Notes |
+|------|--------|
+| 2026-04-11 | Corrected **major IC designators** to match current schematic/PCB (MCU is **U4**, CAN is **U7**, high-side switch **U2**, MEMS clock **U6**, encoder **U8**, supervisor **U9**). Added **PCB/BOM/DRC** snapshot, `LAYOUT.md` link, KiCad **BOM export path** from project settings, and DRC report reference. |
+| 2026-04-02 | Original handoff (power architecture, WEBENCH strategy, passive minimization). |
 
 ---
 
@@ -15,10 +23,17 @@ This is a custom PCB (KiCAD project: `TasaruV0.0.1`) for a cruise control / self
 | File | Location | Purpose |
 |------|----------|---------|
 | KiCAD schematic | `TasaruV0.0.1.kicad_sch` | Single flat sheet (no hierarchical sheets) |
-| KiCAD project | `TasaruV0.0.1.kicad_pro` | Project config |
-| Pin map & HW reference | `FIRMWARE_PIN_MAP.md` | Authoritative hardware reference — kept up to date |
+| KiCAD PCB | `TasaruV0.0.1.kicad_pcb` | Placement in progress; copper zones defined; routing TBD |
+| KiCAD project | `TasaruV0.0.1.kicad_pro` | Project config (includes BOM export filename) |
+| Layout attack plan | `LAYOUT.md` | Step-by-step PCB layout workflow for this board |
+| Pin map & HW reference | `FIRMWARE_PIN_MAP.md` | ADC limits, safety, peripheral **intent** — reconcile GPIO numbers vs PCB |
+| MCU package pin checklist | `MCU_PIN_FUNCTION_MAP.md` | **U4** TQFP pin **1–100** ↔ **net name** from current `kicad_pcb` (bring-up / layout) |
+| MCU physical pin clusters | `MCU_PIN_GROUPING_OPTIONS.md` | **Edge / corner** groupings + **fixed-pin** notes for routing & pinmux shopping |
+| DRC report (snapshot) | `DRC.rpt` | Last run **2026-04-09** — **132** violations (see §10); re-run after edits |
+| KiCAD local history | `.history/` | Auto-saved schematic snapshots (optional audit trail) |
 | Research data | `researchdata/` | KiCAD symbols, footprints, and datasheets for components |
 | WEBENCH BOM export | User's Downloads folder `WBBOMDesign2.csv` | TI WEBENCH output for TPSM33620 design |
+| KiCAD BOM preset export | `C:\Users\Muhammed Shah\Downloads\v1fbomthecu.csv` | Path stored in `TasaruV0.0.1.kicad_pro` → *Fabrication Toolkit* style BOM export (update path if you move machines) |
 
 ### Repository Structure
 
@@ -28,16 +43,23 @@ This is a custom PCB (KiCAD project: `TasaruV0.0.1`) for a cruise control / self
 
 ---
 
-## 2. Major ICs
+## 2. Major ICs (designators match schematic + PCB)
 
-| Ref | Part | Package | Function |
-|-----|------|---------|----------|
-| U1 | TMS320F280049C (F280049CPZS) | TQFP-100 | MCU — 5 units in KiCAD symbol (GPIO A, GPIO B, ADC/analog, system, power) |
-| U2 | PTCAN3404DRQ1 | SOIC-8 | CAN transceiver — 500kbps, CAN-A on GPIO30/31 |
-| U3 | DRV8873HPWPR | HTSSOP-24 | Motor driver — PH/EN mode, dual IPROPI current sense |
-| U4 | AS5147U-HTSM | TSSOP-14 | Magnetic encoder — SPI, 14-bit, AEC-Q100/ASIL-D |
-| U5 | TPSM33620S3QRDNRQ1 | QFN 4.5x3.5mm HotRod | Power module — fixed 3.3V/2A buck with integrated inductor |
-| Y1 | SIT2024BA-S2-XXE-10.000000 | SOT-23-5 | 10MHz MEMS oscillator — AEC-Q100, feeds MCU X1 pin |
+Use this table when reading **layout**, **BOM**, or **firmware pin map** — older notes may have used different `U*` labels.
+
+| Ref | Part (Value field) | Package / footprint | Function |
+|-----|--------------------|---------------------|----------|
+| **U4** | F280049CPZS | TQFP-100 | **MCU** — multi-unit symbol in schematic (GPIO, ADC, power pins) |
+| **U5** | TPSM33620S3QRDNRQ1 *(schematic value text may show `PSM33620…` without the leading **T**; orderable MPN is **TPSM33620S3QRDNRQ1**)* | HotRod power module | **3.3 V buck module** — integrated inductor / FETs |
+| **U3** | DRV8873HPWPR | HTSSOP-24 | **Motor driver** — PH/EN, dual **IPROPI** |
+| **U8** | AS5147U-HTSM | TSSOP-14 | **Magnetic encoder** — SPI, 14-bit |
+| **U7** | PTCAN3404DRQ1 | SOIC-8 | **CAN transceiver** (TI TCAN3404 family) |
+| **U2** | TPS1H100BQPWPRQ1 | HTSSOP-14 | **High-side power switch** (protected high-side output, e.g. solenoid / loads) |
+| **U6** | SIT2024BA-S2-XXE-10.000000E | SOT-23-5 | **10 MHz MEMS oscillator** — external clock to MCU *(replaces a discrete “Y1” style in older notes)* |
+| **U1** | SQJ147ELP-T1_GE3 | MOSFET package per footprint | **Power MOSFET** (check schematic net: battery / protection / output path) |
+| **U9** | TPS3702 | SOT-23-6 | **Supply supervisor / reset** — window or dual monitor per your schematic wiring |
+
+**Legacy naming in old chat logs:** “U1 = MCU” or “U4 = encoder” is **obsolete** for this revision.
 
 ---
 
@@ -208,8 +230,8 @@ No external power inductor needed — integrated in TPSM33620 module.
 | 2 | BAT- / GND | In | Battery ground = chassis ground |
 | 3 | CAN_H | Bidirectional | CAN bus high (differential) |
 | 4 | CAN_L | Bidirectional | CAN bus low (differential) |
-| 5 | MOT_OUT1 | Out | Motor output 1 (from DRV8873H) |
-| 6 | MOT_OUT2 | Out | Motor output 2 (from DRV8873H) |
+| 5 | MOT_OUT1 | Out | Motor output 1 (from **U3** DRV8873) |
+| 6 | MOT_OUT2 | Out | Motor output 2 (from **U3** DRV8873) |
 | 7 | BRK_SENSE | In | Brake pedal signal (9-14V, voltage divided on board) |
 | 8 | SOL_OUT | Out | Solenoid drive (VBAT through Q3 MOSFET) |
 
@@ -219,32 +241,39 @@ Plus development-only headers: JTAG (2x5 pin header), UART (2 pins), spare ADC b
 
 ## 6. PCB Layout Guidelines (Discussed but Not Yet Implemented)
 
-### Stackup — 4-Layer Required
+### Stackup — 4-Layer (as implemented in KiCAD)
+
+KiCAD layer names in `TasaruV0.0.1.kicad_pcb`:
 
 ```
-Layer 1 (Top):     Components + signal traces
-Layer 2 (Inner 1): SOLID unbroken ground plane — DO NOT CUT SLOTS
-Layer 3 (Inner 2): Power plane (+3V3 and +VBAT zones)
-Layer 4 (Bottom):  Signal traces + some components
+F.Cu (Top):     Primary components + most signals + critical analog
+In1.Cu:        Solid GND reference (zone net GND) — avoid slotting
+In2.Cu:        Split power (zones: GND priority 1, /+BATTPROTECTED priority 2, +3V3 priority 3)
+B.Cu (Bottom):  Test pads, low-speed escapes, optional encoder if mechanical layout demands it
 ```
 
-### Placement Zones
+**Note:** A **large GND pour also exists on `In2.Cu`**. That is optional for thermal mass; if it steals area from `+3V3` or `/+BATTPROTECTED`, shrink it after the high-current paths are satisfied. Details: `LAYOUT.md`.
+
+### Placement Zones (update labels when you move parts)
 
 ```
 ┌─────────────────────────┬──────────────────────────┐
 │ NOISY SIDE              │ QUIET SIDE               │
 │ (near connector)        │ (far from connector)     │
 │                         │                          │
-│ • J1 connector          │ • U1 MCU (all units)     │
-│ • F1, D1, D2, C24       │ • U4 AS5147U encoder     │
-│ • EMI filter            │ • JTAG header             │
-│ • U5 TPSM33620          │ • ADC input resistors     │
-│ • U3 DRV8873H           │ • Decoupling cap farm     │
-│ • U2 TCAN3404           │ • SIT2024B oscillator     │
+│ • J1 / battery wiring   │ • U4 F280049 MCU         │
+│ • F1, D1, D2, C24       │ • U8 AS5147U encoder     │
+│ • EMI filter            │ • JTAG / debug headers   │
+│ • U5 TPSM33620          │ • ADC front-end passives │
+│ • U3 DRV8873            │ • U6 SIT2024 MEMS clock  │
+│ • U7 PTCAN3404 (CAN)    │ • Decoupling cap clusters│
+│ • U2 TPS1H100 (high side)                          │
 │                         │                          │
 │ Ferrite beads L2, L3 sit on the boundary           │
 └─────────────────────────┴──────────────────────────┘
 ```
+
+**Layout caution:** keep **U8** out of the **strong magnetic-field gradient** from **U3** motor leads and PWM. Front vs back of PCB is mainly mechanical; noise is dominated by proximity to the H-bridge.
 
 ### Ground Strategy
 
@@ -270,7 +299,9 @@ Equipment needed: hot plate (~$30), solder paste syringe (~$8), tweezers, flux.
 
 ## 8. Open Items / TBD
 
-These items were NOT resolved in the design session and need future work:
+These items were NOT fully resolved in the original design session and need ongoing verification against **current** schematic and PCB. Use **`LAYOUT.md`** for ordered PCB work.
+
+**PCB hygiene:** run **DRC** and **Update filled zones** after each layout session; treat `DRC.rpt` as a snapshot only.
 
 ### GPIO Pin Assignments Still TBD
 
@@ -301,9 +332,9 @@ These items were NOT resolved in the design session and need future work:
 
 ### Other Design Work Not Yet Done
 
-- DRV8873H application circuit (motor driver passives, IPROPI sense resistors)
-- AS5147U application circuit (SPI decoupling, magnet placement considerations)
-- TCAN3404 application circuit (CAN bus termination, ESD protection)
+- **U3** DRV8873 application circuit (motor driver passives, **IPROPI** sense resistors)
+- **U8** AS5147U application circuit (SPI decoupling, magnet placement considerations)
+- **U7** PTCAN3404 / TCAN3404 family application circuit (CAN bus termination, ESD protection)
 - Brake sense voltage divider component values
 - Solenoid drive MOSFET circuit (Q3)
 - Safety disable MOSFET circuit (Q1)
@@ -345,13 +376,26 @@ These items were NOT resolved in the design session and need future work:
 
 ---
 
-## 10. Reference Documents
+## 10. PCB status, BOM export, and DRC (snapshot 2026-04-11)
+
+| Item | Status |
+|------|--------|
+| Board outline | **100 × 86 mm** (approx.; `Edge.Cuts` rectangle **90–190 mm × 50–136 mm** in current PCB file) |
+| Routing | **Not complete** — treat as placement / floorplanning stage |
+| Copper zones | **GND** on `In1.Cu`; **`In2.Cu`** split between **`GND`**, **`/+BATTPROTECTED`**, **`+3V3`** with priorities **1 / 2 / 3** |
+| KiCAD version | PCB `generator_version` **10.0** (KiCAD 10 family) |
+| BOM export | Project setting **`bom_export_filename`**: `C:\Users\Muhammed Shah\Downloads\v1fbomthecu.csv` — regenerate after schematic changes; commit a **CSV under the repo** if you want version-controlled BOMs |
+| DRC | `DRC.rpt` generated **2026-04-09** reports **132** items (annular width, clearance, unconnected items, etc.). **Re-run DRC** before ordering boards; many issues are expected mid-layout. |
+
+---
+
+## 11. Reference Documents
 
 | Document | Location / URL |
 |----------|---------------|
 | TPSM33620-Q1 datasheet | https://www.ti.com/lit/gpn/tpsm33620-q1 |
 | F280049C datasheet | https://www.ti.com/lit/gpn/tms320f280049c |
-| DRV8873H datasheet | https://www.ti.com/lit/gpn/drv8873 |
+| DRV8873 datasheet | https://www.ti.com/lit/gpn/drv8873 |
 | AS5147U datasheet | `researchdata/AS5147U_AS5247U_DS000639_4-00.pdf` |
 | TCAN3404 datasheet | https://www.ti.com/lit/gpn/tcan3404-q1 |
 | LMR33630 datasheet (old, replaced) | http://www.ti.com/lit/ds/symlink/lmr33630.pdf |
