@@ -281,15 +281,15 @@ extern "C"
 //
 //*****************************************************************************
 //
-// 20MHz XTAL on controlCARD and Launchpad. For use with SysCtl_getClock().
+// 10MHz XTAL on Tasaru V0.0.1 (SIT2024BA 10.000000 MHz). For use with SysCtl_getClock().
 //
-#define DEVICE_OSCSRC_FREQ          20000000U
+#define DEVICE_OSCSRC_FREQ          10000000U
 
 //
 // Define to pass to SysCtl_setClock(). Will configure the clock as follows:
-// PLLSYSCLK = 20MHz (XTAL_OSC) * 10 (IMULT) * 1 (FMULT) / 2 (PLLCLK_BY_2)
+// PLLSYSCLK = 10MHz (XTAL_OSC) * 20 (IMULT) * 1 (FMULT) / 2 (PLLCLK_BY_2) = 100MHz
 //
-#define DEVICE_SETCLOCK_CFG         (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(10) |  \
+#define DEVICE_SETCLOCK_CFG         (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(20) |  \
                                      SYSCTL_FMULT_NONE | SYSCTL_SYSDIV(2) |   \
                                      SYSCTL_PLL_ENABLE)
 
@@ -297,7 +297,7 @@ extern "C"
 // 100MHz SYSCLK frequency based on the above DEVICE_SETCLOCK_CFG. Update the
 // code below if a different clock configuration is used!
 //
-#define DEVICE_SYSCLK_FREQ          ((DEVICE_OSCSRC_FREQ * 10 * 1) / 2)
+#define DEVICE_SYSCLK_FREQ          ((DEVICE_OSCSRC_FREQ * 20 * 1) / 2)
 
 //
 // 25MHz LSPCLK frequency based on the above DEVICE_SYSCLK_FREQ and a default

@@ -115,7 +115,8 @@ void CanIo_serviceTx(uint32_t now_ms,
                      uint8_t tgt_pct,
                      uint8_t fault_flags,
                      int16_t motor_cmd,
-                     uint8_t relay_on)
+                     uint8_t relay_on,
+                     uint16_t raw_angle_hundredths)
 {
     if ((now_ms - s_lastTxMs) < CFG_CAN_TX_RATE_MS) {
         return;
@@ -126,14 +127,16 @@ void CanIo_serviceTx(uint32_t now_ms,
         uint16_t tx[8];
         uint16_t m = (uint16_t)((uint16_t)motor_cmd & 0xFFFFU);
 
-        tx[0] = (uint16_t)mode_u8;
+        /* [0]: mode in bits 1:0, relay in bit 4 */
+        tx[0] = (uint16_t)((uint16_t)(mode_u8 & 0x03U) | (uint16_t)((relay_on & 0x01U) << 4U));
         tx[1] = (uint16_t)act_pct_spi;
         tx[2] = (uint16_t)tgt_pct;
         tx[3] = (uint16_t)fault_flags;
         tx[4] = (uint16_t)(m & 0xFFU);
-        tx[5] = (uint16_t)((m >> 8) & 0xFFU);
-        tx[6] = (uint16_t)relay_on;
-        tx[7] = (uint16_t)s_txSeq++;
+        tx[5] = (uint16_t)((m >> 8U) & 0xFFU);
+        /* [6:7]: raw encoder angle in 0.01° units (0-35999) */
+        tx[6] = (uint16_t)(raw_angle_hundredths & 0xFFU);
+        tx[7] = (uint16_t)((raw_angle_hundredths >> 8U) & 0xFFU);
 
         CAN_sendMessage(CAN_BASE_CFG, CAN_TX_MB, CFG_CAN_TX_DLC, tx);
     }
