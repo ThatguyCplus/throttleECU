@@ -29,6 +29,11 @@ static float s_kp = CFG_KP_DEFAULT;
 static float s_ki = CFG_KI_DEFAULT;
 static float s_kd = CFG_KD_DEFAULT;
 
+/* s_slewTarget — working angle that ramps toward s_targetAngle each slew tick.
+ * The PID tracks s_slewTarget, not s_targetAngle directly. */
+static int32_t  s_slewTarget  = (int32_t)CFG_ANGLE_MIN;
+static uint32_t s_lastSlew    = 0U;
+
 static bool     s_settled     = false;
 static uint32_t s_settleStart = 0U;
 
@@ -82,6 +87,9 @@ static int str_eq_ic(const char *a, const char *b)
     return (*a == *b) ? 1 : 0;
 }
 
+/* Sensor is inverted: smaller angle = more open.
+ * 100% throttle = open = s_usableMin (~80.4°)
+ *   0% throttle = closed = s_usableMax (~127.1°) */
 static int32_t throttleToAngle(int16_t pct)
 {
     int32_t p = (int32_t)pct;
@@ -91,18 +99,18 @@ static int32_t throttleToAngle(int16_t pct)
     if (p > 100) {
         p = 100;
     }
-    return s_usableMin + (int32_t)(((int64_t)(s_usableMax - s_usableMin) * p) / 100);
+    return s_usableMax - (int32_t)(((int64_t)(s_usableMax - s_usableMin) * p) / 100);
 }
 
 static int16_t angleToThrottle(int32_t angle)
 {
     if (angle < s_usableMin) {
-        return 0;
+        return 100;   /* beyond open end — cap at 100% */
     }
     if (angle > s_usableMax) {
-        return 100;
+        return 0;     /* beyond closed end — cap at 0% */
     }
-    return (int16_t)(((int64_t)(angle - s_usableMin) * 100) / (s_usableMax - s_usableMin));
+    return (int16_t)(100 - ((int64_t)(angle - s_usableMin) * 100) / (s_usableMax - s_usableMin));
 }
 
 static void setMotor(int32_t cmd)
@@ -145,6 +153,7 @@ static void enterSafeStateEc(const char *reason)
     s_duty         = 0U;
     s_throttlePct  = 0;
     s_targetAngle  = CFG_ANGLE_MIN;
+    s_slewTarget   = CFG_ANGLE_MIN;
     s_settled      = false;
     s_settleStart  = 0U;
     s_largeErrStart = 0U;
@@ -159,6 +168,24 @@ static void enterSafeStateEc(const char *reason)
 void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
 {
     (void)seq;
+
+    /* ESTOP takes priority over everything */
+    if ((flags & CFG_CAN_FLAG_ESTOP) != 0U) {
+        safe_enter_safe_state("CAN ESTOP");
+        return;
+    }
+
+    /* Allow CAN reset to exit safe state before the MODE_SAFE guard */
+    if ((flags & CFG_CAN_FLAG_RESET) != 0U) {
+        if (s_mode == MODE_SAFE) {
+            safe_clear_faults();
+            s_mode = MODE_MANUAL;
+            s_duty = 0U;
+            Board_digitalEnables(0U);
+            printBoth("Safe state cleared via CAN — mode=MAN");
+        }
+        return;
+    }
 
     if (s_mode == MODE_SAFE) {
         return;
@@ -367,10 +394,27 @@ void Throttle_runOnce(void)
             safe_tick(now);
         }
 
+        /* ── Setpoint slew: ramp s_slewTarget toward s_targetAngle ─────────── */
+#if CFG_SLEW_STEP > 0
+        if ((now - s_lastSlew) >= CFG_SLEW_RATE_MS) {
+            s_lastSlew = now;
+            int32_t diff = s_targetAngle - s_slewTarget;
+            if (diff > (int32_t)CFG_SLEW_STEP) {
+                s_slewTarget += (int32_t)CFG_SLEW_STEP;
+            } else if (diff < -(int32_t)CFG_SLEW_STEP) {
+                s_slewTarget -= (int32_t)CFG_SLEW_STEP;
+            } else {
+                s_slewTarget = s_targetAngle;
+            }
+        }
+#else
+        s_slewTarget = s_targetAngle;
+#endif
+
         switch (s_mode) {
         case MODE_PID:
             if (angle >= 0) {
-                int32_t clamped = s_targetAngle;
+                int32_t clamped = s_slewTarget;
                 if (clamped < s_usableMin) {
                     clamped = s_usableMin;
                 }
@@ -404,6 +448,23 @@ void Throttle_runOnce(void)
                                          (int32_t)CFG_PID_DEADBAND, CFG_MIN_DUTY_THRESH,
                                          s_kp, s_ki, s_kd, CFG_PID_INTEGRAL_LIMIT, nowUs);
                     }
+
+                    /* Spring return feed-forward: apply a holding force proportional
+                     * to how open the throttle is (smaller angle = more open = more spring).
+                     * FF is always negative (toward open) to oppose the return spring.
+                     * Applied even when settled so the motor holds against spring load. */
+#if CFG_FF_SPRING_GAIN > 0
+                    {
+                        int32_t range = s_usableMax - s_usableMin;
+                        if (range > 0) {
+                            /* At angle=usableMin (100% open) → ff = -CFG_FF_SPRING_GAIN
+                             * At angle=usableMax (0% closed)  → ff = 0 */
+                            int32_t ff = -((int32_t)CFG_FF_SPRING_GAIN *
+                                           (s_usableMax - angle)) / range;
+                            pidCmd += ff;
+                        }
+                    }
+#endif
                     setMotor(pidCmd);
                 }
 
@@ -459,9 +520,13 @@ void Throttle_runOnce(void)
                 }
                 actSpi = (uint8_t)ap;
             }
+            /* raw_angle_hundredths: 0xFFFF when no valid angle */
+            uint16_t rawHundredths = (angle >= 0)
+                ? (uint16_t)((uint32_t)angle & 0xFFFFU)
+                : 0xFFFFU;
             CanIo_serviceTx(now, (uint8_t)s_mode, actSpi,
                             (uint8_t)s_throttlePct, safe_get_fault_flags(),
-                            (int16_t)s_motorCmd, s_relayOn);
+                            (int16_t)s_motorCmd, s_relayOn, rawHundredths);
         }
 
         if ((now - s_lastPrint) >= CFG_TELEMETRY_RATE_MS) {

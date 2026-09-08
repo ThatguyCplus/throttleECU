@@ -3,25 +3,12 @@
 #include "motor_epwm.h"
 #include "throttle_config.h"
 
+/* DRV8873H — PH/EN mode
+ *   EN/IN1 (GPIO0 / EPWM1A) : speed PWM  (0 = coast, 100% = full speed)
+ *   PH/IN2 (GPIO2 / GPIO)   : direction  (HIGH = forward, LOW = reverse)
+ */
+
 static uint16_t s_tbprd = 1U;
-
-static void initOneEPWM(uint32_t base, uint16_t tbprd)
-{
-    EPWM_setTimeBasePeriod(base, tbprd);
-    EPWM_setPhaseShift(base, 0U);
-    EPWM_setTimeBaseCounter(base, 0U);
-    EPWM_setTimeBaseCounterMode(base, EPWM_COUNTER_MODE_UP);
-    EPWM_setClockPrescaler(base, EPWM_CLOCK_DIVIDER_1, EPWM_HSCLOCK_DIVIDER_1);
-    EPWM_disablePhaseShiftLoad(base);
-    EPWM_setCounterCompareValue(base, EPWM_COUNTER_COMPARE_A, 0U);
-
-    EPWM_setActionQualifierAction(base, EPWM_AQ_OUTPUT_A, EPWM_AQ_OUTPUT_LOW,
-                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);
-    EPWM_setActionQualifierAction(base, EPWM_AQ_OUTPUT_A, EPWM_AQ_OUTPUT_HIGH,
-                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
-    EPWM_setActionQualifierAction(base, EPWM_AQ_OUTPUT_A, EPWM_AQ_OUTPUT_LOW,
-                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);
-}
 
 void MotorEPwm_init(void)
 {
@@ -33,38 +20,59 @@ void MotorEPwm_init(void)
     }
     s_tbprd = (uint16_t)(prd - 1U);
 
+    /* EN/IN1 — EPWM1A on GPIO0 */
     SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_EPWM1);
-    SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_EPWM2);
-
-    GPIO_setPinConfig(CFG_RPWM_PIN_CONFIG);
     GPIO_setPinConfig(CFG_LPWM_PIN_CONFIG);
 
-    initOneEPWM(CFG_EPWM_R_BASE, s_tbprd);
-    initOneEPWM(CFG_EPWM_L_BASE, s_tbprd);
+    EPWM_setTimeBasePeriod(CFG_EPWM_L_BASE, s_tbprd);
+    EPWM_setPhaseShift(CFG_EPWM_L_BASE, 0U);
+    EPWM_setTimeBaseCounter(CFG_EPWM_L_BASE, 0U);
+    EPWM_setTimeBaseCounterMode(CFG_EPWM_L_BASE, EPWM_COUNTER_MODE_UP);
+    EPWM_setClockPrescaler(CFG_EPWM_L_BASE,
+                           EPWM_CLOCK_DIVIDER_1, EPWM_HSCLOCK_DIVIDER_1);
+    EPWM_disablePhaseShiftLoad(CFG_EPWM_L_BASE);
+    EPWM_setCounterCompareValue(CFG_EPWM_L_BASE, EPWM_COUNTER_COMPARE_A, 0U);
+
+    EPWM_setActionQualifierAction(CFG_EPWM_L_BASE, EPWM_AQ_OUTPUT_A,
+                                  EPWM_AQ_OUTPUT_LOW,
+                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);
+    EPWM_setActionQualifierAction(CFG_EPWM_L_BASE, EPWM_AQ_OUTPUT_A,
+                                  EPWM_AQ_OUTPUT_HIGH,
+                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
+    EPWM_setActionQualifierAction(CFG_EPWM_L_BASE, EPWM_AQ_OUTPUT_A,
+                                  EPWM_AQ_OUTPUT_LOW,
+                                  EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);
+
+    /* PH/IN2 — GPIO2 as plain direction output, init LOW (reverse safe) */
+    GPIO_setPinConfig(CFG_MOT_DIR_PIN_CONFIG);
+    GPIO_setDirectionMode(CFG_MOT_DIR_PIN, GPIO_DIR_MODE_OUT);
+    GPIO_setPadConfig(CFG_MOT_DIR_PIN, GPIO_PIN_TYPE_STD);
+    GPIO_writePin(CFG_MOT_DIR_PIN, 0U);
 }
 
 void MotorEPwm_setCommand(int32_t cmd, int pwmMax)
 {
     uint16_t tbprd = s_tbprd;
-    uint32_t baseR = CFG_EPWM_R_BASE;
-    uint32_t baseL = CFG_EPWM_L_BASE;
 
     if (pwmMax <= 0) {
         pwmMax = 1;
     }
 
-    if (cmd > 0) {
-        int64_t cmp64 = ((int64_t)cmd * (int64_t)tbprd) / (int64_t)pwmMax;
-        uint16_t cmp  = (cmp64 > (int64_t)tbprd) ? tbprd : (uint16_t)cmp64;
-        EPWM_setCounterCompareValue(baseR, EPWM_COUNTER_COMPARE_A, cmp);
-        EPWM_setCounterCompareValue(baseL, EPWM_COUNTER_COMPARE_A, 0U);
-    } else if (cmd < 0) {
-        int64_t cmp64 = ((int64_t)(-cmd) * (int64_t)tbprd) / (int64_t)pwmMax;
-        uint16_t cmp  = (cmp64 > (int64_t)tbprd) ? tbprd : (uint16_t)cmp64;
-        EPWM_setCounterCompareValue(baseL, EPWM_COUNTER_COMPARE_A, cmp);
-        EPWM_setCounterCompareValue(baseR, EPWM_COUNTER_COMPARE_A, 0U);
-    } else {
-        EPWM_setCounterCompareValue(baseR, EPWM_COUNTER_COMPARE_A, 0U);
-        EPWM_setCounterCompareValue(baseL, EPWM_COUNTER_COMPARE_A, 0U);
+    if (cmd == 0) {
+        /* Coast: EN duty = 0% — set CMPA = TBPRD so no HIGH pulse */
+        EPWM_setCounterCompareValue(CFG_EPWM_L_BASE, EPWM_COUNTER_COMPARE_A, tbprd);
+        GPIO_writePin(CFG_MOT_DIR_PIN, 0U);
+        return;
     }
+
+    /* Direction */
+    GPIO_writePin(CFG_MOT_DIR_PIN, (cmd > 0) ? 1U : 0U);
+
+    /* Speed: AQ = LOW@ZERO, HIGH@CMPA, LOW@PRD → duty = (TBPRD-CMPA)/TBPRD
+     * To get duty = mag/pwmMax we need CMPA = TBPRD - mag*TBPRD/pwmMax */
+    int32_t mag   = (cmd > 0) ? cmd : -cmd;
+    int64_t cmp64 = (int64_t)tbprd - ((int64_t)mag * (int64_t)tbprd) / (int64_t)pwmMax;
+    if (cmp64 < 0) { cmp64 = 0; }
+    uint16_t cmp  = (cmp64 >= (int64_t)tbprd) ? tbprd : (uint16_t)cmp64;
+    EPWM_setCounterCompareValue(CFG_EPWM_L_BASE, EPWM_COUNTER_COMPARE_A, cmp);
 }
