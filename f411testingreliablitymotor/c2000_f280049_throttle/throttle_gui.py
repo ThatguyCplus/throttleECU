@@ -67,11 +67,12 @@ FLAG_ESTOP = 0x04
 FLAG_RESET = 0x08
 
 # 0x102 byte[6] sol_status bits (must match safety.h)
-SOL_OPEN      = 0x01   # relay ON, current below ON threshold (open/disconnected)
-SOL_WELDED    = 0x02   # relay OFF, current above ON threshold → triggered safe state
-SOL_OC        = 0x04   # current above OC threshold → triggered safe state
-SOL_ON_INFER  = 0x08   # solenoid conducting (inferred from current, not a fault)
-DRV_NFAULT    = 0x10   # DRV8873H nFAULT asserted (OCP/OTW/OTS/UVLO) → triggered safe state
+SOL_OPEN         = 0x01   # relay ON, current below ON threshold (open/disconnected)
+SOL_WELDED       = 0x02   # relay OFF, current above ON threshold (welded contact)
+SOL_OC           = 0x04   # current above OC threshold (overcurrent)
+SOL_ON_INFER     = 0x08   # solenoid conducting (inferred from current, not a fault)
+DRV_NFAULT       = 0x10   # DRV8873H nFAULT asserted (OCP/OTW/OTS/UVLO)
+POSITION_ERROR   = 0x20   # ISO26262: |pos_error| > 15% for 2s — motor stuck or encoder lost
 
 # ── Angle calibration defaults (must match throttle_config.h) ─────────────────
 # Measured 2026-09-06 via raw CAN angle field (post pin-fix):
@@ -272,10 +273,11 @@ class CanThread:
                     # Decode sol_status from latest 0x102 (same rx thread, no lock needed)
                     _sol = self.sol_status
                     _sol_bits = []
-                    if _sol & SOL_WELDED: _sol_bits.append("WELD")
-                    if _sol & SOL_OC:     _sol_bits.append("SOL_OC")
-                    if _sol & DRV_NFAULT: _sol_bits.append("DRV!")
-                    if _sol & SOL_OPEN:   _sol_bits.append("SOL_OPEN")
+                    if _sol & POSITION_ERROR: _sol_bits.append("POS_ERR")
+                    if _sol & SOL_WELDED:     _sol_bits.append("WELD")
+                    if _sol & SOL_OC:         _sol_bits.append("SOL_OC")
+                    if _sol & DRV_NFAULT:     _sol_bits.append("DRV!")
+                    if _sol & SOL_OPEN:       _sol_bits.append("SOL_OPEN")
                     _sol_str = "/".join(_sol_bits) if _sol_bits else "ok"
 
                     frame_txt = (

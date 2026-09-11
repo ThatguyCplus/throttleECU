@@ -17,7 +17,14 @@ __interrupt void cpuTimer0ISR(void)
 
 uint32_t Board_millis(void)
 {
-    return g_millis;
+    /* ISO26262: g_millis is modified in a timer ISR. On C28x a 32-bit read is
+     * not atomic (two 16-bit bus cycles). Disable interrupts around the read
+     * to prevent a torn value if the ISR fires between the two halves. */
+    uint32_t val;
+    DINT;
+    val = g_millis;
+    EINT;
+    return val;
 }
 
 uint32_t Board_cycleCounter(void)

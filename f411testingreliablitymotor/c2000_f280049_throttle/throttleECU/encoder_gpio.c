@@ -116,11 +116,13 @@ static uint16_t read_angle_raw(void)
 
     g_enc_raw_last = raw;
 
-    /* Bit 14 = Error Flag from sensor.
-     * TEMPORARILY bypassed — return angle anyway so we can observe tracking.
-     * g_enc_ef_count counts how many reads had EF=1 (inspect in debugger). */
+    /* ISO26262: bit 14 = Error Flag. When EF=1 the angle data (bits 13:0)
+     * is undefined (CORDIC overflow, field out of range, internal error).
+     * Return the current filtered average so control loop holds last valid
+     * position. If the filter is empty return -1 (encoder invalid). */
     if ((raw & 0x4000U) != 0U) {
         g_enc_ef_count++;
+        return 0xFFFFU;   /* signals error to caller — average used by EncoderGpio_getAngle */
     }
 
     return raw & 0x3FFFU;   /* 14-bit angle: 0 = 0°, 16383 = 359.98° */

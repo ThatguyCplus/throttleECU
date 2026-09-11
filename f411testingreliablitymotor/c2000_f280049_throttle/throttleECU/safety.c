@@ -167,15 +167,24 @@ void safe_attempt_recovery(void)
 
 void safe_clear_faults(void)
 {
-    g_safety.faults             = 0U;
+    /* ISO26262: do not clear active (non-latched) faults or debounce counters
+     * while underlying conditions still hold. The safety checks will re-set
+     * faults immediately in the next tick if conditions persist, but clearing
+     * the debounce counter resets the hysteresis and allows one tick of
+     * undetected fault exposure. Only clear when g_safety.faults is already 0
+     * (i.e. checks have naturally cleared the active condition).
+     * Latched faults are always cleared — they are historical records only. */
+    if (g_safety.faults == 0U) {
+        memset(g_safety.fault_count, 0, sizeof(g_safety.fault_count));
+        g_safety.safe_state_active = false;
+#if CFG_CAN_HEARTBEAT_EN
+        s_canHbArmed = 0U;
+#endif
+    }
+    /* Always clear latched/historical records so operator can acknowledge */
     g_safety.faults_latched     = 0U;
     g_safety.sol_faults         = 0U;
     g_safety.sol_faults_latched = 0U;
-    memset(g_safety.fault_count, 0, sizeof(g_safety.fault_count));
-    g_safety.safe_state_active = false;
-#if CFG_CAN_HEARTBEAT_EN
-    s_canHbArmed = 0U;
-#endif
 }
 
 void safe_tick(uint32_t now_ms)
@@ -365,6 +374,9 @@ void safe_print_status(void (*print_fn)(const char *))
     }
     if (g_safety.sol_faults & FAULT_DRV_NFAULT) {
         print_fn("  - DRV_NFAULT (DRV8873H fault pin asserted)");
+    }
+    if (g_safety.sol_faults & FAULT_POSITION_ERROR) {
+        print_fn("  - POSITION_ERROR (|pos_error| > 15% for 2s — motor stuck or encoder)");
     }
 
     print_fn("Watchdog: optional — enable in safety.c");

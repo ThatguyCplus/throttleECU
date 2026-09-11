@@ -12,6 +12,10 @@
 #define FAULT_WATCHDOG_RESET   0x20U
 #define FAULT_CAN_TIMEOUT      0x40U
 #define FAULT_CAN_BUS_OFF      0x80U
+/* ISO26262: position error safe state now sets this bit in sol_faults (byte 6
+ * of 0x102) so the GUI/controller sees why safe state was entered.
+ * Previously enterSafeStateEc() set no fault bits → faults=0x00 mode=SAFE. */
+#define FAULT_POSITION_ERROR   0x20U   /* bit in sol_faults: |pos_error| > 15% for 2s */
 
 /* Extended fault flags — stored in sol_faults byte, transmitted in 0x102 byte[6].
  * bit3 of the CAN byte = SOL_INFERRED_ON status (not a fault, added in throttle_ecu.c).

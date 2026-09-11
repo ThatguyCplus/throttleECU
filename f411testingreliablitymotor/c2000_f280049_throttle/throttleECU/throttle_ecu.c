@@ -57,6 +57,11 @@ static uint8_t  s_brake_debounced      = 0U;  /* debounced brake state          
 #define CFG_LARGE_ERR_TIMEOUT_MS  2000U
 static uint32_t s_largeErrStart = 0U; /* Board_millis() when threshold was first exceeded, 0=clear */
 
+/* ISO26262: guard against miscalibration where MIN==MAX — angleToThrottle
+ * would divide by zero. Minimum 10° (1000 units) of travel required. */
+_Static_assert((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN >= 1000,
+               "CFG_ANGLE_MAX - CFG_ANGLE_MIN too small: check calibration (min 10 deg range)");
+
 static const int32_t s_usableMin  =
     (int32_t)CFG_ANGLE_MIN + ((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN) * 5 / 100;
 static const int32_t s_usableMax  =
@@ -154,7 +159,14 @@ static void setMotor(int32_t cmd)
 
 static void enterSafeStateEc(const char *reason)
 {
+    /* ISO26262: always go through the canonical safety module so that
+     * g_safety.safe_state_active, g_safety.last_reason, and the transition
+     * counter are updated regardless of which call path triggered safe state.
+     * safe_enter_safe_state() is idempotent — safe to call when already active. */
+    safe_enter_safe_state(reason);
+
     s_mode = MODE_SAFE;
+    s_motorCmd = 0;                               /* ISO26262: clear stale cmd before CAN TX */
     MotorEPwm_setCommand(0, (int32_t)CFG_PWM_MAX);
     Board_digitalEnables(0U);
     setRelay(0U);
@@ -328,21 +340,32 @@ static void processCmd(char *s)
             Pid_reset();
         }
     } else if ((s[0] == 'p') || (s[0] == 'P')) {
-        s_kp = (float)strtod(s + 1, NULL);
+        /* ISO26262: clamp gains to sane range — unclamped values cause immediate
+         * PWM saturation and violent uncontrolled throttle motion. */
+        float v = (float)strtod(s + 1, NULL);
+        if (v < 0.0f) { v = 0.0f; }
+        if (v > 200.0f) { v = 200.0f; }
+        s_kp = v;
         {
             char buf[32];
             snprintf(buf, sizeof(buf), "Kp=%.2f", (double)s_kp);
             printBoth(buf);
         }
     } else if ((s[0] == 'i') || (s[0] == 'I')) {
-        s_ki = (float)strtod(s + 1, NULL);
+        float v = (float)strtod(s + 1, NULL);
+        if (v < 0.0f) { v = 0.0f; }
+        if (v > 50.0f) { v = 50.0f; }
+        s_ki = v;
         {
             char buf[32];
             snprintf(buf, sizeof(buf), "Ki=%.2f", (double)s_ki);
             printBoth(buf);
         }
     } else if ((s[0] == 'k') || (s[0] == 'K')) {
-        s_kd = (float)strtod(s + 1, NULL);
+        float v = (float)strtod(s + 1, NULL);
+        if (v < 0.0f) { v = 0.0f; }
+        if (v > 100.0f) { v = 100.0f; }
+        s_kd = v;
         {
             char buf[32];
             snprintf(buf, sizeof(buf), "Kd=%.2f", (double)s_kd);
@@ -402,7 +425,6 @@ void Throttle_runOnce(void)
     {
         int32_t  angle = EncoderGpio_getAngle();
         uint32_t now   = Board_millis();
-        uint32_t nowUs = now * 1000U;
 
         uint16_t ris = 0U;
         uint16_t lis = 0U;
@@ -532,7 +554,7 @@ void Throttle_runOnce(void)
                     if (!s_settled) {
                         pidCmd = Pid_run(angle, clamped, (int32_t)CFG_PWM_MAX,
                                          (int32_t)CFG_PID_DEADBAND, CFG_MIN_DUTY_THRESH,
-                                         s_kp, s_ki, s_kd, CFG_PID_INTEGRAL_LIMIT, nowUs);
+                                         s_kp, s_ki, s_kd, CFG_PID_INTEGRAL_LIMIT, now);
                     }
 
                     /* Spring return feed-forward: apply a holding force proportional
@@ -567,6 +589,11 @@ void Throttle_runOnce(void)
                         if (s_largeErrStart == 0U) {
                             s_largeErrStart = now;
                         } else if ((now - s_largeErrStart) >= CFG_LARGE_ERR_TIMEOUT_MS) {
+                            /* ISO26262: set sol_faults bit so CAN 0x102 byte[6] shows
+                             * reason — previously this showed faults=0x00 mode=SAFE
+                             * with no explanation visible to the controller/GUI. */
+                            g_safety.sol_faults        |= FAULT_POSITION_ERROR;
+                            g_safety.sol_faults_latched |= FAULT_POSITION_ERROR;
                             enterSafeStateEc("pos error >15% for 2s");
                         }
                     } else {

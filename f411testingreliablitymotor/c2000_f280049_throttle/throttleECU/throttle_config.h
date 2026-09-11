@@ -169,7 +169,7 @@
 /* Firmware version — packed into one byte as (major<<4)|minor, range 0.0–15.15
  * Bump CFG_FW_VERSION_MINOR on any change, CFG_FW_VERSION_MAJOR on breaking CAN layout changes. */
 #define CFG_FW_VERSION_MAJOR   1U
-#define CFG_FW_VERSION_MINOR   4U
+#define CFG_FW_VERSION_MINOR   5U
 #define CFG_FW_VERSION  ((uint8_t)(((CFG_FW_VERSION_MAJOR) & 0x0FU) << 4U | ((CFG_FW_VERSION_MINOR) & 0x0FU)))
 
 /* Current sense frame — IPROPI1/2 + SOL_CS + sol_status + fw_version (0x102, 8 bytes, 20 Hz) */
