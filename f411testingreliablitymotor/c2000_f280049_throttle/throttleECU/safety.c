@@ -234,7 +234,112 @@ void safe_tick(uint32_t now_ms)
 {
     (void)now_ms;
     safe_kick_watchdog();
+
+    /* ISO26262: RAM canary check — detect SRAM corruption between POST and now.
+     * The canary word is written once by safe_post() and should never change.
+     * A corrupted value indicates SRAM bit-flip, stack overflow into the struct,
+     * or a C bug writing to the wrong address. Enter safe state immediately. */
+    if ((g_safety.ram_canary != 0U) &&
+        (g_safety.ram_canary != SAFETY_RAM_CANARY)) {
+        g_safety.post_result |= POST_CANARY_FAIL;
+        safe_enter_safe_state("RAM canary corrupt");
+    }
+
     safe_attempt_recovery();
+}
+
+uint8_t safe_post(void (*print_fn)(const char *))
+{
+    uint8_t result = 0U;
+    char    buf[80];
+
+    if (print_fn != NULL) { print_fn("[POST] Power-On Self-Test..."); }
+
+    /* ── Test 1: RAM march test ──────────────────────────────────────────────
+     * Write four alternating patterns to a scratchpad region and verify
+     * readback. Catches stuck-at-1, stuck-at-0, and data-coupling faults.
+     *
+     * volatile: prevents the C compiler from eliminating the stores as dead
+     * writes since the variable is never read outside this function.
+     * C28x note: uint16_t is the native word; 32 words = 64 bytes of SRAM.
+     * static: placed in .bss (global SRAM), not on the stack, so the test is
+     * genuinely exercising SRAM rather than the current stack frame. */
+    {
+        static volatile uint16_t scratch[32];
+        const uint16_t patterns[4] = {0x5555U, 0xAAAAU, 0x0000U, 0xFFFFU};
+        uint16_t p, i;
+        uint8_t  ramOk = 1U;
+
+        for (p = 0U; p < 4U; p++) {
+            for (i = 0U; i < 32U; i++) { scratch[i] = patterns[p]; }
+            for (i = 0U; i < 32U; i++) {
+                if (scratch[i] != patterns[p]) {
+                    ramOk = 0U;
+                    break;
+                }
+            }
+            if (ramOk == 0U) { break; }
+        }
+
+        if (ramOk != 0U) {
+            if (print_fn != NULL) { print_fn("[POST] RAM march:   PASS"); }
+        } else {
+            result |= POST_RAM_FAIL;
+            if (print_fn != NULL) { print_fn("[POST] RAM march:   FAIL ***"); }
+        }
+    }
+
+    /* ── Test 2: Configuration range sanity ──────────────────────────────────
+     * Verify that calibration constants in throttle_config.h are within
+     * physically possible bounds. Static asserts catch MIN==MAX at compile
+     * time; this catches plausible-but-wrong runtime values (e.g. limits
+     * accidentally swapped after recalibration, or PWM range zeroed out).
+     * No hardware access — pure arithmetic. */
+    {
+        uint8_t cfgOk = 1U;
+
+        /* Angle limits: MIN < MAX, and MAX ≤ 35999 (0.01° units, 360° max) */
+        if ((int32_t)CFG_ANGLE_MIN >= (int32_t)CFG_ANGLE_MAX) { cfgOk = 0U; }
+        if ((uint32_t)CFG_ANGLE_MAX > 35999U)                  { cfgOk = 0U; }
+
+        /* PWM: non-zero, fits in 12-bit ePWM compare register */
+        if (CFG_PWM_MAX == 0U)                                  { cfgOk = 0U; }
+        if ((uint32_t)CFG_PWM_MAX > 4095U)                     { cfgOk = 0U; }
+
+        /* PID: positive Kp and integral limit required for stable control */
+        if (CFG_KP_DEFAULT <= 0.0f)                             { cfgOk = 0U; }
+        if (CFG_PID_INTEGRAL_LIMIT <= 0.0f)                    { cfgOk = 0U; }
+
+        /* Solenoid thresholds: ON < OC (inverted = nonsensical) */
+        if ((uint32_t)CFG_SOL_ON_THRESH >= (uint32_t)CFG_SOL_OC_THRESH) { cfgOk = 0U; }
+
+        /* Heartbeat timeout must be longer than TX rate (otherwise always trips) */
+        if ((uint32_t)CFG_CAN_RX_TIMEOUT_MS <= (uint32_t)CFG_CAN_TX_RATE_MS) { cfgOk = 0U; }
+
+        if (cfgOk != 0U) {
+            if (print_fn != NULL) { print_fn("[POST] Config check: PASS"); }
+        } else {
+            result |= POST_CFG_FAIL;
+            if (print_fn != NULL) { print_fn("[POST] Config check: FAIL *** check throttle_config.h"); }
+        }
+    }
+
+    /* ── Test 3: Plant RAM canary ────────────────────────────────────────────
+     * Write the known-good pattern. safe_tick() verifies this every 100ms.
+     * If it changes, safe_tick() sets POST_CANARY_FAIL and enters safe state. */
+    g_safety.ram_canary = SAFETY_RAM_CANARY;
+    if (print_fn != NULL) { print_fn("[POST] RAM canary:  planted (checked every 100ms)"); }
+
+    /* ── Final summary ───────────────────────────────────────────────────── */
+    g_safety.post_result = result;
+    if (result == 0U) {
+        if (print_fn != NULL) { print_fn("[POST] ALL PASS"); }
+    } else {
+        snprintf(buf, sizeof(buf), "[POST] FAILED (0x%02X) — safe state entered", (unsigned)result);
+        if (print_fn != NULL) { print_fn(buf); }
+        safe_enter_safe_state("POST failed");
+    }
+    return result;
 }
 
 const char *safe_fault_name(uint8_t fault_bit)
@@ -424,5 +529,17 @@ void safe_print_status(void (*print_fn)(const char *))
 
     /* ISO26262: hardware WDT is ACTIVE (~840ms timeout), enabled in safe_init(). */
     print_fn("Watchdog: HW WDT ACTIVE (~840ms timeout, enabled in safe_init)");
+
+    snprintf(buf, sizeof(buf), "POST result: 0x%02X (%s)",
+             (unsigned)g_safety.post_result,
+             (g_safety.post_result == 0U) ? "PASS" : "FAIL");
+    print_fn(buf);
+    if (g_safety.post_result & POST_RAM_FAIL)    { print_fn("  - POST_RAM_FAIL (RAM march test failed at boot)"); }
+    if (g_safety.post_result & POST_CFG_FAIL)    { print_fn("  - POST_CFG_FAIL (throttle_config.h value out of range)"); }
+    if (g_safety.post_result & POST_CANARY_FAIL) { print_fn("  - POST_CANARY_FAIL (RAM canary corrupted since boot)"); }
+
+    snprintf(buf, sizeof(buf), "Loop overruns (>50ms): %lu", (unsigned long)g_safety.loop_overrun_count);
+    print_fn(buf);
+
     print_fn("=================================");
 }

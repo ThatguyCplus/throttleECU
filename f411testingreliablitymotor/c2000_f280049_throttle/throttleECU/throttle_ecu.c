@@ -414,10 +414,21 @@ void Throttle_init(void)
 
     s_lastPrint    = Board_millis();
     s_lastSafeTick = Board_millis();
+
+    /* ISO26262: POST runs last, after all hardware is initialised and startup
+     * messages are printed, so the PASS/FAIL lines appear at the end of boot
+     * output. Failure enters safe state immediately and halts control. */
+    safe_post(printBoth);
 }
 
 void Throttle_runOnce(void)
 {
+    /* ISO26262: loop timing monitor — record start time so we can detect if
+     * any single iteration runs longer than CFG_LOOP_MAX_MS (50ms). The
+     * hardware WDT handles a completely stuck loop; this catches soft overruns
+     * (e.g. ADC timeout spinning, blocking UART). Counter visible via "diag". */
+    uint32_t s_loopStart = Board_millis();
+
     /* Kick hardware WDT every iteration (~few ms apart) so the 840ms timeout
      * can only fire if the CPU is completely halted, not merely slow. */
     SysCtl_serviceWatchdog();
@@ -705,6 +716,17 @@ void Throttle_runOnce(void)
                 }
                 printBoth(out);
             }
+        }
+    }
+
+    /* ISO26262: loop overrun check — measure wall-clock cost of this iteration.
+     * Increment counter if > CFG_LOOP_MAX_MS (50ms). The counter is shown in
+     * "diag" output and transmitted via CAN (visible in GUI log).
+     * A non-zero count indicates ADC blocking, UART stall, or encoder SPI hang. */
+    {
+        uint32_t loopDur = Board_millis() - s_loopStart;
+        if (loopDur > (uint32_t)CFG_LOOP_MAX_MS) {
+            g_safety.loop_overrun_count++;
         }
     }
 }
