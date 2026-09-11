@@ -3,7 +3,10 @@
 #include "adc_sense.h"
 #include "throttle_config.h"
 
-/* Diagnostic globals — inspect in debugger at any time (same pattern as g_enc_raw_last) */
+/* Diagnostic globals — inspect in debugger at any time (same pattern as g_enc_raw_last).
+ * ISO26262 volatile audit (2026-09-11): written in ADC read helpers called from the
+ * main loop; not shared with any ISR. volatile prevents the compiler from eliminating
+ * the stores as dead writes, ensuring debugger visibility. Confirmed correct. */
 volatile uint16_t g_adc_ris_last = 0U;  /* last IPROPI1 raw ADC count (0-4095), ADCA_IN0, pin 23 */
 volatile uint16_t g_adc_lis_last = 0U;  /* last IPROPI2 raw ADC count (0-4095), ADCB_IN0, pin 41 */
 volatile uint16_t g_adc_sol_last = 0U;  /* last SOL_CS_CURRENT raw ADC count (0-4095), ADCC_IN1, pin 29 */
@@ -57,7 +60,18 @@ static uint16_t readAvgSOC(uint32_t adcBase, uint32_t resultBase,
         while (ADC_isBusy(adcBase) && (timeout > 0U)) {
             timeout--;
         }
-        sum += ADC_readResult(resultBase, soc);
+        {
+            uint16_t raw = ADC_readResult(resultBase, soc);
+            /* ISO26262: The F280049C ADC is 12-bit; the result register is 16
+             * bits but only bits [11:0] are valid (0-4095). A corrupted ADC
+             * result register (e.g. due to RAM/bus fault) could read > 4095 and
+             * confuse the safety threshold comparisons. Clamp here to prevent
+             * any out-of-range value from propagating to fault detection logic. */
+            if (raw > 4095U) {
+                raw = 4095U;
+            }
+            sum += raw;
+        }
     }
     return (uint16_t)(sum / oversample);
 }

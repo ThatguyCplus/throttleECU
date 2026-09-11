@@ -509,8 +509,15 @@ void Throttle_runOnce(void)
             int32_t diff = s_targetAngle - s_slewTarget;
             if (diff > (int32_t)CFG_SLEW_STEP) {
                 s_slewTarget += (int32_t)CFG_SLEW_STEP;
+                /* ISO26262: reset integral every slew step to prevent windup
+                 * accumulating against the moving target. The integral
+                 * re-accumulates from zero once slew completes. Derivative
+                 * memory (s_prevE) and timing (s_lastMs) are preserved so
+                 * derivative action remains effective during the ramp. */
+                Pid_resetIntegral();
             } else if (diff < -(int32_t)CFG_SLEW_STEP) {
                 s_slewTarget -= (int32_t)CFG_SLEW_STEP;
+                Pid_resetIntegral();  /* ISO26262: anti-windup during slew */
             } else {
                 s_slewTarget = s_targetAngle;
             }
@@ -618,6 +625,14 @@ void Throttle_runOnce(void)
 
         case MODE_SAFE:
             setMotor(0);
+            break;
+
+        default:
+            /* ISO26262: s_mode holds a value not in {MODE_MANUAL, MODE_PID,
+             * MODE_SAFE} — most likely caused by SRAM bit-flip or stack
+             * corruption. Enter safe state immediately rather than leaving the
+             * motor in its last commanded state (which could be non-zero). */
+            enterSafeStateEc("invalid mode");
             break;
         }
 

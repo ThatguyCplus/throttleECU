@@ -45,7 +45,13 @@ static uint8_t s_idx        = 0U;
 static uint8_t s_cnt        = 0U;
 static uint8_t s_spike_cons = 0U;  /* consecutive spike-rejected samples */
 
-/* Diagnostic globals — inspect in debugger at any time */
+/* Diagnostic globals — inspect in debugger at any time.
+ * ISO26262 volatile audit (2026-09-11): these variables are written inside
+ * read_angle_raw() (called from the main loop) and are intended to be readable
+ * by a JTAG debugger without optimisation removing the writes. The volatile
+ * qualifier prevents ticlang/GCC from eliding stores to these variables as
+ * "dead writes". They are NOT shared with an ISR, but volatile is still correct
+ * here for debugger visibility. Confirmed — do not remove volatile. */
 volatile uint16_t g_enc_raw_last  = 0U;  /* last T2 SPI word from sensor (bits15:14=flags, 13:0=angle) */
 volatile uint16_t g_enc_ef_count  = 0U;  /* how many reads had EF=1 */
 

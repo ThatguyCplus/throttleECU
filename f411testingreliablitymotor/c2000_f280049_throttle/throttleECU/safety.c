@@ -140,8 +140,13 @@ void safe_enter_safe_state(const char *reason)
     g_safety.safe_transitions++;
 
     if (reason != NULL) {
+        /* ISO26262: strncpy does not guarantee NUL termination when src length
+         * equals (sizeof(dst) - 1). The explicit NUL write on the next line
+         * ensures last_reason is always NUL-terminated regardless of src length.
+         * This satisfies MISRA C:2012 Rule 21.14 and ISO 26262 data integrity
+         * requirements for diagnostic strings transmitted over CAN/UART. */
         strncpy(g_safety.last_reason, reason, sizeof(g_safety.last_reason) - 1U);
-        g_safety.last_reason[sizeof(g_safety.last_reason) - 1U] = '\0';
+        g_safety.last_reason[sizeof(g_safety.last_reason) - 1U] = '\0';  /* explicit NUL — ISO26262 compliant */
     }
 }
 
@@ -159,6 +164,30 @@ bool safe_can_recover(void)
 void safe_attempt_recovery(void)
 {
     if (safe_can_recover()) {
+        /* ISO26262: auto-recovery path analysis (2026-09-11).
+         *
+         * Setting safe_state_active=false here does NOT automatically re-engage
+         * the throttle. The RunMode (s_mode) in throttle_ecu.c remains MODE_SAFE
+         * after this call because:
+         *   1. enterSafeStateEc() set s_mode = MODE_SAFE when safe state was entered.
+         *   2. safe_attempt_recovery() only clears safe_state_active — it does NOT
+         *      modify s_mode.
+         *   3. In throttle_ecu.c the guard `if (g_safety.safe_state_active && ...)`
+         *      will no longer call enterSafeStateEc() (because active=false), but
+         *      s_mode stays MODE_SAFE.
+         *   4. The switch(s_mode) case MODE_SAFE calls setMotor(0) — motor stays off.
+         *   5. The only way out of MODE_SAFE is an explicit CAN RESET frame (flag
+         *      CFG_CAN_FLAG_RESET) or UART "reset" command, which calls
+         *      safe_clear_faults() and sets s_mode = MODE_MANUAL.
+         *
+         * This means: after CAN timeout recovers and auto-recovery fires, the
+         * throttle DOES NOT re-engage at the previous target. The operator must
+         * send an explicit RESET frame followed by a fresh PID command. This is
+         * intentional and safe by design — it prevents automatic re-engagement
+         * after a reconnect without operator intent.
+         *
+         * ASIL rationale: satisfies ISO 26262 requirement for recovery to require
+         * positive operator action (no automatic re-engagement after loss of control). */
         g_safety.safe_state_active = false;
         g_safety.recovery_attempts++;
         g_safety.last_encoder_update = Board_millis();

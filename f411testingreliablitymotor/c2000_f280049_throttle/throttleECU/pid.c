@@ -12,6 +12,16 @@ void Pid_reset(void)
     s_lastMs = 0U;
 }
 
+void Pid_resetIntegral(void)
+{
+    /* Clear the integral accumulator without disturbing derivative memory
+     * (s_prevE) or the dt timestamp (s_lastMs). Called during setpoint slew
+     * steps to prevent windup against a moving target — see throttle_ecu.c
+     * slew block. The integral re-accumulates from zero once the slew
+     * completes and the target angle is fixed. */
+    s_int = 0.0f;
+}
+
 int32_t Pid_run(int32_t current, int32_t target, int32_t pwmMax,
                 int32_t deadband, uint16_t minDutyThresh,
                 float kp, float ki, float kd, float iLimit,

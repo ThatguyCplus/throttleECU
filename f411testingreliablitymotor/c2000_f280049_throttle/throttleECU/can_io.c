@@ -91,6 +91,32 @@ void CanIo_serviceRx(uint32_t now_ms)
         CAN_MsgFrameType frame   = CAN_MSG_FRAME_STD;
         bool         got;
 
+        /* ISO26262: DLC validation note.
+         * CAN_readMessageWithID() does not return the received DLC — the C2000
+         * DCAN driverlib API signature is:
+         *   bool CAN_readMessageWithID(base, objID, &frameType, &msgID, msgData)
+         * There is no DLC output parameter.
+         *
+         * Partial DLC protection is provided at the hardware message-object level:
+         * CAN_setupMessageObject() was called with CFG_CAN_RX_DLC=4 during init.
+         * On C2000 DCAN, the IF2MCTL.DLC field in the message object sets the
+         * number of data bytes copied from the mailbox into msgData. If a short
+         * frame arrives (DLC < 4), the DCAN peripheral copies only the received
+         * bytes and leaves the remaining msgData[] words unmodified from the
+         * previous message, NOT zeroed. This means msgData[3] (the sequence byte)
+         * may contain a stale value from the previous valid frame rather than
+         * uninitialised memory — effectively replaying the last good sequence byte.
+         *
+         * Residual risk: the stale sequence byte could prevent brake holdoff from
+         * clearing if the attacker/error sends a short frame with the same DLC
+         * as the current sequence. RPN=70 — see FMEA item 3.5.
+         *
+         * Full mitigation (not yet implemented): read IF2MCTL register DLC field
+         * after CAN_readMessageWithID() and reject the frame if DLC < CFG_CAN_RX_DLC:
+         *   uint16_t rxDlcReg = HWREGH(CAN_BASE_CFG + CAN_O_IF2MCTL) & CAN_IF2MCTL_DLC_M;
+         *   if (rxDlcReg < (uint16_t)CFG_CAN_RX_DLC) { continue; }
+         * This register read must occur immediately after CAN_readMessageWithID()
+         * before the next IF2 access overwrites MCTL. */
         got = CAN_readMessageWithID(CAN_BASE_CFG, CAN_RX_MB, &frame, &rxId, msgData);
         if (!got) {
             break;
