@@ -16,6 +16,7 @@ extern void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq
 #define CAN_TX_MB     CFG_CAN_TX_MAILBOX
 
 static uint32_t s_lastTxMs      = 0U;
+static uint32_t s_lastTx2Ms     = 0U;
 static uint8_t  s_txSeq        = 0U;
 static uint8_t  s_busOffLatched = 0U;
 
@@ -54,9 +55,16 @@ void CanIo_init(void)
                            CAN_MSG_OBJ_NO_FLAGS,
                            CFG_CAN_TX_DLC);
 
+    CAN_setupMessageObject(CAN_BASE_CFG, CFG_CAN_TX2_MB, CFG_CAN_TX2_ID,
+                           CAN_MSG_FRAME_STD, CAN_MSG_OBJ_TYPE_TX,
+                           0U,
+                           CAN_MSG_OBJ_NO_FLAGS,
+                           CFG_CAN_TX2_DLC);
+
     CAN_startModule(CAN_BASE_CFG);
 
     s_lastTxMs      = 0U;
+    s_lastTx2Ms     = 0U;
     s_txSeq         = 0U;
     s_busOffLatched = 0U;
 }
@@ -116,7 +124,8 @@ void CanIo_serviceTx(uint32_t now_ms,
                      uint8_t fault_flags,
                      int16_t motor_cmd,
                      uint8_t relay_on,
-                     uint16_t raw_angle_hundredths)
+                     uint16_t raw_angle_hundredths,
+                     uint8_t brake_on)
 {
     if ((now_ms - s_lastTxMs) < CFG_CAN_TX_RATE_MS) {
         return;
@@ -127,8 +136,10 @@ void CanIo_serviceTx(uint32_t now_ms,
         uint16_t tx[8];
         uint16_t m = (uint16_t)((uint16_t)motor_cmd & 0xFFFFU);
 
-        /* [0]: mode in bits 1:0, relay in bit 4 */
-        tx[0] = (uint16_t)((uint16_t)(mode_u8 & 0x03U) | (uint16_t)((relay_on & 0x01U) << 4U));
+        /* [0]: mode in bits 1:0, relay in bit 4, brake in bit 5 */
+        tx[0] = (uint16_t)((uint16_t)(mode_u8 & 0x03U)
+                         | (uint16_t)((relay_on & 0x01U) << 4U)
+                         | (uint16_t)((brake_on & 0x01U) << 5U));
         tx[1] = (uint16_t)act_pct_spi;
         tx[2] = (uint16_t)tgt_pct;
         tx[3] = (uint16_t)fault_flags;
@@ -139,5 +150,27 @@ void CanIo_serviceTx(uint32_t now_ms,
         tx[7] = (uint16_t)((raw_angle_hundredths >> 8U) & 0xFFU);
 
         CAN_sendMessage(CAN_BASE_CFG, CAN_TX_MB, CFG_CAN_TX_DLC, tx);
+    }
+}
+
+void CanIo_serviceTx2(uint32_t now_ms, uint16_t ris_raw, uint16_t lis_raw,
+                      uint16_t sol_raw, uint8_t sol_status)
+{
+    if ((now_ms - s_lastTx2Ms) < CFG_CAN_TX2_RATE_MS) {
+        return;
+    }
+    s_lastTx2Ms = now_ms;
+
+    {
+        uint16_t tx[8];
+        tx[0] = (uint16_t)(ris_raw & 0xFFU);
+        tx[1] = (uint16_t)((ris_raw >> 8U) & 0xFFU);
+        tx[2] = (uint16_t)(lis_raw & 0xFFU);
+        tx[3] = (uint16_t)((lis_raw >> 8U) & 0xFFU);
+        tx[4] = (uint16_t)(sol_raw & 0xFFU);
+        tx[5] = (uint16_t)((sol_raw >> 8U) & 0xFFU);
+        tx[6] = (uint16_t)sol_status;
+        tx[7] = (uint16_t)CFG_FW_VERSION;  /* (major<<4)|minor — bump in throttle_config.h */
+        CAN_sendMessage(CAN_BASE_CFG, CFG_CAN_TX2_MB, CFG_CAN_TX2_DLC, tx);
     }
 }

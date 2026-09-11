@@ -43,6 +43,15 @@ static uint32_t s_lastSafeTick = 0U;
 static int32_t  s_motorCmd     = 0;   /* last command sent to setMotor() for telemetry */
 static uint8_t  s_relayOn      = 0U;  /* relay state — motor must not run when relay is off */
 
+/* ── Brake state machine ─────────────────────────────────────────────────── */
+static uint8_t  s_brake_active   = 0U;  /* 1 while BRK_SENSE reads pressed          */
+static uint8_t  s_brake_holdoff  = 0U;  /* 1 after release: ignore until fresh seq   */
+static uint8_t  s_brake_last_seq = 0U;  /* CAN seq captured at moment of release     */
+static uint8_t  s_last_rx_seq    = 0U;  /* most recent seq from any valid RX frame   */
+#define CFG_BRAKE_DEBOUNCE_MS  20U      /* ignore transitions shorter than this      */
+static uint32_t s_brake_debounce_start = 0U;
+static uint8_t  s_brake_debounced      = 0U;  /* debounced brake state                */
+
 /* Large-error fault: if |pos_error| > 15% of usable range for >2s, safe state */
 #define CFG_LARGE_ERR_THRESH_PCT  15
 #define CFG_LARGE_ERR_TIMEOUT_MS  2000U
@@ -167,7 +176,7 @@ static void enterSafeStateEc(const char *reason)
 
 void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
 {
-    (void)seq;
+    s_last_rx_seq = seq;   /* always track latest seq regardless of brake state */
 
     /* ESTOP takes priority over everything */
     if ((flags & CFG_CAN_FLAG_ESTOP) != 0U) {
@@ -188,6 +197,25 @@ void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
     }
 
     if (s_mode == MODE_SAFE) {
+        return;
+    }
+
+    /* Post-brake holdoff: ignore frames until a new seq arrives.
+     * This prevents the pre-brake throttle command from re-engaging
+     * the moment the brake is released. */
+    if (s_brake_holdoff != 0U) {
+        if (seq == s_brake_last_seq) {
+            return;   /* stale frame — same seq as when brake released */
+        }
+        s_brake_holdoff = 0U;   /* fresh seq received — holdoff cleared */
+    }
+
+    /* While brake is physically pressed: solenoid and throttle are owned by
+     * the brake state machine in the main loop. Reject relay-on and all
+     * throttle commands. ESTOP/RESET above still pass through. */
+    if (s_brake_active != 0U) {
+        /* Ensure relay stays off even if CAN tries to turn it on */
+        setRelay(0U);
         return;
     }
 
@@ -378,12 +406,70 @@ void Throttle_runOnce(void)
 
         uint16_t ris = 0U;
         uint16_t lis = 0U;
+        uint16_t sol = 0U;
+        uint16_t brk_raw = 0U;
         AdcSense_readCurrents(&ris, &lis);
+        AdcSense_readSolenoid(&sol);
+        AdcSense_readBrake(&brk_raw);
+        uint8_t brake_raw = (brk_raw >= CFG_ADC_BRK_THRESH) ? 1U : 0U;
 
-        CanIo_serviceRx(now);
+        /* Debounce brake sensor: require CFG_BRAKE_DEBOUNCE_MS stable before transition */
+        if (brake_raw != s_brake_debounced) {
+            if (s_brake_debounce_start == 0U) {
+                s_brake_debounce_start = now;
+            } else if ((now - s_brake_debounce_start) >= CFG_BRAKE_DEBOUNCE_MS) {
+                s_brake_debounced      = brake_raw;
+                s_brake_debounce_start = 0U;
+            }
+        } else {
+            s_brake_debounce_start = 0U;
+        }
+
+        CanIo_serviceRx(now);  /* update s_last_rx_seq before brake state machine */
+
+        /* ── Brake state machine ─────────────────────────────────────────── */
+        if (s_brake_debounced != 0U) {
+            /* BRAKE PRESSED ------------------------------------------------ */
+            if (s_brake_active == 0U) {
+                s_brake_active = 1U;  /* rising edge */
+            }
+            /* Solenoid must be off */
+            if (s_relayOn != 0U) {
+                setRelay(0U);
+            }
+            /* Drive motor to 0% (fully closed) — bypass slew for immediacy.
+             * Only override if not already in safe state (safe state owns motor). */
+            if (s_mode != MODE_SAFE) {
+                if (s_mode != MODE_PID) {
+                    Pid_reset();
+                    s_mode = MODE_PID;
+                }
+                s_throttlePct  = 0;
+                s_targetAngle  = s_usableMax;
+                s_slewTarget   = s_usableMax;  /* skip slew — immediate close */
+                s_settled      = false;
+            }
+        } else {
+            /* BRAKE RELEASED ----------------------------------------------- */
+            if (s_brake_active != 0U) {
+                /* Falling edge: enter holdoff so stale CAN frames are rejected.
+                 * s_last_rx_seq was just updated by CanIo_serviceRx above.    */
+                s_brake_active  = 0U;
+                s_brake_holdoff = 1U;
+                s_brake_last_seq = s_last_rx_seq;
+                /* Drop to MANUAL so throttle doesn't re-engage until operator
+                 * explicitly sends a fresh PID command.                        */
+                s_mode        = MODE_MANUAL;
+                s_throttlePct = 0;
+                s_duty        = 0U;
+                Pid_reset();
+            }
+        }
 
         safe_check_encoder(angle >= 0, now);
         safe_check_current(ris, lis, now);
+        safe_check_solenoid(sol, s_relayOn);
+        /* nFAULT check disabled — GPIO1 picks up PWM switching noise; motor confirmed working. */
 
         if (g_safety.safe_state_active && (s_mode != MODE_SAFE)) {
             enterSafeStateEc(g_safety.last_reason);
@@ -524,9 +610,18 @@ void Throttle_runOnce(void)
             uint16_t rawHundredths = (angle >= 0)
                 ? (uint16_t)((uint32_t)angle & 0xFFFFU)
                 : 0xFFFFU;
-            CanIo_serviceTx(now, (uint8_t)s_mode, actSpi,
-                            (uint8_t)s_throttlePct, safe_get_fault_flags(),
-                            (int16_t)s_motorCmd, s_relayOn, rawHundredths);
+            {
+                /* sol_status byte[6] of 0x102: fault bits + inferred-on indicator */
+                uint8_t solSt = safe_get_sol_faults();
+                if (sol >= (uint16_t)CFG_SOL_ON_THRESH) {
+                    solSt |= 0x08U;  /* bit3: SOL_INFERRED_ON — current above threshold */
+                }
+                CanIo_serviceTx(now, (uint8_t)s_mode, actSpi,
+                                (uint8_t)s_throttlePct, safe_get_fault_flags(),
+                                (int16_t)s_motorCmd, s_relayOn, rawHundredths,
+                                s_brake_debounced);
+                CanIo_serviceTx2(now, ris, lis, sol, solSt);
+            }
         }
 
         if ((now - s_lastPrint) >= CFG_TELEMETRY_RATE_MS) {

@@ -167,8 +167,10 @@ void safe_attempt_recovery(void)
 
 void safe_clear_faults(void)
 {
-    g_safety.faults         = 0U;
-    g_safety.faults_latched = 0U;
+    g_safety.faults             = 0U;
+    g_safety.faults_latched     = 0U;
+    g_safety.sol_faults         = 0U;
+    g_safety.sol_faults_latched = 0U;
     memset(g_safety.fault_count, 0, sizeof(g_safety.fault_count));
     g_safety.safe_state_active = false;
 #if CFG_CAN_HEARTBEAT_EN
@@ -252,6 +254,61 @@ uint8_t safe_get_fault_flags(void)
     return g_safety.faults;
 }
 
+uint8_t safe_get_sol_faults(void)
+{
+    return g_safety.sol_faults;
+}
+
+/* DRV8873H nFAULT check — diagnostic only, does NOT enter safe state.
+ * nFAULT asserts LOW for UVLO, OCP, OTS, OTW. These conditions are shown in the
+ * GUI via sol_status bit4 (DRV_NFAULT=0x10) for operator awareness.
+ * Safe-state entry removed because UVLO at idle (VM absent) is not a run-time fault
+ * and OCP auto-retry on the DRV8873H recovers without intervention. */
+#define CFG_DRV_NFAULT_DEBOUNCE  10U
+void safe_check_drv_nfault(uint8_t nfault_asserted)
+{
+    if (nfault_asserted != 0U) {
+        if (g_safety.fault_count[7] < CFG_DRV_NFAULT_DEBOUNCE) {
+            g_safety.fault_count[7]++;
+        }
+        if (g_safety.fault_count[7] >= CFG_DRV_NFAULT_DEBOUNCE) {
+            /* Set warning flag for GUI display — no safe state entry */
+            g_safety.sol_faults        |= FAULT_DRV_NFAULT;
+            g_safety.sol_faults_latched |= FAULT_DRV_NFAULT;
+        }
+    } else {
+        g_safety.fault_count[7] = 0U;
+        g_safety.sol_faults &= (uint8_t)(~FAULT_DRV_NFAULT);
+    }
+}
+
+/* Solenoid current check — simple on/off confirmation only.
+ * When relay is commanded ON, verify current is above the ON threshold.
+ * SOL_OPEN = relay ON but no current detected (open circuit / not connected).
+ * All other SOL fault checks removed — current sense is reference/diagnostic only.
+ * fault_count[4] = SOL_OPEN debounce
+ */
+void safe_check_solenoid(uint16_t sol_raw, uint8_t relay_on)
+{
+    if (relay_on != 0U) {
+        if (sol_raw < (uint16_t)CFG_SOL_ON_THRESH) {
+            if (g_safety.fault_count[4] < (uint8_t)CFG_SOL_FAULT_DEBOUNCE) {
+                g_safety.fault_count[4]++;
+            }
+            if (g_safety.fault_count[4] >= (uint8_t)CFG_SOL_FAULT_DEBOUNCE) {
+                g_safety.sol_faults        |= FAULT_SOL_OPEN;
+                g_safety.sol_faults_latched |= FAULT_SOL_OPEN;
+            }
+        } else {
+            g_safety.fault_count[4] = 0U;
+            g_safety.sol_faults &= (uint8_t)(~FAULT_SOL_OPEN);
+        }
+    } else {
+        g_safety.fault_count[4] = 0U;
+        g_safety.sol_faults &= (uint8_t)(~(FAULT_SOL_OPEN | FAULT_SOL_WELDED | FAULT_SOL_OC));
+    }
+}
+
 void safe_print_status(void (*print_fn)(const char *))
 {
     char buf[128];
@@ -299,6 +356,16 @@ void safe_print_status(void (*print_fn)(const char *))
 
     snprintf(buf, sizeof(buf), "Recovery Attempts: %lu", (unsigned long)g_safety.recovery_attempts);
     print_fn(buf);
+
+    snprintf(buf, sizeof(buf), "SOL Faults: 0x%02X (latched: 0x%02X)",
+             (unsigned)g_safety.sol_faults, (unsigned)g_safety.sol_faults_latched);
+    print_fn(buf);
+    if (g_safety.sol_faults & FAULT_SOL_OPEN) {
+        print_fn("  - SOL_OPEN (relay ON, no current detected)");
+    }
+    if (g_safety.sol_faults & FAULT_DRV_NFAULT) {
+        print_fn("  - DRV_NFAULT (DRV8873H fault pin asserted)");
+    }
 
     print_fn("Watchdog: optional — enable in safety.c");
     print_fn("=================================");

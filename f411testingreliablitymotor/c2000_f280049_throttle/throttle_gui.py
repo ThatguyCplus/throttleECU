@@ -46,14 +46,32 @@ def _get_com_ports():
     return sorted(p.device for p in _list_ports.comports())
 
 # ── Protocol constants (must match throttle_config.h) ──────────────────────────
-CAN_CMD_ID   = 0x100   # PC → ECU
-CAN_TELEM_ID = 0x101   # ECU → PC
-CAN_BITRATE  = 500000
+CAN_CMD_ID    = 0x100   # PC → ECU
+CAN_TELEM_ID  = 0x101   # ECU → PC (8 bytes, 50 Hz)
+CAN_ISENSE_ID = 0x102   # ECU → PC (8 bytes, 20 Hz): [0:1] RIS [2:3] LIS [4:5] SOL raw [6] sol_status [7] fw_ver
+CAN_BITRATE   = 500000
+
+# DRV8873H IPROPI sense: gain = 1/1500 A/A, R_sense = 360Ω, VREF = 3.3V, 12-bit ADC
+# I_phase_mA = count × 3300 × 1500 / (4096 × 360) ≈ count × 3.357 mA/count
+IPROPI_MA_PER_COUNT = (3300.0 * 1500.0) / (4096.0 * 360.0)  # ≈ 3.357
+
+# TPS1H100B solenoid current sense:
+#   R10 (4.7k) = CS-to-GND sense resistor  (R4=620Ω is MCU-side pull-down only)
+#   KILIS empirical = 6444 A/A (back-calc from V=0.2117V, I_PSU=0.29A)
+#   I_sol_A = count × 3300 × KILIS / (4096 × R10 × 1000)
+SOL_A_PER_COUNT = (3300.0 * 6444.0) / (4096.0 * 4700.0 * 1000.0)  # ≈ 0.001104 A/count
 
 FLAG_RELAY = 0x01
 FLAG_PID   = 0x02
 FLAG_ESTOP = 0x04
 FLAG_RESET = 0x08
+
+# 0x102 byte[6] sol_status bits (must match safety.h)
+SOL_OPEN      = 0x01   # relay ON, current below ON threshold (open/disconnected)
+SOL_WELDED    = 0x02   # relay OFF, current above ON threshold → triggered safe state
+SOL_OC        = 0x04   # current above OC threshold → triggered safe state
+SOL_ON_INFER  = 0x08   # solenoid conducting (inferred from current, not a fault)
+DRV_NFAULT    = 0x10   # DRV8873H nFAULT asserted (OCP/OTW/OTS/UVLO) → triggered safe state
 
 # ── Angle calibration defaults (must match throttle_config.h) ─────────────────
 # Measured 2026-09-06 via raw CAN angle field (post pin-fix):
@@ -116,6 +134,12 @@ class CanThread:
         self.motor_cmd   = 0
         self.relay_state = 0
         self.raw_deg     = None   # float degrees direct from encoder, no calibration
+        self.ris_ma      = None   # float mA from IPROPI1 (motor A), or None
+        self.lis_ma      = None   # float mA from IPROPI2 (motor B), or None
+        self.sol_mv      = None   # float A from SOL_CS_CURRENT, or None
+        self.sol_status  = 0      # int — byte[6] of 0x102: fault/state bitmask
+        self.fw_version  = None   # int byte[7] of 0x102: (major<<4)|minor, or None if not yet rx
+        self.brake_on    = False  # bool — brake pressed (byte[0] bit5 of 0x101)
         self.last_frame  = ""     # human-readable last decoded frame for log
 
     # ── Public API (GUI thread) ────────────────────────────────────────────────
@@ -220,46 +244,78 @@ class CanThread:
         while self._running:
             try:
                 msg = self.bus.recv(timeout=0.3)
-                if msg is None or msg.arbitration_id != CAN_TELEM_ID:
-                    continue
-                d = msg.data
-                if len(d) < 8:
+                if msg is None:
                     continue
 
-                # [0]: mode bits1:0, relay bit4
-                d0       = int(d[0])
-                mode_raw = d0 & 0x03
-                relay    = (d0 >> 4) & 0x01
-                act_pct  = int(d[1])
-                tgt_pct  = int(d[2])
-                faults   = int(d[3])
-                mot_cmd  = struct.unpack_from('<h', bytes(d[4:6]))[0]
-                # [6:7]: raw encoder angle in 0.01° units (0xFFFF = no encoder)
-                raw_hun  = int(d[6]) | (int(d[7]) << 8)
+                if msg.arbitration_id == CAN_TELEM_ID:
+                    d = msg.data
+                    if len(d) < 8:
+                        continue
 
-                mode_str  = MODE_NAMES.get(mode_raw, "?")
-                act_val   = None if act_pct == 0xFF else act_pct
-                raw_deg   = None if raw_hun == 0xFFFF else raw_hun / 100.0
-                fnames    = [n for b, n, _ in FAULT_BITS if faults & b]
+                    # [0]: mode bits1:0, relay bit4, brake bit5
+                    d0       = int(d[0])
+                    mode_raw = d0 & 0x03
+                    relay    = (d0 >> 4) & 0x01
+                    brake    = bool((d0 >> 5) & 0x01)
+                    act_pct  = int(d[1])
+                    tgt_pct  = int(d[2])
+                    faults   = int(d[3])
+                    mot_cmd  = struct.unpack_from('<h', bytes(d[4:6]))[0]
+                    # [6:7]: raw encoder angle in 0.01° units (0xFFFF = no encoder)
+                    raw_hun  = int(d[6]) | (int(d[7]) << 8)
 
-                frame_txt = (
-                    f"mode={mode_str}  "
-                    f"raw={'---' if raw_deg is None else f'{raw_deg:.2f}°'}  "
-                    f"pos={'---' if act_val is None else f'{act_val}%'}  "
-                    f"tgt={tgt_pct}%  cmd={mot_cmd:+d}  "
-                    f"relay={'ON' if relay else 'OFF'}  "
-                    f"faults={'OK' if not fnames else ' '.join(fnames)}"
-                )
+                    mode_str  = MODE_NAMES.get(mode_raw, "?")
+                    act_val   = None if act_pct == 0xFF else act_pct
+                    raw_deg   = None if raw_hun == 0xFFFF else raw_hun / 100.0
+                    fnames    = [n for b, n, _ in FAULT_BITS if faults & b]
 
-                with self.lock:
-                    self.mode        = mode_str
-                    self.thr_act     = act_val
-                    self.thr_tgt     = tgt_pct
-                    self.err_flags   = faults
-                    self.motor_cmd   = mot_cmd
-                    self.relay_state = relay
-                    self.raw_deg     = raw_deg
-                    self.last_frame  = frame_txt
+                    # Decode sol_status from latest 0x102 (same rx thread, no lock needed)
+                    _sol = self.sol_status
+                    _sol_bits = []
+                    if _sol & SOL_WELDED: _sol_bits.append("WELD")
+                    if _sol & SOL_OC:     _sol_bits.append("SOL_OC")
+                    if _sol & DRV_NFAULT: _sol_bits.append("DRV!")
+                    if _sol & SOL_OPEN:   _sol_bits.append("SOL_OPEN")
+                    _sol_str = "/".join(_sol_bits) if _sol_bits else "ok"
+
+                    frame_txt = (
+                        f"mode={mode_str}  "
+                        f"raw={'---' if raw_deg is None else f'{raw_deg:.2f}°'}  "
+                        f"pos={'---' if act_val is None else f'{act_val}%'}  "
+                        f"tgt={tgt_pct}%  cmd={mot_cmd:+d}  "
+                        f"relay={'ON' if relay else 'OFF'}  "
+                        f"brake={'ON' if brake else 'off'}  "
+                        f"faults={'OK' if not fnames else ' '.join(fnames)}  "
+                        f"sol={_sol_str}"
+                    )
+
+                    with self.lock:
+                        self.mode        = mode_str
+                        self.thr_act     = act_val
+                        self.thr_tgt     = tgt_pct
+                        self.err_flags   = faults
+                        self.motor_cmd   = mot_cmd
+                        self.relay_state = relay
+                        self.raw_deg     = raw_deg
+                        self.brake_on    = brake
+                        self.last_frame  = frame_txt
+
+                elif msg.arbitration_id == CAN_ISENSE_ID:
+                    d = msg.data
+                    if len(d) >= 4:
+                        ris_raw    = int(d[0]) | (int(d[1]) << 8)
+                        lis_raw    = int(d[2]) | (int(d[3]) << 8)
+                        sol_raw    = (int(d[4]) | (int(d[5]) << 8)) if len(d) >= 6 else 0
+                        sol_status = int(d[6]) if len(d) >= 7 else 0
+                        fw_ver     = int(d[7]) if len(d) >= 8 else None
+                        with self.lock:
+                            self.ris_ma     = ris_raw * IPROPI_MA_PER_COUNT
+                            self.lis_ma     = lis_raw * IPROPI_MA_PER_COUNT
+                            self.sol_mv     = sol_raw * SOL_A_PER_COUNT
+                            self.sol_status = sol_status
+                            if fw_ver is not None:
+                                self.fw_version = fw_ver
+
             except Exception:
                 pass
 
@@ -428,6 +484,11 @@ class ThrottleGUI:
         self.lbl_thr_tgt = self._card(cards, "Throttle Target", "0%")
         self.lbl_duty    = self._card(cards, "Motor Cmd",       "0")
         self.lbl_relay   = self._card(cards, "Relay",           "---")
+        self.lbl_brake   = self._card(cards, "Brake",            "---")
+        self.lbl_ris_ma  = self._card(cards, "I-Sense A (mA)",  "---")
+        self.lbl_lis_ma  = self._card(cards, "I-Sense B (mA)",  "---")
+        self.lbl_sol_mv  = self._card(cards, "Sol CS (A)",      "---")
+        self.lbl_fw_ver  = self._card(cards, "ECU Firmware",    "waiting...")
 
         # ── Throttle slider ─────────────────────────────────────────────────────
         sl = tk.Frame(left, bg=self.SURFACE, padx=12, pady=10)
@@ -732,7 +793,23 @@ class ThrottleGUI:
             motor_cmd  = self.can.motor_cmd
             relay      = self.can.relay_state
             raw_deg    = self.can.raw_deg
+            ris_ma     = self.can.ris_ma
+            lis_ma     = self.can.lis_ma
+            sol_mv     = self.can.sol_mv
+            sol_status = self.can.sol_status
+            fw_version = self.can.fw_version
+            brake_on   = self.can.brake_on
             last_frame = self.can.last_frame
+
+        # Firmware version card + window title — updated live from 0x102 byte[7]
+        if fw_version is not None:
+            major = (fw_version >> 4) & 0x0F
+            minor = fw_version & 0x0F
+            ver_str = f"v{major}.{minor}"
+            self.root.title(f"Throttle ECU — Tasaru {ver_str} (F280049C) — CAN")
+            self.lbl_fw_ver.configure(text=ver_str, fg=self.GREEN)
+        else:
+            self.lbl_fw_ver.configure(text="waiting...", fg=self.ORANGE)
 
         # Mode badge
         label, bg_col, fg_col = MODE_STYLE.get(mode, (mode, self.OVERLAY, self.FG))
@@ -761,6 +838,33 @@ class ThrottleGUI:
         self.lbl_relay.configure(
             text="ON" if relay else "OFF",
             fg=self.GREEN if relay else self.RED)
+        self.lbl_brake.configure(
+            text="PRESSED" if brake_on else "off",
+            fg=self.RED if brake_on else self.GREEN)
+
+        # Current sense cards
+        if ris_ma is not None:
+            self.lbl_ris_ma.configure(text=f"{ris_ma:.0f}", fg=self.ORANGE)
+        else:
+            self.lbl_ris_ma.configure(text="---", fg=self.OVERLAY)
+        if lis_ma is not None:
+            self.lbl_lis_ma.configure(text=f"{lis_ma:.0f}", fg=self.ORANGE)
+        else:
+            self.lbl_lis_ma.configure(text="---", fg=self.OVERLAY)
+        if sol_mv is not None:
+            if sol_status & DRV_NFAULT:
+                self.lbl_sol_mv.configure(text="DRV!", fg=self.RED)
+            elif sol_status & (SOL_WELDED | SOL_OC):
+                fault_lbl = "WELD!" if (sol_status & SOL_WELDED) else "OC!"
+                self.lbl_sol_mv.configure(text=fault_lbl, fg=self.RED)
+            elif sol_status & SOL_OPEN:
+                self.lbl_sol_mv.configure(text=f"{sol_mv:.3f}?", fg=self.ORANGE)
+            elif sol_status & SOL_ON_INFER:
+                self.lbl_sol_mv.configure(text=f"{sol_mv:.3f}", fg=self.GREEN)
+            else:
+                self.lbl_sol_mv.configure(text=f"{sol_mv:.3f}", fg=self.TEAL)
+        else:
+            self.lbl_sol_mv.configure(text="---", fg=self.OVERLAY)
 
         # Position bar
         self._draw_pos_bar(thr_act, thr_tgt)

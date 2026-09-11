@@ -48,6 +48,17 @@ void MotorEPwm_init(void)
     GPIO_setDirectionMode(CFG_MOT_DIR_PIN, GPIO_DIR_MODE_OUT);
     GPIO_setPadConfig(CFG_MOT_DIR_PIN, GPIO_PIN_TYPE_STD);
     GPIO_writePin(CFG_MOT_DIR_PIN, 0U);
+
+    /* nFAULT — GPIO1 as input (open-drain, externally pulled to 3V3 via R15 10k) */
+    GPIO_setPinConfig(CFG_MOT_NFAULT_PIN_CONFIG);
+    GPIO_setDirectionMode(CFG_MOT_NFAULT_PIN, GPIO_DIR_MODE_IN);
+    GPIO_setPadConfig(CFG_MOT_NFAULT_PIN, GPIO_PIN_TYPE_STD);  /* no internal pull — R15 handles it */
+}
+
+uint8_t MotorEPwm_isNFault(void)
+{
+    /* nFAULT is active-LOW open-drain: GPIO reads 0 when fault asserted */
+    return (GPIO_readPin(CFG_MOT_NFAULT_PIN) == 0U) ? 1U : 0U;
 }
 
 void MotorEPwm_setCommand(int32_t cmd, int pwmMax)
