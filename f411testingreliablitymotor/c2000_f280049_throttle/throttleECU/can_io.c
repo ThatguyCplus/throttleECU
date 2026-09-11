@@ -17,7 +17,6 @@ extern void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq
 
 static uint32_t s_lastTxMs      = 0U;
 static uint32_t s_lastTx2Ms     = 0U;
-static uint8_t  s_txSeq        = 0U;
 static uint8_t  s_busOffLatched = 0U;
 
 static void can_pinmux(void)
@@ -65,7 +64,6 @@ void CanIo_init(void)
 
     s_lastTxMs      = 0U;
     s_lastTx2Ms     = 0U;
-    s_txSeq         = 0U;
     s_busOffLatched = 0U;
 }
 

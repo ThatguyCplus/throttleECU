@@ -111,6 +111,20 @@ void safe_check_current(uint16_t ris, uint16_t lis, uint32_t now_ms)
     }
 }
 
+/* safe_check_power() — supply voltage under-voltage check.
+ *
+ * ISO26262 NOTE: This function is defined and ready but is NOT currently called
+ * from throttle_ecu.c because the current PCB revision does not have a supply-
+ * voltage sense line wired to any ADC input. All four ADCA/B/C channels are
+ * allocated to IPROPI1, IPROPI2, SOL_CS_CURRENT, and BRK_SENSE.
+ *
+ * To activate: connect VM or a resistor-divided version of the supply rail to
+ * a spare ADC pin, add an AdcSense_readSupply() helper in adc_sense.c, then
+ * call safe_check_power(supply_mv) inside Throttle_runOnce() after the other
+ * safe_check_*() calls.
+ *
+ * Until then, FAULT_POWER_LOW will never be raised. This is an accepted residual
+ * risk — documented in FMEA. */
 void safe_check_power(uint16_t supply_mv)
 {
     if (supply_mv < CFG_POWER_LOW_MV) {
@@ -408,6 +422,7 @@ void safe_print_status(void (*print_fn)(const char *))
         print_fn("  - POSITION_ERROR (|pos_error| > 15% for 2s — motor stuck or encoder)");
     }
 
-    print_fn("Watchdog: optional — enable in safety.c");
+    /* ISO26262: hardware WDT is ACTIVE (~840ms timeout), enabled in safe_init(). */
+    print_fn("Watchdog: HW WDT ACTIVE (~840ms timeout, enabled in safe_init)");
     print_fn("=================================");
 }

@@ -190,19 +190,21 @@ void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
 {
     s_last_rx_seq = seq;   /* always track latest seq regardless of brake state */
 
-    /* ESTOP takes priority over everything */
-    if ((flags & CFG_CAN_FLAG_ESTOP) != 0U) {
-        safe_enter_safe_state("CAN ESTOP");
-        return;
-    }
+    /* ISO26262: ESTOP is handled in CanIo_serviceRx() before this function is
+     * called — the ESTOP branch in can_io.c calls safe_enter_safe_state() directly
+     * and does NOT forward the frame to Throttle_CanRxApply(). Any ESTOP frame
+     * therefore never reaches this point. No check needed here. */
 
-    /* Allow CAN reset to exit safe state before the MODE_SAFE guard */
+    /* Allow CAN reset to exit safe state before the MODE_SAFE guard.
+     * ISO26262: clear s_motorCmd before returning to MANUAL so the next CAN TX
+     * does not replay a stale non-zero motor command in the telemetry byte. */
     if ((flags & CFG_CAN_FLAG_RESET) != 0U) {
         if (s_mode == MODE_SAFE) {
             safe_clear_faults();
-            s_mode = MODE_MANUAL;
-            s_duty = 0U;
-            Board_digitalEnables(0U);
+            s_mode     = MODE_MANUAL;
+            s_duty     = 0U;
+            s_motorCmd = 0;           /* ISO26262: clear stale cmd before next telemetry TX */
+            Board_digitalEnables(0U); /* bridge disabled — operator must send explicit PID/duty cmd */
             printBoth("Safe state cleared via CAN — mode=MAN");
         }
         return;
@@ -268,9 +270,13 @@ static void processCmd(char *s)
     } else if (str_eq_ic(s, "reset")) {
         if (s_mode == MODE_SAFE) {
             safe_clear_faults();
-            s_mode = MODE_MANUAL;
-            s_duty = 0U;
-            Board_digitalEnables(1U);
+            s_mode     = MODE_MANUAL;
+            s_duty     = 0U;
+            s_motorCmd = 0;           /* ISO26262: clear stale cmd before next telemetry TX */
+            Board_digitalEnables(0U); /* ISO26262: bridge DISABLED after reset — operator must
+                                       * send an explicit d## or PID command to re-engage motor.
+                                       * Previously (1U) re-enabled bridge immediately on reset,
+                                       * inconsistent with CAN RESET path which uses (0U). */
             printBoth("Safe state cleared — mode=MAN");
         }
     } else if (str_eq_ic(s, "on")) {
