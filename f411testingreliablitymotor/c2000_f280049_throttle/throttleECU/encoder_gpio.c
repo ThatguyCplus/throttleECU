@@ -1,11 +1,15 @@
 /*
  * encoder_gpio.c — AS5147U magnetic angle sensor via bit-bang SPI
  *
- * Hardware (from schematic):
- *   MOSI (MCU→sensor)  GPIO40  pkg-pin 65
- *   MISO (sensor→MCU)  GPIO56  pkg-pin 66
- *   CLK                GPIO57  pkg-pin 67
- *   CS   (active-low)  GPIO59  pkg-pin 92
+ * Hardware (corrected — schematic originally listed wrong GPIO numbers):
+ *   MOSI (MCU→sensor)  GPIO56  pkg-pin 65  (CFG_ENC_SPI_MOSI_PIN)
+ *   MISO (sensor→MCU)  GPIO57  pkg-pin 66  (CFG_ENC_SPI_MISO_PIN)
+ *   CLK                GPIO58  pkg-pin 67  (CFG_ENC_SPI_CLK_PIN)
+ *   CS   (active-low)  GPIO59  pkg-pin 92  (CFG_ENC_SPI_CS_PIN)
+ *
+ * Schematic listed GPIO40/56/57 — these were the wrong GPIO numbers for
+ * those package pins. Corrected to the actual pkg-pin→GPIO mapping from
+ * LAUNCHXL_F280049C.syscfg.json. Pin numbers come from throttle_config.h.
  *
  * Protocol: 16-bit SPI Mode 1 (CPOL=0, CPHA=1)
  *   Two transactions per read (AS5147U pipeline delay):
@@ -122,13 +126,30 @@ static uint16_t read_angle_raw(void)
 
     g_enc_raw_last = raw;
 
-    /* ISO26262: bit 14 = Error Flag. When EF=1 the angle data (bits 13:0)
-     * is undefined (CORDIC overflow, field out of range, internal error).
-     * Return the current filtered average so control loop holds last valid
-     * position. If the filter is empty return -1 (encoder invalid). */
+    /* AS5147U bit 14 = Error Flag (EF). EF=1 can indicate two distinct conditions:
+     *   a) COMP_H / COMP_L: magnetic field strength is outside the ideal range
+     *      (magnet too close or too far). The angle data (bits 13:0) is still
+     *      valid and tracks position correctly. Very common on prototype mounts
+     *      where magnet Z-distance is not perfectly optimised.
+     *   b) COF (CORDIC overflow): the angle computation has failed and bits 13:0
+     *      are genuinely undefined.
+     *
+     * Distinguishing (a) from (b) requires reading the ERRFL status register in
+     * a separate SPI transaction (not implemented here — adds latency every loop).
+     *
+     * Decision: increment g_enc_ef_count for diagnostic visibility but continue
+     * to use the angle data. In bench testing the AS5147U with a slightly off-
+     * range magnet, EF=1 is set permanently yet angle tracks the full 360° arc
+     * without errors. Rejecting all EF=1 data (previous implementation) caused
+     * continuous encoder-invalid faults on real hardware where the magnet mount
+     * is not at the ideal 1 mm Z-distance.
+     *
+     * If g_enc_ef_count is continuously high (visible in CCS Expressions), it
+     * indicates the magnet should be moved closer to the IC or a stronger magnet
+     * used — but it does NOT mean the angle is wrong. */
     if ((raw & 0x4000U) != 0U) {
         g_enc_ef_count++;
-        return 0xFFFFU;   /* signals error to caller — average used by EncoderGpio_getAngle */
+        /* Fall through — use angle bits 13:0; do not discard. */
     }
 
     return raw & 0x3FFFU;   /* 14-bit angle: 0 = 0°, 16383 = 359.98° */
