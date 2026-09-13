@@ -89,13 +89,13 @@ SECTIONS
    .data            : > RAMLS5,       PAGE = 1
    .sysmem          : > RAMLS5,       PAGE = 1
    /* Initalized sections go in Flash */
-   .const           : > FLASH_BANK0_SEC4,       PAGE = 0,       ALIGN(4)
+   .const           : >> FLASH_BANK0_SEC4 | FLASH_BANK0_SEC8,       PAGE = 0,       ALIGN(4)
 #else
    .pinit           : > FLASH_BANK0_SEC1,       PAGE = 0,       ALIGN(4)
    .ebss            : > RAMLS5,       PAGE = 1
    .esysmem         : > RAMLS5,       PAGE = 1
    .cio             : > RAMLS0,       PAGE = 0
-   .econst          : > FLASH_BANK0_SEC4,    PAGE = 0, ALIGN(4)
+   .econst          : >> FLASH_BANK0_SEC4 | FLASH_BANK0_SEC8,    PAGE = 0, ALIGN(4)
 #endif
 
    ramgs0           : > RAMGS0,    PAGE = 1

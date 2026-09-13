@@ -121,6 +121,18 @@
 #define CFG_SLEW_RATE_MS  10U
 #define CFG_SLEW_STEP     200
 
+/* Motor non-convergence detection
+ * After a new PID target is set, the motor has CFG_CONV_TIMEOUT_MS to get
+ * within CFG_CONV_REACH_PCT percent of the target. If it fails → safe state.
+ * Raise CFG_CONV_TIMEOUT_MS for slower throttle bodies or very slew-limited moves. */
+#define CFG_CONV_TIMEOUT_MS   2000U  /* ms from target-set to expect position reached */
+#define CFG_CONV_REACH_PCT    10     /* must be within 10% of target or fault fires   */
+
+/* Position drift monitor: after target is reached, if actual drifts more than
+ * CFG_DRIFT_THRESH_PCT from commanded for CFG_DRIFT_TIMEOUT_MS → safe state. */
+#define CFG_DRIFT_THRESH_PCT  15     /* % drift before fault timer starts             */
+#define CFG_DRIFT_TIMEOUT_MS  500U   /* ms of sustained drift before safe state       */
+
 #define CFG_OVERCURRENT_THRESH    4095U
 #define CFG_OVERCURRENT_DEBOUNCE  10U
 #define CFG_ENCODER_TIMEOUT_MS    30000U
@@ -174,8 +186,21 @@
 #define CFG_LOOP_MAX_MS        50U
 
 #define CFG_FW_VERSION_MAJOR   1U
-#define CFG_FW_VERSION_MINOR   6U
+#define CFG_FW_VERSION_MINOR   8U
 #define CFG_FW_VERSION  ((uint8_t)(((CFG_FW_VERSION_MAJOR) & 0x0FU) << 4U | ((CFG_FW_VERSION_MINOR) & 0x0FU)))
+
+/* Build serial: compile-time unique hex ID packed from __TIME__ (HH:MM:SS → 0xHHMMSS).
+ * Two builds at different times on the same day give different values.
+ * Example: compiled at 14:32:01 → CFG_BUILD_SERIAL = 0x143201              */
+#define CFG_BUILD_SERIAL \
+    ((uint32_t)( \
+        ((uint32_t)((__TIME__)[0] - '0') << 20) | \
+        ((uint32_t)((__TIME__)[1] - '0') << 16) | \
+        ((uint32_t)((__TIME__)[3] - '0') << 12) | \
+        ((uint32_t)((__TIME__)[4] - '0') <<  8) | \
+        ((uint32_t)((__TIME__)[6] - '0') <<  4) | \
+        ((uint32_t)((__TIME__)[7] - '0')       )   \
+    ))
 
 /* Current sense frame — IPROPI1/2 + SOL_CS + sol_status + fw_version (0x102, 8 bytes, 20 Hz) */
 #define CFG_CAN_TX2_ID         0x102U

@@ -1,3 +1,42 @@
+/*
+ * throttle_ecu.c — F280049C LaunchXL Throttle ECU  (PROTOTYPE / EXPERIMENTAL)
+ *
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║  WARNING — PROTOTYPE FIRMWARE — NOT FOR PRODUCTION USE                  ║
+ * ║  This firmware is provided for development and evaluation purposes only. ║
+ * ║  It has NOT been independently validated, safety-certified, or tested    ║
+ * ║  for use in any safety-critical or road-going application.               ║
+ * ║  Use at your own risk. Always maintain a physical kill-switch and        ║
+ * ║  manual override accessible at all times during testing.                 ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ *
+ * Changelog
+ * ─────────
+ * v1.8  2026-09-13
+ *   - SAFETY: Immediate safe state on SOL_OPEN detection (no motor noise while
+ *             trying to reach unreachable %, previously let PID run for 2 s)
+ *   - SAFETY: Position drift monitor — after convergence, if actual drifts
+ *             >CFG_DRIFT_THRESH_PCT for >CFG_DRIFT_TIMEOUT_MS → safe state
+ *   - BUGFIX: Solenoid interlock regression — was triggering safe state when
+ *             relay is simply OFF (startup, post-RESET); now only fires on
+ *             FAULT_SOL_OPEN (relay ON + open circuit)
+ *   - BUGFIX: processCmd 't' branch missing s_targetReached/s_driftStart reset;
+ *             could cause false drift fault mid-travel after serial command
+ *   - BUGFIX: Brake PRESSED block missing drift/convergence state reset;
+ *             could cause false drift fault if relay re-enabled post-brake
+ *   - Flash linker script: .const scatter-load to SEC4|SEC8 (was overflowing)
+ *   - Build serial: CFG_BUILD_SERIAL packed from __TIME__ for unique ID on boot
+ *
+ * v1.7  (previous release)
+ *   - Convergence deadline check (CFG_CONV_TIMEOUT_MS / CFG_CONV_REACH_PCT)
+ *   - Setpoint slew rate limiter (CFG_SLEW_RATE_MS / CFG_SLEW_STEP)
+ *   - Spring return feed-forward (CFG_FF_SPRING_GAIN)
+ *   - SOL current sense fault (FAULT_SOL_OPEN / FAULT_SOL_OC) with debounce
+ *   - CAN heartbeat timeout (CFG_CAN_HEARTBEAT_EN / CFG_CAN_RX_TIMEOUT_MS)
+ *   - Brake sense via ADCC_IN0 with hold-off/seq-gate anti-bounce
+ *   - Encoder spike filter (CFG_ENC_SPIKE_THRESH / CFG_ENC_SPIKE_CONSEC)
+ *   - Encoder GPIO pin-map corrected (pkg-pin 65=GPIO56, 66=57, 67=58, 92=59)
+ */
 #include "throttle_ecu.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,10 +91,17 @@ static uint8_t  s_last_rx_seq    = 0U;  /* most recent seq from any valid RX fra
 static uint32_t s_brake_debounce_start = 0U;
 static uint8_t  s_brake_debounced      = 0U;  /* debounced brake state                */
 
-/* Large-error fault: if |pos_error| > 15% of usable range for >2s, safe state */
-#define CFG_LARGE_ERR_THRESH_PCT  15
-#define CFG_LARGE_ERR_TIMEOUT_MS  2000U
-static uint32_t s_largeErrStart = 0U; /* Board_millis() when threshold was first exceeded, 0=clear */
+static uint8_t  s_sol_interlock  = 0U;  /* 1 while solenoid-not-conducting interlock is active */
+
+/* Convergence deadline: Board_millis() by which position must reach target.
+ * Set when a new PID target is commanded; 0 = no active check. */
+static uint32_t s_convDeadline  = 0U;
+
+/* Position drift monitor: after target is reached, watch for unexpected movement.
+ * s_targetReached: set when convergence succeeds; cleared on new target or safe state.
+ * s_driftStart:   Board_millis() when drift was first detected; 0 = no drift. */
+static uint8_t  s_targetReached = 0U;
+static uint32_t s_driftStart    = 0U;
 
 /* ISO26262: guard against miscalibration where MIN==MAX — angleToThrottle
  * would divide by zero. Minimum 10° (1000 units) of travel required. */
@@ -177,7 +223,9 @@ static void enterSafeStateEc(const char *reason)
     s_slewTarget   = CFG_ANGLE_MIN;
     s_settled      = false;
     s_settleStart  = 0U;
-    s_largeErrStart = 0U;
+    s_convDeadline  = 0U;
+    s_targetReached = 0U;
+    s_driftStart    = 0U;
 
     {
         char msg[72];
@@ -243,13 +291,24 @@ void Throttle_CanRxApply(uint8_t flags, uint8_t throttle_pct, uint8_t seq)
         if (pct > 100) {
             pct = 100;
         }
-        s_throttlePct   = pct;
-        s_targetAngle   = throttleToAngle(s_throttlePct);
-        s_mode          = MODE_PID;
-        s_settled       = false;
-        s_settleStart   = 0U;
-        s_largeErrStart = 0U;
-        Pid_reset();
+        /* Only restart the convergence deadline when the target actually changes
+         * or we are transitioning into PID mode. The CAN controller sends at 50Hz
+         * continuously with the same target — resetting on every frame would push
+         * the deadline forward forever and the check would never fire.
+         * Also skip reset while sol interlock is active: the interlock overwrites
+         * s_throttlePct to 0 each tick, which would make pct != s_throttlePct true
+         * every frame and perpetually reset the deadline. */
+        if ((pct != s_throttlePct || s_mode != MODE_PID) && (s_sol_interlock == 0U)) {
+            s_convDeadline  = Board_millis() + (uint32_t)CFG_CONV_TIMEOUT_MS;
+            s_targetReached = 0U;   /* new target — drift monitor resets */
+            s_driftStart    = 0U;
+            Pid_reset();
+        }
+        s_throttlePct  = pct;
+        s_targetAngle  = throttleToAngle(s_throttlePct);
+        s_mode         = MODE_PID;
+        s_settled      = false;
+        s_settleStart  = 0U;
     } else {
         s_duty = 0U;
         s_mode = MODE_MANUAL;
@@ -324,7 +383,9 @@ static void processCmd(char *s)
             s_mode          = MODE_PID;
             s_settled       = false;
             s_settleStart   = 0U;
-            s_largeErrStart = 0U;
+            s_convDeadline  = Board_millis() + (uint32_t)CFG_CONV_TIMEOUT_MS;
+            s_targetReached = 0U;
+            s_driftStart    = 0U;
             Pid_reset();
         }
     } else if ((s[0] == 'd') || (s[0] == 'D')) {
@@ -393,6 +454,14 @@ void Throttle_init(void)
 
     printBoth("=================================");
     printBoth("  Throttle ECU — C2000 F280049");
+    {
+        char vbuf[48];
+        snprintf(vbuf, sizeof(vbuf), "  FW v%u.%u  Serial: 0x%06lX",
+                 (unsigned)CFG_FW_VERSION_MAJOR,
+                 (unsigned)CFG_FW_VERSION_MINOR,
+                 (unsigned long)CFG_BUILD_SERIAL);
+        printBoth(vbuf);
+    }
     printBoth("=================================");
     s_targetAngle = s_usableMin;
     printBoth("Commands: t0-t100, d0-d4095, f, r, s");
@@ -483,10 +552,13 @@ void Throttle_runOnce(void)
                     Pid_reset();
                     s_mode = MODE_PID;
                 }
-                s_throttlePct  = 0;
-                s_targetAngle  = s_usableMax;
-                s_slewTarget   = s_usableMax;  /* skip slew — immediate close */
-                s_settled      = false;
+                s_throttlePct   = 0;
+                s_targetAngle   = s_usableMax;
+                s_slewTarget    = s_usableMax;  /* skip slew — immediate close */
+                s_settled       = false;
+                s_targetReached = 0U;   /* disarm drift monitor — new commanded target */
+                s_driftStart    = 0U;
+                s_convDeadline  = 0U;
             }
         } else {
             /* BRAKE RELEASED ----------------------------------------------- */
@@ -512,6 +584,28 @@ void Throttle_runOnce(void)
 
         if (g_safety.safe_state_active && (s_mode != MODE_SAFE)) {
             enterSafeStateEc(g_safety.last_reason);
+        }
+
+        /* Solenoid interlock: if relay is ON but solenoid current is absent
+         * (FAULT_SOL_OPEN = open circuit / disconnected), the H-bridge can still
+         * drive the motor → enter safe state immediately.
+         *
+         * Relay simply being OFF is NOT a fault here — setMotor() already blocks
+         * the H-bridge when relay is off, so no safe state is needed in that case.
+         * Treating relay-OFF as a fault would trigger safe state on every boot
+         * and after every RESET before the operator enables the relay. */
+        if (s_mode != MODE_SAFE) {
+            uint8_t sol_open = (s_relayOn != 0U) &&
+                               ((g_safety.sol_faults & FAULT_SOL_OPEN) != 0U);
+            if (sol_open != 0U) {
+                if (s_sol_interlock == 0U) {
+                    s_sol_interlock = 1U;
+                    g_safety.sol_faults_latched |= FAULT_SOL_OPEN;
+                    enterSafeStateEc("sol open");
+                }
+            } else {
+                s_sol_interlock = 0U;   /* relay OFF or fault cleared — reset */
+            }
         }
 
         if ((now - s_lastSafeTick) >= 100U) {
@@ -600,33 +694,48 @@ void Throttle_runOnce(void)
                     setMotor(pidCmd);
                 }
 
-                /* ── Large-error fault ─────────────────────────────────────────
-                 * If |pos_error| > 15% of usable range persists for >2 s,
-                 * the motor is stuck or the encoder has failed — go safe. */
-                {
-                    int32_t posErr = clamped - angle;
-                    if (posErr < 0) { posErr = -posErr; }
-                    const int32_t errThresh =
-                        (s_usableMax - s_usableMin) * CFG_LARGE_ERR_THRESH_PCT / 100;
+                /* ── Convergence check ──────────────────────────────────────────
+                 * Did actual position reach within CFG_CONV_REACH_PCT of the
+                 * commanded target within CFG_CONV_TIMEOUT_MS of the target being
+                 * set? If not → motor is disconnected/stalled → enter safe state. */
+                if ((s_convDeadline != 0U) && (s_relayOn != 0U)) {
+                    int16_t actualPct = angleToThrottle(angle);
+                    int16_t errPct    = actualPct - s_throttlePct;
+                    if (errPct < 0) { errPct = -errPct; }
+                    if ((int32_t)errPct <= (int32_t)CFG_CONV_REACH_PCT) {
+                        s_convDeadline  = 0U;   /* reached — disable until next target */
+                        s_targetReached = 1U;   /* arm drift monitor */
+                        s_driftStart    = 0U;
+                    } else if (now > s_convDeadline) {
+                        g_safety.sol_faults        |= FAULT_POSITION_ERROR;
+                        g_safety.sol_faults_latched |= FAULT_POSITION_ERROR;
+                        enterSafeStateEc("position not reached");
+                    }
+                }
 
-                    if (posErr > errThresh) {
-                        if (s_largeErrStart == 0U) {
-                            s_largeErrStart = now;
-                        } else if ((now - s_largeErrStart) >= CFG_LARGE_ERR_TIMEOUT_MS) {
-                            /* ISO26262: set sol_faults bit so CAN 0x102 byte[6] shows
-                             * reason — previously this showed faults=0x00 mode=SAFE
-                             * with no explanation visible to the controller/GUI. */
+                /* ── Position drift monitor ──────────────────────────────────────
+                 * After the target has been reached (s_targetReached), watch for
+                 * unexpected movement — e.g. motor driver runaway, mechanical slip.
+                 * If |actual - commanded| > CFG_DRIFT_THRESH_PCT for
+                 * CFG_DRIFT_TIMEOUT_MS → safe state. */
+                if ((s_targetReached != 0U) && (s_relayOn != 0U)) {
+                    int16_t actualPct = angleToThrottle(angle);
+                    int16_t driftPct  = actualPct - s_throttlePct;
+                    if (driftPct < 0) { driftPct = -driftPct; }
+                    if ((int32_t)driftPct > (int32_t)CFG_DRIFT_THRESH_PCT) {
+                        if (s_driftStart == 0U) {
+                            s_driftStart = now;
+                        } else if ((now - s_driftStart) >= (uint32_t)CFG_DRIFT_TIMEOUT_MS) {
                             g_safety.sol_faults        |= FAULT_POSITION_ERROR;
                             g_safety.sol_faults_latched |= FAULT_POSITION_ERROR;
-                            enterSafeStateEc("pos error >15% for 2s");
+                            enterSafeStateEc("position drift");
                         }
                     } else {
-                        s_largeErrStart = 0U;
+                        s_driftStart = 0U;  /* back in range — reset timer */
                     }
                 }
             } else {
                 setMotor(0);
-                s_largeErrStart = 0U;  /* no valid angle — don't count */
             }
             break;
 
