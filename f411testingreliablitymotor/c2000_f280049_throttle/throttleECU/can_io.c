@@ -130,6 +130,10 @@ void CanIo_serviceRx(uint32_t now_ms)
             uint8_t b3 = (uint8_t)(msgData[3] & 0xFFU);
 
             if ((b0 & CFG_CAN_FLAG_ESTOP) != 0U) {
+                /* An ESTOP frame is still a live frame from the controller —
+                 * refresh the heartbeat so holding ESTOP > CFG_CAN_RX_TIMEOUT_MS
+                 * does not stack a CAN_TIMEOUT fault on top of the ESTOP. */
+                safe_can_mark_rx(now_ms);
                 safe_enter_safe_state("CAN ESTOP");
             } else {
                 safe_can_mark_rx(now_ms);

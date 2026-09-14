@@ -185,8 +185,8 @@
  * The hardware WDT (~840ms) handles truly stuck loops; this catches soft overruns. */
 #define CFG_LOOP_MAX_MS        50U
 
-#define CFG_FW_VERSION_MAJOR   1U
-#define CFG_FW_VERSION_MINOR   8U
+#define CFG_FW_VERSION_MAJOR   2U
+#define CFG_FW_VERSION_MINOR   2U
 #define CFG_FW_VERSION  ((uint8_t)(((CFG_FW_VERSION_MAJOR) & 0x0FU) << 4U | ((CFG_FW_VERSION_MINOR) & 0x0FU)))
 
 /* Build serial: compile-time unique hex ID packed from __TIME__ (HH:MM:SS → 0xHHMMSS).

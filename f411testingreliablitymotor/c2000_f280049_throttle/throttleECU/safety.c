@@ -13,6 +13,11 @@ static uint8_t  s_canHbArmed     = 0U;
 
 SafetyState g_safety;
 
+/* Set once by safe_post() after the canary is planted. Gates the runtime
+ * canary check in safe_tick() so it cannot run before POST, and so a canary
+ * corrupted to 0x00000000 is still detected. */
+static bool s_postDone = false;
+
 #ifndef SYSCTL_CAUSE_WDRS
 #define SYSCTL_CAUSE_WDRS  (1UL << 6)
 #endif
@@ -216,7 +221,16 @@ void safe_clear_faults(void)
      * the debounce counter resets the hysteresis and allows one tick of
      * undetected fault exposure. Only clear when g_safety.faults is already 0
      * (i.e. checks have naturally cleared the active condition).
-     * Latched faults are always cleared — they are historical records only. */
+     * Latched faults are always cleared — they are historical records only.
+     *
+     * Exception: FAULT_CAN_TIMEOUT and FAULT_WATCHDOG_RESET are event faults,
+     * not level faults. No periodic check ever clears them (unlike encoder,
+     * overcurrent, power, bus-off which self-clear when the condition ends).
+     * Without clearing them here, any safe state involving either bit could
+     * never be exited by RESET — only by a power cycle. An explicit RESET is
+     * the operator's acknowledgement of both events, so clear them first. */
+    g_safety.faults &= (uint8_t)(~(FAULT_CAN_TIMEOUT | FAULT_WATCHDOG_RESET));
+
     if (g_safety.faults == 0U) {
         memset(g_safety.fault_count, 0, sizeof(g_safety.fault_count));
         g_safety.safe_state_active = false;
@@ -239,8 +253,10 @@ void safe_tick(uint32_t now_ms)
      * The canary word is written once by safe_post() and should never change.
      * A corrupted value indicates SRAM bit-flip, stack overflow into the struct,
      * or a C bug writing to the wrong address. Enter safe state immediately. */
-    if ((g_safety.ram_canary != 0U) &&
-        (g_safety.ram_canary != SAFETY_RAM_CANARY)) {
+    /* Gate on "POST has run" (s_postDone), NOT on ram_canary != 0: all-zeros is
+     * one of the two most common SRAM failure modes, and the old gate exempted
+     * exactly that value from detection. */
+    if (s_postDone && (g_safety.ram_canary != SAFETY_RAM_CANARY)) {
         g_safety.post_result |= POST_CANARY_FAIL;
         safe_enter_safe_state("RAM canary corrupt");
     }
@@ -328,6 +344,7 @@ uint8_t safe_post(void (*print_fn)(const char *))
      * Write the known-good pattern. safe_tick() verifies this every 100ms.
      * If it changes, safe_tick() sets POST_CANARY_FAIL and enters safe state. */
     g_safety.ram_canary = SAFETY_RAM_CANARY;
+    s_postDone = true;   /* arm the runtime canary check in safe_tick() */
     if (print_fn != NULL) { print_fn("[POST] RAM canary:  planted (checked every 100ms)"); }
 
     /* ── Final summary ───────────────────────────────────────────────────── */

@@ -126,6 +126,18 @@ static uint16_t read_angle_raw(void)
 
     g_enc_raw_last = raw;
 
+    /* Stuck-line detection. MISO has a pull-up, so a disconnected sensor or
+     * broken trace reads 0xFFFF; a MISO short to ground reads 0x0000. Both
+     * words happen to pass the AS5147U parity rule, so parity alone would not
+     * catch them. A genuine reading of exactly 0x3FFF (359.98°) with EF AND
+     * parity both set, or exactly 0° with every bit clear, is not physically
+     * plausible in this application (usable range is ~24°–131°). Reject them
+     * so safe_check_encoder() sees an invalid sample and the encoder timeout
+     * has something to count. */
+    if ((raw == 0xFFFFU) || (raw == 0x0000U)) {
+        return 0xFFFFU;
+    }
+
     /* AS5147U bit 14 = Error Flag (EF). EF=1 can indicate two distinct conditions:
      *   a) COMP_H / COMP_L: magnetic field strength is outside the ideal range
      *      (magnet too close or too far). The angle data (bits 13:0) is still
@@ -199,13 +211,12 @@ int32_t EncoderGpio_getAngle(void)
     uint16_t raw = read_angle_raw();
 
     if (raw == 0xFFFFU) {
-        /* Return current average if sensor returned an error */
-        if (s_cnt > 0U) {
-            int32_t sum = 0;
-            uint8_t i;
-            for (i = 0U; i < s_cnt; i++) { sum += s_buf[i]; }
-            return sum / (int32_t)s_cnt;
-        }
+        /* Sensor returned an error word (stuck line). Report -1 so the caller
+         * coasts the motor for this tick and safe_check_encoder() counts it
+         * toward the encoder timeout. Previously this returned the rolling
+         * average, which looked like a valid sample and hid the failure from
+         * the safety module entirely. Single-sample noise is handled by the
+         * spike filter below, not here — 0xFFFF/0x0000 are never noise. */
         return -1;
     }
 

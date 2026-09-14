@@ -12,6 +12,28 @@
  *
  * Changelog
  * ─────────
+ * v2.2  2026-09-14  (PROTOTYPE)
+ *   - SAFETY: setRelay() now enforces the ON permissive itself (refuses when
+ *             mode==SAFE, safety module active, or brake pressed). Previously
+ *             only the CAN path was gated; serial "on" bypassed all checks.
+ *   - SAFETY: Setpoint and slew target park at CLOSED (s_usableMax) on boot
+ *             and safe-state entry. Were parked at CFG_ANGLE_MIN (= fully open),
+ *             causing an open-blip on the first PID engage after boot/RESET.
+ *   - SAFETY: Stuck encoder line (SPI word 0xFFFF or 0x0000) is now rejected
+ *             as invalid; EncoderGpio_getAngle() returns -1 instead of the
+ *             rolling average so the fault is visible to safe_check_encoder().
+ *   - SAFETY: RAM canary check gated on POST-done flag, not canary != 0, so a
+ *             canary zeroed by SRAM corruption is detected.
+ *   - BUGFIX: safe_clear_faults() clears FAULT_CAN_TIMEOUT / FAULT_WATCHDOG_RESET.
+ *             Nothing else ever cleared them, so any safe state involving either
+ *             bit could not be exited by RESET — power cycle only.
+ *   - BUGFIX: CAN ESTOP frame refreshes the heartbeat; holding ESTOP > 200 ms
+ *             no longer stacks a CAN_TIMEOUT fault on top.
+ *   - BUGFIX: Convergence deadline re-armed on relay OFF→ON edge in PID mode.
+ *             A target set before the relay was enabled could expire silently
+ *             and trip "position not reached" the instant the relay came on.
+ *   - Serial "on" reports "[SAFE] Relay ON refused" when the gate blocks it.
+ *
  * v1.8  2026-09-13
  *   - SAFETY: Immediate safe state on SOL_OPEN detection (no motor noise while
  *             trying to reach unreachable %, previously let PID run for 2 s)
@@ -61,7 +83,12 @@ typedef enum {
 static RunMode  s_mode         = MODE_MANUAL;
 static int8_t   s_dir          = 1;
 static uint16_t s_duty         = 0U;
-static int32_t  s_targetAngle  = CFG_ANGLE_MIN;
+/* Rest position for the setpoint is the CLOSED end (CFG_ANGLE_MAX — larger
+ * angle = more closed on this sensor). Previously parked at CFG_ANGLE_MIN
+ * (= 100% open), which made the first PID engage after boot or RESET start
+ * with a "go fully open" error and blip the throttle open before the slew
+ * limiter caught up. Refined to s_usableMax in Throttle_init(). */
+static int32_t  s_targetAngle  = CFG_ANGLE_MAX;
 static int16_t  s_throttlePct  = 0;
 
 static float s_kp = CFG_KP_DEFAULT;
@@ -70,7 +97,7 @@ static float s_kd = CFG_KD_DEFAULT;
 
 /* s_slewTarget — working angle that ramps toward s_targetAngle each slew tick.
  * The PID tracks s_slewTarget, not s_targetAngle directly. */
-static int32_t  s_slewTarget  = (int32_t)CFG_ANGLE_MIN;
+static int32_t  s_slewTarget  = (int32_t)CFG_ANGLE_MAX;  /* parked closed, see above */
 static uint32_t s_lastSlew    = 0U;
 
 static bool     s_settled     = false;
@@ -113,10 +140,42 @@ static const int32_t s_usableMin  =
 static const int32_t s_usableMax  =
     (int32_t)CFG_ANGLE_MIN + ((int32_t)CFG_ANGLE_MAX - (int32_t)CFG_ANGLE_MIN) * 95 / 100;
 
+/* setRelay — single point of control for the solenoid relay.
+ *
+ * ISO26262: the ON permissive is enforced HERE, not in the callers, so every
+ * path (CAN frame, serial "on", any future caller) is gated identically —
+ * same pattern as setMotor(). An ON request is refused when:
+ *   - s_mode == MODE_SAFE                (local mode already SAFE)
+ *   - g_safety.safe_state_active         (safety module tripped this tick but
+ *                                         s_mode not yet switched — closes the
+ *                                         one-loop window before line ~585)
+ *   - s_brake_debounced != 0             (brake pedal pressed)
+ * OFF requests are never refused. s_relayOn always reflects the pin.
+ *
+ * On an OFF→ON edge while already in PID mode, the convergence deadline is
+ * re-armed. The convergence check only runs while the relay is on, so a
+ * target commanded before the relay (serial "t50" then "on", or CAN PID=1
+ * with RELAY=0 for > CFG_CONV_TIMEOUT_MS) would otherwise expire silently
+ * and trip "position not reached" the instant the relay came on. */
 static void setRelay(uint8_t on)
 {
+    uint8_t prev = s_relayOn;
+
+    if (on != 0U) {
+        if ((s_mode == MODE_SAFE) ||
+            g_safety.safe_state_active ||
+            (s_brake_debounced != 0U)) {
+            on = 0U;
+        }
+    }
     s_relayOn = on ? 1U : 0U;
     Board_digitalRelay(s_relayOn);
+
+    if ((prev == 0U) && (s_relayOn != 0U) && (s_mode == MODE_PID)) {
+        s_convDeadline  = Board_millis() + (uint32_t)CFG_CONV_TIMEOUT_MS;
+        s_targetReached = 0U;
+        s_driftStart    = 0U;
+    }
 }
 
 static void printBoth(const char *msg)
@@ -219,8 +278,11 @@ static void enterSafeStateEc(const char *reason)
     Pid_reset();
     s_duty         = 0U;
     s_throttlePct  = 0;
-    s_targetAngle  = CFG_ANGLE_MIN;
-    s_slewTarget   = CFG_ANGLE_MIN;
+    /* Park setpoint at CLOSED (s_usableMax), matching the brake path. The
+     * throttle is spring-returned to closed while the motor is off, so the
+     * next PID engage starts with ~zero error instead of "go fully open". */
+    s_targetAngle  = s_usableMax;
+    s_slewTarget   = s_usableMax;
     s_settled      = false;
     s_settleStart  = 0U;
     s_convDeadline  = 0U;
@@ -340,7 +402,8 @@ static void processCmd(char *s)
         }
     } else if (str_eq_ic(s, "on")) {
         setRelay(1U);
-        printBoth("Relay ON");
+        /* setRelay() may refuse (safe state / brake) — report the real result */
+        printBoth((s_relayOn != 0U) ? "Relay ON" : "[SAFE] Relay ON refused");
     } else if (str_eq_ic(s, "off")) {
         setRelay(0U);
         setMotor(0);
@@ -463,7 +526,10 @@ void Throttle_init(void)
         printBoth(vbuf);
     }
     printBoth("=================================");
-    s_targetAngle = s_usableMin;
+    /* Park setpoint and slew target at CLOSED (0%) — consistent with
+     * s_throttlePct = 0 and with the spring-returned rest position. */
+    s_targetAngle = s_usableMax;
+    s_slewTarget  = s_usableMax;
     printBoth("Commands: t0-t100, d0-d4095, f, r, s");
     printBoth("         p## i## k##, on, off, reset");
     printBoth("         diag, clearfaults, config");
