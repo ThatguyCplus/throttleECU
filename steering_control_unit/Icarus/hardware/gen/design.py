@@ -1,4 +1,4 @@
-"""Icarus rev 0.1 schematic data: every part, pin and net, sheet by sheet.
+"""Icarus rev 0.2 schematic data: every part, pin and net, sheet by sheet.
 
 Architecture and the reasons for each block: ../../docs/04_TECHNICAL_SAFETY_CONCEPT.md.
 Net naming: suffix _A = control channel (CH-A, +3V3_A / +5V0_A), _B = monitor channel
@@ -6,7 +6,7 @@ Net naming: suffix _A = control channel (CH-A, +3V3_A / +5V0_A), _B = monitor ch
 Values marked TBD-DATA wait for logger measurements (docs/02, docs/04 section 7).
 """
 PROJECT = "icarus"
-REV = "0.1"
+REV = "0.2"
 
 SHEETS = []          # (key, title, notes)
 PARTS = []           # dicts: ref, lib, value, fp, units {unit: {pin: net}}, sheet, group, mpn, note
@@ -166,7 +166,8 @@ for ch in "AB":
         ana.update({"19": "DELTAM_A", "21": "CSK2_A", "23": "DACA_OUT", "28": "K1ACOM_M", "29": "CSK1_A",
                     "37": "K1BCOM_M"})
     else:
-        ana.update({"19": "D3M_B", "21": "LSN2_B", "28": "GNODEM_B", "29": "LSN1_B", "38": "D6M_B", "40": "SM_B"})
+        ana.update({"19": "D3M_B", "21": "LSN2_B", "28": "GNODEM_B", "29": "LSN1_B", "38": "D6M_B", "40": "SM_B",
+                    "23": "DACA_B", "6": "REF3M_B"})
     sysp = {"2": f"XRS_{ch}", "60": f"TCK_{ch}", "62": f"TMS_{ch}", "69": "X1_A" if ch == "A" else "GND",
             "73": "GND"}
     pwr = {n: f"+3V3_{ch}" for n in ("3", "47", "70", "88", "80")}
@@ -297,11 +298,12 @@ divider("K1B_COM", "K1BCOM_M", "1M", "2M", cap="10nF")
 
 # =============================================================================
 sheet("guard", "CH-C analog guard (no software, +5V0_B)",
-      "Trips when |VT_EPS - VT_SNS| > 0.25 V on either line, or the VT3+VT6 sum moves > 0.10 V "
-      "(TBD-DATA). A trip latches until key-off and cuts every coil (SM-15). GUARD_TEST forces a trip "
-      "for the key-on self-test (SM-17).")
+      "Trips when the overlay actually applied (VT_EPS - VT_SNS) differs from CH-B's own expected Delta by "
+      "> 0.25 V on either line (R2 / SM-20), or the VT3+VT6 sum moves > 0.10 V (TBD-DATA). A trip latches "
+      "until key-off and cuts every coil (SM-15). GUARD_TEST forces a trip for the key-on self-test (SM-17). "
+      "VMID_B and the ladder are ratiometric to +3V3_B, the CH-B DAC reference.")
 group("Buffers (1 MOhm from the car side) and VMID_B")
-R("10k", "+5V0_B", "VMIDD_B")
+R("10k", "+3V3_B", "VMIDD_B")
 R("10k", "VMIDD_B", "GND")
 C("100nF", "VMIDD_B")
 for src, node in (("VT3_SNS", "RAW3IN_B"), ("VT6_SNS", "RAW6IN_B"), ("VT3_EPS", "EPS3IN_B"), ("VT6_EPS", "EPS6IN_B")):
@@ -310,12 +312,24 @@ for src, node in (("VT3_SNS", "RAW3IN_B"), ("VT6_SNS", "RAW6IN_B"), ("VT3_EPS", 
 opamp_quad([follower("VMIDD_B", "VMID_B"), follower("RAW3IN_B", "RAW3_B"), follower("RAW6IN_B", "RAW6_B"),
             follower("EPS3IN_B", "EPS3_B")], "+5V0_B")
 
-group("Difference amps: D3 = EPS3 - RAW3 + VMID, D6 likewise, S = (EPS3+EPS6) - (RAW3+RAW6) + VMID")
+group("Expected-Delta reference from CH-B's own DAC (R2 / SM-20): REF3 = VMID - Delta_exp, REF6 = VMID + Delta_exp")
+R("10k", "DACA_B", "DACF_B", note="Same slew filter as CH-A (SM-07)")
+C("1uF", "DACF_B", size="0603")
+R("82k", "DACF_B", "REFIN_B", note="Same attenuator k as CH-A, so |Delta_exp| is also bounded in hardware")
+R("10k", "REFIN_B", "VMID_B")
+opamp_quad([follower("REFIN_B", "REF3_B"), ("VMID_B", "REFN_B", "REF6_B"), None, None], "+5V0_B")
+R("10k 0.1%", "REF3_B", "REFN_B")
+R("10k 0.1%", "REFN_B", "REF6_B")
+divider("REF3_B", "REF3M_B", "10k", "20k", note="CH-B reads back its reference (latent check of SM-20)")
+
+group("Difference amps: D3 = EPS3 - RAW3 + REF3 (= VMID when the applied Delta matches the expected), D6 likewise, "
+      "S = (EPS3+EPS6) - (RAW3+RAW6) + VMID")
 opamp_quad([follower("EPS6IN_B", "EPS6_B"), ("D3P", "D3N", "D3"), ("D6P", "D6N", "D6"), ("SP", "SN", "SSUM")],
            "+5V0_B")
-for eps, raw, p, n, out in (("EPS3_B", "RAW3_B", "D3P", "D3N", "D3"), ("EPS6_B", "RAW6_B", "D6P", "D6N", "D6")):
+for eps, raw, ref, p, n, out in (("EPS3_B", "RAW3_B", "REF3_B", "D3P", "D3N", "D3"),
+                                 ("EPS6_B", "RAW6_B", "REF6_B", "D6P", "D6N", "D6")):
     R("10k 0.1%", eps, p)
-    R("10k 0.1%", "VMID_B", p)
+    R("10k 0.1%", ref, p)
     R("10k 0.1%", raw, n)
     R("10k 0.1%", n, out)
 R("10k 0.1%", "EPS3_B", "SP")
@@ -325,12 +339,12 @@ R("10k 0.1%", "RAW3_B", "SN")
 R("10k 0.1%", "RAW6_B", "SN")
 R("10k 0.1%", "SN", "SSUM")
 
-group("Window thresholds (ladder from +5V0_B) and comparators (TLV1704-Q1, open collector)")
-R("45.3k", "+5V0_B", "TH_HD", note="TH_HD 2.75 V, TH_HS 2.60 V, TH_LS 2.40 V, TH_LD 2.25 V (TBD-DATA)")
+group("Window thresholds (ladder from +3V3_B) and comparators (TLV1704-Q1, open collector)")
+R("28k", "+3V3_B", "TH_HD", note="VMID 1.65 V: TH_HD +0.25, TH_HS +0.10, TH_LS -0.10, TH_LD -0.25 V (TBD-DATA)")
 R("3.01k", "TH_HD", "TH_HS")
 R("4.02k", "TH_HS", "TH_LS")
 R("3.01k", "TH_LS", "TH_LD")
-R("45.3k", "TH_LD", "GND")
+R("28k", "TH_LD", "GND")
 for n in ("TH_HD", "TH_HS", "TH_LS", "TH_LD"):
     C("10nF", n)
 
@@ -416,12 +430,14 @@ sheet("io", "Vehicle connector, CAN bus, inputs and monitors",
       "Every car-facing input has its own divider per channel (no shared resistor between CH-A and CH-B). "
       "Torque-sensor and Vcc2 taps are 1 MOhm (FSR-14).")
 group("Vehicle connector (Y-harness at EPS connector B; part TBD, TE MCP family as throttle J2)")
-J1 = {"1": "VBAT_IN", "2": "GND", "3": "GND", "4": "IG1_IN", "5": "CAN_H", "6": "CAN_L", "7": "VT3_SNS",
-      "8": "VT6_SNS", "9": "VT3_EPS", "10": "VT6_EPS", "11": "VCC2_TAP", "12": "TSGND_TAP", "13": "WLP_IN",
-      "14": "RT_IN", "15": "VSP_IN", "16": "NEP_IN", "17": "DIS_NO_IN", "18": "DIS_NC_IN", "19": "IND_OUT",
-      "20": "GND"}
+# R1 (docs/06 F1): torque lines in their own block, GND on both outer sides and between VT3 and VT6,
+# so the only adjacent short a torque pin can have is GND, a static tap, or its own SNS/EPS partner.
+J1 = {"1": "VBAT_IN", "2": "GND", "3": "IG1_IN", "4": "CAN_H", "5": "CAN_L", "6": "GND", "7": "VT3_EPS",
+      "8": "VT3_SNS", "9": "GND", "10": "VT6_SNS", "11": "VT6_EPS", "12": "TSGND_TAP", "13": "VCC2_TAP",
+      "14": "WLP_IN", "15": "RT_IN", "16": "VSP_IN", "17": "NEP_IN", "18": "DIS_NO_IN", "19": "DIS_NC_IN",
+      "20": "IND_OUT"}
 add("J", "Connector_Generic:Conn_01x20", "Vehicle harness", "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical",
-    J1, note="Placeholder footprint. 7/8 = torque sensor side, 9/10 = EPS ECU B10/B8")
+    J1, note="Placeholder footprint. 7/11 = EPS ECU B10/B8, 8/10 = torque sensor side. Pin order is safety-relevant (R1)")
 
 group("CAN bus: ESD and split termination (fit JP1 only if Icarus ends the bus)")
 add("D", "Power_Protection:NUP2105L", "ESD2CAN24-Q1", "Package_TO_SOT_SMD:SOT-23",

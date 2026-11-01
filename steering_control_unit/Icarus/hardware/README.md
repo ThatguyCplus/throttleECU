@@ -1,4 +1,4 @@
-# Icarus hardware: schematic rev 0.1
+# Icarus hardware: schematic rev 0.2
 
 The KiCad 10 hierarchical schematic is **generated from code**. Edit `gen/design.py`, then rebuild:
 
@@ -21,8 +21,9 @@ Don't hand-edit the `.kicad_sch` files; the next build overwrites them.
 | Check | Result |
 |---|---|
 | ERC (`--severity-all`) | **0 violations** |
-| Netlist vs `design.py` | 215 / 215 nets identical (KiCad netlist export, compared pin by pin) |
-| Parts | 389 across 7 sheets |
+| Netlist vs `design.py` | 224 / 224 nets identical (KiCad netlist export, compared pin by pin) |
+| Parts | 400 across 7 sheets |
+| Safety analysis | SPFM 99.99 %, LFM 98.35 %, PMHF 0.064 FIT (placeholder data; `../docs/07_FMEDA_FTA.md`) |
 | PCB | Not started |
 
 ## Sheets
@@ -36,6 +37,11 @@ Don't hand-edit the `.kicad_sch` files; the next build overwrites them.
 | `guard` | CH-C: buffers, difference amps (D3, D6, sum), window ladder, TLV1704-Q1 comparators, 74LVC1G74 trip latch, self-test and reset FETs |
 | `relays` | Two TPS1H100-Q1 high sides, cascaded G6K-2 relays K1/K2, Zener fast-release clamps, CH-B low-side FETs, CH-C guard FET, coil readback |
 | `io` | 20-pin vehicle connector (placeholder), CAN ESD and split termination, a separate per-channel divider for every input, VBAT/5V/Vcc2/ground-offset monitors |
+
+## Rev 0.2 changes (from the safety analysis, `../docs/06_SAFETY_ELEMENT.md`)
+
+- **R1, J1 re-pinned.** The torque lines now sit in a GND-guarded block (pins 6–11). The old CAN_L-next-to-VT3_SNS single-point fault is gone.
+- **R2, guard referenced to CH-B's expected Δ.** New group on the `guard` sheet: CH-B DACA → RC → k attenuator → REF3/REF6, with REF3 read back on ADC pin 6. VMID_B and the window ladder (28k / 3.01k / 4.02k / 3.01k / 28k) now run from +3V3_B.
 
 ## Decisions made while drawing
 

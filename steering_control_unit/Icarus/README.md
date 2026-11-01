@@ -28,6 +28,9 @@ Icarus adds a **bounded, double-monitored steering torque** by intercepting the 
 | [docs/03_FUNCTIONAL_SAFETY_CONCEPT.md](docs/03_FUNCTIONAL_SAFETY_CONCEPT.md) | Part 3 §7 | FSR-01…16, decomposition B(D)+B(D), safe states |
 | [docs/04_TECHNICAL_SAFETY_CONCEPT.md](docs/04_TECHNICAL_SAFETY_CONCEPT.md) | Part 4 §6 | Block diagram, hardware/software safety mechanisms, timing, metrics, DFA |
 | [docs/05_HARDWARE_BASIS.md](docs/05_HARDWARE_BASIS.md) | Part 5 input | Parts (reused vs new), rails, MCU resource budget |
+| [docs/06_SAFETY_ELEMENT.md](docs/06_SAFETY_ELEMENT.md) | Parts 5, 9 | Safety element tree, ASIL allocation, analysis findings F1–F7, recommendations R1–R6 |
+| [docs/07_FMEDA_FTA.md](docs/07_FMEDA_FTA.md) | Part 5 §8–9 | Generated FMEDA (SPFM/LFM/PMHF), connector short analysis, cut sets, sensitivity |
+| `safety/` | — | `element_model.py` (the model), `analyze.py` (the analysis), `fmeda.csv` |
 
 ## Related folders (read-only references)
 

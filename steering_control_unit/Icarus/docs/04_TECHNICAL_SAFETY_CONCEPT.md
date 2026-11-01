@@ -69,8 +69,9 @@ A trip latches GUARD_OK low (a flip-flop or SR latch reset only by key-off) and 
 | SM-13 | **Overvoltage and reverse protection** (TVS, rev-FET), plus TPS3702 OV windows | Load dump, reverse battery, regulator OV | FSR-11 |
 | SM-14 | **Two cascaded changeover relays (K1, K2).** The overlay needs both energized; each coil is cross-driven (high side from one channel, low side from the other) | A welded relay contact, a single coil-driver short | FSR-01 |
 | SM-15 | **CH-C analog guard.** Window comparators on the out − raw difference and on the sum, latched trip, own supply (+5V0_B), cuts all coils | Errors in both MCUs at once, including common-cause software/silicon faults | FSR-02, -03, -04 |
+| SM-20 | **Guard referenced to CH-B's expected Δ (R2).** CH-B's DAC, through the same slew filter and attenuator as CH-A, makes REF3/REF6 = VMID ∓ Δexp. These are the D3/D6 references, so the software-free guard trips if CH-A applies a Δ that CH-B did not independently expect | A wrong CH-A command inside the envelope | FSR-04, decomposition |
 | SM-16 | **Separate regulator chain per channel** (buck + LDO + supervisor) | Common-cause supply over- or undervoltage | FSR-11, DFA |
-| SM-17 | **Guard self-test at key-on.** CH-A injects a test Δ above the guard threshold with K2 released (EPS still on raw sensor); CH-B confirms GUARD_OK tripped; a key-off/on resets it (or a test-reset path usable only in INIT) | Latent CH-C failure | LFM |
+| SM-17 | **Guard self-test at key-on.** With the relays released, CH-B turns on GUARD_TEST, which pulls TH_HD low and forces a trip. Both MCUs see GTRIP, the GNODE readback shows the guard FET off, then CH-B clears the latch (GUARD_RST, INIT only). R3 proposes testing every window on its own | Latent CH-C failure | LFM |
 
 ## 3. Software safety mechanisms (both channels unless noted)
 
