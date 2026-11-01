@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "icarus")(type "KiCad")(uri "${KIPRJMOD}/icarus.kicad_sym")(options "")(descr "Icarus vendor + custom symbols"))
+)
