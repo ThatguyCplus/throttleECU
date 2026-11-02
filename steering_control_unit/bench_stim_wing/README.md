@@ -67,6 +67,16 @@ Why this slot:
 
 Use **Feather stacking headers** (female on top, long male tails) on this wing. **Check the gap with the real parts before soldering the headers.**
 
+### Grounding, and running with the logger
+
+This wing and the [EPS tap wing](../data_capture/hardware/eps_tap_wing/README.md) logger run **alone or together, in the car or on a bench EPS**. [STACK_MODES.md](../data_capture/STACK_MODES.md) covers every combination: power, ground, which pins to wire, and the timers and I2C addresses they share.
+
+**The one rule:** J2's ground (the stack's ground) goes to the **ECU end of A4 (PG, BLK)**, spliced within ~10 cm of the EPS connector. On a bench, it goes to the EPS's A4 terminal. It must not go to a chassis bolt or the battery. A4 carries the 40 A motor return, so anywhere else puts an offset between the stack and the EPS's sensor ground (B9).
+- **Logger accuracy:** that offset would shift every logger reading.
+- **Faked torque:** it would also shift the VT3/VT6 values this board produces.
+
+**Leave J4.3 and J5.4 (GND) unwired in the car,** so there's only one ground path. Fitted but unpowered (J2 unplugged), this board is passive: the relays rest on the car's wiring, and the logger keeps floating on its power bank.
+
 ### Feather specification check
 
 | Spec item | This wing |
@@ -113,7 +123,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 |---|---|
 | 1 | VT3 EPS side (gearbox 7-pin 3 / ECU B10) |
 | 2 | VT3 sensor side |
-| 3 | GND |
+| 3 | GND (leave unwired in the car: the reference comes through J2's ground, see below) |
 | 4 | VT6 EPS side (gearbox 7-pin 1 / ECU B8) |
 | 5 | VT6 sensor side |
 
@@ -124,7 +134,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 | 1 | IG1 OUT | Switched 12 V, 0.5 A PTC. Bench EPS only (ECU B6) |
 | 2 | NEP CAR | Car-side NEP wire (ECM) |
 | 3 | NEP EPS | EPS B14 |
-| 4 | GND | Separates the 12 V-level pins from the 5 V-level pins |
+| 4 | GND | Separates the 12 V-level pins from the 5 V-level pins. Leave unwired in the car |
 | 5 | VSP EPS | EPS B4 |
 | 6 | VSP CAR | Car-side VSP wire (VSS) |
 | 7 | ARM+ | 5 V out to the ARM loop (0.1 A PTC) |
@@ -147,7 +157,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 | Torque | U2 MCP4728 (I2C 0x60, 2.048 V ref, gain ×1) → U3 MCP6004 on 5 V, gain 2.2 → 470 Ω → BAT54S clamp | DAC A = VT3, B = VT6. DAC C and D go **straight** to test pads 10/11 as spare 0–2.048 V outputs (unbuffered, ~mA); op-amp sections C/D are parked as grounded followers |
 | Expander | U4 TCA9534 (I2C **0x20**) | P0 SAS, P1 IG1, P2 K1, P3 K2 (outputs); P4 ARM sense, P5 12 V sense (inputs); P6/P7 on test pads |
 
-**Pulse output polarity.** GPIO high pulls the output low (open drain), and the idle level is high. Both D4 and TX sit on independent timers: PA14 on TC3/WO0 or TCC1/WO2, PB16 on TC6/WO0 or TCC0/WO4. The rates are low (NEP 1.5 pulses/rev: 22.5 Hz at 900 rpm; VSP ~1.24 Hz per mph, **unverified**), so plain `micros()` timing also works.
+**Pulse output polarity.** GPIO high pulls the output low (open drain), and the idle level is high. Both D4 and TX sit on independent timers: PA14 on TCC1/WO2 or TCC2/WO0, PB16 on TC6/WO0 or TCC0/WO4. **Don't use TC3**: the logger (`eps_logger`) uses it for its 1 kHz sample tick. The rates are low (NEP 1.5 pulses/rev: 22.5 Hz at 900 rpm; VSP ~1.24 Hz per mph, **unverified**), so plain `micros()` timing also works.
 
 **I2C addresses** on the shared bus: RTC 0x68, OLED 0x3C, ADS1115 0x48, **MCP4728 0x60, TCA9534 0x20**. There are no clashes.
 

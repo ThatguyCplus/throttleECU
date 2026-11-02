@@ -9,6 +9,7 @@ Goal: the fewest parts that log the EPS **without being able to affect it**, bui
 | [firmware/eps_logger](firmware/eps_logger/README.md) | Logger firmware: 1 kHz logging, one file per drive, lead diagnostics |
 | [tools/decode_log.py](tools/decode_log.py) | Turns a `.BIN` log into CSV and prints a summary |
 | [PROTO_BUILD.md](PROTO_BUILD.md) | Hand-build guide for section 3 on the FeatherWing Proto: layout, build order, bench tests |
+| [STACK_MODES.md](STACK_MODES.md) | **Running with the bench stim wing:** power and grounding for logger-only, stim-only and both together, in the car and on a bench EPS |
 | [hardware/eps_tap_wing](hardware/eps_tap_wing/README.md) | **Assembled option:** a KiCad FeatherWing carrying all of section 3, with plug-in terminals. It replaces the Proto wing and the loose parts. |
 
 ## What the manual changed from v1
@@ -140,7 +141,7 @@ Implemented in `firmware/eps_logger/config.h`.
 | D12 | IG1 | Opens a new log file at key-on and closes it at key-off, so the SD card isn't corrupted |
 | D10 | SD CS | Adalogger |
 | SDA/SCL | RTC | Adalogger |
-| D4 | — | Leave free: it enables the CAN 5 V booster |
+| D4 | — | Free on the Feather M4 CAN (the CAN 5 V boost enable is internal pin PB13). The bench stim wing uses D4 and TX for its NEP/VSP outputs |
 
 ## Worst-case fault check
 
@@ -167,4 +168,4 @@ Implemented in `firmware/eps_logger/config.h`.
 |--------|-------|
 | Vcc1 + extra spare channels | A second MCP6024, plus 1 MΩ + 150 kΩ per channel |
 | Yaw rate / lateral g alongside torque | Adafruit LSM6DSOX (PID 4438, $11.95) plus a STEMMA QT-to-male-header cable (PID 4209, $0.95). The Feather M4 CAN has no STEMMA QT port. |
-| Permanent install powered from the car | USB car adapter, plus a ground-sense channel so B9 is measured differentially instead of tied to chassis ground |
+| Powered from the car | Use the [bench stim wing](../bench_stim_wing/README.md) (12 V in, protected, feeds the stack) with its ground wired to the **ECU end of A4 (PG)**: logger ground then sits at the ECU's own ground, the same node as B9. See [STACK_MODES.md](STACK_MODES.md). Don't power it from a USB car adapter grounded elsewhere |
