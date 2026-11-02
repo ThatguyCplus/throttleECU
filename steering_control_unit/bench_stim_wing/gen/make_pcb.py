@@ -197,7 +197,7 @@ def zone(board, layer, net, outline_pts=None, priority=0):
     z.SetMinThickness(mm(0.2))
     z.SetThermalReliefGap(mm(0.3))
     z.SetThermalReliefSpokeWidth(mm(0.4))
-    z.SetPadConnection(pcbnew.ZONE_CONNECTION_THERMAL)
+    z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
     z.SetAssignedPriority(priority)
     z.SetIsFilled(False)
     poly = z.Outline()
@@ -314,6 +314,48 @@ def check():
     print(summary)
 
 
+def import_ses(board):
+    """Read Freerouting's .ses (wires + vias) into the board. KiCad 7's
+    ImportSpecctraSES only works inside the editor, so this does it directly."""
+    tree = parse(open(SES, encoding="utf-8").read())
+    find = lambda node, key: [x for x in node if isinstance(x, list) and x[0] == key]
+    routes = find(tree, "routes")[0]
+    res = find(routes, "resolution")[0]
+    scale = {"um": 1e-3, "mm": 1.0, "mil": 0.0254}[str(res[1])] / float(res[2])   # -> mm
+    layers = {board.GetLayerName(l): l for l in range(pcbnew.PCB_LAYER_ID_COUNT)}
+    for t in list(board.GetTracks()):
+        board.Remove(t)
+    n_seg = n_via = 0
+    for net in find(find(routes, "network_out")[0], "net"):
+        ni = board.FindNet(str(net[1]))
+        for w in find(net, "wire"):
+            path = find(w, "path")[0]
+            layer, width = layers[str(path[1])], float(path[2]) * scale
+            xy = [float(v) * scale for v in path[3:]]
+            pts = [pcbnew.VECTOR2I(mm(xy[i]), mm(-xy[i + 1])) for i in range(0, len(xy), 2)]
+            for a, b in zip(pts, pts[1:]):
+                t = pcbnew.PCB_TRACK(board)
+                t.SetStart(a)
+                t.SetEnd(b)
+                t.SetWidth(mm(width))
+                t.SetLayer(layer)
+                t.SetNet(ni)
+                board.Add(t)
+                n_seg += 1
+        for v in find(net, "via"):
+            m = re.search(r"_(\d+):(\d+)_um", str(v[1]))
+            dia, drill = (int(m.group(1)) / 1000, int(m.group(2)) / 1000) if m else (0.5, 0.25)
+            via = pcbnew.PCB_VIA(board)
+            via.SetPosition(pcbnew.VECTOR2I(mm(float(v[2]) * scale), mm(-float(v[3]) * scale)))
+            via.SetWidth(mm(dia))
+            via.SetDrill(mm(drill))
+            via.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu)
+            via.SetNet(ni)
+            board.Add(via)
+            n_via += 1
+    print(f"imported {n_seg} track segments and {n_via} vias from {os.path.basename(SES)}")
+
+
 def resilk(board):
     """Replace the board's free silk text with placement.silkscreen (no re-route needed)."""
     import placement
@@ -325,8 +367,7 @@ def resilk(board):
 
 def finish():
     board = pcbnew.LoadBoard(PCB)
-    if not pcbnew.ImportSpecctraSES(board, SES):
-        raise SystemExit("SES import failed")
+    import_ses(board)
     resilk(board)
     gnd = board.FindNet("GND")
     for z in list(board.Zones()):

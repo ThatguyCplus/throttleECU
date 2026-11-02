@@ -20424,233 +20424,15 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 119.38 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6140223a-4a3b-5f55-aa97-0d672b52194d")
-		(property "Reference" "C11"
-			(at 121.92 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10uF"
-			(at 121.92 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 119.38 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 119.38 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "CL21A106KAYNNNE"
-			(at 119.38 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C15850"
-			(at 119.38 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "U2 bulk"
-			(at 119.38 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "7c60bf3b-c336-51e9-8696-1ab3e44036df")
-		)
-		(pin "2"
-			(uuid "0f03be12-9d34-56ba-8aef-c390c0f2af1e")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "C11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 119.38 422.91)
-			(xy 119.38 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "32dc8f0b-790e-5900-9169-ab0db6f13b34")
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 119.38 420.37 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "70854b8e-bea8-52db-ab6f-d523d72d2058")
-		(property "Reference" "#PWR065"
-			(at 119.38 420.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Value" "+3V3"
-			(at 119.38 415.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 119.38 420.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 119.38 420.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "6c960a4d-068e-55a2-b6fa-204cc9a51d7f")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR065")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 119.38 430.53)
-			(xy 119.38 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b0e70908-20bb-5ade-8011-066b167a0244")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 119.38 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "28a10ea4-ee7d-505c-9abd-9041e37b58df")
-		(property "Reference" "#PWR066"
-			(at 119.38 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Value" "GND"
-			(at 119.38 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 119.38 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 119.38 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "38131208-b73a-5fbf-b1be-b8461ff24d81")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR066")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 148.59 425.45 0)
+		(at 130.81 425.45 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "3e4e07f9-8895-5c48-8e2c-1d90a6fb084a")
 		(property "Reference" "U3"
-			(at 151.13 424.18 0)
+			(at 133.35 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20659,7 +20441,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 151.13 426.72 0)
+			(at 133.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20668,7 +20450,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 148.59 425.45 0)
+			(at 130.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20677,7 +20459,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 148.59 425.45 0)
+			(at 130.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20686,7 +20468,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 148.59 425.45 0)
+			(at 130.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20695,7 +20477,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 148.59 425.45 0)
+			(at 130.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20723,77 +20505,77 @@
 	)
 	(wire
 		(pts
-			(xy 156.21 425.45)
-			(xy 158.75 425.45)
+			(xy 138.43 425.45)
+			(xy 140.97 425.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e90737e0-c1bd-5d6f-aac3-12026a330ca2")
+		(uuid "dbc1af6f-95c8-5dc9-8d3c-73c6b8291d70")
 	)
 	(label "OPA_OUT"
-		(at 158.75 425.45 0)
+		(at 140.97 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "0e6a335f-cff5-505b-8b81-74e0c0dec416")
+		(uuid "a7492610-09fb-5919-9856-802c83944b42")
 	)
 	(wire
 		(pts
-			(xy 140.97 427.99)
-			(xy 138.43 427.99)
+			(xy 123.19 427.99)
+			(xy 120.65 427.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a8274286-f0e6-5bb0-a2f1-616c55783d2d")
+		(uuid "383c1787-b230-568b-adc2-be31777e5729")
 	)
 	(label "OPA_N"
-		(at 138.43 427.99 180)
+		(at 120.65 427.99 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "0f7bc65d-7424-5d72-aec7-3231f57a2e8e")
+		(uuid "d0d7d1e6-6d7b-515d-a033-c85efd3912c9")
 	)
 	(wire
 		(pts
-			(xy 140.97 422.91)
-			(xy 138.43 422.91)
+			(xy 123.19 422.91)
+			(xy 120.65 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9c7d34fd-3a67-5e87-a545-ca0b2772ae1a")
+		(uuid "9234fc6c-2106-542e-950e-2fc67c4fa839")
 	)
 	(label "OPA_P"
-		(at 138.43 422.91 180)
+		(at 120.65 422.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "972b7f3b-343d-5a27-bf90-8d99c93be6a1")
+		(uuid "bf579765-dc51-5b50-9a66-50bd556bb253")
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 190.5 425.45 0)
+		(at 172.72 425.45 0)
 		(unit 2)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "377170a0-177b-5f92-a73e-54028b66572d")
 		(property "Reference" "U3"
-			(at 193.04 424.18 0)
+			(at 175.26 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20802,7 +20584,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 193.04 426.72 0)
+			(at 175.26 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20811,7 +20593,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 190.5 425.45 0)
+			(at 172.72 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20820,7 +20602,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 425.45 0)
+			(at 172.72 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20829,7 +20611,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 190.5 425.45 0)
+			(at 172.72 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20838,7 +20620,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 190.5 425.45 0)
+			(at 172.72 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20866,77 +20648,77 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 422.91)
-			(xy 180.34 422.91)
+			(xy 165.1 422.91)
+			(xy 162.56 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bf69324d-cc9b-5db9-981c-8272ac9ed4cb")
+		(uuid "85374110-ea35-5a1d-8803-7ab5600f2d8f")
 	)
 	(label "OPB_P"
-		(at 180.34 422.91 180)
+		(at 162.56 422.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "f01952e9-450f-5d15-93e6-fe4cd959aca7")
+		(uuid "2d627faa-f024-508c-986e-7c1d4bae0690")
 	)
 	(wire
 		(pts
-			(xy 182.88 427.99)
-			(xy 180.34 427.99)
+			(xy 165.1 427.99)
+			(xy 162.56 427.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b783db3a-ed3d-5f83-ba6a-82a8952d9427")
+		(uuid "c41c2b7c-f19d-5dee-af36-ccd25d8a487d")
 	)
 	(label "OPB_N"
-		(at 180.34 427.99 180)
+		(at 162.56 427.99 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "329c6e1f-1934-5303-b91a-5a326194b990")
+		(uuid "1a1b9ff0-f480-548f-8454-75e24034d98d")
 	)
 	(wire
 		(pts
-			(xy 198.12 425.45)
-			(xy 200.66 425.45)
+			(xy 180.34 425.45)
+			(xy 182.88 425.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f56e58a0-2c8c-595a-8c67-eab5000b8dcc")
+		(uuid "0e7f0b63-94d8-526e-a2cd-c492da48746c")
 	)
 	(label "OPB_OUT"
-		(at 200.66 425.45 0)
+		(at 182.88 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "9304113d-de32-5fa5-a98d-9e885b72abcf")
+		(uuid "478ead8f-1ed9-57eb-a616-edf49e86c213")
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 233.68 425.45 0)
+		(at 215.9 425.45 0)
 		(unit 3)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "b8776f38-5946-520f-b8cc-97e6e8d5cae4")
 		(property "Reference" "U3"
-			(at 236.22 424.18 0)
+			(at 218.44 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20945,7 +20727,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 236.22 426.72 0)
+			(at 218.44 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20954,7 +20736,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 233.68 425.45 0)
+			(at 215.9 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20963,7 +20745,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 233.68 425.45 0)
+			(at 215.9 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20972,7 +20754,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 233.68 425.45 0)
+			(at 215.9 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20981,7 +20763,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 233.68 425.45 0)
+			(at 215.9 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21009,77 +20791,77 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 422.91)
-			(xy 223.52 422.91)
+			(xy 208.28 422.91)
+			(xy 205.74 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1d7878e8-ee58-5266-bd40-7ff2f97ba5ec")
+		(uuid "af5868ce-47b3-5ac7-b9be-49837f426652")
 	)
 	(label "OPC_P"
-		(at 223.52 422.91 180)
+		(at 205.74 422.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "15c82f90-fd62-534e-a339-b60e8f15fbdc")
+		(uuid "35075a4f-b461-5914-9e8f-241ef24abd00")
 	)
 	(wire
 		(pts
-			(xy 241.3 425.45)
-			(xy 243.84 425.45)
+			(xy 223.52 425.45)
+			(xy 226.06 425.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ab15472d-7ebe-59ff-ae60-049d7557b042")
+		(uuid "796e53fa-a0f9-593f-8f92-0d5fbd2b35c4")
 	)
 	(label "OPC_OUT"
-		(at 243.84 425.45 0)
+		(at 226.06 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "3962e42d-4111-54cd-bbac-94614646cbea")
+		(uuid "32b59efc-a4fa-5dd1-a92c-012ab57b9096")
 	)
 	(wire
 		(pts
-			(xy 226.06 427.99)
-			(xy 223.52 427.99)
+			(xy 208.28 427.99)
+			(xy 205.74 427.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bdeb6fb5-c6d2-5fd8-b726-780bf893f0f9")
+		(uuid "4a237b7a-8136-5fd0-adf6-356bb55c6981")
 	)
 	(label "OPC_N"
-		(at 223.52 427.99 180)
+		(at 205.74 427.99 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "9a1a89ab-3f2c-5e6f-a93c-dbf567fd87f4")
+		(uuid "d7bf6657-6a6a-5a25-b2e4-a0091eb0224d")
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 275.59 425.45 0)
+		(at 257.81 425.45 0)
 		(unit 4)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "e83c2dbe-a098-57e9-93bc-b565ee8997e7")
 		(property "Reference" "U3"
-			(at 278.13 424.18 0)
+			(at 260.35 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21088,7 +20870,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 278.13 426.72 0)
+			(at 260.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21097,7 +20879,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 275.59 425.45 0)
+			(at 257.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21106,7 +20888,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 275.59 425.45 0)
+			(at 257.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21115,7 +20897,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 275.59 425.45 0)
+			(at 257.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21124,7 +20906,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 275.59 425.45 0)
+			(at 257.81 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21152,77 +20934,77 @@
 	)
 	(wire
 		(pts
-			(xy 267.97 422.91)
-			(xy 265.43 422.91)
+			(xy 250.19 422.91)
+			(xy 247.65 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b5ce098f-f2a6-5cda-a41c-77635f0f59af")
+		(uuid "d9634d4e-9a4b-5df5-b160-4fcaca442214")
 	)
 	(label "OPD_P"
-		(at 265.43 422.91 180)
+		(at 247.65 422.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "5001a070-7ae4-5389-a426-f522e9fefd61")
+		(uuid "08965848-1581-5a24-a8c1-174b348545bf")
 	)
 	(wire
 		(pts
-			(xy 267.97 427.99)
-			(xy 265.43 427.99)
+			(xy 250.19 427.99)
+			(xy 247.65 427.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bb9b5a85-6a60-5d4e-8ef0-6a7bec814626")
+		(uuid "cd5007f5-697d-583f-94e0-6c4a682622fe")
 	)
 	(label "OPD_N"
-		(at 265.43 427.99 180)
+		(at 247.65 427.99 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "bb6429a1-4138-579c-9560-348801d8c7fc")
+		(uuid "587ef46d-a5f6-5f49-b613-aff6724c414e")
 	)
 	(wire
 		(pts
-			(xy 283.21 425.45)
-			(xy 285.75 425.45)
+			(xy 265.43 425.45)
+			(xy 267.97 425.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b4e915b3-7bd1-5b0b-925b-a3e0c094d882")
+		(uuid "bc2413aa-aef4-5cf8-8bd0-ecd43cc25ee8")
 	)
 	(label "OPD_OUT"
-		(at 285.75 425.45 0)
+		(at 267.97 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "66173b27-45a2-5454-ac05-a268e1e15a6d")
+		(uuid "3b246339-c5ea-5be5-8d4f-75bb0f87861c")
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 307.34 430.53 0)
+		(at 288.29 430.53 0)
 		(unit 5)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "b482680a-7622-533e-be79-28ec3ea353ea")
 		(property "Reference" "U3"
-			(at 309.88 429.26 0)
+			(at 290.83 429.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21231,7 +21013,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 309.88 431.8 0)
+			(at 290.83 431.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21240,7 +21022,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 307.34 430.53 0)
+			(at 288.29 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21249,7 +21031,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 307.34 430.53 0)
+			(at 288.29 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21258,7 +21040,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 307.34 430.53 0)
+			(at 288.29 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21267,7 +21049,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 307.34 430.53 0)
+			(at 288.29 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21292,25 +21074,25 @@
 	)
 	(wire
 		(pts
-			(xy 304.8 438.15)
-			(xy 304.8 440.69)
+			(xy 285.75 438.15)
+			(xy 285.75 440.69)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "01c552f6-2699-583e-9738-2b813f1da691")
+		(uuid "2ad961be-c2c9-5b60-9e01-f84dcb300bf6")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 304.8 440.69 0)
+		(at 285.75 440.69 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "528efaba-afb4-5465-9f0a-804d2f2a7aef")
-		(property "Reference" "#PWR067"
-			(at 304.8 440.69 0)
+		(uuid "70854b8e-bea8-52db-ab6f-d523d72d2058")
+		(property "Reference" "#PWR065"
+			(at 285.75 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21319,7 +21101,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 304.8 445.77 0)
+			(at 285.75 445.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21327,7 +21109,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 304.8 440.69 0)
+			(at 285.75 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21336,7 +21118,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 304.8 440.69 0)
+			(at 285.75 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21345,12 +21127,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "10e876b8-3af9-50c1-b4e1-f9fefacdd3ac")
+			(uuid "6c960a4d-068e-55a2-b6fa-204cc9a51d7f")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR067")
+					(reference "#PWR065")
 					(unit 1)
 				)
 			)
@@ -21358,25 +21140,25 @@
 	)
 	(wire
 		(pts
-			(xy 304.8 422.91)
-			(xy 304.8 420.37)
+			(xy 285.75 422.91)
+			(xy 285.75 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a28e3a68-a30b-58d5-b914-e255810440cc")
+		(uuid "3e3697f6-b677-5889-92ea-2f8e5d29fed0")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 304.8 420.37 0)
+		(at 285.75 420.37 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "1be8ae7f-61ab-5e5c-a94f-ea626a638a80")
-		(property "Reference" "#PWR068"
-			(at 304.8 420.37 0)
+		(uuid "28a10ea4-ee7d-505c-9abd-9041e37b58df")
+		(property "Reference" "#PWR066"
+			(at 285.75 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21385,7 +21167,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 304.8 415.29 0)
+			(at 285.75 415.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21393,7 +21175,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 304.8 420.37 0)
+			(at 285.75 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21402,7 +21184,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 304.8 420.37 0)
+			(at 285.75 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21411,16 +21193,144 @@
 			)
 		)
 		(pin "1"
-			(uuid "5175054f-f4a0-5681-9435-8bfeb743c6b1")
+			(uuid "38131208-b73a-5fbf-b1be-b8461ff24d81")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR068")
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
 		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 307.34 426.72 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3adfbb7a-a89a-5eb8-99af-092d3b48fcf8")
+		(property "Reference" "R40"
+			(at 309.88 425.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 309.88 427.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 307.34 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 307.34 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "MPN" "0402WGF1002TCE"
+			(at 307.34 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "LCSC" "C25744"
+			(at 307.34 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Notes" "DAC A to op-amp, limits current if 5 V is off"
+			(at 307.34 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "65903db0-5269-5d8e-a78d-d899862aed96")
+		)
+		(pin "2"
+			(uuid "43cabcfa-5579-5d4d-b944-c5514360ebd0")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "R40")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 307.34 422.91)
+			(xy 307.34 420.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "870f5026-d7dd-5cc7-a217-ce8682b5ba6f")
+	)
+	(label "DAC_A"
+		(at 307.34 420.37 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1efaff88-e7db-5595-ae3d-5df087ce8010")
+	)
+	(wire
+		(pts
+			(xy 307.34 430.53)
+			(xy 307.34 433.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "754ff35e-be84-52bb-b2c1-a910b44f6228")
+	)
+	(label "OPA_P"
+		(at 307.34 433.07 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "88b494cb-2d23-5a46-a2bb-4873eb9ad3f6")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -21429,8 +21339,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "3adfbb7a-a89a-5eb8-99af-092d3b48fcf8")
-		(property "Reference" "R40"
+		(uuid "a4b0c991-ccdc-5a58-9833-ea5fff0dc065")
+		(property "Reference" "R41"
 			(at 327.66 425.45 0)
 			(effects
 				(font
@@ -21484,7 +21394,7 @@
 				hide
 			)
 		)
-		(property "Notes" "DAC A to op-amp, limits current if 5 V is off"
+		(property "Notes" "Gain set A"
 			(at 325.12 426.72 0)
 			(effects
 				(font
@@ -21494,15 +21404,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "65903db0-5269-5d8e-a78d-d899862aed96")
+			(uuid "d8106594-6075-5013-985b-3bee8ddd588d")
 		)
 		(pin "2"
-			(uuid "43cabcfa-5579-5d4d-b944-c5514360ebd0")
+			(uuid "847fb9da-888f-51ad-9eb0-64ef0934bb1d")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R40")
+					(reference "R41")
 					(unit 1)
 				)
 			)
@@ -21519,7 +21429,7 @@
 		)
 		(uuid "6d9f7f03-527b-5184-a01b-a5bdf2293926")
 	)
-	(label "DAC_A"
+	(label "OPA_N"
 		(at 325.12 420.37 90)
 		(effects
 			(font
@@ -21527,7 +21437,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4710a75e-35e6-5567-8000-22767e7478da")
+		(uuid "eac38ff5-f2e6-5f6a-b969-630949c45cd5")
 	)
 	(wire
 		(pts
@@ -21540,15 +21450,60 @@
 		)
 		(uuid "4d387546-45d8-5664-8ef9-ae1ee113404f")
 	)
-	(label "OPA_P"
-		(at 325.12 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
+	(symbol
+		(lib_id "power:GND")
+		(at 325.12 433.07 0)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "528efaba-afb4-5465-9f0a-804d2f2a7aef")
+		(property "Reference" "#PWR067"
+			(at 325.12 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
 			)
-			(justify right bottom)
 		)
-		(uuid "22eb7739-e0b6-5ff1-98a3-ee3d0ffa1a96")
+		(property "Value" "GND"
+			(at 325.12 438.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 325.12 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 325.12 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "10e876b8-3af9-50c1-b4e1-f9fefacdd3ac")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR067")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -21557,8 +21512,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a4b0c991-ccdc-5a58-9833-ea5fff0dc065")
-		(property "Reference" "R41"
+		(uuid "88060c55-5024-50bc-ae0f-a9b7e3120129")
+		(property "Reference" "R42"
 			(at 345.44 425.45 0)
 			(effects
 				(font
@@ -21567,7 +21522,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "12k"
 			(at 345.44 427.99 0)
 			(effects
 				(font
@@ -21594,7 +21549,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0402WGF1202TCE"
 			(at 342.9 426.72 0)
 			(effects
 				(font
@@ -21603,7 +21558,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25752"
 			(at 342.9 426.72 0)
 			(effects
 				(font
@@ -21612,7 +21567,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set A"
+		(property "Notes" "Gain set A: x2.2"
 			(at 342.9 426.72 0)
 			(effects
 				(font
@@ -21622,15 +21577,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "d8106594-6075-5013-985b-3bee8ddd588d")
+			(uuid "224a9b93-c199-5f12-aec4-57130ad0c1da")
 		)
 		(pin "2"
-			(uuid "847fb9da-888f-51ad-9eb0-64ef0934bb1d")
+			(uuid "7036345f-21de-5c1a-a3c0-c2e2681054e9")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R41")
+					(reference "R42")
 					(unit 1)
 				)
 			)
@@ -21647,7 +21602,7 @@
 		)
 		(uuid "f1572606-1d43-53c0-ab8f-ee4242069f1d")
 	)
-	(label "OPA_N"
+	(label "OPA_OUT"
 		(at 342.9 420.37 90)
 		(effects
 			(font
@@ -21655,7 +21610,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "0271f0fe-f4d2-59fa-ad2d-c8f1f4aefd9c")
+		(uuid "9418192a-53dc-5821-8269-acdfc264dee3")
 	)
 	(wire
 		(pts
@@ -21668,60 +21623,15 @@
 		)
 		(uuid "19aa07a9-a11e-5259-847a-0cc999000f3b")
 	)
-	(symbol
-		(lib_id "power:GND")
-		(at 342.9 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "2543825f-3bc3-52bf-8f95-a0128e45bf5a")
-		(property "Reference" "#PWR069"
-			(at 342.9 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
+	(label "OPA_N"
+		(at 342.9 433.07 270)
+		(effects
+			(font
+				(size 1.27 1.27)
 			)
+			(justify right bottom)
 		)
-		(property "Value" "GND"
-			(at 342.9 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 342.9 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 342.9 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "e58e6087-d486-5a50-aa46-b72751c6cace")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR069")
-					(unit 1)
-				)
-			)
-		)
+		(uuid "cc4d585b-56a5-5964-9110-15508978f78c")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -21730,8 +21640,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "88060c55-5024-50bc-ae0f-a9b7e3120129")
-		(property "Reference" "R42"
+		(uuid "c5208cda-3514-548e-a2ae-b0c73126a057")
+		(property "Reference" "R43"
 			(at 363.22 425.45 0)
 			(effects
 				(font
@@ -21740,7 +21650,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "12k"
+		(property "Value" "470R"
 			(at 363.22 427.99 0)
 			(effects
 				(font
@@ -21767,7 +21677,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1202TCE"
+		(property "MPN" "0402WGF4700TCE"
 			(at 360.68 426.72 0)
 			(effects
 				(font
@@ -21776,7 +21686,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25752"
+		(property "LCSC" "C25117"
 			(at 360.68 426.72 0)
 			(effects
 				(font
@@ -21785,7 +21695,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set A: x2.2"
+		(property "Notes" "Output series A"
 			(at 360.68 426.72 0)
 			(effects
 				(font
@@ -21795,15 +21705,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "224a9b93-c199-5f12-aec4-57130ad0c1da")
+			(uuid "40e0f437-b3af-5f5d-be1d-1aa7c5929ece")
 		)
 		(pin "2"
-			(uuid "7036345f-21de-5c1a-a3c0-c2e2681054e9")
+			(uuid "cd1150fb-9566-5147-8f0b-e64777878156")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R42")
+					(reference "R43")
 					(unit 1)
 				)
 			)
@@ -21841,7 +21751,7 @@
 		)
 		(uuid "866e88c8-8fad-5fc3-a4a8-0cf482569ab7")
 	)
-	(label "OPA_N"
+	(label "VT3_STIM"
 		(at 360.68 433.07 270)
 		(effects
 			(font
@@ -21849,7 +21759,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "04b928ab-42fc-5be9-8994-b17d26b41745")
+		(uuid "d9f60d7f-5c32-52a4-824b-bc0fb634a7c1")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -21858,8 +21768,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c5208cda-3514-548e-a2ae-b0c73126a057")
-		(property "Reference" "R43"
+		(uuid "09175e14-2a5f-5d87-b703-be6cfe4b8c08")
+		(property "Reference" "R44"
 			(at 381.0 425.45 0)
 			(effects
 				(font
@@ -21868,7 +21778,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470R"
+		(property "Value" "10k"
 			(at 381.0 427.99 0)
 			(effects
 				(font
@@ -21895,7 +21805,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF4700TCE"
+		(property "MPN" "0402WGF1002TCE"
 			(at 378.46 426.72 0)
 			(effects
 				(font
@@ -21904,7 +21814,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25117"
+		(property "LCSC" "C25744"
 			(at 378.46 426.72 0)
 			(effects
 				(font
@@ -21913,7 +21823,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Output series A"
+		(property "Notes" "DAC B to op-amp, limits current if 5 V is off"
 			(at 378.46 426.72 0)
 			(effects
 				(font
@@ -21923,15 +21833,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "40e0f437-b3af-5f5d-be1d-1aa7c5929ece")
+			(uuid "32cfdbab-97d6-5227-98ac-b12ab307bb93")
 		)
 		(pin "2"
-			(uuid "cd1150fb-9566-5147-8f0b-e64777878156")
+			(uuid "d0785663-c926-5ec9-82fc-1b90aae879e4")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R43")
+					(reference "R44")
 					(unit 1)
 				)
 			)
@@ -21948,7 +21858,7 @@
 		)
 		(uuid "e21266c7-6d5c-5f73-8e5b-9bffe12d1c24")
 	)
-	(label "OPA_OUT"
+	(label "DAC_B"
 		(at 378.46 420.37 90)
 		(effects
 			(font
@@ -21956,7 +21866,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b26a2254-09ac-5dcb-be12-308421d1b796")
+		(uuid "e89deb09-4dd9-51f2-9ed8-72ce84d5dbd2")
 	)
 	(wire
 		(pts
@@ -21969,7 +21879,7 @@
 		)
 		(uuid "43f857b2-6d30-59cd-ad12-c52e0441b2e9")
 	)
-	(label "VT3_STIM"
+	(label "OPB_P"
 		(at 378.46 433.07 270)
 		(effects
 			(font
@@ -21977,7 +21887,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d5f206a0-c596-5f6e-937d-9448bb7cca14")
+		(uuid "f4c2106e-241a-559b-8c84-174c3a0a7c1f")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -21986,8 +21896,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "09175e14-2a5f-5d87-b703-be6cfe4b8c08")
-		(property "Reference" "R44"
+		(uuid "5c51ad80-bdc7-59c1-965b-3051bae09d0a")
+		(property "Reference" "R45"
 			(at 398.78 425.45 0)
 			(effects
 				(font
@@ -22041,7 +21951,7 @@
 				hide
 			)
 		)
-		(property "Notes" "DAC B to op-amp, limits current if 5 V is off"
+		(property "Notes" "Gain set B"
 			(at 396.24 426.72 0)
 			(effects
 				(font
@@ -22051,15 +21961,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "32cfdbab-97d6-5227-98ac-b12ab307bb93")
+			(uuid "21a99160-f8c2-598b-bc58-436e34041372")
 		)
 		(pin "2"
-			(uuid "d0785663-c926-5ec9-82fc-1b90aae879e4")
+			(uuid "3e423125-c50d-5bd9-9c2e-0cf3c0d3c531")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R44")
+					(reference "R45")
 					(unit 1)
 				)
 			)
@@ -22076,7 +21986,7 @@
 		)
 		(uuid "787ee4d5-eb53-573c-83f2-fa9562f53332")
 	)
-	(label "DAC_B"
+	(label "OPB_N"
 		(at 396.24 420.37 90)
 		(effects
 			(font
@@ -22084,7 +21994,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "50b3329f-7da9-540c-8a7b-0e122f2e1fb7")
+		(uuid "21e5eebc-ae0e-51a2-a31b-2735a9f4956d")
 	)
 	(wire
 		(pts
@@ -22097,15 +22007,60 @@
 		)
 		(uuid "3e32f72a-3c7c-5928-b1b6-a860e6c4496d")
 	)
-	(label "OPB_P"
-		(at 396.24 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
+	(symbol
+		(lib_id "power:GND")
+		(at 396.24 433.07 0)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "1be8ae7f-61ab-5e5c-a94f-ea626a638a80")
+		(property "Reference" "#PWR068"
+			(at 396.24 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
 			)
-			(justify right bottom)
 		)
-		(uuid "3b7e4a8c-e3b5-5c53-be86-11397df58adb")
+		(property "Value" "GND"
+			(at 396.24 438.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 396.24 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 396.24 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "5175054f-f4a0-5681-9435-8bfeb743c6b1")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR068")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22114,8 +22069,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "5c51ad80-bdc7-59c1-965b-3051bae09d0a")
-		(property "Reference" "R45"
+		(uuid "0bac9266-f1ba-50bb-9408-de5cb0b91630")
+		(property "Reference" "R46"
 			(at 417.83 425.45 0)
 			(effects
 				(font
@@ -22124,7 +22079,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "12k"
 			(at 417.83 427.99 0)
 			(effects
 				(font
@@ -22151,7 +22106,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0402WGF1202TCE"
 			(at 415.29 426.72 0)
 			(effects
 				(font
@@ -22160,7 +22115,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25752"
 			(at 415.29 426.72 0)
 			(effects
 				(font
@@ -22169,7 +22124,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set B"
+		(property "Notes" "Gain set B: x2.2"
 			(at 415.29 426.72 0)
 			(effects
 				(font
@@ -22179,15 +22134,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "21a99160-f8c2-598b-bc58-436e34041372")
+			(uuid "74255b06-1cc8-5db2-9015-422644f735ef")
 		)
 		(pin "2"
-			(uuid "3e423125-c50d-5bd9-9c2e-0cf3c0d3c531")
+			(uuid "bf802d9d-5ecd-5db6-847a-f08ca09afd60")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R45")
+					(reference "R46")
 					(unit 1)
 				)
 			)
@@ -22204,7 +22159,7 @@
 		)
 		(uuid "dfb4e3dc-8215-5e5c-8fa8-8765a48021dd")
 	)
-	(label "OPB_N"
+	(label "OPB_OUT"
 		(at 415.29 420.37 90)
 		(effects
 			(font
@@ -22212,7 +22167,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ef5837dc-9633-5aab-a12f-6bc98fbe5854")
+		(uuid "ff305016-17d7-5bc5-9318-0886fb592697")
 	)
 	(wire
 		(pts
@@ -22225,60 +22180,15 @@
 		)
 		(uuid "584b213b-d0de-5226-877b-a7cb2a722530")
 	)
-	(symbol
-		(lib_id "power:GND")
-		(at 415.29 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "36b38590-9277-5aed-90ac-35c8ebd61555")
-		(property "Reference" "#PWR070"
-			(at 415.29 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
+	(label "OPB_N"
+		(at 415.29 433.07 270)
+		(effects
+			(font
+				(size 1.27 1.27)
 			)
+			(justify right bottom)
 		)
-		(property "Value" "GND"
-			(at 415.29 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 415.29 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 415.29 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "8aeee2cd-48f8-54d0-a60f-dbd6b6b5ed5e")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR070")
-					(unit 1)
-				)
-			)
-		)
+		(uuid "b8e01aca-8a2e-58fe-980a-e1f4cf661ff8")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22287,8 +22197,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0bac9266-f1ba-50bb-9408-de5cb0b91630")
-		(property "Reference" "R46"
+		(uuid "8273b40c-8dae-5cc4-9f3c-1467c8ecc2a7")
+		(property "Reference" "R47"
 			(at 435.61 425.45 0)
 			(effects
 				(font
@@ -22297,7 +22207,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "12k"
+		(property "Value" "470R"
 			(at 435.61 427.99 0)
 			(effects
 				(font
@@ -22324,7 +22234,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1202TCE"
+		(property "MPN" "0402WGF4700TCE"
 			(at 433.07 426.72 0)
 			(effects
 				(font
@@ -22333,7 +22243,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25752"
+		(property "LCSC" "C25117"
 			(at 433.07 426.72 0)
 			(effects
 				(font
@@ -22342,7 +22252,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set B: x2.2"
+		(property "Notes" "Output series B"
 			(at 433.07 426.72 0)
 			(effects
 				(font
@@ -22352,15 +22262,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "74255b06-1cc8-5db2-9015-422644f735ef")
+			(uuid "fef841a6-0c39-5b8f-96dd-4be7770453ec")
 		)
 		(pin "2"
-			(uuid "bf802d9d-5ecd-5db6-847a-f08ca09afd60")
+			(uuid "cec145ee-907b-5a24-92c3-9d7202f4e8c4")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R46")
+					(reference "R47")
 					(unit 1)
 				)
 			)
@@ -22398,7 +22308,7 @@
 		)
 		(uuid "622fe1e1-dba1-527c-9b7d-0eefdc50d586")
 	)
-	(label "OPB_N"
+	(label "VT6_STIM"
 		(at 433.07 433.07 270)
 		(effects
 			(font
@@ -22406,7 +22316,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ce03c27a-6778-5336-9f14-62e62b24e82d")
+		(uuid "3e5d505d-176d-5d89-b1ae-8fe12ba052f1")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22415,8 +22325,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "8273b40c-8dae-5cc4-9f3c-1467c8ecc2a7")
-		(property "Reference" "R47"
+		(uuid "b782d38f-8c97-5c6c-9452-b3d30f8d9e09")
+		(property "Reference" "R48"
 			(at 453.39 425.45 0)
 			(effects
 				(font
@@ -22425,7 +22335,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470R"
+		(property "Value" "10k"
 			(at 453.39 427.99 0)
 			(effects
 				(font
@@ -22452,7 +22362,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF4700TCE"
+		(property "MPN" "0402WGF1002TCE"
 			(at 450.85 426.72 0)
 			(effects
 				(font
@@ -22461,7 +22371,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25117"
+		(property "LCSC" "C25744"
 			(at 450.85 426.72 0)
 			(effects
 				(font
@@ -22470,7 +22380,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Output series B"
+		(property "Notes" "DAC C to op-amp, limits current if 5 V is off"
 			(at 450.85 426.72 0)
 			(effects
 				(font
@@ -22480,15 +22390,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "fef841a6-0c39-5b8f-96dd-4be7770453ec")
+			(uuid "245c1ee9-be84-5256-94a8-b863f76212c8")
 		)
 		(pin "2"
-			(uuid "cec145ee-907b-5a24-92c3-9d7202f4e8c4")
+			(uuid "da177f0e-58a7-5312-a000-38afba9b7e40")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R47")
+					(reference "R48")
 					(unit 1)
 				)
 			)
@@ -22505,7 +22415,7 @@
 		)
 		(uuid "d0af6c14-cfb3-5faf-b60a-1b30230b8f09")
 	)
-	(label "OPB_OUT"
+	(label "DAC_C"
 		(at 450.85 420.37 90)
 		(effects
 			(font
@@ -22513,7 +22423,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d026780b-39ef-5a05-a8ce-97875b4c3eb7")
+		(uuid "204c11ad-7f02-58f0-a7ff-e181aeb9f9d1")
 	)
 	(wire
 		(pts
@@ -22526,7 +22436,7 @@
 		)
 		(uuid "48950fd0-ace7-5368-808c-7ef0049e18e3")
 	)
-	(label "VT6_STIM"
+	(label "OPC_P"
 		(at 450.85 433.07 270)
 		(effects
 			(font
@@ -22534,7 +22444,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "34050ada-9edb-5998-961e-2630a2cdd296")
+		(uuid "bf7b06b2-155d-5540-a3e5-7cf4a9f8468c")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22543,8 +22453,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b782d38f-8c97-5c6c-9452-b3d30f8d9e09")
-		(property "Reference" "R48"
+		(uuid "63d87f71-ea48-5efa-abc4-e588670d42d7")
+		(property "Reference" "R49"
 			(at 471.17 425.45 0)
 			(effects
 				(font
@@ -22598,7 +22508,7 @@
 				hide
 			)
 		)
-		(property "Notes" "DAC C to op-amp, limits current if 5 V is off"
+		(property "Notes" "Gain set C"
 			(at 468.63 426.72 0)
 			(effects
 				(font
@@ -22608,15 +22518,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "245c1ee9-be84-5256-94a8-b863f76212c8")
+			(uuid "935ef5b2-f0bb-595e-b113-a8634c18df5d")
 		)
 		(pin "2"
-			(uuid "da177f0e-58a7-5312-a000-38afba9b7e40")
+			(uuid "4abcf19c-7401-57c2-b49b-e89dbabd0450")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R48")
+					(reference "R49")
 					(unit 1)
 				)
 			)
@@ -22633,7 +22543,7 @@
 		)
 		(uuid "afbf5182-6555-5e3a-b7a1-5d9df9f483c0")
 	)
-	(label "DAC_C"
+	(label "OPC_N"
 		(at 468.63 420.37 90)
 		(effects
 			(font
@@ -22641,7 +22551,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "741feacf-4e1e-5a1f-b081-42968ee0293f")
+		(uuid "b053be9a-7e0c-575b-8139-b71cf91d1a55")
 	)
 	(wire
 		(pts
@@ -22654,15 +22564,60 @@
 		)
 		(uuid "60d7c9cd-4c5a-5271-ab0a-575256de9b2a")
 	)
-	(label "OPC_P"
-		(at 468.63 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
+	(symbol
+		(lib_id "power:GND")
+		(at 468.63 433.07 0)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "2543825f-3bc3-52bf-8f95-a0128e45bf5a")
+		(property "Reference" "#PWR069"
+			(at 468.63 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
 			)
-			(justify right bottom)
 		)
-		(uuid "f932dbff-dce6-5a3f-b193-f05d5d62af12")
+		(property "Value" "GND"
+			(at 468.63 438.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 468.63 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 468.63 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "e58e6087-d486-5a50-aa46-b72751c6cace")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR069")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22671,8 +22626,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "63d87f71-ea48-5efa-abc4-e588670d42d7")
-		(property "Reference" "R49"
+		(uuid "8d66ee1c-9fc3-5601-a562-015284570262")
+		(property "Reference" "R50"
 			(at 488.95 425.45 0)
 			(effects
 				(font
@@ -22681,7 +22636,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "12k"
 			(at 488.95 427.99 0)
 			(effects
 				(font
@@ -22708,7 +22663,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0402WGF1202TCE"
 			(at 486.41 426.72 0)
 			(effects
 				(font
@@ -22717,7 +22672,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25752"
 			(at 486.41 426.72 0)
 			(effects
 				(font
@@ -22726,7 +22681,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set C"
+		(property "Notes" "Gain set C: x2.2"
 			(at 486.41 426.72 0)
 			(effects
 				(font
@@ -22736,15 +22691,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "935ef5b2-f0bb-595e-b113-a8634c18df5d")
+			(uuid "51a71e0c-4e58-5b6f-81ba-7305bb8ea348")
 		)
 		(pin "2"
-			(uuid "4abcf19c-7401-57c2-b49b-e89dbabd0450")
+			(uuid "2098df53-c7fb-5b57-82aa-f58f012773d9")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R49")
+					(reference "R50")
 					(unit 1)
 				)
 			)
@@ -22761,7 +22716,7 @@
 		)
 		(uuid "6f713d56-a6d3-51c2-8530-2212435b4fe9")
 	)
-	(label "OPC_N"
+	(label "OPC_OUT"
 		(at 486.41 420.37 90)
 		(effects
 			(font
@@ -22769,7 +22724,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f82c556c-564b-55d8-ab78-6643e2bfc43b")
+		(uuid "f8fe239e-9753-54b6-b1ca-6de1c3f9e43e")
 	)
 	(wire
 		(pts
@@ -22782,60 +22737,15 @@
 		)
 		(uuid "a20d124d-79a3-58a9-b7bc-9dce8ff26a46")
 	)
-	(symbol
-		(lib_id "power:GND")
-		(at 486.41 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "70eaa66c-5369-5a73-9d6f-fcb8ec03e2c9")
-		(property "Reference" "#PWR071"
-			(at 486.41 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
+	(label "OPC_N"
+		(at 486.41 433.07 270)
+		(effects
+			(font
+				(size 1.27 1.27)
 			)
+			(justify right bottom)
 		)
-		(property "Value" "GND"
-			(at 486.41 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 486.41 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 486.41 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "cf79f09f-3257-5215-b31e-bc09a6c6fd1c")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR071")
-					(unit 1)
-				)
-			)
-		)
+		(uuid "971514d0-c916-5205-9fa0-e376287cac13")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22844,8 +22754,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "8d66ee1c-9fc3-5601-a562-015284570262")
-		(property "Reference" "R50"
+		(uuid "e2f5ccfb-b46f-573a-94bf-f75fdd692fa2")
+		(property "Reference" "R51"
 			(at 508.0 425.45 0)
 			(effects
 				(font
@@ -22854,7 +22764,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "12k"
+		(property "Value" "470R"
 			(at 508.0 427.99 0)
 			(effects
 				(font
@@ -22881,7 +22791,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1202TCE"
+		(property "MPN" "0402WGF4700TCE"
 			(at 505.46 426.72 0)
 			(effects
 				(font
@@ -22890,7 +22800,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25752"
+		(property "LCSC" "C25117"
 			(at 505.46 426.72 0)
 			(effects
 				(font
@@ -22899,7 +22809,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set C: x2.2"
+		(property "Notes" "Output series C"
 			(at 505.46 426.72 0)
 			(effects
 				(font
@@ -22909,15 +22819,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "51a71e0c-4e58-5b6f-81ba-7305bb8ea348")
+			(uuid "e6d2c5d1-ad14-5786-aa35-b28f0e1b2607")
 		)
 		(pin "2"
-			(uuid "2098df53-c7fb-5b57-82aa-f58f012773d9")
+			(uuid "5753146b-9da3-5f40-ba9f-9a04c2b8ac83")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R50")
+					(reference "R51")
 					(unit 1)
 				)
 			)
@@ -22955,7 +22865,7 @@
 		)
 		(uuid "3df2a09d-a5e6-5e14-a3e3-64b97c308e82")
 	)
-	(label "OPC_N"
+	(label "AUX_C"
 		(at 505.46 433.07 270)
 		(effects
 			(font
@@ -22963,7 +22873,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d6c796f9-a70e-543f-ab83-caa634a0f844")
+		(uuid "6a21c8bf-e3cb-5499-9447-50f07315f353")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -22972,8 +22882,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e2f5ccfb-b46f-573a-94bf-f75fdd692fa2")
-		(property "Reference" "R51"
+		(uuid "f6f7919f-2b54-5896-86ca-e00d49c6d569")
+		(property "Reference" "R52"
 			(at 525.78 425.45 0)
 			(effects
 				(font
@@ -22982,7 +22892,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470R"
+		(property "Value" "10k"
 			(at 525.78 427.99 0)
 			(effects
 				(font
@@ -23009,7 +22919,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF4700TCE"
+		(property "MPN" "0402WGF1002TCE"
 			(at 523.24 426.72 0)
 			(effects
 				(font
@@ -23018,7 +22928,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25117"
+		(property "LCSC" "C25744"
 			(at 523.24 426.72 0)
 			(effects
 				(font
@@ -23027,7 +22937,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Output series C"
+		(property "Notes" "DAC D to op-amp, limits current if 5 V is off"
 			(at 523.24 426.72 0)
 			(effects
 				(font
@@ -23037,15 +22947,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "e6d2c5d1-ad14-5786-aa35-b28f0e1b2607")
+			(uuid "1a1ee19b-2e26-5b7e-afbd-9858ab40644f")
 		)
 		(pin "2"
-			(uuid "5753146b-9da3-5f40-ba9f-9a04c2b8ac83")
+			(uuid "614eab44-1635-5003-897a-595240d3bb19")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R51")
+					(reference "R52")
 					(unit 1)
 				)
 			)
@@ -23062,7 +22972,7 @@
 		)
 		(uuid "760852fd-97d3-57c2-8224-50bb01ab43b8")
 	)
-	(label "OPC_OUT"
+	(label "DAC_D"
 		(at 523.24 420.37 90)
 		(effects
 			(font
@@ -23070,7 +22980,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b162cf35-b71f-5ba8-977b-c565debf3ba4")
+		(uuid "3746d0c6-97cf-5297-8991-4d17bf06efa4")
 	)
 	(wire
 		(pts
@@ -23083,7 +22993,7 @@
 		)
 		(uuid "954d518c-7280-5dbf-8e6d-3be6d802837f")
 	)
-	(label "AUX_C"
+	(label "OPD_P"
 		(at 523.24 433.07 270)
 		(effects
 			(font
@@ -23091,7 +23001,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b2e53d4b-8bd1-52a7-8616-6bdb371b9f37")
+		(uuid "cf8b271a-f2e6-58ac-bbfe-58bdc0ae0433")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -23100,8 +23010,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f6f7919f-2b54-5896-86ca-e00d49c6d569")
-		(property "Reference" "R52"
+		(uuid "43c19f6e-7f38-5ad4-a963-19bc2d662f14")
+		(property "Reference" "R53"
 			(at 543.56 425.45 0)
 			(effects
 				(font
@@ -23155,7 +23065,7 @@
 				hide
 			)
 		)
-		(property "Notes" "DAC D to op-amp, limits current if 5 V is off"
+		(property "Notes" "Gain set D"
 			(at 541.02 426.72 0)
 			(effects
 				(font
@@ -23165,15 +23075,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "1a1ee19b-2e26-5b7e-afbd-9858ab40644f")
+			(uuid "359a830d-8d82-5a28-a6a7-be7b916bf005")
 		)
 		(pin "2"
-			(uuid "614eab44-1635-5003-897a-595240d3bb19")
+			(uuid "24916c65-a2ae-5645-a2fb-623dac0eec46")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R52")
+					(reference "R53")
 					(unit 1)
 				)
 			)
@@ -23190,7 +23100,7 @@
 		)
 		(uuid "d77eebfa-a3f0-5035-8dad-86986747be7f")
 	)
-	(label "DAC_D"
+	(label "OPD_N"
 		(at 541.02 420.37 90)
 		(effects
 			(font
@@ -23198,7 +23108,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "db0dd9f0-3450-56c8-9b6e-25cfafb78597")
+		(uuid "b3369460-af8c-51d5-bba4-f8664c728383")
 	)
 	(wire
 		(pts
@@ -23211,15 +23121,60 @@
 		)
 		(uuid "88a2cb0c-aa84-5aed-af10-bac00c300e86")
 	)
-	(label "OPD_P"
-		(at 541.02 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
+	(symbol
+		(lib_id "power:GND")
+		(at 541.02 433.07 0)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "36b38590-9277-5aed-90ac-35c8ebd61555")
+		(property "Reference" "#PWR070"
+			(at 541.02 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
 			)
-			(justify right bottom)
 		)
-		(uuid "df0f6098-f25c-5bd8-9987-9875164702c2")
+		(property "Value" "GND"
+			(at 541.02 438.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 541.02 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 541.02 433.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "8aeee2cd-48f8-54d0-a60f-dbd6b6b5ed5e")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR070")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -23228,8 +23183,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "43c19f6e-7f38-5ad4-a963-19bc2d662f14")
-		(property "Reference" "R53"
+		(uuid "cf0ff88c-b654-5f4c-aa2a-b65448e15b85")
+		(property "Reference" "R54"
 			(at 561.34 425.45 0)
 			(effects
 				(font
@@ -23238,7 +23193,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "12k"
 			(at 561.34 427.99 0)
 			(effects
 				(font
@@ -23265,7 +23220,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0402WGF1202TCE"
 			(at 558.8 426.72 0)
 			(effects
 				(font
@@ -23274,7 +23229,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25752"
 			(at 558.8 426.72 0)
 			(effects
 				(font
@@ -23283,7 +23238,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set D"
+		(property "Notes" "Gain set D: x2.2"
 			(at 558.8 426.72 0)
 			(effects
 				(font
@@ -23293,15 +23248,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "359a830d-8d82-5a28-a6a7-be7b916bf005")
+			(uuid "8886dbb8-1112-5c37-b058-80bda1f3e33d")
 		)
 		(pin "2"
-			(uuid "24916c65-a2ae-5645-a2fb-623dac0eec46")
+			(uuid "ddf6f8c7-1c25-535d-a653-618a3a6e2615")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R53")
+					(reference "R54")
 					(unit 1)
 				)
 			)
@@ -23318,7 +23273,7 @@
 		)
 		(uuid "4925a535-e476-5134-97ae-320abc5f00fe")
 	)
-	(label "OPD_N"
+	(label "OPD_OUT"
 		(at 558.8 420.37 90)
 		(effects
 			(font
@@ -23326,7 +23281,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "50780a25-edcc-5663-b71b-73910fe2c7b2")
+		(uuid "cd511baf-8353-5324-8982-88e66d702ef9")
 	)
 	(wire
 		(pts
@@ -23339,60 +23294,15 @@
 		)
 		(uuid "8838086f-0835-5304-a8eb-ae89ab7c1d10")
 	)
-	(symbol
-		(lib_id "power:GND")
-		(at 558.8 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "0f112f33-b108-5529-90fe-cb7b9f16eb0a")
-		(property "Reference" "#PWR072"
-			(at 558.8 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
+	(label "OPD_N"
+		(at 558.8 433.07 270)
+		(effects
+			(font
+				(size 1.27 1.27)
 			)
+			(justify right bottom)
 		)
-		(property "Value" "GND"
-			(at 558.8 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 558.8 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 558.8 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "2d00a577-18d9-553a-bb9d-29c6678a574b")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR072")
-					(unit 1)
-				)
-			)
-		)
+		(uuid "d24140d1-1bf6-5650-b134-9efb63ae55d6")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -23401,8 +23311,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "cf0ff88c-b654-5f4c-aa2a-b65448e15b85")
-		(property "Reference" "R54"
+		(uuid "7bc98f3a-84cb-59c5-92d3-25b27dd8ff73")
+		(property "Reference" "R55"
 			(at 579.12 425.45 0)
 			(effects
 				(font
@@ -23411,7 +23321,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "12k"
+		(property "Value" "470R"
 			(at 579.12 427.99 0)
 			(effects
 				(font
@@ -23438,7 +23348,7 @@
 				hide
 			)
 		)
-		(property "MPN" "0402WGF1202TCE"
+		(property "MPN" "0402WGF4700TCE"
 			(at 576.58 426.72 0)
 			(effects
 				(font
@@ -23447,7 +23357,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C25752"
+		(property "LCSC" "C25117"
 			(at 576.58 426.72 0)
 			(effects
 				(font
@@ -23456,7 +23366,7 @@
 				hide
 			)
 		)
-		(property "Notes" "Gain set D: x2.2"
+		(property "Notes" "Output series D"
 			(at 576.58 426.72 0)
 			(effects
 				(font
@@ -23466,15 +23376,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "8886dbb8-1112-5c37-b058-80bda1f3e33d")
+			(uuid "20e03071-f488-5bd6-be5f-c5307a29807e")
 		)
 		(pin "2"
-			(uuid "ddf6f8c7-1c25-535d-a653-618a3a6e2615")
+			(uuid "540731ac-34ae-5041-a458-629ceda79ca4")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R54")
+					(reference "R55")
 					(unit 1)
 				)
 			)
@@ -23512,7 +23422,7 @@
 		)
 		(uuid "38fdfa80-ee23-5629-ac02-72dc2ddad32e")
 	)
-	(label "OPD_N"
+	(label "AUX_D"
 		(at 576.58 433.07 270)
 		(effects
 			(font
@@ -23520,17 +23430,17 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f5351a5f-8806-577f-b3c5-de56b0b95e16")
+		(uuid "da95e7f2-a048-56c1-b1e7-9c5805b7dfca")
 	)
 	(symbol
-		(lib_id "Device:R")
+		(lib_id "Device:C")
 		(at 594.36 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "7bc98f3a-84cb-59c5-92d3-25b27dd8ff73")
-		(property "Reference" "R55"
+		(uuid "8311f146-4ea8-5dd2-9775-f475ae5374d9")
+		(property "Reference" "C12"
 			(at 596.9 425.45 0)
 			(effects
 				(font
@@ -23539,7 +23449,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470R"
+		(property "Value" "100nF"
 			(at 596.9 427.99 0)
 			(effects
 				(font
@@ -23548,136 +23458,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 594.36 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 594.36 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF4700TCE"
-			(at 594.36 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25117"
-			(at 594.36 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Output series D"
-			(at 594.36 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "20e03071-f488-5bd6-be5f-c5307a29807e")
-		)
-		(pin "2"
-			(uuid "540731ac-34ae-5041-a458-629ceda79ca4")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R55")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 594.36 422.91)
-			(xy 594.36 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fd56a5e8-e772-55e6-bc25-0d66ed93e092")
-	)
-	(label "OPD_OUT"
-		(at 594.36 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "93d8e68e-4737-5fe2-8218-55d8718a80b1")
-	)
-	(wire
-		(pts
-			(xy 594.36 430.53)
-			(xy 594.36 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "09f2e7c3-0655-5604-a63b-389fcb87225e")
-	)
-	(label "AUX_D"
-		(at 594.36 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8069317e-a740-5435-95bc-e9fd31e79901")
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 613.41 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8311f146-4ea8-5dd2-9775-f475ae5374d9")
-		(property "Reference" "C12"
-			(at 615.95 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100nF"
-			(at 615.95 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 613.41 426.72 0)
+			(at 594.36 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23686,7 +23468,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 613.41 426.72 0)
+			(at 594.36 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23695,7 +23477,7 @@
 			)
 		)
 		(property "MPN" "CL05B104KO5NNNC"
-			(at 613.41 426.72 0)
+			(at 594.36 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23704,7 +23486,7 @@
 			)
 		)
 		(property "LCSC" "C1525"
-			(at 613.41 426.72 0)
+			(at 594.36 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23713,7 +23495,7 @@
 			)
 		)
 		(property "Notes" "U3 decoupling"
-			(at 613.41 426.72 0)
+			(at 594.36 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23738,25 +23520,25 @@
 	)
 	(wire
 		(pts
-			(xy 613.41 422.91)
-			(xy 613.41 420.37)
+			(xy 594.36 422.91)
+			(xy 594.36 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0755c6f7-8b33-518d-ab81-30b0df58581b")
+		(uuid "fd56a5e8-e772-55e6-bc25-0d66ed93e092")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 613.41 420.37 0)
+		(at 594.36 420.37 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "9acd88c0-592c-54ed-b79b-46d5a00816a4")
-		(property "Reference" "#PWR073"
-			(at 613.41 420.37 0)
+		(uuid "70eaa66c-5369-5a73-9d6f-fcb8ec03e2c9")
+		(property "Reference" "#PWR071"
+			(at 594.36 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23765,7 +23547,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 613.41 415.29 0)
+			(at 594.36 415.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23773,7 +23555,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 613.41 420.37 0)
+			(at 594.36 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23782,7 +23564,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 613.41 420.37 0)
+			(at 594.36 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23791,12 +23573,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "99056bb8-102e-5316-a4d4-262e7778a02a")
+			(uuid "cf79f09f-3257-5215-b31e-bc09a6c6fd1c")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR073")
+					(reference "#PWR071")
 					(unit 1)
 				)
 			)
@@ -23804,25 +23586,25 @@
 	)
 	(wire
 		(pts
-			(xy 613.41 430.53)
-			(xy 613.41 433.07)
+			(xy 594.36 430.53)
+			(xy 594.36 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "141527dd-2363-5b84-a890-b55a3c3104ab")
+		(uuid "09f2e7c3-0655-5604-a63b-389fcb87225e")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 613.41 433.07 0)
+		(at 594.36 433.07 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "d7a0029d-eaf2-5ea3-88ea-145cd95daee2")
-		(property "Reference" "#PWR074"
-			(at 613.41 433.07 0)
+		(uuid "0f112f33-b108-5529-90fe-cb7b9f16eb0a")
+		(property "Reference" "#PWR072"
+			(at 594.36 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23831,7 +23613,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 613.41 438.15 0)
+			(at 594.36 438.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23839,7 +23621,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 613.41 433.07 0)
+			(at 594.36 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23848,7 +23630,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 613.41 433.07 0)
+			(at 594.36 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23857,12 +23639,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "8fdc16c4-57e2-50b5-ae68-5180213e04bd")
+			(uuid "2d00a577-18d9-553a-bb9d-29c6678a574b")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR074")
+					(reference "#PWR072")
 					(unit 1)
 				)
 			)
@@ -23870,14 +23652,14 @@
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 636.27 422.91 0)
+		(at 618.49 422.91 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "07b9d3bb-aa14-53f3-8677-1957e102310a")
 		(property "Reference" "D16"
-			(at 638.81 421.64 0)
+			(at 621.03 421.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23886,7 +23668,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 638.81 424.18 0)
+			(at 621.03 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23895,7 +23677,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 636.27 422.91 0)
+			(at 618.49 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23904,7 +23686,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 636.27 422.91 0)
+			(at 618.49 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23913,7 +23695,7 @@
 			)
 		)
 		(property "MPN" "BAT54S"
-			(at 636.27 422.91 0)
+			(at 618.49 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23922,7 +23704,7 @@
 			)
 		)
 		(property "Notes" "VT3_STIM clamp to 0..5 V"
-			(at 636.27 422.91 0)
+			(at 618.49 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23950,25 +23732,25 @@
 	)
 	(wire
 		(pts
-			(xy 628.65 422.91)
-			(xy 626.11 422.91)
+			(xy 610.87 422.91)
+			(xy 608.33 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fd935027-32a3-53de-89fe-a35d99d4fcd5")
+		(uuid "e06d2350-c860-5cc8-ae66-a2c9452de76c")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 626.11 422.91 270)
+		(at 608.33 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "a7f857fb-4b89-5aa7-aeab-e799262e3ce2")
-		(property "Reference" "#PWR075"
-			(at 626.11 422.91 90)
+		(uuid "9acd88c0-592c-54ed-b79b-46d5a00816a4")
+		(property "Reference" "#PWR073"
+			(at 608.33 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23977,7 +23759,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 622.3 420.37 90)
+			(at 604.52 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23985,7 +23767,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 626.11 422.91 0)
+			(at 608.33 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23994,7 +23776,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 626.11 422.91 0)
+			(at 608.33 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24003,12 +23785,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "c437634f-2fcf-560e-8f0c-56055d94e0fe")
+			(uuid "99056bb8-102e-5316-a4d4-262e7778a02a")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR075")
+					(reference "#PWR073")
 					(unit 1)
 				)
 			)
@@ -24016,25 +23798,25 @@
 	)
 	(wire
 		(pts
-			(xy 643.89 422.91)
-			(xy 646.43 422.91)
+			(xy 626.11 422.91)
+			(xy 628.65 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "83c0c48e-f8b8-558e-a1dc-0e6de7354cac")
+		(uuid "0cdb8d50-540c-5d66-b217-6f8f6f46bf50")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 646.43 422.91 270)
+		(at 628.65 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "1e77e1db-2f45-5b85-bff9-2bb64994ddcf")
-		(property "Reference" "#PWR076"
-			(at 646.43 422.91 90)
+		(uuid "d7a0029d-eaf2-5ea3-88ea-145cd95daee2")
+		(property "Reference" "#PWR074"
+			(at 628.65 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24043,7 +23825,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 650.24 420.37 90)
+			(at 632.46 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24051,7 +23833,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 646.43 422.91 0)
+			(at 628.65 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24060,7 +23842,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 646.43 422.91 0)
+			(at 628.65 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24069,12 +23851,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "4a915b5e-9ade-56a9-83f4-008e2b337d74")
+			(uuid "8fdc16c4-57e2-50b5-ae68-5180213e04bd")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR076")
+					(reference "#PWR074")
 					(unit 1)
 				)
 			)
@@ -24082,35 +23864,35 @@
 	)
 	(wire
 		(pts
-			(xy 636.27 427.99)
-			(xy 636.27 430.53)
+			(xy 618.49 427.99)
+			(xy 618.49 430.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ad5b5a2f-5a75-5598-b4fb-d75a743a4b1b")
+		(uuid "a3858ff1-1532-54fc-9537-c86d4edf4c24")
 	)
 	(label "VT3_STIM"
-		(at 636.27 430.53 270)
+		(at 618.49 430.53 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "61177b63-0c89-5cb8-9d7e-76d39d24e62e")
+		(uuid "9638f050-12b3-5fa9-9a8c-0d45cfd503c0")
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 664.21 422.91 0)
+		(at 646.43 422.91 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "98b20dcb-9d30-5e6d-91cf-030d51f34d75")
 		(property "Reference" "D17"
-			(at 666.75 421.64 0)
+			(at 648.97 421.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24119,7 +23901,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 666.75 424.18 0)
+			(at 648.97 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24128,7 +23910,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 664.21 422.91 0)
+			(at 646.43 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24137,7 +23919,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 664.21 422.91 0)
+			(at 646.43 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24146,7 +23928,7 @@
 			)
 		)
 		(property "MPN" "BAT54S"
-			(at 664.21 422.91 0)
+			(at 646.43 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24155,7 +23937,7 @@
 			)
 		)
 		(property "Notes" "VT6_STIM clamp to 0..5 V"
-			(at 664.21 422.91 0)
+			(at 646.43 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24183,25 +23965,25 @@
 	)
 	(wire
 		(pts
-			(xy 656.59 422.91)
-			(xy 654.05 422.91)
+			(xy 638.81 422.91)
+			(xy 636.27 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "94363f96-f6dc-5c91-a705-5a5284c124dc")
+		(uuid "668b53ad-639f-5609-9f51-041e82d1e953")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 654.05 422.91 270)
+		(at 636.27 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "8dad7f85-c9c0-5caa-a672-e8c5d2c166cd")
-		(property "Reference" "#PWR077"
-			(at 654.05 422.91 90)
+		(uuid "a7f857fb-4b89-5aa7-aeab-e799262e3ce2")
+		(property "Reference" "#PWR075"
+			(at 636.27 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24210,7 +23992,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 650.24 420.37 90)
+			(at 632.46 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24218,7 +24000,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 654.05 422.91 0)
+			(at 636.27 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24227,7 +24009,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 654.05 422.91 0)
+			(at 636.27 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24236,12 +24018,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "4677a3bb-e4c8-5def-9be2-4e8a8821ceb4")
+			(uuid "c437634f-2fcf-560e-8f0c-56055d94e0fe")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR077")
+					(reference "#PWR075")
 					(unit 1)
 				)
 			)
@@ -24249,25 +24031,25 @@
 	)
 	(wire
 		(pts
-			(xy 671.83 422.91)
-			(xy 674.37 422.91)
+			(xy 654.05 422.91)
+			(xy 656.59 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7df3a1c8-d788-55c6-9add-5a4d01f2294b")
+		(uuid "5c411438-7d50-5eac-a87b-fe68e7b6361c")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 674.37 422.91 270)
+		(at 656.59 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "aa4e8174-27cc-5ed5-be87-c69939a9d9f2")
-		(property "Reference" "#PWR078"
-			(at 674.37 422.91 90)
+		(uuid "1e77e1db-2f45-5b85-bff9-2bb64994ddcf")
+		(property "Reference" "#PWR076"
+			(at 656.59 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24276,7 +24058,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 678.18 420.37 90)
+			(at 660.4 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24284,7 +24066,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 674.37 422.91 0)
+			(at 656.59 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24293,7 +24075,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 674.37 422.91 0)
+			(at 656.59 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24302,12 +24084,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "638dbc6c-0be4-5574-8a71-5ca32b2df95b")
+			(uuid "4a915b5e-9ade-56a9-83f4-008e2b337d74")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR078")
+					(reference "#PWR076")
 					(unit 1)
 				)
 			)
@@ -24315,24 +24097,24 @@
 	)
 	(wire
 		(pts
-			(xy 664.21 427.99)
-			(xy 664.21 430.53)
+			(xy 646.43 427.99)
+			(xy 646.43 430.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4476c9f1-7a6f-5d18-be56-28efb90bc99e")
+		(uuid "83f37225-a827-5b42-95f9-c763f5395197")
 	)
 	(label "VT6_STIM"
-		(at 664.21 430.53 270)
+		(at 646.43 430.53 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "04845da5-72fc-5bfb-ad35-7cab7c246fb5")
+		(uuid "f4add022-ff90-5715-85ba-ab9d7b31da16")
 	)
 	(text "I2C expander TCA9534 (0x20): powers up as inputs"
 		(at 20 456.46000000000004 0)
@@ -24481,8 +24263,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "5566765d-fbc9-574b-a76e-8ecb46c84013")
-		(property "Reference" "#PWR079"
+		(uuid "8dad7f85-c9c0-5caa-a672-e8c5d2c166cd")
+		(property "Reference" "#PWR077"
 			(at 27.94 495.3 90)
 			(effects
 				(font
@@ -24518,12 +24300,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "83734f33-fe03-56c2-9a76-cc1dca93abee")
+			(uuid "4677a3bb-e4c8-5def-9be2-4e8a8821ceb4")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR079")
+					(reference "#PWR077")
 					(unit 1)
 				)
 			)
@@ -24673,8 +24455,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "ff354f4c-cda4-57d1-b9be-97bf32e1cb82")
-		(property "Reference" "#PWR080"
+		(uuid "aa4e8174-27cc-5ed5-be87-c69939a9d9f2")
+		(property "Reference" "#PWR078"
 			(at 40.64 472.44 0)
 			(effects
 				(font
@@ -24710,12 +24492,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "066a37a1-2529-57c0-a557-30aad909b716")
+			(uuid "638dbc6c-0be4-5574-8a71-5ca32b2df95b")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR080")
+					(reference "#PWR078")
 					(unit 1)
 				)
 			)
@@ -24739,8 +24521,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "d10cf7b6-0044-54c0-ae37-313841a5db9e")
-		(property "Reference" "#PWR081"
+		(uuid "5566765d-fbc9-574b-a76e-8ecb46c84013")
+		(property "Reference" "#PWR079"
 			(at 27.94 497.84 90)
 			(effects
 				(font
@@ -24776,12 +24558,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "ab5b7f1a-96bd-5035-987a-b822b7782599")
+			(uuid "83734f33-fe03-56c2-9a76-cc1dca93abee")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR081")
+					(reference "#PWR079")
 					(unit 1)
 				)
 			)
@@ -24805,8 +24587,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "455ba81c-8913-5ac8-b053-73e01f704b12")
-		(property "Reference" "#PWR082"
+		(uuid "ff354f4c-cda4-57d1-b9be-97bf32e1cb82")
+		(property "Reference" "#PWR080"
 			(at 27.94 500.38 90)
 			(effects
 				(font
@@ -24842,12 +24624,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "b363c949-692f-5f27-9b2b-5f21568edd2a")
+			(uuid "066a37a1-2529-57c0-a557-30aad909b716")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR082")
+					(reference "#PWR080")
 					(unit 1)
 				)
 			)
@@ -24955,8 +24737,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "e83cf386-7698-51a3-92cd-b04c84dfc0bf")
-		(property "Reference" "#PWR083"
+		(uuid "d10cf7b6-0044-54c0-ae37-313841a5db9e")
+		(property "Reference" "#PWR081"
 			(at 40.64 510.54 0)
 			(effects
 				(font
@@ -24992,12 +24774,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "ec066cea-fb36-5c24-b965-4237e0a79696")
+			(uuid "ab5b7f1a-96bd-5035-987a-b822b7782599")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR083")
+					(reference "#PWR081")
 					(unit 1)
 				)
 			)
@@ -25128,8 +24910,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "0f85396c-5046-5fea-902b-172ac87ac82e")
-		(property "Reference" "#PWR084"
+		(uuid "455ba81c-8913-5ac8-b053-73e01f704b12")
+		(property "Reference" "#PWR082"
 			(at 76.2 472.44 0)
 			(effects
 				(font
@@ -25165,12 +24947,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "08971dd3-85e0-5b4d-bf62-944a9a964069")
+			(uuid "b363c949-692f-5f27-9b2b-5f21568edd2a")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR084")
+					(reference "#PWR082")
 					(unit 1)
 				)
 			)
@@ -25194,8 +24976,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "ca7a06f7-09bb-5565-8e7e-668b460e7800")
-		(property "Reference" "#PWR085"
+		(uuid "e83cf386-7698-51a3-92cd-b04c84dfc0bf")
+		(property "Reference" "#PWR083"
 			(at 76.2 485.14 0)
 			(effects
 				(font
@@ -25231,12 +25013,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "0c50b617-906f-5370-a55e-78cdd777252e")
+			(uuid "ec066cea-fb36-5c24-b965-4237e0a79696")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR085")
+					(reference "#PWR083")
 					(unit 1)
 				)
 			)
@@ -25346,8 +25128,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "db5bd9fb-ad30-5213-ba60-73c3b1258f54")
-		(property "Reference" "#PWR086"
+		(uuid "0f85396c-5046-5fea-902b-172ac87ac82e")
+		(property "Reference" "#PWR084"
 			(at 93.98 472.44 0)
 			(effects
 				(font
@@ -25383,12 +25165,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e6d1efa3-57fa-5f88-b877-2021ef0fb08a")
+			(uuid "08971dd3-85e0-5b4d-bf62-944a9a964069")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR086")
+					(reference "#PWR084")
 					(unit 1)
 				)
 			)
@@ -25540,8 +25322,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "696984d3-e717-592e-b3d4-d643106375b8")
-		(property "Reference" "#PWR087"
+		(uuid "ca7a06f7-09bb-5565-8e7e-668b460e7800")
+		(property "Reference" "#PWR085"
 			(at 113.03 485.14 0)
 			(effects
 				(font
@@ -25577,12 +25359,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e8b37bd1-89f5-5517-b7b2-f0f44a7a16d3")
+			(uuid "0c50b617-906f-5370-a55e-78cdd777252e")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR087")
+					(reference "#PWR085")
 					(unit 1)
 				)
 			)
@@ -25692,8 +25474,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "db7cbb69-52c8-5913-9658-0ab8d585bbd3")
-		(property "Reference" "#PWR088"
+		(uuid "db5bd9fb-ad30-5213-ba60-73c3b1258f54")
+		(property "Reference" "#PWR086"
 			(at 125.73 474.98 270)
 			(effects
 				(font
@@ -25729,12 +25511,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "ad6372d7-1211-5cfb-8edd-e2d65a65069d")
+			(uuid "e6d1efa3-57fa-5f88-b877-2021ef0fb08a")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR088")
+					(reference "#PWR086")
 					(unit 1)
 				)
 			)
@@ -25865,8 +25647,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "2e423239-3ff1-537d-b072-a588b458cfc7")
-		(property "Reference" "#PWR089"
+		(uuid "696984d3-e717-592e-b3d4-d643106375b8")
+		(property "Reference" "#PWR087"
 			(at 161.29 472.44 0)
 			(effects
 				(font
@@ -25902,12 +25684,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e547e01a-5390-53f0-bd6f-3f749666cad0")
+			(uuid "e8b37bd1-89f5-5517-b7b2-f0f44a7a16d3")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR089")
+					(reference "#PWR087")
 					(unit 1)
 				)
 			)
@@ -26066,8 +25848,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "6174e16f-50c0-5db4-858c-c9c265565543")
-		(property "Reference" "#PWR090"
+		(uuid "db7cbb69-52c8-5913-9658-0ab8d585bbd3")
+		(property "Reference" "#PWR088"
 			(at 27.94 543.56 90)
 			(effects
 				(font
@@ -26103,12 +25885,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "3e6f5ee3-f57d-545a-a8a6-41186e99eb17")
+			(uuid "ad6372d7-1211-5cfb-8edd-e2d65a65069d")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR090")
+					(reference "#PWR088")
 					(unit 1)
 				)
 			)
@@ -26216,8 +25998,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "e1856c9d-820d-5637-863b-468ce4b44491")
-		(property "Reference" "#PWR091"
+		(uuid "2e423239-3ff1-537d-b072-a588b458cfc7")
+		(property "Reference" "#PWR089"
 			(at 35.56 561.34 0)
 			(effects
 				(font
@@ -26253,12 +26035,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "8e438eb7-cf35-5957-9df8-ba66b489bc02")
+			(uuid "e547e01a-5390-53f0-bd6f-3f749666cad0")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR091")
+					(reference "#PWR089")
 					(unit 1)
 				)
 			)
@@ -26404,8 +26186,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "89aab67c-58da-53da-a6c5-7bf5c1441c6e")
-		(property "Reference" "#PWR092"
+		(uuid "6174e16f-50c0-5db4-858c-c9c265565543")
+		(property "Reference" "#PWR090"
 			(at 57.15 546.1 90)
 			(effects
 				(font
@@ -26441,12 +26223,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "d6beebb3-0f67-56f4-9440-1d25a4203f4e")
+			(uuid "3e6f5ee3-f57d-545a-a8a6-41186e99eb17")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR092")
+					(reference "#PWR090")
 					(unit 1)
 				)
 			)
@@ -26512,8 +26294,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "429fd3f3-d69f-5764-99ca-6bc90bce6147")
-		(property "Reference" "#PWR093"
+		(uuid "e1856c9d-820d-5637-863b-468ce4b44491")
+		(property "Reference" "#PWR091"
 			(at 64.77 558.8 0)
 			(effects
 				(font
@@ -26549,12 +26331,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "3759f367-20ed-5a2a-b036-ffc122357edd")
+			(uuid "8e438eb7-cf35-5957-9df8-ba66b489bc02")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR093")
+					(reference "#PWR091")
 					(unit 1)
 				)
 			)
@@ -26730,8 +26512,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "b7dcd6d2-7ce8-5f09-a89d-b029cc8b60b3")
-		(property "Reference" "#PWR094"
+		(uuid "89aab67c-58da-53da-a6c5-7bf5c1441c6e")
+		(property "Reference" "#PWR092"
 			(at 85.09 548.64 90)
 			(effects
 				(font
@@ -26767,12 +26549,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "2134223d-aa88-5463-a044-a80c06a89e1f")
+			(uuid "d6beebb3-0f67-56f4-9440-1d25a4203f4e")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR094")
+					(reference "#PWR092")
 					(unit 1)
 				)
 			)
@@ -26880,8 +26662,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "cde739e2-232e-5ed3-a1c7-44dd40f2b0d3")
-		(property "Reference" "#PWR095"
+		(uuid "429fd3f3-d69f-5764-99ca-6bc90bce6147")
+		(property "Reference" "#PWR093"
 			(at 92.71 566.42 0)
 			(effects
 				(font
@@ -26917,12 +26699,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "07857a18-bae1-5645-8c1b-93fc42e14151")
+			(uuid "3759f367-20ed-5a2a-b036-ffc122357edd")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR095")
+					(reference "#PWR093")
 					(unit 1)
 				)
 			)
@@ -27021,8 +26803,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "a1a67af7-36f6-5328-868b-d5b68b1ad206")
-		(property "Reference" "#PWR096"
+		(uuid "b7dcd6d2-7ce8-5f09-a89d-b029cc8b60b3")
+		(property "Reference" "#PWR094"
 			(at 25.4 600.71 0)
 			(effects
 				(font
@@ -27058,12 +26840,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "0cb1f3c3-6168-532e-9505-0ce79d9ff0e4")
+			(uuid "2134223d-aa88-5463-a044-a80c06a89e1f")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR096")
+					(reference "#PWR094")
 					(unit 1)
 				)
 			)
@@ -27152,8 +26934,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "838467e2-5247-5a2c-8d0c-793acffec8af")
-		(property "Reference" "#PWR097"
+		(uuid "cde739e2-232e-5ed3-a1c7-44dd40f2b0d3")
+		(property "Reference" "#PWR095"
 			(at 43.18 600.71 180)
 			(effects
 				(font
@@ -27189,12 +26971,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "fbc1e0b3-49e2-5492-9c1d-a3aedee83d34")
+			(uuid "07857a18-bae1-5645-8c1b-93fc42e14151")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR097")
+					(reference "#PWR095")
 					(unit 1)
 				)
 			)
@@ -27283,8 +27065,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "179ceced-1d23-59bc-9b29-184b62c1a647")
-		(property "Reference" "#PWR098"
+		(uuid "a1a67af7-36f6-5328-868b-d5b68b1ad206")
+		(property "Reference" "#PWR096"
 			(at 60.96 600.71 180)
 			(effects
 				(font
@@ -27320,12 +27102,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "84839968-7b72-5321-9305-ca439d73d314")
+			(uuid "0cb1f3c3-6168-532e-9505-0ce79d9ff0e4")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR098")
+					(reference "#PWR096")
 					(unit 1)
 				)
 			)
@@ -27414,8 +27196,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "9fad7e4e-a37c-5963-947e-7db257a39dab")
-		(property "Reference" "#PWR099"
+		(uuid "838467e2-5247-5a2c-8d0c-793acffec8af")
+		(property "Reference" "#PWR097"
 			(at 78.74 600.71 180)
 			(effects
 				(font
@@ -27451,12 +27233,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "02448d25-fb2b-5313-92b2-b85b11fbfddc")
+			(uuid "fbc1e0b3-49e2-5492-9c1d-a3aedee83d34")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR099")
+					(reference "#PWR097")
 					(unit 1)
 				)
 			)
@@ -28405,8 +28187,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "9231bc46-e350-552d-8531-b6494520ca23")
-		(property "Reference" "#PWR100"
+		(uuid "179ceced-1d23-59bc-9b29-184b62c1a647")
+		(property "Reference" "#PWR098"
 			(at 276.86 600.71 0)
 			(effects
 				(font
@@ -28442,12 +28224,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "ceed49ed-ee09-530f-a1fc-09fcb5f75393")
+			(uuid "84839968-7b72-5321-9305-ca439d73d314")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR100")
+					(reference "#PWR098")
 					(unit 1)
 				)
 			)
@@ -28526,8 +28308,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "4a0284f7-c408-5779-bda8-22f8c2b6e009")
-		(property "Reference" "#PWR101"
+		(uuid "9fad7e4e-a37c-5963-947e-7db257a39dab")
+		(property "Reference" "#PWR099"
 			(at 20.32 624.84 0)
 			(effects
 				(font
@@ -28563,12 +28345,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "31c6a8c8-bed9-55fa-9fe6-e8b09ef81cfe")
+			(uuid "02448d25-fb2b-5313-92b2-b85b11fbfddc")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR101")
+					(reference "#PWR099")
 					(unit 1)
 				)
 			)
@@ -28647,8 +28429,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "618aae32-f840-50d6-9c4c-cec22470784f")
-		(property "Reference" "#PWR102"
+		(uuid "9231bc46-e350-552d-8531-b6494520ca23")
+		(property "Reference" "#PWR100"
 			(at 44.45 624.84 0)
 			(effects
 				(font
@@ -28684,12 +28466,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bf0c720e-13f1-509e-b37c-1342b33b7d3d")
+			(uuid "ceed49ed-ee09-530f-a1fc-09fcb5f75393")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR102")
+					(reference "#PWR100")
 					(unit 1)
 				)
 			)
@@ -28768,8 +28550,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "27537e22-d28c-5fc2-8976-670cde771d2b")
-		(property "Reference" "#PWR103"
+		(uuid "4a0284f7-c408-5779-bda8-22f8c2b6e009")
+		(property "Reference" "#PWR101"
 			(at 69.85 624.84 0)
 			(effects
 				(font
@@ -28805,12 +28587,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "d146045b-8b89-5bb6-b4f7-63e2bd17c92a")
+			(uuid "31c6a8c8-bed9-55fa-9fe6-e8b09ef81cfe")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR103")
+					(reference "#PWR101")
 					(unit 1)
 				)
 			)
@@ -28889,8 +28671,8 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "cc52355a-fe42-5079-b9a3-94f4b3d1f6b1")
-		(property "Reference" "#PWR104"
+		(uuid "618aae32-f840-50d6-9c4c-cec22470784f")
+		(property "Reference" "#PWR102"
 			(at 95.25 624.84 0)
 			(effects
 				(font
@@ -28926,12 +28708,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "fa30deb3-07a3-5ad1-b453-b0533c7f3931")
+			(uuid "bf0c720e-13f1-509e-b37c-1342b33b7d3d")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR104")
+					(reference "#PWR102")
 					(unit 1)
 				)
 			)

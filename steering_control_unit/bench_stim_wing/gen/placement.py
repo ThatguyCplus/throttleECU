@@ -61,17 +61,16 @@ for i, (d, r, _lbl) in enumerate(LEDS):
 PLACE.update({
     "J5": (47.85, 11.43, 90, B),         # ECM / IG1 / ARM, opening out of the right end
     # ICs along the top of the back, under the LED row
-    "U4": (19.8, 5.4, 0, B),             # expander
-    "U2": (29.0, 4.5, 0, B),             # DAC
-    "U3": (37.2, 5.4, 0, B),             # op-amp, under K1 / J4
-    "C13": (19.8, 8.9, 0, B),
-    "R37": (15.4, 5.4, 90, B),
-    "R35": (24.2, 3.6, 90, B),
-    "R36": (24.2, 5.6, 90, B),
-    "D18": (25.2, 8.2, 90, B),
-    "C10": (29.0, 7.0, 0, B),
-    "C11": (29.6, 8.9, 0, B),
-    "R34": (26.9, 7.3, 90, B),
+    "U4": (19.8, 5.9, 0, B),             # expander
+    "U2": (29.0, 5.0, 0, B),             # DAC
+    "U3": (37.2, 5.9, 0, B),             # op-amp, under K1 / J4
+    "C13": (19.8, 9.4, 0, B),
+    "R37": (15.9, 9.4, 0, B),
+    "R35": (24.2, 4.1, 90, B),
+    "R36": (24.2, 6.1, 90, B),
+    "D18": (14.4, 5.0, 90, B),
+    "C10": (29.0, 7.5, 0, B),
+    "R34": (26.9, 7.9, 90, B),
     "C12": (32.65, 8.4, 90, B),
     "JP1": (5.8, 6.2, 90, B),
     "F3": (8.0, 2.0, 0, B),
@@ -85,11 +84,9 @@ PLACE.update({
 for i in range(4):
     for k in range(4):
         n = 40 + 4 * i + k
-        col = 2 * i + (k // 2)
-        row = k % 2
-        PLACE[f"R{n}"] = (33.8 + 1.1 * col, 9.6 + 2.1 * row, 90, B)
-PLACE["D16"] = (35.4, 14.6, 0, B)
-PLACE["D17"] = (39.8, 14.6, 0, B)
+        PLACE[f"R{n}"] = (34.0 + 2.0 * i, 9.6 + 2.0 * k, 90, B)   # column = channel A-D
+PLACE["D16"] = (38.3, 18.4, 0, B)
+PLACE["D17"] = (42.3, 18.4, 0, B)
 
 # Drivers: one row of SOT-23s, their resistors underneath.
 _ROW_Q, _ROW_R1, _ROW_R2 = 11.7, 14.4, 16.3
@@ -124,9 +121,6 @@ def silkscreen(board, text, pcbnew):
     text(board, "+", 12.7, 4.5, 0.8, layer=BS, thick=0.14)
     text(board, "-", 10.7, 4.5, 0.8, layer=BS, thick=0.14)
     text(board, "ARM OPEN = CAR", 4.3, 12.9, 0.75, layer=BS, angle=90, thick=0.12)
-    text(board, "LEDS 5V SAS IG1 ARM", 40.6, 17.05, 0.45, layer=BS, thick=0.08)
-    text(board, "TQ SIG NEP VSP", 40.6, 17.8, 0.45, layer=BS, thick=0.08)
-    text(board, "HINDSIGHT STIM " + design.REV, 40.6, 19.2, 0.5, layer=BS, thick=0.09)
     for i, (_net, lbl) in enumerate(design.TEST_PADS):
         text(board, lbl, TP_X0 + TP_PITCH * i, 17.55, 0.5, layer=BS, thick=0.08)
     for i, lbl in enumerate(["IG1", "NEP C", "NEP E", "GND", "VSP E", "VSP C", "ARM+", "ARM"]):

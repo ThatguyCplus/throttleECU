@@ -278,7 +278,6 @@ add("U2", "Analog_DAC:MCP4728", "MCP4728", MSOP10,
     note="12-bit quad DAC, I2C 0x60. Use the internal 2.048 V reference, gain x1")
 R("R34", "10k", "DAC_LDAC", "GND", "LDAC low: outputs update on write")
 C("C10", "100nF", "+3V3", "GND", "U2 decoupling")
-C("C11", "10uF 25V", "+3V3", "GND", "U2 bulk", fp=C0805)
 # MCP6004 on 5 V, non-inverting gain 1 + 12k/10k = 2.2: 2.048 V -> 4.5 V max,
 # so the torque lines can't be driven past the sensor's normal range.
 SECTION_PINS = {1: ("3", "2", "1"), 2: ("5", "6", "7"), 3: ("10", "9", "8"), 4: ("12", "13", "14")}

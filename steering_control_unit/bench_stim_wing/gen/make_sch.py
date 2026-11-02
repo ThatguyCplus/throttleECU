@@ -227,7 +227,7 @@ BLOCKS = [
     ("NEP (12 V pull-up) and VSP (5 V pull-up) open-drain outputs",
      ["R24", "R25", "Q8", "R26", "R27", "R28", "D14", "R29", "R30", "Q9", "R31", "R32", "R33", "D15"]),
     ("Torque DAC: MCP4728 (2.048 V ref, x1) -> MCP6004 x2.2 on 5 V -> 0-4.5 V",
-     ["U2", "R34", "C10", "C11"] + [f"U3.{u}" for u in (1, 2, 3, 4, 5)] +
+     ["U2", "R34", "C10"] + [f"U3.{u}" for u in (1, 2, 3, 4, 5)] +
      [f"R{n}" for n in range(40, 56)] + ["C12", "D16", "D17"]),
     ("I2C expander TCA9534 (0x20): powers up as inputs", ["U4", "C13", "R35", "R36", "D18", "R37"]),
     ("Connectors", ["J3", "J4", "J5"]),
