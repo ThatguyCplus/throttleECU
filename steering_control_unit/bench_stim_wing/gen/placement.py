@@ -104,7 +104,8 @@ for x, q, r1, r2 in _DRIVERS:
     for k, ref in enumerate(r1):
         PLACE[ref] = (x - 1.1 + 1.1 * k, _ROW_R1, 90, B)
     for k, ref in enumerate(r2):
-        PLACE[ref] = (x + 0.4, _ROW_R2, 0, B)
+        # flyback diodes (SOD-323) sit higher and further right, clear of the TP numbers
+        PLACE[ref] = (x + 0.9, 15.0, 90, B) if ref.startswith("D") else (x + 0.4, _ROW_R2, 0, B)
 # Test pads: one row along the back, GND at both ends; labels above each pad.
 TP_X0, TP_PITCH, TP_Y = 6.5, 2.05, 19.0
 for i in range(len(design.TEST_PADS)):
@@ -112,35 +113,24 @@ for i in range(len(design.TEST_PADS)):
 
 
 # Stubs + vias for the connections Freerouting left open (see make_pcb.manual_routes).
-MANUAL_ROUTES = [
-    # C5 (bootstrap, back) to the BUCK_SW track that runs over it on the top
-    ("via", "BUCK_SW", 14.30, 9.03),
-    ("track", "BUCK_SW", "B_Cu", 14.30, 8.88, 14.30, 9.03, 0.25),
-    # R25's GND pad sat on a pour island under an F.Cu BUCK_EN diagonal: move
-    # BUCK_EN down to y 15.4 (between C4 and D4) and drop a GND via on the pad.
-    ("delete", "BUCK_EN", 19.85, 13.12, 19.85, 14.01),
-    ("delete", "BUCK_EN", 19.85, 14.01, 18.73, 15.14),
-    ("delete", "BUCK_EN", 18.73, 15.14, 17.99, 15.14),
-    ("delete", "BUCK_EN", 17.99, 15.14, 17.68, 15.45),
-    ("track", "BUCK_EN", "F_Cu", 19.85, 13.12, 19.85, 15.4, 0.15),
-    ("track", "BUCK_EN", "F_Cu", 19.85, 15.4, 17.68, 15.4, 0.15),
-    ("track", "BUCK_EN", "F_Cu", 17.68, 15.4, 17.68, 15.45, 0.15),
-    ("via", "GND", 18.90, 14.91),
-    # R25's GND pad was left on a pour island: via down to the In1 plane
-]
+MANUAL_ROUTES = []
 
 
 def silkscreen(board, text, pcbnew):
+    """All text is >= 1.0 mm high with a 0.15 mm stroke (JLCPCB's silkscreen
+    minimum). What doesn't fit at that size is a short code here and spelled out
+    in the README (test pads by number, J5 by pin 1 / pin 8)."""
     FS, BS = pcbnew.F_SilkS, pcbnew.B_SilkS
-    # Top: only what fits between parts.
-    text(board, "12V", 6.0, 5.05, 0.6, layer=FS, thick=0.1)
-    text(board, "TORQUE", 43.95, 11.43, 0.8, layer=FS, angle=90, thick=0.12)
-    # Back: 12 V IN polarity at J2's pads, safety note, LED legend, branding,
-    # J5 pinout and test pad names. Mirrored, so it reads from below.
-    text(board, "+", 12.7, 4.5, 0.8, layer=BS, thick=0.14)
-    text(board, "-", 10.7, 4.5, 0.8, layer=BS, thick=0.14)
-    text(board, "ARM OPEN = CAR", 4.3, 12.9, 0.75, layer=BS, angle=90, thick=0.12)
-    for i, (_net, lbl) in enumerate(design.TEST_PADS):
-        text(board, lbl, TP_X0 + TP_PITCH * i, 17.55, 0.5, layer=BS, thick=0.08)
-    for i, lbl in enumerate(["IG1", "NEP C", "NEP E", "GND", "VSP E", "VSP C", "ARM+", "ARM"]):
-        text(board, lbl, 44.3, 7.05 + 1.25 * i, 0.45, layer=BS, thick=0.08, justify="left")
+    H, W = 1.0, 0.15
+    # Top
+    text(board, "12V", 6.3, 5.2, H, layer=FS, thick=W)            # 12 V LED (D3)
+    text(board, "TQ", 45.8, 4.6, H, layer=FS, thick=W)            # J4 = torque
+    # Back (mirrored, reads from below)
+    text(board, "+", 12.7, 4.4, H, layer=BS, thick=W)             # J2 pin 1 = +12 V
+    text(board, "-", 10.7, 4.4, H, layer=BS, thick=W)
+    text(board, "ARM OPEN=CAR", 4.15, 12.0, H, layer=BS, angle=90, thick=W)
+    for i in range(len(design.TEST_PADS)):                         # TP1..TP15, see README
+        text(board, str(i + 1), TP_X0 + TP_PITCH * i, 17.55, H, layer=BS, thick=W)
+    text(board, "1", 43.6, 7.05, H, layer=BS, thick=W)            # J5 pin 1 (IG1)
+    text(board, "8", 43.6, 15.8, H, layer=BS, thick=W)            # J5 pin 8 (ARM)
+    text(board, "J5", 42.3, 11.43, H, layer=BS, angle=90, thick=W)

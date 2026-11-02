@@ -37,6 +37,7 @@ NETCLASSES = [
 ]
 TRACK_SIG = 0.15
 CLEARANCE = 0.127
+PTH_CLEARANCE = 0.21   # JLCPCB pad-to-trace for plated through-hole pads is 0.2 mm (margin for rounding)
 
 
 def find_net(board, name):
@@ -276,6 +277,9 @@ def build(route=True):
             if k not in ("Footprint", "Datasheet", "Description"):
                 fp.SetProperty(k, v)
         fp.SetLocalClearance(0)            # e.g. MSOP-10 carries 0.2 mm; the board rule (0.127) applies instead
+        for pad in fp.Pads():              # JLCPCB: track to plated through-hole pad >= 0.2 mm
+            if pad.GetAttribute() == pcbnew.PAD_ATTRIB_PTH:
+                pad.SetLocalClearance(mm(PTH_CLEARANCE))
         if side == "B":
             flip(fp)
         fp.Reference().SetVisible(False)   # silk labels the functions instead; assembly uses the CPL
@@ -333,7 +337,45 @@ def dsn_classes():
         members = [m for m in members if m not in nets]
         rest = rest.replace(f"(class {name}\n", f"(class {name} " + " ".join(nets) + "\n", 1)
     rest = " " + " ".join(members) + "\n      " + rest[dflt_end:]
-    open(DSN, "w", encoding="utf-8").write(head + sep + rest)
+    txt = dsn_router_tweaks(head + sep + rest)
+    open(DSN, "w", encoding="utf-8").write(txt)
+
+
+def dsn_router_tweaks(txt):
+    """Router-only changes to the DSN (the board itself is untouched):
+    * In1 is the GND plane: mark it a power layer so Freerouting routes no signals on it.
+    * JLCPCB wants 0.2 mm from a track to a plated through-hole pad, but KiCad 7's
+      exporter drops per-pad clearances. Grow every through-hole padstack ([A] =
+      all layers) by the difference, so the router's 0.127 mm lands at >= 0.21 mm."""
+    txt = re.sub(r"(\(layer In1\.Cu\s+\(type )signal\)", r"\1power)", txt)
+    grow = (PTH_CLEARANCE - CLEARANCE) * 1000          # um per side
+    num = lambda v: float(v)
+    out, i = [], 0
+    for mt in re.finditer(r"\(padstack (\S+)\n(.*?)\n    \)", txt, re.S):
+        name, body = mt.group(1), mt.group(2)
+        if "[A]" not in name or name.startswith("Via"):
+            continue
+        def circle(m_):
+            return f"(circle {m_.group(1)} {num(m_.group(2)) + 2 * grow:g}"
+        def path(m_):
+            return f"(path {m_.group(1)} {num(m_.group(2)) + 2 * grow:g}"
+        def rect(m_):
+            l, x1, y1, x2, y2 = m_.group(1), *map(num, m_.groups()[1:])
+            return f"(rect {l} {x1 - grow:g} {y1 - grow:g} {x2 + grow:g} {y2 + grow:g})"
+        def poly(m_):
+            pts = list(map(num, m_.group(3).split()))
+            cx = sum(pts[0::2]) / (len(pts) // 2)
+            cy = sum(pts[1::2]) / (len(pts) // 2)
+            pts = [p + (grow if p > c else -grow) for p, c in zip(pts, [cx, cy] * (len(pts) // 2))]
+            return f"(polygon {m_.group(1)} {m_.group(2)} " + " ".join(f"{p:g}" for p in pts) + ")"
+        nb = re.sub(r"\(circle (\S+) ([\d.]+)", circle, body)
+        nb = re.sub(r"\(path (\S+) ([\d.]+)", path, nb)
+        nb = re.sub(r"\(rect (\S+) ([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)\)", rect, nb)
+        nb = re.sub(r"\(polygon (\S+) ([\d.]+)\s+([-\d.\s]+?)\)", poly, nb)
+        out.append((mt.start(2), mt.end(2), nb))
+    for s, e, nb in reversed(out):
+        txt = txt[:s] + nb + txt[e:]
+    return txt
 
 
 def place():

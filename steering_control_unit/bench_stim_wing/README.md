@@ -117,7 +117,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 | 4 | VT6 EPS side (gearbox 7-pin 1 / ECU B8) |
 | 5 | VT6 sensor side |
 
-**J5, ECM / IG1 / ARM** (right end, back, JST GH 8-way). Labels are on the back silkscreen.
+**J5, ECM / IG1 / ARM** (right end, back, JST GH 8-way). The back silk marks "J5" with pins "1" and "8"; the pin names are below.
 
 | Pin | Net | Notes |
 |---|---|---|
@@ -157,7 +157,15 @@ Top side, in one row above the relays. Left to right: **5V, SAS, IG1, ARM, TQ, S
 
 ### Test pads (back)
 
-GND, 12V, 5V, 3V3, USB, NEP, VSP, VT3, VT6, AUXC, AUXD, ARM, P6, P7, GND.
+The pads are numbered 1–15 on the back silk; names don't fit at JLC's 1 mm minimum text height.
+
+| TP | Net | TP | Net | TP | Net |
+|---|---|---|---|---|---|
+| 1 | GND | 6 | NEP out | 11 | AUX D (DAC D) |
+| 2 | +12 V | 7 | VSP out | 12 | ARM |
+| 3 | +5 V | 8 | VT3 out | 13 | Expander P6 |
+| 4 | +3V3 | 9 | VT6 out | 14 | Expander P7 |
+| 5 | USB pin | 10 | AUX C (DAC C) | 15 | GND |
 
 ## Design rules
 
@@ -166,7 +174,10 @@ GND, 12V, 5V, 3V3, USB, NEP, VSP, VT3, VT6, AUXC, AUXD, ARM, P6, P7, GND.
 | Layers | 4: **F.Cu** parts + signals + GND pour, **In1.Cu** solid GND, **In2.Cu** signals + GND pour, **B.Cu** parts + signals + GND pour |
 | Signal tracks | 0.15 mm (mA and below) |
 | Power tracks | +12 V path and IG1 0.5 mm; +5 V, USB, buck SW, SAS and ARM 0.4 mm; 3V3 0.3 mm |
-| Clearance | 0.127 mm (JLC's 4-layer process goes to 0.09 mm) |
+| Clearance | 0.127 mm; **0.21 mm from tracks to plated through-hole pads** (JLCPCB's 0.2 mm pad-to-trace rule) |
+| GND plane | In1 carries no signal tracks (the router treats it as a power plane) |
+| Silkscreen | All text >= 1.0 mm high with a 0.15 mm stroke (JLCPCB minimum) |
+| JLCPCB rules | [bench_stim_wing.kicad_dru](bench_stim_wing.kicad_dru), the 4-layer 1 oz set from [Cimos/kicad-druid](https://github.com/Cimos/kicad-druid) (MIT). KiCad loads it as the project's custom rules |
 | Vias | 0.45/0.2 mm signal, 0.6/0.3 mm power |
 | Assembly | **Both sides** (SMD top and back). The back carries only parts ≤ 1.25 mm tall |
 
