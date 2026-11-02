@@ -343,11 +343,14 @@ def dsn_classes():
 
 def dsn_router_tweaks(txt):
     """Router-only changes to the DSN (the board itself is untouched):
-    * In1 is the GND plane: mark it a power layer so Freerouting routes no signals on it.
+    * Optionally (BSW_IN1_PLANE_ONLY=1) mark In1, the GND plane, as a power layer.
     * JLCPCB wants 0.2 mm from a track to a plated through-hole pad, but KiCad 7's
       exporter drops per-pad clearances. Grow every through-hole padstack ([A] =
       all layers) by the difference, so the router's 0.127 mm lands at >= 0.21 mm."""
-    txt = re.sub(r"(\(layer In1\.Cu\s+\(type )signal\)", r"\1power)", txt)
+    # (Keeping In1 signal-free was tried: with the wider through-hole clearances
+    # Freerouting then leaves ~35 connections open, so In1 stays routable.)
+    if os.environ.get("BSW_IN1_PLANE_ONLY") == "1":
+        txt = re.sub(r"(\(layer In1\.Cu\s+\(type )signal\)", r"\1power)", txt)
     grow = (PTH_CLEARANCE - CLEARANCE) * 1000          # um per side
     num = lambda v: float(v)
     out, i = [], 0
