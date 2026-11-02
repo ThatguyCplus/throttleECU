@@ -1,0 +1,15 @@
+entry     2 clusters,  11 parts
+pass      1 clusters,   6 parts
+inputs    4 clusters,  60 parts
+supply    3 clusters,  51 parts
+overlay   4 clusters,  62 parts
+guard     6 clusters, 115 parts
+coil      2 clusters,  30 parts
+backup    5 clusters,  35 parts
+ch_a      3 clusters,  42 parts
+ch_b      3 clusters,  45 parts
+measure   2 clusters,  24 parts
+top    columns need 16.8 / 29.3 / 17.5 mm, spare 19.5 mm
+bottom columns need 19.4 / 31.0 / 7.8 mm, spare 25.0 mm
+305 top-side courtyards for the bottom-side via patches to avoid
+no free top-side spot within 30 mm for ['TP19']

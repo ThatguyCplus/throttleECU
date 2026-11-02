@@ -1,0 +1,89 @@
+Element,Name,Failure mode,FIT,Effect on SG1,Safety mechanisms,DC,SPF FIT,Residual FIT,Latent FIT,Note
+E01,Input protection (shared),Open / fuse blown / FET open: no power,10.0200,safe,,0.000,0.0000,0.0000,0.0000,Pass-through (SM-01)
+E01,Input protection (shared),TVS or FET short: fuse blows,5.0100,safe,,0.000,0.0000,0.0000,0.0000,
+E01,Input protection (shared),TVS open (latent loss of load-dump clamp),1.6700,safe,,0.000,0.0000,0.0000,0.0000,Damage from an unclamped dump fails toward power loss; check in DFA
+E02,"Supply chain A (buck, LDO, 5 V window)",Output lost or low,24.0600,safe,,0.000,0.0000,0.0000,0.0000,Enable drops: pass-through
+E02,"Supply chain A (buck, LDO, 5 V window)",Output overvoltage,4.0100,direct,SM-16 SM-08B SM-15,0.999,0.0000,0.0040,0.0000,Could corrupt the CH-A overlay; B and C are on the other chain
+E02,"Supply chain A (buck, LDO, 5 V window)",Ripple / noise into the overlay path,4.0100,direct,SM-08A SM-08B SM-15,0.999,0.0000,0.0040,0.0000,
+E02,"Supply chain A (buck, LDO, 5 V window)",Supervisor fails to flag OV/UV,8.0200,latent,SW-06 SM-21,0.990,0.0000,0.0000,0.0802,
+E03,"Supply chain B (buck, LDO, 5 V window)",Output lost or low,32.1600,safe,,0.000,0.0000,0.0000,0.0000,
+E03,"Supply chain B (buck, LDO, 5 V window)",Output overvoltage / noise: corrupts CH-B or the guard,10.7200,latent,SW-04L SM-17,0.999,0.0000,0.0000,0.0107,
+E03,"Supply chain B (buck, LDO, 5 V window)",Supervisor fails to flag OV/UV,10.7200,latent,SW-04L SM-21,0.990,0.0000,0.0000,0.1072,
+E04,"CH-A MCU, clock, decoupling",Wrong Delta command (within the hardware envelope),34.9200,direct,SW-04 SM-20,0.999,0.0000,0.0349,0.0000,"Uncommanded pull, bounded by SM-05"
+E04,"CH-A MCU, clock, decoupling",Hang / no output,34.9200,safe,,0.000,0.0000,0.0000,0.0000,Watchdog drops the enable
+E04,"CH-A MCU, clock, decoupling",Enable GPIO stuck active,11.6400,latent,SM-03L,0.900,0.0000,0.0000,1.1640,
+E04,"CH-A MCU, clock, decoupling",Readback ADC path fault masks a real error,11.6400,latent,SW-04L SW-06,0.990,0.0000,0.0000,0.1164,
+E04,"CH-A MCU, clock, decoupling","No effect on SG1 (debug, unused peripherals)",23.2800,safe,,0.000,0.0000,0.0000,0.0000,
+E05,"CH-A supervision (TPS3850, AND gate, pull-ups)",Fails to drop the enable,3.9600,latent,SM-03L,0.900,0.0000,0.0000,0.3960,
+E05,"CH-A supervision (TPS3850, AND gate, pull-ups)",Spurious disable / reset,3.9600,safe,,0.000,0.0000,0.0000,0.0000,
+E05,"CH-A supervision (TPS3850, AND gate, pull-ups)",Other,1.9800,safe,,0.000,0.0000,0.0000,0.0000,
+E06,"CH-B MCU (TMS570LS0432, rev 0.7), crystal, decoupling",Monitor accepts a bad overlay (silent pass),34.5600,latent,SW-04L SW-06 SM-25,0.999,0.0000,0.0000,0.0346,"rev 0.7: diverse TMS570, lockstep cores (SM-25)"
+E06,"CH-B MCU (TMS570LS0432, rev 0.7), crystal, decoupling","Hang: PWM stops, low side opens",34.5600,safe,,0.000,0.0000,0.0000,0.0000,
+E06,"CH-B MCU (TMS570LS0432, rev 0.7), crystal, decoupling",False trip,11.5200,safe,,0.000,0.0000,0.0000,0.0000,
+E06,"CH-B MCU (TMS570LS0432, rev 0.7), crystal, decoupling",No effect on SG1,34.5600,safe,,0.000,0.0000,0.0000,0.0000,
+E07,CH-B supervision + charge-pump enable,Low-side gate held on without PWM (pump diode short + leakage),2.4600,latent,SM-19,0.900,0.0000,0.0000,0.2460,One of three series coil switches
+E07,CH-B supervision + charge-pump enable,Watchdog / gate fails to drop the enable,3.6900,latent,SM-03L,0.900,0.0000,0.0000,0.3690,
+E07,CH-B supervision + charge-pump enable,Spurious disable,4.9200,safe,,0.000,0.0000,0.0000,0.0000,
+E07,CH-B supervision + charge-pump enable,Other,1.2300,safe,,0.000,0.0000,0.0000,0.0000,
+E08,"Overlay analog path (Delta, inverter, summers)","Overlay wrong or beyond Delta_max at the EPS (op-amp rail, resistor open, attenuator open)",11.0000,direct,SM-08A SM-08B SM-15,0.999,0.0000,0.0110,0.0000,Rev 0.3: the summer ratios bound any upstream op-amp fault to 0.37 V; only the summer op-amp itself or its feedback resistor can exceed Delta_max
+E08,"Overlay analog path (Delta, inverter, summers)",Overlay lost / stuck at raw sensor,4.4000,safe,,0.000,0.0000,0.0000,0.0000,SG4: detected by readback
+E08,"Overlay analog path (Delta, inverter, summers)",No effect,6.6000,safe,,0.000,0.0000,0.0000,0.0000,
+E09,CH-A readback taps and scaling,Reading wrong: false trip,4.3000,safe,,0.000,0.0000,0.0000,0.0000,
+E09,CH-A readback taps and scaling,Reading plausibly wrong: masks a real error,1.7200,latent,SW-04L,0.900,0.0000,0.0000,0.1720,
+E09,CH-A readback taps and scaling,Other,2.5800,safe,,0.000,0.0000,0.0000,0.0000,
+E10,"CH-C guard (buffers, diff amps, ladder, comparators, latch)",Guard cannot trip,22.1200,latent,SM-17,0.990,0.0000,0.0000,0.2212,
+E10,"CH-C guard (buffers, diff amps, ladder, comparators, latch)",Spurious trip,22.1200,safe,,0.000,0.0000,0.0000,0.0000,
+E10,"CH-C guard (buffers, diff amps, ladder, comparators, latch)",Other,11.0600,safe,,0.000,0.0000,0.0000,0.0000,
+E19,"Expected-Delta reference (CH-B DAC -> REF3/REF6, R2)",Reference wrong: guard false-trips,5.4500,safe,,0.000,0.0000,0.0000,0.0000,
+E19,"Expected-Delta reference (CH-B DAC -> REF3/REF6, R2)",Reference follows a wrong CH-A Delta (masks it),1.0900,latent,SW-04L,0.900,0.0000,0.0000,0.1090,Needs CH-B to compute the same wrong value; CH-A compares REF3M_B with its own Delta
+E19,"Expected-Delta reference (CH-B DAC -> REF3/REF6, R2)",Other,4.3600,safe,,0.000,0.0000,0.0000,0.0000,
+E20,"1S LiPo backup (charger, boost, ideal diodes)",Boost output overvoltage reaches both 5 V rails through the ORing diodes,3.1450,direct,SM-24 SM-16,0.990,0.0000,0.0315,0.0000,Common-cause path: the SM-24 cutoff disables both ideal diodes; the rail TPS3702 windows are the second barrier
+E20,"1S LiPo backup (charger, boost, ideal diodes)",SM-24 cutoff can't disable (supervisor or inverter stuck),1.8870,latent,,0.000,0.0000,0.0000,1.8870,Untested latent; test hook is a candidate for rev 0.5
+E20,"1S LiPo backup (charger, boost, ideal diodes)",Backup absent / cell low / charger fault,37.7400,safe,,0.000,0.0000,0.0000,0.0000,Normal 12 V operation continues
+E20,"1S LiPo backup (charger, boost, ideal diodes)",Ideal diode short: buck and boost tied,3.1450,safe,,0.000,0.0000,0.0000,0.0000,Rails stay in window; latent loss of ORing
+E20,"1S LiPo backup (charger, boost, ideal diodes)",Other,16.9830,safe,,0.000,0.0000,0.0000,0.0000,
+E21,Speed stage + authority switch (SM-23),Fails to assert HALF above v_switch (stuck FULL),6.3900,latent,SW-04L,0.900,0.0000,0.0000,0.6390,Both MCUs read SPDHI and compare it with their own VSP/CAN speed every cycle
+E21,Speed stage + authority switch (SM-23),Asserts HALF or opens at low speed,8.5200,safe,,0.000,0.0000,0.0000,0.0000,Reduced or zero overlay
+E21,Speed stage + authority switch (SM-23),Other,6.3900,safe,,0.000,0.0000,0.0000,0.0000,
+E11,CH-B readback scaling,Reading plausibly wrong: masks a real error,1.2600,latent,SW-04L,0.900,0.0000,0.0000,0.1260,
+E11,CH-B readback scaling,Reading wrong: false trip,3.1500,safe,,0.000,0.0000,0.0000,0.0000,
+E11,CH-B readback scaling,Other,1.8900,safe,,0.000,0.0000,0.0000,0.0000,
+E12,"Coil drivers (2x TPS1H100, 2x low side, guard FET, clamps)",One series switch stuck on,12.5650,latent,SM-19,0.900,0.0000,0.0000,1.2565,Two more series switches still release the coil
+E12,"Coil drivers (2x TPS1H100, 2x low side, guard FET, clamps)",Release slowed (clamp short),1.7950,latent,SM-19,0.900,0.0000,0.0000,0.1795,
+E12,"Coil drivers (2x TPS1H100, 2x low side, guard FET, clamps)",Switch stuck off / open,16.1550,safe,,0.000,0.0000,0.0000,0.0000,
+E12,"Coil drivers (2x TPS1H100, 2x low side, guard FET, clamps)",Other,5.3850,safe,,0.000,0.0000,0.0000,0.0000,
+E13,"Signal relays K1, K2",Contact stuck on NO (welded / mechanical),8.0000,latent,SM-09,0.990,0.0000,0.0000,0.0800,The other relay still restores pass-through
+E13,"Signal relays K1, K2",Contact open / high resistance,16.0000,safe,,0.000,0.0000,0.0000,0.0000,"Rev 0.3 (R4): 100k bypass keeps the EPS input on the sensor, no floating input"
+E13,"Signal relays K1, K2",Pole-to-pole short: VT3 = VT6,2.0000,safe,,0.000,0.0000,0.0000,0.0000,SG3: torque reads zero
+E13,"Signal relays K1, K2",Coil open / short,14.0000,safe,,0.000,0.0000,0.0000,0.0000,
+E14,EPS-side node (hold caps),Short: VT_EPS to GND,0.4000,safe,,0.000,0.0000,0.0000,0.0000,SG3: EPS DTC
+E14,EPS-side node (hold caps),Open / drift,0.6000,safe,,0.000,0.0000,0.0000,0.0000,
+E15,"CAN interfaces (2x TCAN3404, ESD, termination)",Corrupted or replayed command accepted,0.1000,direct,SW-01,0.990,0.0000,0.0010,0.0000,
+E15,"CAN interfaces (2x TCAN3404, ESD, termination)",Bus dominant / babbling / silent,1.5000,safe,,0.000,0.0000,0.0000,0.0000,Timeout: ramp-out
+E15,"CAN interfaces (2x TCAN3404, ESD, termination)",Other,0.4000,safe,,0.000,0.0000,0.0000,0.0000,
+E16,"Car-side inputs (dividers, clamps, wetting)",Wrong speed / EPS-state / disengage reading in one channel,6.0000,latent,SW-04L,0.900,0.0000,0.0000,0.6000,Each channel has its own divider; A vs B vs CAN speed cross-check
+E16,"Car-side inputs (dividers, clamps, wetting)",Clamp / divider short: input reads stuck,6.0000,latent,SW-04L,0.900,0.0000,0.0000,0.6000,
+E16,"Car-side inputs (dividers, clamps, wetting)",Other,8.0000,safe,,0.000,0.0000,0.0000,0.0000,
+E17,"Analog monitors (VBAT, 5V, Vcc2, ground offset)",Monitor wrong,2.8800,latent,SW-04L,0.900,0.0000,0.0000,0.2880,
+E17,"Analog monitors (VBAT, 5V, Vcc2, ground offset)",Other,4.3200,safe,,0.000,0.0000,0.0000,0.0000,
+E99,"Not SG1-relevant (debug headers, LEDs, FSI series R, CAN STB, indicator)",All modes,57.0500,safe,,0.000,0.0000,0.0000,0.0000,
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Pin open,6.0000,safe,,0.000,0.0000,0.0000,0.0000,Floating input: EPS DTC (SG3)
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.1-2 (VBAT_IN / GND),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.2-3 (GND / IG1_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.3-4 (IG1_IN / CAN_H),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.4-5 (CAN_H / CAN_L),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.5-6 (CAN_L / GND),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.6-7 (GND / VT3_EPS),0.1000,safe,,0.000,0.0000,0.0000,0.0000,"Torque line forced to GND: out of range, EPS DTC (SG3)"
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.7-8 (VT3_EPS / VT3_SNS),0.1000,safe,,0.000,0.0000,0.0000,0.0000,Bypasses the overlay on that line; readback flags the loss (SG4)
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.8-9 (VT3_SNS / GND),0.1000,safe,,0.000,0.0000,0.0000,0.0000,"Torque line forced to GND: out of range, EPS DTC (SG3)"
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.9-10 (GND / VT6_SNS),0.1000,safe,,0.000,0.0000,0.0000,0.0000,"Torque line forced to GND: out of range, EPS DTC (SG3)"
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.10-11 (VT6_SNS / VT6_EPS),0.1000,safe,,0.000,0.0000,0.0000,0.0000,Bypasses the overlay on that line; readback flags the loss (SG4)
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.11-12 (VT6_EPS / TSGND_TAP),0.1000,safe,,0.000,0.0000,0.0000,0.0000,"Torque line forced to TSGND_TAP: out of range, EPS DTC (SG3)"
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.12-13 (TSGND_TAP / VCC2_TAP),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.13-14 (VCC2_TAP / WLP_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.14-15 (WLP_IN / RT_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.15-16 (RT_IN / VSP_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.16-17 (VSP_IN / NEP_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.17-18 (NEP_IN / DIS_NO_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.18-19 (DIS_NO_IN / DIS_NC_IN),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved
+E18,Vehicle connector J1 (pins and adjacent-pin shorts),Short J1.19-20 (DIS_NC_IN / IND_OUT),0.1000,safe,,0.000,0.0000,0.0000,0.0000,No torque line involved

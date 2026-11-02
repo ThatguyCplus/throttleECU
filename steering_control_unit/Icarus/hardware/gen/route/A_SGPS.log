@@ -1,0 +1,298 @@
+2026-11-01 18:31:10.345 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 18:31:10.379 WARN   No default constructor found for field: filterByNet
+2026-11-01 18:31:11.392 INFO   Settings merged successfully from 4 source(s)
+2026-11-01 18:31:11.407 WARN   Failed to check for new version
+2026-11-01 18:31:11.560 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 18:31:12.151 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 18:31:12.153 INFO   [5883C0\C9943B] Job '5883C0\C9943B' started at 2026-11-02T02:31:12.153892Z.
+2026-11-01 18:32:48.575 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 18:50:32.515 INFO   [5883C0\C9943B] Auto-router pass #1 on board '4807cbaef17d0f41e6fdb5c81738dc76' was completed in 19 minutes 19.85 seconds with the score of 854.95 (451 unrouted), using 1138.52 CPU seconds and the job allocated 476.08 GB of memory so far.
+2026-11-01 18:51:55.266 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 18:51:57.596 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:02:03.902 INFO   [5883C0\C9943B] Auto-router pass #2 on board '8d6fc9b5072499478e5afaca970f4355' was completed in 11 minutes 30.67 seconds with the score of 883.09 (381 unrouted), using 1818.48 CPU seconds and the job allocated 792.77 GB of memory so far.
+2026-11-01 19:03:11.365 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:03:15.111 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:13:00.312 INFO   [5883C0\C9943B] Auto-router pass #3 on board 'dd892c4ef448e54a583fc28e29bcb7b8' was completed in 10 minutes 55.65 seconds with the score of 898.69 (341 unrouted), using 2463.22 CPU seconds and the job allocated 1113.24 GB of memory so far.
+2026-11-01 19:13:09.775 ERROR  Couldn't change the trace, because its normalization failed.
+java.lang.Exception: Max normalization depth reached with trace '1031173'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.PolylineTrace.change(PolylineTrace.java:984)
+	at app.freerouting.board.PolylineTrace.pull_tight(PolylineTrace.java:831)
+	at app.freerouting.board.RoutingBoard.insert_forced_trace_polyline(RoutingBoard.java:886)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.insert_trace(InsertFoundConnectionAlgo.java:147)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.get_instance(InsertFoundConnectionAlgo.java:64)
+	at app.freerouting.autoroute.AutorouteEngine.autoroute_connection(AutorouteEngine.java:241)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1031)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 19:13:09.775 ERROR  Couldn't change the trace, because its normalization failed.
+java.lang.Exception: Max normalization depth reached with trace '1031173'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.PolylineTrace.change(PolylineTrace.java:984)
+	at app.freerouting.board.PolylineTrace.pull_tight(PolylineTrace.java:831)
+	at app.freerouting.board.RoutingBoard.insert_forced_trace_polyline(RoutingBoard.java:886)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.insert_trace(InsertFoundConnectionAlgo.java:147)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.get_instance(InsertFoundConnectionAlgo.java:64)
+	at app.freerouting.autoroute.AutorouteEngine.autoroute_connection(AutorouteEngine.java:241)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1031)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 19:14:07.030 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:14:08.799 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:23:15.299 INFO   [5883C0\C9943B] Auto-router pass #4 on board '3679813c0439bcc193fbcdcaed59eebc' was completed in 10 minutes 14.20 seconds with the score of 909.29 (311 unrouted), using 3067.25 CPU seconds and the job allocated 1418.26 GB of memory so far.
+2026-11-01 19:24:23.415 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:24:25.277 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:33:42.677 INFO   [5883C0\C9943B] Auto-router pass #5 on board 'a5f558ea7c8a40a7b9eb67ba79c296ce' was completed in 10 minutes 26.59 seconds with the score of 916.46 (292 unrouted), using 3684.48 CPU seconds and the job allocated 1734.61 GB of memory so far.
+2026-11-01 19:34:22.042 WARN   A trace segment could not be normalized and was skipped. Affected net may have an unrouted connection. Cause: Max normalization depth reached with trace '2574088'
+2026-11-01 19:34:22.048 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:34:23.333 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:34:24.609 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:34:25.620 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:35:13.841 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:35:16.422 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:40:58.205 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:41:57.919 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:44:00.870 INFO   [5883C0\C9943B] Auto-router pass #6 on board '7a54a4a0f620a3df508850aef2c96f1d' was completed in 10 minutes 17.07 seconds with the score of 921.04 (279 unrouted), using 4289.36 CPU seconds and the job allocated 2051.68 GB of memory so far.
+2026-11-01 19:44:28.714 WARN   A trace segment could not be normalized and was skipped. Affected net may have an unrouted connection. Cause: Max normalization depth reached with trace '3625217'
+2026-11-01 19:44:28.719 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:44:29.651 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:44:30.601 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:44:31.497 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:45:03.140 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:45:04.977 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:50:07.474 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:50:52.110 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:51:04.119 ERROR  The normalization of net 'VBAT_P' failed.
+java.lang.Exception: Max normalization depth reached with trace '4389002'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.BasicBoard.normalize_traces(BasicBoard.java:830)
+	at app.freerouting.board.PullTightAlgo.smoothen_end_corners_at_trace_1(PullTightAlgo.java:389)
+	at app.freerouting.board.PullTightAlgo.opt_changed_area(PullTightAlgo.java:123)
+	at app.freerouting.board.RoutingBoard.opt_changed_area(RoutingBoard.java:223)
+	at app.freerouting.board.RoutingBoard.opt_changed_area(RoutingBoard.java:199)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1038)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 19:51:04.119 ERROR  The normalization of net 'VBAT_P' failed.
+java.lang.Exception: Max normalization depth reached with trace '4389002'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.BasicBoard.normalize_traces(BasicBoard.java:830)
+	at app.freerouting.board.PullTightAlgo.smoothen_end_corners_at_trace_1(PullTightAlgo.java:389)
+	at app.freerouting.board.PullTightAlgo.opt_changed_area(PullTightAlgo.java:123)
+	at app.freerouting.board.RoutingBoard.opt_changed_area(RoutingBoard.java:223)
+	at app.freerouting.board.RoutingBoard.opt_changed_area(RoutingBoard.java:199)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1038)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 19:52:22.305 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:52:54.293 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:53:01.510 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 19:53:06.815 INFO   [5883C0\C9943B] Auto-router pass #7 on board '609aa5c4d4922fc9af0302a209ac94a4' was completed in 9 minutes 5.15 seconds with the score of 923.43 (270 unrouted), using 4824.52 CPU seconds and the job allocated 2337.81 GB of memory so far.
+2026-11-01 19:54:10.368 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 19:54:12.286 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:02:52.570 INFO   [5883C0\C9943B] Auto-router pass #8 on board 'f0d0195481883210f6072e447475cf95' was completed in 9 minutes 44.93 seconds with the score of 928.42 (257 unrouted), using 5398.77 CPU seconds and the job allocated 2663.60 GB of memory so far.
+2026-11-01 20:04:00.800 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:04:02.810 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:12:06.966 INFO   [5883C0\C9943B] Auto-router pass #9 on board 'e0456000eb989b73f794c73c62275e23' was completed in 9 minutes 13.59 seconds with the score of 929.35 (254 unrouted), using 5943.08 CPU seconds and the job allocated 2965.95 GB of memory so far.
+2026-11-01 20:12:30.329 ERROR  Couldn't change the trace, because its normalization failed.
+java.lang.Exception: Max normalization depth reached with trace '6952803'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.PolylineTrace.change(PolylineTrace.java:984)
+	at app.freerouting.board.PolylineTrace.pull_tight(PolylineTrace.java:831)
+	at app.freerouting.board.RoutingBoard.insert_forced_trace_polyline(RoutingBoard.java:886)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.insert_trace(InsertFoundConnectionAlgo.java:147)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.get_instance(InsertFoundConnectionAlgo.java:64)
+	at app.freerouting.autoroute.AutorouteEngine.autoroute_connection(AutorouteEngine.java:241)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1031)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 20:12:30.329 ERROR  Couldn't change the trace, because its normalization failed.
+java.lang.Exception: Max normalization depth reached with trace '6952803'
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:735)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:790)
+	at app.freerouting.board.PolylineTrace.normalize(PolylineTrace.java:730)
+	at app.freerouting.board.PolylineTrace.change(PolylineTrace.java:984)
+	at app.freerouting.board.PolylineTrace.pull_tight(PolylineTrace.java:831)
+	at app.freerouting.board.RoutingBoard.insert_forced_trace_polyline(RoutingBoard.java:886)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.insert_trace(InsertFoundConnectionAlgo.java:147)
+	at app.freerouting.autoroute.InsertFoundConnectionAlgo.get_instance(InsertFoundConnectionAlgo.java:64)
+	at app.freerouting.autoroute.AutorouteEngine.autoroute_connection(AutorouteEngine.java:241)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_item(BatchAutorouter.java:1031)
+	at app.freerouting.autoroute.BatchAutorouter.autoroute_pass(BatchAutorouter.java:421)
+	at app.freerouting.autoroute.BatchAutorouter.runBatchLoop(BatchAutorouter.java:697)
+	at app.freerouting.management.RoutingJobSchedulerActionThread.thread_action(RoutingJobSchedulerActionThread.java:114)
+	at app.freerouting.core.StoppableThread.run(StoppableThread.java:22)
+2026-11-01 20:13:13.680 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:13:15.687 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:21:22.567 INFO   [5883C0\C9943B] Auto-router pass #10 on board 'c60a150a9ca1135923a633f7d989ba48' was completed in 9 minutes 14.76 seconds with the score of 932.16 (247 unrouted), using 6488.56 CPU seconds and the job allocated 3269.19 GB of memory so far.
+2026-11-01 20:22:27.415 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:22:29.520 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:30:04.833 INFO   [5883C0\C9943B] Auto-router pass #11 on board 'b2309d2f37911dafdb0e2ee25e8a91fd' was completed in 8 minutes 41.37 seconds with the score of 933.95 (239 unrouted), using 7000.88 CPU seconds and the job allocated 3550.72 GB of memory so far.
+2026-11-01 20:31:10.558 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:31:12.481 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:38:58.693 INFO   [5883C0\C9943B] Restoring an earlier board that has the score of 933.95 (239 unrouted).
+2026-11-01 20:38:58.694 INFO   [5883C0\C9943B] Auto-router pass #12 on board 'aedabaacf93343b43a41084f06973098' was completed in 8 minutes 53.03 seconds with the score of 933.95 (239 unrouted), using 7523.48 CPU seconds and the job allocated 3851.06 GB of memory so far.
+2026-11-01 20:39:53.566 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:39:55.199 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:46:24.867 INFO   [5883C0\C9943B] Auto-router pass #13 on board 'aedabaacf93343b43a41084f06973098' was completed in 7 minutes 25.73 seconds with the score of 935.46 (234 unrouted), using 7960.70 CPU seconds and the job allocated 4136.10 GB of memory so far.
+2026-11-01 20:47:22.452 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:47:24.187 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:53:51.514 INFO   [5883C0\C9943B] Auto-router pass #14 on board 'cfcf069502f9a980e24320c006df0790' was completed in 7 minutes 25.93 seconds with the score of 936.81 (229 unrouted), using 8397.66 CPU seconds and the job allocated 4417.48 GB of memory so far.
+2026-11-01 20:54:46.561 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 20:54:48.272 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:01:21.966 INFO   [5883C0\C9943B] Auto-router pass #15 on board '57565cfba9bb5b3deea9970b368972ba' was completed in 7 minutes 29.74 seconds with the score of 936.11 (233 unrouted), using 8838.88 CPU seconds and the job allocated 4727.23 GB of memory so far.
+2026-11-01 21:02:11.980 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:02:13.456 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:08:04.805 INFO   [5883C0\C9943B] Auto-router pass #16 on board 'e6fcfb24671f8e672a1ea71cb8207d23' was completed in 6 minutes 42.20 seconds with the score of 937.72 (228 unrouted), using 9232.22 CPU seconds and the job allocated 5004.48 GB of memory so far.
+2026-11-01 21:08:25.142 WARN   A trace segment could not be normalized and was skipped. Affected net may have an unrouted connection. Cause: Max normalization depth reached with trace '14514639'
+2026-11-01 21:08:25.146 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:08:25.956 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:08:26.748 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:08:54.202 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:08:55.750 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:12:44.210 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:13:17.217 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:06.789 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:23.556 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:28.833 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:30.802 INFO   [5883C0\C9943B] Auto-router pass #17 on board 'd9e1b6ba04d6bdb114a1fb816a5391de' was completed in 6 minutes 25.37 seconds with the score of 938.40 (226 unrouted), using 9610.14 CPU seconds and the job allocated 5264.36 GB of memory so far.
+2026-11-01 21:14:51.092 WARN   A trace segment could not be normalized and was skipped. Affected net may have an unrouted connection. Cause: Max normalization depth reached with trace '15631539'
+2026-11-01 21:14:51.095 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:51.857 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:14:52.577 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:15:18.788 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:15:20.250 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:19:05.290 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:19:38.127 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:20:23.770 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:20:53.582 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:20:58.744 WARN   The normalization of net '+3V3_B' failed.
+2026-11-01 21:21:00.809 INFO   [5883C0\C9943B] Auto-router pass #18 on board 'ab3dbb40b8a37b75c46a7ee98cfcad18' was completed in 6 minutes 29.34 seconds with the score of 939.44 (222 unrouted), using 9992.30 CPU seconds and the job allocated 5530.89 GB of memory so far.
+2026-11-01 21:21:51.589 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:21:53.107 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:27:30.868 INFO   [5883C0\C9943B] Auto-router pass #19 on board '191faa57396d8a4aec6265b6be9f8657' was completed in 6 minutes 29.43 seconds with the score of 938.30 (227 unrouted), using 10374.01 CPU seconds and the job allocated 5797.68 GB of memory so far.
+2026-11-01 21:28:22.246 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:28:23.857 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:34:00.160 INFO   [5883C0\C9943B] Restoring an earlier board that has the score of 939.44 (222 unrouted).
+2026-11-01 21:34:00.161 INFO   [5883C0\C9943B] Auto-router pass #20 on board '191faa57396d8a4aec6265b6be9f8657' was completed in 0.00 seconds with the score of 939.44 (222 unrouted), using 10754.49 CPU seconds and the job allocated 6055.46 GB of memory so far.
+2026-11-01 21:34:49.671 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:34:51.171 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:40:41.994 INFO   [5883C0\C9943B] Auto-router pass #21 on board '191faa57396d8a4aec6265b6be9f8657' was completed in 6 minutes 41.45 seconds with the score of 937.51 (230 unrouted), using 11146.61 CPU seconds and the job allocated 6342.20 GB of memory so far.
+2026-11-01 21:41:33.718 WARN   The normalization of net 'VBAT_P' failed.
+2026-11-01 21:41:35.319 WARN   The normalization of net 'VBAT_P' failed.

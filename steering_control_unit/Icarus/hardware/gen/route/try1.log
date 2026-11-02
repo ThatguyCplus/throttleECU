@@ -1,0 +1,55 @@
+2026-11-01 07:36:40.473 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 07:36:40.500 WARN   No default constructor found for field: filterByNet
+2026-11-01 07:36:41.510 INFO   Settings merged successfully from 4 source(s)
+2026-11-01 07:36:41.523 WARN   Failed to check for new version
+2026-11-01 07:36:41.612 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 07:36:42.052 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 07:36:42.054 INFO   [BB5ABF\4E679C] Job 'BB5ABF\4E679C' started at 2026-11-01T15:36:42.054728700Z.
+2026-11-01 07:43:20.687 INFO   [BB5ABF\4E679C] Auto-router pass #1 on board '672293133a122e68a78b4ba91bab6062' was completed in 6 minutes 38.41 seconds with the score of 880.84 (325 unrouted), using 390.98 CPU seconds and the job allocated 222.37 GB of memory so far.
+2026-11-01 07:49:06.755 INFO   [BB5ABF\4E679C] Auto-router pass #2 on board 'c6c802041c9b12fb893594cdedf984d4' was completed in 5 minutes 45.87 seconds with the score of 950.99 (135 unrouted), using 731.11 CPU seconds and the job allocated 421.58 GB of memory so far.
+2026-11-01 07:51:47.310 INFO   [BB5ABF\4E679C] Auto-router pass #3 on board 'c7e225f82ef2a251e6971cf2c7f5846a' was completed in 2 minutes 40.26 seconds with the score of 974.40 (49 unrouted), using 888.66 CPU seconds and the job allocated 507.44 GB of memory so far.
+2026-11-01 07:52:57.844 INFO   [BB5ABF\4E679C] Auto-router pass #4 on board 'bd6e7672796a3d2f4375223d1efbb1bb' was completed in 1 minute 10.23 seconds with the score of 978.63 (31 unrouted), using 958.61 CPU seconds and the job allocated 543.52 GB of memory so far.
+2026-11-01 07:53:31.385 INFO   [BB5ABF\4E679C] Auto-router pass #5 on board 'ea6ab028bad4607563adf69149191417' was completed in 33.24 seconds with the score of 979.21 (29 unrouted), using 991.22 CPU seconds and the job allocated 557.18 GB of memory so far.
+2026-11-01 07:54:16.197 INFO   [BB5ABF\4E679C] Auto-router pass #6 on board 'ce9ffde7407d55a9a7c38dc40b8891d8' was completed in 44.49 seconds with the score of 980.02 (25 unrouted), using 1035.23 CPU seconds and the job allocated 580.15 GB of memory so far.
+2026-11-01 07:54:41.546 INFO   [BB5ABF\4E679C] Auto-router pass #7 on board 'a771bcef19d34cc1c69c5112b28ccd84' was completed in 25.03 seconds with the score of 980.52 (23 unrouted), using 1059.86 CPU seconds and the job allocated 589.37 GB of memory so far.
+2026-11-01 07:55:07.822 INFO   [BB5ABF\4E679C] Restoring an earlier board that has the score of 980.52 (23 unrouted).
+2026-11-01 07:55:07.823 INFO   [BB5ABF\4E679C] Auto-router pass #8 on board '53ea8d478ee03ba041be2fc621ff9333' was completed in 25.96 seconds with the score of 980.52 (23 unrouted), using 1086.31 CPU seconds and the job allocated 600.38 GB of memory so far.
+2026-11-01 07:55:28.453 INFO   [BB5ABF\4E679C] Auto-router pass #9 on board '53ea8d478ee03ba041be2fc621ff9333' was completed in 20.49 seconds with the score of 980.06 (25 unrouted), using 1105.89 CPU seconds and the job allocated 610.70 GB of memory so far.
+2026-11-01 07:55:48.605 INFO   [BB5ABF\4E679C] Auto-router pass #10 on board 'b17234404132d5b8a79da5287cde86f3' was completed in 19.91 seconds with the score of 980.75 (22 unrouted), using 1125.62 CPU seconds and the job allocated 620.24 GB of memory so far.
+2026-11-01 07:56:05.347 INFO   [BB5ABF\4E679C] Auto-router pass #11 on board 'bf3fdbd26772be30a8ff89b1a103894c' was completed in 16.53 seconds with the score of 981.22 (20 unrouted), using 1142.39 CPU seconds and the job allocated 627.49 GB of memory so far.
+2026-11-01 07:56:20.651 INFO   [BB5ABF\4E679C] Restoring an earlier board that has the score of 981.22 (20 unrouted).
+2026-11-01 07:56:20.652 INFO   [BB5ABF\4E679C] Auto-router pass #12 on board '175033bb5c67345e5f82472282f3953a' was completed in 15.06 seconds with the score of 981.22 (20 unrouted), using 1157.22 CPU seconds and the job allocated 633.78 GB of memory so far.
+2026-11-01 07:56:35.447 INFO   [BB5ABF\4E679C] Auto-router pass #13 on board '175033bb5c67345e5f82472282f3953a' was completed in 14.65 seconds with the score of 981.46 (19 unrouted), using 1172.08 CPU seconds and the job allocated 640.21 GB of memory so far.
+2026-11-01 07:56:49.312 INFO   [BB5ABF\4E679C] Auto-router pass #14 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.64 seconds with the score of 981.46 (19 unrouted), using 1185.83 CPU seconds and the job allocated 646.25 GB of memory so far.
+2026-11-01 07:57:03.309 INFO   [BB5ABF\4E679C] Auto-router pass #15 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.85 seconds with the score of 981.46 (19 unrouted), using 1199.66 CPU seconds and the job allocated 652.17 GB of memory so far.
+2026-11-01 07:57:17.336 INFO   [BB5ABF\4E679C] Restoring an earlier board that has the score of 981.46 (19 unrouted).
+2026-11-01 07:57:17.336 INFO   [BB5ABF\4E679C] Auto-router pass #16 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.88 seconds with the score of 981.46 (19 unrouted), using 1213.50 CPU seconds and the job allocated 658.12 GB of memory so far.
+2026-11-01 07:57:32.016 INFO   [BB5ABF\4E679C] Auto-router pass #17 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 14.54 seconds with the score of 981.46 (19 unrouted), using 1228.34 CPU seconds and the job allocated 664.20 GB of memory so far.
+2026-11-01 07:57:46.076 INFO   [BB5ABF\4E679C] Auto-router pass #18 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.92 seconds with the score of 981.46 (19 unrouted), using 1242.08 CPU seconds and the job allocated 670.10 GB of memory so far.
+2026-11-01 07:58:00.339 INFO   [BB5ABF\4E679C] Auto-router pass #19 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 14.11 seconds with the score of 981.46 (19 unrouted), using 1255.94 CPU seconds and the job allocated 675.91 GB of memory so far.
+2026-11-01 07:58:14.651 INFO   [BB5ABF\4E679C] Restoring an earlier board that has the score of 981.46 (19 unrouted).
+2026-11-01 07:58:14.651 INFO   [BB5ABF\4E679C] Auto-router pass #20 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 14.17 seconds with the score of 981.46 (19 unrouted), using 1269.73 CPU seconds and the job allocated 681.70 GB of memory so far.
+2026-11-01 07:58:28.764 INFO   [BB5ABF\4E679C] Auto-router pass #21 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.96 seconds with the score of 981.46 (19 unrouted), using 1283.52 CPU seconds and the job allocated 687.64 GB of memory so far.
+2026-11-01 07:58:28.877 INFO   [BB5ABF\4E679C] The router's best score (981.22) has not improved by more than 0.5 points since pass #11. Stopping the auto-router after 21 passes (19 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net 'GND' (19 unrouted connections):
+    - U14-11@3  ->  via
+    - U9-11@3  ->  via
+    - U6-4  ->  via
+    - via  ->  U3-4
+    - U2-3  ->  via
+    - U32-5  ->  U32-6
+    - U2-2  ->  U2-3
+    - U22-11  ->  U22-10
+    - U18-11  ->  U18-10
+    - U32-13  ->  via
+    - D3-1  ->  via
+    - D6-1  ->  via
+    - U35-2  ->  via
+    - D14-3  ->  via
+    - via  ->  U18-5
+    - Q7-2  ->  via
+    - U11-2  ->  via
+    - via  ->  U16-2
+    - U34-2  ->  U35-2
+2026-11-01 07:58:28.952 INFO   [BB5ABF\4E679C] Auto-router session completed: started with 863 unrouted nets, completed in 21 minutes 46.78 seconds, final score: 981.46 (19 unrouted), using 1284.48 total CPU seconds, 688.10 GB total allocated, and 1795.62 MB peak heap usage.

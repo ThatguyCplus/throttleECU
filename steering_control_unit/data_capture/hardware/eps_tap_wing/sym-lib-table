@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "eps_tap_wing")(type "KiCad")(uri "${KIPRJMOD}/eps_tap_wing.kicad_sym")(options "")(descr "EPS tap wing symbols"))
+)

@@ -26,7 +26,6 @@ void main(void)
     DRV8873_runTest();
 #else
     Board_initHW();
-    Board_digitalRelay(1U);  /* TODO: remove — temp solenoid enable for bring-up */
     Throttle_init();
 
     EINT;

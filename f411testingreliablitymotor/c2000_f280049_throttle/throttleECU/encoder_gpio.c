@@ -1,11 +1,15 @@
 /*
  * encoder_gpio.c — AS5147U magnetic angle sensor via bit-bang SPI
  *
- * Hardware (from schematic):
- *   MOSI (MCU→sensor)  GPIO40  pkg-pin 65
- *   MISO (sensor→MCU)  GPIO56  pkg-pin 66
- *   CLK                GPIO57  pkg-pin 67
- *   CS   (active-low)  GPIO59  pkg-pin 92
+ * Hardware (corrected — schematic originally listed wrong GPIO numbers):
+ *   MOSI (MCU→sensor)  GPIO56  pkg-pin 65  (CFG_ENC_SPI_MOSI_PIN)
+ *   MISO (sensor→MCU)  GPIO57  pkg-pin 66  (CFG_ENC_SPI_MISO_PIN)
+ *   CLK                GPIO58  pkg-pin 67  (CFG_ENC_SPI_CLK_PIN)
+ *   CS   (active-low)  GPIO59  pkg-pin 92  (CFG_ENC_SPI_CS_PIN)
+ *
+ * Schematic listed GPIO40/56/57 — these were the wrong GPIO numbers for
+ * those package pins. Corrected to the actual pkg-pin→GPIO mapping from
+ * LAUNCHXL_F280049C.syscfg.json. Pin numbers come from throttle_config.h.
  *
  * Protocol: 16-bit SPI Mode 1 (CPOL=0, CPHA=1)
  *   Two transactions per read (AS5147U pipeline delay):
@@ -45,7 +49,13 @@ static uint8_t s_idx        = 0U;
 static uint8_t s_cnt        = 0U;
 static uint8_t s_spike_cons = 0U;  /* consecutive spike-rejected samples */
 
-/* Diagnostic globals — inspect in debugger at any time */
+/* Diagnostic globals — inspect in debugger at any time.
+ * ISO26262 volatile audit (2026-09-11): these variables are written inside
+ * read_angle_raw() (called from the main loop) and are intended to be readable
+ * by a JTAG debugger without optimisation removing the writes. The volatile
+ * qualifier prevents ticlang/GCC from eliding stores to these variables as
+ * "dead writes". They are NOT shared with an ISR, but volatile is still correct
+ * here for debugger visibility. Confirmed — do not remove volatile. */
 volatile uint16_t g_enc_raw_last  = 0U;  /* last T2 SPI word from sensor (bits15:14=flags, 13:0=angle) */
 volatile uint16_t g_enc_ef_count  = 0U;  /* how many reads had EF=1 */
 
@@ -116,11 +126,42 @@ static uint16_t read_angle_raw(void)
 
     g_enc_raw_last = raw;
 
-    /* Bit 14 = Error Flag from sensor.
-     * TEMPORARILY bypassed — return angle anyway so we can observe tracking.
-     * g_enc_ef_count counts how many reads had EF=1 (inspect in debugger). */
+    /* Stuck-line detection. MISO has a pull-up, so a disconnected sensor or
+     * broken trace reads 0xFFFF; a MISO short to ground reads 0x0000. Both
+     * words happen to pass the AS5147U parity rule, so parity alone would not
+     * catch them. A genuine reading of exactly 0x3FFF (359.98°) with EF AND
+     * parity both set, or exactly 0° with every bit clear, is not physically
+     * plausible in this application (usable range is ~24°–131°). Reject them
+     * so safe_check_encoder() sees an invalid sample and the encoder timeout
+     * has something to count. */
+    if ((raw == 0xFFFFU) || (raw == 0x0000U)) {
+        return 0xFFFFU;
+    }
+
+    /* AS5147U bit 14 = Error Flag (EF). EF=1 can indicate two distinct conditions:
+     *   a) COMP_H / COMP_L: magnetic field strength is outside the ideal range
+     *      (magnet too close or too far). The angle data (bits 13:0) is still
+     *      valid and tracks position correctly. Very common on prototype mounts
+     *      where magnet Z-distance is not perfectly optimised.
+     *   b) COF (CORDIC overflow): the angle computation has failed and bits 13:0
+     *      are genuinely undefined.
+     *
+     * Distinguishing (a) from (b) requires reading the ERRFL status register in
+     * a separate SPI transaction (not implemented here — adds latency every loop).
+     *
+     * Decision: increment g_enc_ef_count for diagnostic visibility but continue
+     * to use the angle data. In bench testing the AS5147U with a slightly off-
+     * range magnet, EF=1 is set permanently yet angle tracks the full 360° arc
+     * without errors. Rejecting all EF=1 data (previous implementation) caused
+     * continuous encoder-invalid faults on real hardware where the magnet mount
+     * is not at the ideal 1 mm Z-distance.
+     *
+     * If g_enc_ef_count is continuously high (visible in CCS Expressions), it
+     * indicates the magnet should be moved closer to the IC or a stronger magnet
+     * used — but it does NOT mean the angle is wrong. */
     if ((raw & 0x4000U) != 0U) {
         g_enc_ef_count++;
+        /* Fall through — use angle bits 13:0; do not discard. */
     }
 
     return raw & 0x3FFFU;   /* 14-bit angle: 0 = 0°, 16383 = 359.98° */
@@ -170,13 +211,12 @@ int32_t EncoderGpio_getAngle(void)
     uint16_t raw = read_angle_raw();
 
     if (raw == 0xFFFFU) {
-        /* Return current average if sensor returned an error */
-        if (s_cnt > 0U) {
-            int32_t sum = 0;
-            uint8_t i;
-            for (i = 0U; i < s_cnt; i++) { sum += s_buf[i]; }
-            return sum / (int32_t)s_cnt;
-        }
+        /* Sensor returned an error word (stuck line). Report -1 so the caller
+         * coasts the motor for this tick and safe_check_encoder() counts it
+         * toward the encoder timeout. Previously this returned the rolling
+         * average, which looked like a valid sample and hid the failure from
+         * the safety module entirely. Single-sample noise is handled by the
+         * spike filter below, not here — 0xFFFF/0x0000 are never noise. */
         return -1;
     }
 

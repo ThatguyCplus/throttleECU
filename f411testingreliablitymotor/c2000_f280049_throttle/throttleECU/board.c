@@ -5,6 +5,10 @@
 
 #define PIN_RELAY 7U   /* SOL_GATE → TPS1H100B IN */
 
+/* ISO26262 volatile audit (2026-09-11): g_millis is written in cpuTimer0ISR
+ * and read in Board_millis() from the main loop. The volatile qualifier is
+ * mandatory to prevent the compiler from caching the value in a register across
+ * the DINT/EINT window. Confirmed correct — do not remove volatile. */
 static volatile uint32_t g_millis = 0U;
 
 #pragma CODE_SECTION(cpuTimer0ISR, ".TI.ramfunc");
@@ -17,7 +21,14 @@ __interrupt void cpuTimer0ISR(void)
 
 uint32_t Board_millis(void)
 {
-    return g_millis;
+    /* ISO26262: g_millis is modified in a timer ISR. On C28x a 32-bit read is
+     * not atomic (two 16-bit bus cycles). Disable interrupts around the read
+     * to prevent a torn value if the ISR fires between the two halves. */
+    uint32_t val;
+    DINT;
+    val = g_millis;
+    EINT;
+    return val;
 }
 
 uint32_t Board_cycleCounter(void)
