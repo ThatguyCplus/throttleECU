@@ -34,8 +34,8 @@ NETCLASSES = [
     ("PWR5", 0.4, ["+5V", "VUSB", "BUCK_SW", "SAS_SW", "SAS_12V", "ARM_SRC", "ARM"]),
     ("PWR3", 0.3, ["+3V3"]),
 ]
-TRACK_SIG = 0.2
-CLEARANCE = 0.15
+TRACK_SIG = 0.15
+CLEARANCE = 0.127
 
 
 def mm(v):
@@ -121,10 +121,10 @@ def text(board, s, x, y, size=1.0, layer=pcbnew.F_SilkS, angle=0, thick=0.15, ju
 def rules(board):
     ds = board.GetDesignSettings()
     ds.SetCopperLayerCount(LAYERS)
-    ds.m_TrackMinWidth = mm(0.15)
+    ds.m_TrackMinWidth = mm(0.127)
     ds.m_MinClearance = mm(CLEARANCE)
-    ds.m_ViasMinSize = mm(0.5)
-    ds.m_MinThroughDrill = mm(0.25)
+    ds.m_ViasMinSize = mm(0.45)
+    ds.m_MinThroughDrill = mm(0.2)
     ds.m_CopperEdgeClearance = mm(0.25)    # Feather header pads sit 0.27 mm from the edge
     ds.m_HoleClearance = mm(0.25)
     ds.m_TextSize[pcbnew.LAYER_CLASS_SILK] = ds.m_TextSize[pcbnew.LAYER_CLASS_SILK]
@@ -137,14 +137,14 @@ def setup_netclasses(board, nets):
     dflt = ns.m_DefaultNetClass
     dflt.SetTrackWidth(mm(TRACK_SIG))
     dflt.SetClearance(mm(CLEARANCE))
-    dflt.SetViaDiameter(mm(0.5))
-    dflt.SetViaDrill(mm(0.25))
+    dflt.SetViaDiameter(mm(0.45))
+    dflt.SetViaDrill(mm(0.2))
     for name, width, members in NETCLASSES:
         nc = pcbnew.NETCLASS(name)
         nc.SetTrackWidth(mm(width))
         nc.SetClearance(mm(CLEARANCE))
-        nc.SetViaDiameter(mm(0.6 if width >= 0.4 else 0.5))
-        nc.SetViaDrill(mm(0.3 if width >= 0.4 else 0.25))
+        nc.SetViaDiameter(mm(0.6 if width >= 0.4 else 0.45))
+        nc.SetViaDrill(mm(0.3 if width >= 0.4 else 0.2))
         ns.m_NetClasses[name] = nc
         for m in members:
             nets[m].SetNetClass(nc)
