@@ -452,7 +452,7 @@ def manual_routes(board):
         kind, net = item[0], find_net(board, item[1])
         if kind == "delete":
             _, name, x1, y1, x2, y2 = item
-            hit = [t for t in tracks if t.GetNetname().lstrip("/") == name and not isinstance(t, pcbnew.PCB_VIA)
+            hit = [t for t in tracks if t.GetNetname().lstrip("/") == name.lstrip("/") and not isinstance(t, pcbnew.PCB_VIA)
                    and ((near(t.GetStart(), x1, y1) and near(t.GetEnd(), x2, y2))
                         or (near(t.GetStart(), x2, y2) and near(t.GetEnd(), x1, y1)))]
             assert len(hit) == 1, ("manual delete matched", len(hit), item)

@@ -29,10 +29,11 @@ VIA_COST, IN1_PENALTY = 25.0, 3.0
 # (net, from item, to item). Items: ("pad", ref, num) or ("track", layer, x, y) =
 # the same-net track nearest (x, y) on that layer, or ("via", x, y).
 JOBS = [
-    ("+12V", ("pad", "R2", "1"), ("track", pcbnew.F_Cu, 9.3, 10.6)),
-    ("/BUCK_SW", ("pad", "C5", "2"), ("via", 18.5, 9.6)),
-    ("/DAC_D", ("pad", "U2", "9"), ("pad", "R52", "1")),
-    ("/OPA_OUT", ("pad", "U3", "1"), ("track", pcbnew.B_Cu, 34.0, 13.1)),
+    # (net, from, to, track width mm). These three carry microamps (gate/enable
+    # pull-ups), so a 0.25 mm stub is plenty even on the +12V / ARM nets.
+    ("+12V", ("pad", "R6", "1"), ("track", pcbnew.F_Cu, 7.1, 15.1), 0.25),
+    ("+12V", ("pad", "R2", "1"), ("net",), 0.15),
+    ("/ARM", ("pad", "Q5", "1"), ("net",), 0.25),
 ]
 
 
@@ -144,6 +145,40 @@ def item_cells(board, g, net, item):
                 ii, jj = np.nonzero(inside)
                 cells |= {(l, i + sl[0].start, j + sl[1].start) for i, j in zip(ii, jj)}
         return cells, mm2(p.GetPosition())
+    if item[0] == "net":
+        # any copper of the net outside the source pad's own island
+        exclude = item[1] if len(item) > 1 else None
+        island = set()
+        if exclude:
+            board.BuildConnectivity()
+            conn = board.GetConnectivity()
+            start = next(p for p in board.FindFootprintByReference(exclude[0]).Pads() if p.GetNumber() == exclude[1])
+            todo = [start]
+            while todo:
+                it = todo.pop()
+                key = it.m_Uuid.AsString()
+                if key in island:
+                    continue
+                island.add(key)
+                todo += list(conn.GetConnectedTracks(it)) + list(conn.GetConnectedPads(it))
+        for t in board.GetTracks():
+            if t.GetNetname() != net or t.m_Uuid.AsString() in island:
+                continue
+            if isinstance(t, pcbnew.PCB_VIA):
+                i, j = g.idx(*mm2(t.GetPosition()))
+                cells |= {(l, i, j) for l in LAYERS}
+                continue
+            a, b = mm2(t.GetStart()), mm2(t.GetEnd())
+            n = max(2, int(math.hypot(b[0] - a[0], b[1] - a[1]) / RES))
+            for k in range(n + 1):
+                i, j = g.idx(a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n)
+                cells.add((t.GetLayer(), i, j))
+        for fp in board.GetFootprints():
+            for p in fp.Pads():
+                if p.GetNetname() == net and p.m_Uuid.AsString() not in island:
+                    i, j = g.idx(*mm2(p.GetPosition()))
+                    cells |= {(l, i, j) for l in LAYERS if p.IsOnLayer(l)}
+        return cells, None
     if item[0] == "via":
         i, j = g.idx(item[1], item[2])
         return {(l, i, j) for l in LAYERS}, (item[1], item[2])
@@ -170,8 +205,11 @@ def F_dist(p, a, b):
 
 def astar(g, blocked, viablock, src, dst, goal_xy):
     li = {l: k for k, l in enumerate(LAYERS)}
-    gi, gj = g.idx(*goal_xy)
-    h = lambda i, j: math.hypot(i - gi, j - gj)
+    if goal_xy is None:
+        h = lambda i, j: 0.0
+    else:
+        gi, gj = g.idx(*goal_xy)
+        h = lambda i, j: math.hypot(i - gi, j - gj)
     openq, came, cost = [], {}, {}
     for (l, i, j) in src:
         s = (li[l], i, j)
@@ -208,6 +246,29 @@ def astar(g, blocked, viablock, src, dst, goal_xy):
                 came[n] = s
                 heapq.heappush(openq, (nc + h(n[1], n[2]), nc, n))
     return None
+
+
+def smooth(g, blocked, path):
+    """Line-of-sight simplification within each layer run of the grid path."""
+    out, k = [path[0]], 0
+    while k < len(path) - 1:
+        if path[k + 1][0] != path[k][0]:          # via
+            out.append(path[k + 1])
+            k += 1
+            continue
+        far = k + 1
+        for m in range(len(path) - 1, k + 1, -1):
+            if path[m][0] != path[k][0] or any(p[0] != path[k][0] for p in path[k:m + 1]):
+                continue
+            (l, i0, j0), (_, i1, j1) = path[k], path[m]
+            n = max(abs(i1 - i0), abs(j1 - j0)) * 2
+            if all(not blocked[LAYERS[l]][round(i0 + (i1 - i0) * t / n), round(j0 + (j1 - j0) * t / n)]
+                   or (t <= 2 or t >= n - 2) for t in range(n + 1)):
+                far = m
+                break
+        out.append(path[far])
+        k = far
+    return out
 
 
 def to_routes(g, net, path, width):
@@ -263,8 +324,8 @@ def gnd_islands(board, g):
             x0, y0 = mm2(bb.GetOrigin())
             x1, y1 = x0 + pcbnew.ToMM(bb.GetWidth()), y0 + pcbnew.ToMM(bb.GetHeight())
             best = None
-            for x in np.arange(x0, x1, RES):
-                for y in np.arange(y0, y1, RES):
+            for x in (float(v) for v in np.arange(x0, x1, RES)):
+                for y in (float(v) for v in np.arange(y0, y1, RES)):
                     i, j = g.idx(x, y)
                     if viablock[i, j]:
                         continue
@@ -288,24 +349,28 @@ def main():
     board = pcbnew.LoadBoard(M.PCB)
     g = Grid(board)
     routes = []
-    for net, a, b in JOBS:
-        width = net_width(net)
-        via_r = (0.6 if width >= 0.4 else 0.45) / 2
+    for net, a, b, width in JOBS:
+        via_r = 0.45 / 2
         blocked, viablock = obstacles(board, g, net, width / 2, via_r)
         src, _ = item_cells(board, g, net, a)
+        if b[0] == "net":
+            b = ("net", (a[1], a[2]))
         dst, goal_xy = item_cells(board, g, net, b)
         path = astar(g, blocked, viablock, src, dst, goal_xy)
         if path is None:
             print(f"# {net}: no route found")
             continue
-        r = to_routes(g, net, path, width)
+        r = to_routes(g, net, smooth(g, blocked, path), width)
         print(f"    # {net}: {a[1:]} -> {b[1:]}")
         for e in r:
-            print("    " + repr(tuple(round(v, 3) if isinstance(v, float) else v for v in e)) + ",")
+            print("    " + repr(tuple(round(float(v), 3) if isinstance(v, (float, np.floating)) else v for v in e)) + ",")
         routes += r
-    for e in gnd_islands(board, g):
-        print("    # GND pour island -> In1 plane")
-        print("    " + repr(e) + ",")
+    # GND pour islands are only stitched when DRC reports one (set STITCH_GND=1).
+    import os
+    if os.environ.get("STITCH_GND") == "1":
+        for e in gnd_islands(board, g):
+            print("    # GND pour island -> In1 plane")
+            print("    " + repr(e) + ",")
 
 
 if __name__ == "__main__":

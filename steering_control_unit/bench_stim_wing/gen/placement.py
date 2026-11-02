@@ -113,7 +113,24 @@ for i in range(len(design.TEST_PADS)):
 
 
 # Stubs + vias for the connections Freerouting left open (see make_pcb.manual_routes).
-MANUAL_ROUTES = []
+MANUAL_ROUTES = [
+    # Freerouting threaded NEP_DRV and NEP_STIM through R27's pad gap on top of each
+    # other: drop that NEP_DRV detour and run R27.1 straight down to the NEP_DRV track.
+    ("delete", "/NEP_DRV", 20.0, 13.89, 19.888, 13.89),
+    ("delete", "/NEP_DRV", 19.888, 13.89, 19.477, 14.3),
+    ("delete", "/NEP_DRV", 19.477, 14.3, 19.477, 14.571),
+    ("delete", "/NEP_DRV", 19.477, 14.571, 19.508, 14.602),
+    ("delete", "/NEP_DRV", 19.508, 14.602, 19.508, 14.602),
+    ("delete", "/NEP_DRV", 19.508, 14.602, 19.674, 14.436),
+    ("delete", "/NEP_DRV", 19.674, 14.436, 20.326, 14.436),
+    ("delete", "/NEP_DRV", 20.326, 14.436, 20.524, 14.634),
+    ("track", "/NEP_DRV", "B_Cu", 20.0, 13.89, 20.524, 13.89, 0.15),
+    ("track", "/NEP_DRV", "B_Cu", 20.524, 13.89, 20.524, 14.634, 0.15),
+    # R6 (Q1 gate pull-up) to +12V: via + top-side stub (maze_route.py)
+    ("via", "+12V", 7.95, 13.7),
+    ("track", "+12V", "F_Cu", 7.95, 13.7, 7.8, 14.15, 0.25),
+    ("track", "+12V", "F_Cu", 7.8, 14.15, 7.1, 15.1, 0.25),
+]
 
 
 def silkscreen(board, text, pcbnew):
