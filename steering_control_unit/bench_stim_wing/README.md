@@ -9,9 +9,20 @@ A FeatherWing for the EPS logger stack that does four jobs:
 
 It sits **between the Adalogger and the OLED FeatherWing**, on stacking headers, and every cable connector is right-angle and exits a board edge. The brief is [HANDOFF.md](HANDOFF.md).
 
-> **Status: routed, nothing ordered.** The board is fully routed: **DRC 0 errors, 0 unconnected** (KiCad 7). The Gerbers, BOM and CPL are in [fab/](fab/). Read [Before ordering](#before-ordering) first: several part numbers, the relay pinout and the JLC rotations still need a human check.
+> **Status: routed and checked in KiCad 10.0.8, nothing ordered.** The board is fully routed, and the Gerbers, BOM and CPL are in [fab/](fab/). Read [Before ordering](#before-ordering) first: several part numbers, the relay pinout and the JLC rotations still need a human check.
+>
+> | KiCad 10.0.8 check | Result |
+> |---|---|
+> | ERC | **0 errors**. 20 warnings: symbols drawn from KiCad 7's library differ from KiCad 10's copies, and KiCad 10 renamed `G6K-2` |
+> | DRC | **0 errors, 0 unconnected, 0 schematic-parity issues**. Warnings: footprints differ from KiCad 10's library copies, and some silk is small or under copper |
 
-| Top | Back (seen from below) |
+| Top (3D) | Back (3D) |
+|---|---|
+| ![top render](doc/render_top.png) | ![back render](doc/render_bottom.png) |
+
+The 3D renders show bare pads because the KiCad image used has no 3D models.
+
+| Top layers | Back layers (seen from below) |
 |---|---|
 | ![top](doc/top.png) | ![back](doc/back.png) |
 
@@ -171,7 +182,7 @@ GND, 12V, 5V, 3V3, USB, NEP, VSP, VT3, VT6, AUXC, AUXD, ARM, P6, P7, GND.
 
 ## Rebuilding
 
-The board was generated in a Linux cloud session. It used **KiCad 7.0.11**, the version Ubuntu ships, because KiCad 10's PPA wasn't reachable there. Routing used **Freerouting 1.9.0** on Java 21, under `xvfb-run`. The files are written in KiCad 7's format. KiCad 10 opens them and asks to upgrade on save. Upgrading is fine, but then the generators would overwrite your edits, so pick one way of working.
+The board was generated in a Linux cloud session. The generators ran on **KiCad 7.0.11**, the version Ubuntu ships. Sign-off ran on **KiCad 10.0.8**, which [gen/setup_kicad10.sh](gen/setup_kicad10.sh) installs from the official `kicad/kicad` Docker image. That image comes through Google's Docker Hub mirror, because KiCad's Launchpad PPA is blocked there and Docker Hub rate-limits anonymous pulls. The script runs KiCad 10 through `chroot`, which needs root. Routing used **Freerouting 1.9.0** on Java 21, under `xvfb-run`. The files are written in KiCad 7's format. KiCad 10 opens them and asks to upgrade on save. Upgrading is fine, but then the generators would overwrite your edits, so pick one way of working.
 
 ```bash
 cd gen
@@ -192,11 +203,11 @@ sh route.sh                  # full re-route with Freerouting (a different resul
 - **One signal on In1.** Freerouting ran one track (IG1_G, DC) on In1. That leaves a small slot in the GND plane there, which is harmless for these low-speed signals.
 - **What DRC still reports.** The remaining entries are cosmetic: silk labels smaller than 0.8 mm or partly under copper, and J2's outline reaching the board edge, which is deliberate since it's an edge connector. The rest are library-table warnings from the build machine.
 
-`check_netlist.py` takes the place of ERC here, since KiCad 7's CLI can't run ERC. It checks every pin in the exported netlist against `design.py`. **Run ERC once in KiCad 10 anyway.**
+`check_netlist.py` checks every pin in the exported netlist against `design.py`. When `kicad10-cli` is installed, `route.sh` also runs KiCad 10's ERC, its DRC with schematic parity, and the 3D renders.
 
 ## Before ordering
 
-1. **Run ERC and DRC in KiCad 10.** DRC here was KiCad 7's: 0 errors and 0 unconnected, not counting the cosmetic silk items.
+1. **ERC and DRC already pass in KiCad 10.0.8** (see Status). Open the board in your own KiCad 10 once anyway. If you save it there, KiCad upgrades the file and the generators would overwrite your edits.
 2. **Check the relay pinout** against Omron's G6K datasheet: coil 1/8, COM 3/6, NC 2/7, NO 4/5. That pinout came from KiCad's G6K-2 symbol. If NC and NO are swapped, the board fails the wrong way.
 3. **Fill in the missing LCSC numbers.** Parts with an empty "JLCPCB Part #" in the BOM need an in-stock match picked at upload: LMR16006, MCP4728, MCP6004, TCA9534, Si2319, BAT54S, PMEG6010, SMBJ24CA, G6K, fuses/PTCs, 22 µH, and the 1206 50 V capacitors. The LCSC numbers that are filled in were entered from memory, so confirm that each one resolves to the stated MPN.
 4. **Check every CPL rotation** in JLC's preview, on both sides. Watch especially the diodes, LEDs, SOT-23s and the relay, since a polarity error there matters.

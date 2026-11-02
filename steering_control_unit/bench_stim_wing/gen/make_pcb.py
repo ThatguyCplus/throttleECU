@@ -39,6 +39,19 @@ TRACK_SIG = 0.15
 CLEARANCE = 0.127
 
 
+def find_net(board, name):
+    """Board net by design.py name: label nets carry KiCad's "/" prefix on the board."""
+    for n in (name, "/" + name.lstrip("/")):
+        ni = board.FindNet(n)
+        if ni is not None and ni.GetNetCode() > 0:
+            return ni
+    raise KeyError(name)
+
+
+def full_name(nets, name):
+    return name if name in nets else "/" + name
+
+
 def mm(v):
     return pcbnew.FromMM(v)
 
@@ -61,7 +74,7 @@ def read_netlist():
                                           uuid=str(get(c, "tstamps")[1]), fields=fields)
     pads = {}
     for n in get(tree, "nets")[1:]:
-        name = str(get(n, "name")[1]).lstrip("/")
+        name = str(get(n, "name")[1])          # keep KiCad's "/" on label nets (schematic parity)
         for node in n:
             if isinstance(node, list) and node[0] == "node":
                 pads[(str(get(node, "ref")[1]), str(get(node, "pin")[1]))] = name
@@ -145,7 +158,8 @@ def write_project():
                 "wire_width": 6, "bus_width": 12}
     classes = [cls("Default", TRACK_SIG, 0.45, 0.2)] + [
         cls(n, w, 0.6 if w >= 0.4 else 0.45, 0.3 if w >= 0.4 else 0.2) for n, w, _ in NETCLASSES]
-    patterns = [{"netclass": n, "pattern": m} for n, _w, members in NETCLASSES for m in members]
+    patterns = [{"netclass": n, "pattern": m if m.startswith("+") or m == "GND" else "/" + m}
+                for n, _w, members in NETCLASSES for m in members]
     pro = {"meta": {"filename": design.PROJECT + ".kicad_pro", "version": 1},
            "net_settings": {"classes": classes, "meta": {"version": 3}, "net_colors": None,
                             "netclass_assignments": None, "netclass_patterns": patterns}}
@@ -169,7 +183,7 @@ def setup_netclasses(board, nets):
         nc.SetViaDrill(mm(0.3 if width >= 0.4 else 0.2))
         ns.m_NetClasses[name] = nc
         for m in members:
-            nets[m].SetNetClass(nc)
+            nets[full_name(nets, m)].SetNetClass(nc)
 
 
 def flip(fp):
@@ -314,7 +328,8 @@ def dsn_classes():
     head, sep, rest = txt.partition("(class kicad_default")
     dflt_end = rest.index("(circuit")
     members = rest[:dflt_end].split()
-    for name, _w, nets in NETCLASSES:
+    for name, _w, short in NETCLASSES:
+        nets = [n if n.startswith("+") or n == "GND" else "/" + n for n in short]
         members = [m for m in members if m not in nets]
         rest = rest.replace(f"(class {name}\n", f"(class {name} " + " ".join(nets) + "\n", 1)
     rest = " " + " ".join(members) + "\n      " + rest[dflt_end:]
@@ -352,7 +367,7 @@ def import_ses(board):
     # finish() starts from the placed board, which has no tracks yet
     n_seg = n_via = 0
     for net in find(find(routes, "network_out")[0], "net"):
-        ni = board.FindNet(str(net[1]))
+        ni = find_net(board, str(net[1]))
         for w in find(net, "wire"):
             path = find(w, "path")[0]
             layer, width = layers[str(path[1])], float(path[2]) * scale
@@ -389,10 +404,10 @@ def manual_routes(board):
     tracks = list(board.GetTracks())        # one snapshot (KiCad 7 SWIG: don't re-list after edits)
     near = lambda p, x, y: abs(pcbnew.ToMM(p.x) - OX - x) < 0.02 and abs(pcbnew.ToMM(p.y) - OY - y) < 0.02
     for item in getattr(placement, "MANUAL_ROUTES", []):
-        kind, net = item[0], board.FindNet(item[1])
+        kind, net = item[0], find_net(board, item[1])
         if kind == "delete":
             _, name, x1, y1, x2, y2 = item
-            hit = [t for t in tracks if t.GetNetname() == name and not isinstance(t, pcbnew.PCB_VIA)
+            hit = [t for t in tracks if t.GetNetname().lstrip("/") == name and not isinstance(t, pcbnew.PCB_VIA)
                    and ((near(t.GetStart(), x1, y1) and near(t.GetEnd(), x2, y2))
                         or (near(t.GetStart(), x2, y2) and near(t.GetEnd(), x1, y1)))]
             assert len(hit) == 1, ("manual delete matched", len(hit), item)
@@ -434,7 +449,7 @@ def finish():
     # silk comes from the placed board (place re-applies placement.silkscreen)
     import_ses(board)
     manual_routes(board)
-    gnd = board.FindNet("GND")
+    gnd = find_net(board, "GND")
     for z in list(board.Zones()):
         if not z.GetIsRuleArea() and z.GetLayer() != pcbnew.In1_Cu:
             board.Remove(z)
