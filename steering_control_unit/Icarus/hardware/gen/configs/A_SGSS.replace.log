@@ -1,0 +1,33 @@
+entry     2 clusters,  11 parts
+pass      1 clusters,   6 parts
+inputs    4 clusters,  60 parts
+supply    3 clusters,  51 parts
+overlay   4 clusters,  62 parts
+guard     6 clusters, 115 parts
+coil      2 clusters,  30 parts
+backup    5 clusters,  35 parts
+ch_a      3 clusters,  42 parts
+ch_b      3 clusters,  45 parts
+measure   2 clusters,  24 parts
+top    columns need 16.8 / 29.3 / 17.5 mm, spare 19.5 mm
+bottom columns need 19.4 / 31.0 / 7.8 mm, spare 25.0 mm
+305 top-side courtyards for the bottom-side via patches to avoid
+floaters: 59 units (83 parts) next to their signals; distance to the driving pin median 8.8 mm, max 26.5 mm
+pre-route GND fan-out: 361 of 370 pads, no room: U36.2
+silk: 184 front, 223 back texts; 613 didn't fit
+inner-layer keep-outs over through-hole via pads: 21
+router: F.Cu vertical, In2.Cu horizontal, B.Cu vertical
+entry    region bottom   32.2  used to   30.6
+pass     region bottom   61.8  used to   58.7
+inputs   region bottom   97.5  used to   95.9
+supply   region bottom   60.8  used to   55.4
+overlay  region bottom   97.5  used to   91.9
+guard    region bottom   92.4  used to   90.1
+coil     region bottom   46.3  used to   38.1
+backup   region bottom   97.5  used to   91.8
+ch_a     region bottom   56.5  used to   52.6
+ch_b     region bottom   97.5  used to   93.6
+measure  region bottom   92.4  used to   36.6
+placed 567 footprints; wrote C:\Users\Muhammed Shah\Documents\Arduino\throttleECU\steering_control_unit\Icarus\hardware\icarus.kicad_pcb and C:\Users\Muhammed Shah\Documents\Arduino\throttleECU\steering_control_unit\Icarus\hardware\gen\route\icarus.dsn
+density: top 27 %, bottom 23 % (courtyards over 100 x 100 mm)
+RUDY routing demand / capacity: 95th pct 0.44, peak 0.79, cells over 0.5: 3.0 %

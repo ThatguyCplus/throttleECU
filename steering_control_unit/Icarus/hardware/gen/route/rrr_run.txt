@@ -1,0 +1,34 @@
+  CSK2_A: try 11 rolled back; 19 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 12 rolled back; 23 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 13 rolled back; 24 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 14 rolled back; 31 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 15 rolled back; 34 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 16 rolled back; 36 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 17 rolled back; 38 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 18 rolled back; 40 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 19 rolled back; 41 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 20 rolled back; 42 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 21 rolled back; 45 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 22 rolled back; 49 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 23 rolled back; 50 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 24 rolled back; 54 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+  CSK2_A: try 25 rolled back; 57 segments now off limits
+  CSK2_A: rolled back
+keep-outs already present
+Found 1 unconnected items
+Saved DRC Report to gen/route/drc.rpt
+      1 [unconnected_items]

@@ -1,0 +1,168 @@
+1 open connections; 2794 rippable trace segments
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 13 segments, 4 vias, ripping 5 segments of 4 nets
+              /ch_a/SCI_TX_A near (157.29, 71.72): no path (rip depth 0)
+  CSK2_A: try 1 rolled back; 1 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 12 segments, 4 vias, ripping 6 segments of 4 nets
+              /ch_a/TDI_A near (156.41, 75.79): no path (rip depth 0)
+  CSK2_A: try 2 rolled back; 3 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 17 segments, 2 vias, ripping 6 segments of 4 nets
+              /ch_a/TDI_A near (156.41, 75.79): no path (rip depth 0)
+  CSK2_A: try 3 rolled back; 4 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 25 segments, 4 vias, ripping 7 segments of 4 nets
+              /ch_a/CAN_STB_A near (158.06, 86.71): no path (rip depth 0)
+  CSK2_A: try 4 rolled back; 7 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 30 segments, 5 vias, ripping 12 segments of 6 nets
+              /ch_a/TMS_A near (157.18, 70.05): no path (rip depth 0)
+  CSK2_A: try 5 rolled back; 10 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 42 segments, 4 vias, ripping 6 segments of 5 nets
+              /ch_a/ENHW_MON_A near (160.66, 69.07): no path (rip depth 0)
+  CSK2_A: try 6 rolled back; 12 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 38 segments, 6 vias, ripping 16 segments of 9 nets
+              IG1_A near (157.33, 71.18): no path (rip depth 0)
+  CSK2_A: try 7 rolled back; 14 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 37 segments, 6 vias, ripping 12 segments of 8 nets
+              /ch_a/CAN_RX_A near (158.79, 72.68): no path (rip depth 0)
+  CSK2_A: try 8 rolled back; 15 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 42 segments, 4 vias, ripping 4 segments of 4 nets
+              VMID_A near (161.46, 71.09): no path (rip depth 0)
+  CSK2_A: try 9 rolled back; 16 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 21 segments, 4 vias, ripping 6 segments of 4 nets
+              +3V3_A near (160.96, 74.05): no path (rip depth 0)
+  CSK2_A: try 10 rolled back; 18 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 32 segments, 5 vias, ripping 7 segments of 4 nets
+              /ch_a/SCI_RX_A near (162.70, 86.56): no path (rip depth 0)
+  CSK2_A: try 11 rolled back; 19 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 47 segments, 6 vias, ripping 12 segments of 8 nets
+              /ch_a/LEDCAN_A near (160.16, 68.79): no path (rip depth 0)
+  CSK2_A: try 12 rolled back; 21 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 33 segments, 5 vias, ripping 11 segments of 6 nets
+              RAW6M_A near (151.93, 68.91): no path (rip depth 0)
+  CSK2_A: try 13 rolled back; 22 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 46 segments, 4 vias, ripping 9 segments of 5 nets
+              /ch_a/LEDFLT_A near (164.03, 70.68): no path (rip depth 0)
+  CSK2_A: try 14 rolled back; 25 segments now off limits
+  CSK2_A: 29 segments, 2 vias, ripping 4 segments of 2 nets
+    DACA_OUT: 28 segments, 2 vias, ripping 8 segments of 4 nets
+      K1BCOM_M: 16 segments, 2 vias, ripping 2 segments of 2 nets
+        DACA_OUT: 16 segments, 0 vias, ripping 1 segments of 1 nets
+          /ch_a/TCK_A: 12 segments, 0 vias, ripping 1 segments of 1 nets
+      /ch_a/SCI_TX_A: 5 segments, 0 vias, ripping 3 segments of 1 nets
+        V5SM_A: 3 segments, 1 vias, ripping 1 segments of 1 nets
+          IG1_A: 26 segments, 0 vias, ripping 1 segments of 1 nets
+            /ch_a/TDO_A: 36 segments, 5 vias, ripping 14 segments of 5 nets
+              K1ACOM_M near (152.63, 70.32): no path (rip depth 0)
+  CSK2_A: try 15 rolled back; 33 segments now off limits
+  CSK2_A: rolled back
+rrr: 0 of 1 closed; board unchanged

@@ -1,0 +1,170 @@
+2026-11-01 18:00:17.077 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 18:00:17.109 WARN   No default constructor found for field: filterByNet
+2026-11-01 18:00:18.555 WARN   Failed to check for new version
+2026-11-01 18:00:18.776 INFO   Opening 'A_SGSS.dsn'...
+2026-11-01 18:00:18.880 INFO   Settings merged successfully from 6 source(s)
+2026-11-01 18:00:20.435 INFO   Settings merged successfully from 6 source(s)
+2026-11-01 18:00:31.775 INFO   [87F384\1BA36F] Starting routing of 'A_SGSS' on 12 threads...
+2026-11-01 18:13:43.031 INFO   [87F384\1BA36F] Auto-router pass #1 on board 'de826c1f99aff9d6dbdc87a9a9f87413' was completed in 13 minutes 10.86 seconds with the score of 884.45 (350 unrouted).
+2026-11-01 18:22:05.497 INFO   [87F384\1BA36F] Auto-router pass #2 on board 'a9eb542265a480679b5e862ee39616e0' was completed in 8 minutes 21.82 seconds with the score of 920.88 (254 unrouted).
+2026-11-01 18:29:17.269 INFO   [87F384\1BA36F] Auto-router pass #3 on board '36e7f5ec394517c82aa06f67d232a73c' was completed in 7 minutes 11.00 seconds with the score of 942.00 (188 unrouted).
+2026-11-01 18:35:05.257 INFO   [87F384\1BA36F] Auto-router pass #4 on board '771ac7288c49f6f9731d8bd815d303e8' was completed in 5 minutes 47.18 seconds with the score of 949.12 (163 unrouted).
+2026-11-01 18:39:10.028 INFO   [87F384\1BA36F] Auto-router pass #5 on board '7bdffc2100ca53aeeba45d1e2691371b' was completed in 4 minutes 4.01 seconds with the score of 953.28 (148 unrouted).
+2026-11-01 18:42:55.976 INFO   [87F384\1BA36F] Auto-router pass #6 on board '5aacc7f4a5ff0548e25166dbc8eb4f62' was completed in 3 minutes 45.14 seconds with the score of 953.26 (148 unrouted).
+2026-11-01 18:46:40.610 INFO   [87F384\1BA36F] Auto-router pass #7 on board 'd700116cc704917ad6eb1bca8a2aaac3' was completed in 3 minutes 43.82 seconds with the score of 954.99 (141 unrouted).
+2026-11-01 18:49:59.330 INFO   [87F384\1BA36F] Auto-router pass #8 on board '6bca9d86717ee9c70e8940fad853b166' was completed in 3 minutes 17.92 seconds with the score of 956.14 (137 unrouted).
+2026-11-01 18:53:10.811 INFO   [87F384\1BA36F] Auto-router pass #9 on board '873fbfafd73bdf628c1d40f344b1936e' was completed in 3 minutes 10.66 seconds with the score of 958.71 (127 unrouted).
+2026-11-01 18:56:20.092 INFO   [87F384\1BA36F] Auto-router pass #10 on board '767ada2e4c8aedd70398888ce806a2e9' was completed in 3 minutes 8.17 seconds with the score of 958.98 (126 unrouted).
+2026-11-01 18:59:11.752 INFO   [87F384\1BA36F] Auto-router pass #11 on board '86207e038da5fffa81b8f87dbc3c936f' was completed in 2 minutes 50.75 seconds with the score of 959.22 (125 unrouted).
+2026-11-01 19:01:55.484 INFO   [87F384\1BA36F] Auto-router pass #12 on board 'ec21aa41f5c0cca154dad243fc771ad3' was completed in 2 minutes 42.81 seconds with the score of 959.71 (123 unrouted).
+2026-11-01 19:04:28.641 INFO   [87F384\1BA36F] Auto-router pass #13 on board 'ba2a8f7ee04f24411749d9512f1e9793' was completed in 2 minutes 32.22 seconds with the score of 959.42 (124 unrouted).
+2026-11-01 19:06:42.643 INFO   [87F384\1BA36F] Auto-router pass #14 on board '3c106d6ceb31054b01e0213113d16bfa' was completed in 2 minutes 13.19 seconds with the score of 959.17 (125 unrouted).
+2026-11-01 19:09:14.936 INFO   [87F384\1BA36F] Auto-router pass #15 on board '8c93475e510be359ebabc06107182c40' was completed in 2 minutes 31.52 seconds with the score of 958.97 (126 unrouted).
+2026-11-01 19:11:34.512 INFO   [87F384\1BA36F] Auto-router pass #16 on board 'f3067d08f29c6f6283a8f2d8e1ec1c30' was completed in 2 minutes 18.77 seconds with the score of 959.75 (123 unrouted).
+2026-11-01 19:13:58.852 INFO   [87F384\1BA36F] Auto-router pass #17 on board 'b69d843f2eb0bc4714ad9423aa75e1e9' was completed in 2 minutes 23.54 seconds with the score of 959.73 (123 unrouted).
+2026-11-01 19:16:16.123 INFO   [87F384\1BA36F] Auto-router pass #18 on board '284dd5e0d0fc488b31da9e6fa2247f58' was completed in 2 minutes 16.47 seconds with the score of 959.21 (125 unrouted).
+2026-11-01 19:18:35.631 INFO   [87F384\1BA36F] Auto-router pass #19 on board '7256bfcb876f0f6069d353db6cf8e696' was completed in 2 minutes 18.73 seconds with the score of 959.47 (124 unrouted).
+2026-11-01 19:20:55.636 INFO   [87F384\1BA36F] Restoring an earlier board that has the score of 959.75 (123 unrouted).
+2026-11-01 19:20:55.637 INFO   [87F384\1BA36F] Auto-router pass #20 on board 'b69d843f2eb0bc4714ad9423aa75e1e9' was completed in 0.00 seconds with the score of 959.75 (123 unrouted).
+2026-11-01 19:23:02.048 INFO   [87F384\1BA36F] Auto-router pass #21 on board 'b69d843f2eb0bc4714ad9423aa75e1e9' was completed in 2 minutes 5.98 seconds with the score of 960.05 (122 unrouted).
+2026-11-01 19:25:07.852 INFO   [87F384\1BA36F] Auto-router pass #22 on board 'ed852fe254d84a7180f45748d5d21c95' was completed in 2 minutes 5.11 seconds with the score of 959.78 (123 unrouted).
+2026-11-01 19:27:07.619 INFO   [87F384\1BA36F] Auto-router pass #23 on board '72a85899a76b0d8b6f32f338bf857379' was completed in 1 minute 59.05 seconds with the score of 959.80 (123 unrouted).
+2026-11-01 19:29:09.253 INFO   [87F384\1BA36F] Restoring an earlier board that has the score of 960.05 (122 unrouted).
+2026-11-01 19:29:09.253 INFO   [87F384\1BA36F] Auto-router pass #24 on board 'ed852fe254d84a7180f45748d5d21c95' was completed in 0.00 seconds with the score of 960.05 (122 unrouted).
+2026-11-01 19:31:11.924 INFO   [87F384\1BA36F] Auto-router pass #25 on board 'ed852fe254d84a7180f45748d5d21c95' was completed in 2 minutes 2.21 seconds with the score of 959.80 (123 unrouted).
+2026-11-01 19:33:05.813 INFO   [87F384\1BA36F] Auto-router pass #26 on board 'b5d6baa8269dc353d4f690333b4a7283' was completed in 1 minute 53.17 seconds with the score of 960.05 (122 unrouted).
+2026-11-01 19:33:06.244 INFO   [87F384\1BA36F] The router's best score (959.75) has not improved by more than 0.5 points since pass #16. Stopping the auto-router after 26 passes (122 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net 'GND' (118 unrouted connections):
+    - C90-2  ->  via
+    - C114-2  ->  via
+    - U34-6  ->  via
+    - via  ->  U16-11@3
+    - via  ->  R157-2
+    - via  ->  TP10-1
+    - via  ->  C160-2
+    - U6-4  ->  via
+    - U6-3  ->  via
+    - via  ->  C79-2
+    - via  ->  U33-11
+    - U34-6  ->  U34-7
+    - U24-11  ->  U24-10
+    - U24-12  ->  U24-11
+    - C91-2  ->  via
+    - via  ->  C44-2
+    - via  ->  C45-2
+    - via  ->  C151-2
+    - via  ->  C140-2
+    - C84-2  ->  via
+    - C21-2  ->  via
+    - via  ->  C80-2
+    - C85-2  ->  via
+    - via  ->  C88-2
+    - via  ->  C87-2
+    - C76-2  ->  via
+    - via  ->  C72-2
+    - C74-2  ->  via
+    - C116-2  ->  via
+    - C95-2  ->  via
+    - via  ->  C115-2
+    - C97-2  ->  via
+    - C98-2  ->  via
+    - C94-2  ->  via
+    - C92-2  ->  via
+    - C141-2  ->  via
+    - via  ->  C152-2
+    - via  ->  C93-2
+    - via  ->  C46-2
+    - C47-2  ->  via
+    - via  ->  U8-7
+    - R50-2  ->  via
+    - via  ->  R86-2
+    - via  ->  R33-2
+    - R88-2  ->  via
+    - via  ->  R28-2
+    - via  ->  R13-2
+    - R94-2  ->  via
+    - via  ->  R92-2
+    - R17-2  ->  via
+    - via  ->  R58-2
+    - via  ->  R84-2
+    - R98-2  ->  via
+    - R159-2  ->  via
+    - via  ->  R109-2
+    - R48-2  ->  via
+    - via  ->  R231-2
+    - via  ->  R209-2
+    - via  ->  R238-2
+    - via  ->  U33-5
+    - U32-15@6  ->  U32-15
+    - U31-15  ->  U31-15@6
+    - via  ->  U12-11
+    - U34-13  ->  via
+    - U34-10  ->  via
+    - U12-5  ->  via
+    - via  ->  U34-17@2
+    - U34-17@8  ->  U34-13
+    - via  ->  D7-1
+    - C73-2  ->  via
+    - D5-1  ->  via
+    - via  ->  C96-2
+    - C157-2  ->  via
+    - C19-2  ->  via
+    - C81-2  ->  via
+    - U34-17@9  ->  U34-10
+    - U34-17@7  ->  U34-6
+    - via  ->  U12-11@2
+    - U24-10  ->  via
+    - U13-2  ->  via
+    - via  ->  U7-2
+    - U34-17@10  ->  U34-17@9
+    - U34-17@7  ->  U34-17@4
+    - U34-17@3  ->  U34-17@8
+    - U34-17@2  ->  U34-17@1
+    - U34-17  ->  U34-17@3
+    - U6-4  ->  U6-7
+    - C158-2  ->  via
+    - via  ->  C156-2
+    - C20-2  ->  via
+    - Q11-2  ->  via
+    - Q4-2  ->  via
+    - via  ->  D32-3
+    - via  ->  U22-11
+    - via  ->  Q3-2
+    - via  ->  U19-11
+    - via  ->  TP20-1
+    - via  ->  U31-15@1
+    - U14-2  ->  via
+    - J1-3  ->  J1-5
+    - via  ->  C18-2
+    - C17-2  ->  via
+    - via  ->  C159-2
+    - U12-5  ->  U12-11@1
+    - U31-15@2  ->  via
+    - U32-15@1  ->  U32-15@5
+    - U32-15@4  ->  U32-15@5
+    - U32-15@6  ->  U32-15@2
+    - U32-15@3  ->  U32-15@4
+    - U31-15@6  ->  U31-15@2
+    - U31-15@6  ->  U31-15@3
+    - U31-15@5  ->  U31-15@4
+    - J1-3  ->  via
+    - via  ->  J1-9
+    - via  ->  U1-1
+    - via  ->  R161-2
+    - via  ->  U5-9
+    - U32-15@3  ->  U32-2
+  Net '/ch_b/OSCOUT_B' (1 unrouted connection):
+    - Y1-3  ->  U15-16
+  Net '/power/VBAT_F' (1 unrouted connection):
+    - F1-2  ->  F1-2@1
+  Net 'GUARD_TEST' (1 unrouted connection):
+    - U15-11  ->  R147-1
+  Net 'VBAT_IN' (1 unrouted connection):
+    - F1-1@1  ->  F1-1
+2026-11-01 19:33:06.473 INFO   [87F384\1BA36F] Auto-router session completed: started with 1050 unrouted nets, completed in 1 hour 32 minutes 34.70 seconds, final score: 960.05 (122 unrouted).
+2026-11-01 19:33:06.576 INFO   [87F384\1BA36F] Starting optimization on 12 threads...
+2026-11-01 19:33:06.577 WARN   [87F384\1BA36F] Multi-threaded route optimization is broken and it is known to generate clearance violations. It is highly recommended to use the single-threaded route optimization instead by setting the number of threads to 1 with the '-mt 1' command line argument.
+2026-11-01 19:35:42.989 INFO   [87F384\1BA36F] Optimization was completed in 2 minutes 36.41 seconds with the score of 960.05 (124 unrouted).
+2026-11-01 19:35:43.510 WARN   [87F384\1BA36F] after autoroute: 138 traces not 45 degree
+2026-11-01 19:35:43.513 INFO   Saving 'A_SGSS.ses'...

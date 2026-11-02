@@ -1,0 +1,60 @@
+IC     part               supply       pin->cap (mm; F280049C: worst pin)
+U1     LMR38020-Q1        VBAT_P        1.54 (C6)
+U10    TPS3850G33-Q1      +3V3_A        4.55 (C42)  <-- over
+U11    SN74LVC1G11-Q1     +3V3_A        1.31 (C43)
+U12    TCAN3404-Q1        +3V3_A        1.36 (C44)
+U13    F280049CPZQR       +3V3_B        1.37 (C46)
+U13    F280049CPZQR       VDD12_B       2.08 (C54)  <-- over
+U13    F280049CPZQR       VDDA_B        1.37 (C60)
+U14    TPS3850G33-Q1      +3V3_B        4.55 (C64)  <-- over
+U15    SN74LVC1G11-Q1     +3V3_B        1.31 (C65)
+U16    TCAN3404-Q1        +3V3_B        1.36 (C68)
+U17    TLV9064-Q1         +5V0_A        1.48 (C73)
+U18    TLV9064-Q1         +5V0_A        1.45 (C74)
+U19    TS5A3159-Q1        +5V0_A        1.28 (C75)
+U2     LM66100-Q1         +5V0_A_SRC    4.16 (C8)  <-- over
+U20    TLV9064-Q1         +5V0_A        1.45 (C76)
+U21    TLV9064-Q1         +5V0_B        2.10 (C92)  <-- over
+U22    TLV9064-Q1         +5V0_B        1.45 (C94)
+U23    TLV9064-Q1         +5V0_B        1.45 (C96)
+U24    TLV1704-Q1         +5V0_B        1.45 (C101)
+U25    TLV1704-Q1         +5V0_B        1.56 (C102)
+U26    SN74LVC1G123       +3V3_B        1.79 (C105)
+U27    SN74LVC1G74-Q1     +5V0_B        1.26 (C108)
+U28    SN74LVC1G08-Q1     +3V3_B        1.28 (C110)
+U29    TPS1H100-Q1        VBAT_P        1.48 (C118)
+U3     TPS7B8233-Q1       +5V0_A        1.11 (C10)
+U30    TPS1H100-Q1        VBAT_P        1.48 (C121)
+U31    MCP73833           +5V0_A_SRC    1.61 (C153)
+U32    TPS61092           VLI           1.61 (C155)
+U33    TPS3702CX50        VBK5          1.28 (C158)
+U34    LM66100-Q1         VBK5          1.02 (C159)
+U35    LM66100-Q1         VBK5          0.93 (C161)
+U4     TPS3702CX50        +5V0_A        1.43 (C10)
+U5     LMR38020-Q1        VBAT_P        1.54 (C16)
+U6     TPS7B8233-Q1       +5V0_B        2.86 (C19)  <-- over
+U7     TPS3702CX50        +5V0_B        1.31 (C21)
+U8     F280049CPZQR       +3V3_A        1.36 (C22)
+U8     F280049CPZQR       VDD12_A       2.08 (C30)  <-- over
+U8     F280049CPZQR       VDDA_A        1.36 (C36)
+U9     SiT2024B 10MHz     +3V3_A        1.33 (C40)
+
+U10    pin 2   /ch_a/CWD_A  1.51 mm to R25    CWD timing resistor at the CWD pin (TPS3850 layout)
+U14    pin 2   /ch_b/CWD_B  1.51 mm to R41    CWD timing resistor at the CWD pin (TPS3850 layout)
+U1     pin 4   /power/RT_A  3.47 mm to R3     RT resistor at the RT pin  <-- over
+U5     pin 4   /power/RT_B  3.47 mm to R11    RT resistor at the RT pin  <-- over
+U1     pin 5   /power/FB_A  1.67 mm to R4     FB divider at the FB pin, away from SW
+U5     pin 5   /power/FB_B  1.67 mm to R12    FB divider at the FB pin, away from SW
+U1     pin 7   /power/BOOT_A  2.88 mm to C3     BOOT cap across BOOT/SW  <-- over
+U5     pin 7   /power/BOOT_B  2.88 mm to C13    BOOT cap across BOOT/SW  <-- over
+U26    pin 6   /guard/OS_C  3.36 mm to C106   Cext between Cext and RextCext  <-- over
+U26    pin 7   /guard/OS_RC  1.92 mm to R137   Rext at RextCext
+U8     pin 69  /ch_a/X1_A  1.47 mm to R23    oscillator series R at X1
+U31    pin 6   /backup/CHG_PROG  4.32 mm to R239   PROG resistor at PROG  <-- over
+U32    pin 9   /backup/LBI  3.19 mm to R243   LBI divider at LBI  <-- over
+U29    pin 13  /relays/CL1  1.72 mm to R171   current-limit resistor at CL
+U30    pin 13  /relays/CL2  1.72 mm to R176   current-limit resistor at CL
+U29    pin 14  /relays/CSR1  1.71 mm to R173   current-sense resistor at CS
+U30    pin 14  /relays/CSR2  1.71 mm to R178   current-sense resistor at CS
+
+14 over 2.0 mm

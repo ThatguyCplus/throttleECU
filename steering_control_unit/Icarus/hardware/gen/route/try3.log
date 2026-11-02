@@ -1,0 +1,55 @@
+2026-11-01 07:36:40.500 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 07:36:40.527 WARN   No default constructor found for field: filterByNet
+2026-11-01 07:36:41.538 INFO   Settings merged successfully from 4 source(s)
+2026-11-01 07:36:41.553 WARN   Failed to check for new version
+2026-11-01 07:36:41.647 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 07:36:42.117 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 07:36:42.119 INFO   [746281\4D4A99] Job '746281\4D4A99' started at 2026-11-01T15:36:42.119436Z.
+2026-11-01 07:43:24.159 INFO   [746281\4D4A99] Auto-router pass #1 on board '672293133a122e68a78b4ba91bab6062' was completed in 6 minutes 41.83 seconds with the score of 880.84 (325 unrouted), using 394.36 CPU seconds and the job allocated 222.99 GB of memory so far.
+2026-11-01 07:49:11.868 INFO   [746281\4D4A99] Auto-router pass #2 on board 'c6c802041c9b12fb893594cdedf984d4' was completed in 5 minutes 47.50 seconds with the score of 950.99 (135 unrouted), using 736.38 CPU seconds and the job allocated 421.85 GB of memory so far.
+2026-11-01 07:51:52.705 INFO   [746281\4D4A99] Auto-router pass #3 on board 'c7e225f82ef2a251e6971cf2c7f5846a' was completed in 2 minutes 40.55 seconds with the score of 974.40 (49 unrouted), using 894.05 CPU seconds and the job allocated 507.35 GB of memory so far.
+2026-11-01 07:53:03.330 INFO   [746281\4D4A99] Auto-router pass #4 on board 'bd6e7672796a3d2f4375223d1efbb1bb' was completed in 1 minute 10.32 seconds with the score of 978.63 (31 unrouted), using 963.80 CPU seconds and the job allocated 543.35 GB of memory so far.
+2026-11-01 07:53:37.001 INFO   [746281\4D4A99] Auto-router pass #5 on board 'ea6ab028bad4607563adf69149191417' was completed in 33.34 seconds with the score of 979.21 (29 unrouted), using 997.20 CPU seconds and the job allocated 557.23 GB of memory so far.
+2026-11-01 07:54:21.868 INFO   [746281\4D4A99] Auto-router pass #6 on board 'ce9ffde7407d55a9a7c38dc40b8891d8' was completed in 44.54 seconds with the score of 980.02 (25 unrouted), using 1041.31 CPU seconds and the job allocated 580.15 GB of memory so far.
+2026-11-01 07:54:46.784 INFO   [746281\4D4A99] Auto-router pass #7 on board 'a771bcef19d34cc1c69c5112b28ccd84' was completed in 24.59 seconds with the score of 980.52 (23 unrouted), using 1065.05 CPU seconds and the job allocated 589.14 GB of memory so far.
+2026-11-01 07:55:12.248 INFO   [746281\4D4A99] Restoring an earlier board that has the score of 980.52 (23 unrouted).
+2026-11-01 07:55:12.249 INFO   [746281\4D4A99] Auto-router pass #8 on board '53ea8d478ee03ba041be2fc621ff9333' was completed in 25.14 seconds with the score of 980.52 (23 unrouted), using 1090.70 CPU seconds and the job allocated 599.99 GB of memory so far.
+2026-11-01 07:55:32.414 INFO   [746281\4D4A99] Auto-router pass #9 on board '53ea8d478ee03ba041be2fc621ff9333' was completed in 20.02 seconds with the score of 980.06 (25 unrouted), using 1110.36 CPU seconds and the job allocated 610.47 GB of memory so far.
+2026-11-01 07:55:52.184 INFO   [746281\4D4A99] Auto-router pass #10 on board 'b17234404132d5b8a79da5287cde86f3' was completed in 19.52 seconds with the score of 980.75 (22 unrouted), using 1130.11 CPU seconds and the job allocated 620.18 GB of memory so far.
+2026-11-01 07:56:08.624 INFO   [746281\4D4A99] Auto-router pass #11 on board 'bf3fdbd26772be30a8ff89b1a103894c' was completed in 16.21 seconds with the score of 981.22 (20 unrouted), using 1145.92 CPU seconds and the job allocated 627.09 GB of memory so far.
+2026-11-01 07:56:23.665 INFO   [746281\4D4A99] Restoring an earlier board that has the score of 981.22 (20 unrouted).
+2026-11-01 07:56:23.665 INFO   [746281\4D4A99] Auto-router pass #12 on board '175033bb5c67345e5f82472282f3953a' was completed in 14.80 seconds with the score of 981.22 (20 unrouted), using 1160.70 CPU seconds and the job allocated 633.46 GB of memory so far.
+2026-11-01 07:56:37.997 INFO   [746281\4D4A99] Auto-router pass #13 on board '175033bb5c67345e5f82472282f3953a' was completed in 14.19 seconds with the score of 981.46 (19 unrouted), using 1175.55 CPU seconds and the job allocated 640.14 GB of memory so far.
+2026-11-01 07:56:51.543 INFO   [746281\4D4A99] Auto-router pass #14 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.31 seconds with the score of 981.46 (19 unrouted), using 1188.38 CPU seconds and the job allocated 645.83 GB of memory so far.
+2026-11-01 07:57:05.132 INFO   [746281\4D4A99] Auto-router pass #15 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.45 seconds with the score of 981.46 (19 unrouted), using 1202.30 CPU seconds and the job allocated 651.94 GB of memory so far.
+2026-11-01 07:57:18.893 INFO   [746281\4D4A99] Restoring an earlier board that has the score of 981.46 (19 unrouted).
+2026-11-01 07:57:18.893 INFO   [746281\4D4A99] Auto-router pass #16 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.62 seconds with the score of 981.46 (19 unrouted), using 1215.19 CPU seconds and the job allocated 657.55 GB of memory so far.
+2026-11-01 07:57:33.296 INFO   [746281\4D4A99] Auto-router pass #17 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 14.26 seconds with the score of 981.46 (19 unrouted), using 1230.03 CPU seconds and the job allocated 663.78 GB of memory so far.
+2026-11-01 07:57:47.281 INFO   [746281\4D4A99] Auto-router pass #18 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.84 seconds with the score of 981.46 (19 unrouted), using 1243.88 CPU seconds and the job allocated 669.70 GB of memory so far.
+2026-11-01 07:58:01.298 INFO   [746281\4D4A99] Auto-router pass #19 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.88 seconds with the score of 981.46 (19 unrouted), using 1257.72 CPU seconds and the job allocated 675.58 GB of memory so far.
+2026-11-01 07:58:15.314 INFO   [746281\4D4A99] Restoring an earlier board that has the score of 981.46 (19 unrouted).
+2026-11-01 07:58:15.314 INFO   [746281\4D4A99] Auto-router pass #20 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.88 seconds with the score of 981.46 (19 unrouted), using 1271.53 CPU seconds and the job allocated 681.53 GB of memory so far.
+2026-11-01 07:58:29.171 INFO   [746281\4D4A99] Auto-router pass #21 on board '00dd0a34e83824b11bc8ae64fd75f807' was completed in 13.73 seconds with the score of 981.46 (19 unrouted), using 1285.22 CPU seconds and the job allocated 687.55 GB of memory so far.
+2026-11-01 07:58:29.269 INFO   [746281\4D4A99] The router's best score (981.22) has not improved by more than 0.5 points since pass #11. Stopping the auto-router after 21 passes (19 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net 'GND' (19 unrouted connections):
+    - U14-11@3  ->  via
+    - U9-11@3  ->  via
+    - via  ->  U6-4
+    - via  ->  U3-4
+    - U2-3  ->  via
+    - U32-5  ->  U32-6
+    - U2-2  ->  U2-3
+    - U22-11  ->  U22-10
+    - U18-12  ->  U18-11
+    - U32-13  ->  via
+    - D3-1  ->  via
+    - via  ->  D6-1
+    - U35-2  ->  via
+    - via  ->  D14-3
+    - U18-5  ->  via
+    - Q7-2  ->  via
+    - U16-2  ->  via
+    - via  ->  U11-2
+    - U35-2  ->  U34-2
+2026-11-01 07:58:29.329 INFO   [746281\4D4A99] Auto-router session completed: started with 863 unrouted nets, completed in 21 minutes 47.11 seconds, final score: 981.46 (19 unrouted), using 1285.22 total CPU seconds, 687.55 GB total allocated, and 1675.32 MB peak heap usage.

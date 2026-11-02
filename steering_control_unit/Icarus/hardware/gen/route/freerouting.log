@@ -1,0 +1,55 @@
+2026-11-01 08:00:04.283 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 08:00:04.308 WARN   No default constructor found for field: filterByNet
+2026-11-01 08:00:05.317 INFO   Settings merged successfully from 4 source(s)
+2026-11-01 08:00:05.330 WARN   Failed to check for new version
+2026-11-01 08:00:05.410 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 08:00:05.766 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 08:00:05.768 INFO   [E6DF41\C36451] Job 'E6DF41\C36451' started at 2026-11-01T16:00:05.767069200Z.
+2026-11-01 08:05:27.973 INFO   [E6DF41\C36451] Auto-router pass #1 on board 'd0ebfc9e0e981a3a965f8f95b9564ce5' was completed in 5 minutes 22.03 seconds with the score of 885.94 (310 unrouted), using 316.30 CPU seconds and the job allocated 208.42 GB of memory so far.
+2026-11-01 08:10:48.561 INFO   [E6DF41\C36451] Auto-router pass #2 on board '790486b1aa557e51e6d8c8fb731d5ac9' was completed in 5 minutes 20.42 seconds with the score of 951.36 (135 unrouted), using 631.81 CPU seconds and the job allocated 427.31 GB of memory so far.
+2026-11-01 08:13:47.173 INFO   [E6DF41\C36451] Auto-router pass #3 on board '7dfbcd2cdb5653d23ee67d37fdc83f87' was completed in 2 minutes 58.35 seconds with the score of 969.87 (67 unrouted), using 806.41 CPU seconds and the job allocated 539.85 GB of memory so far.
+2026-11-01 08:15:18.218 INFO   [E6DF41\C36451] Auto-router pass #4 on board 'ee34592fcdd3585812fbe51fb1dad787' was completed in 1 minute 30.79 seconds with the score of 977.99 (34 unrouted), using 895.83 CPU seconds and the job allocated 597.32 GB of memory so far.
+2026-11-01 08:15:57.797 INFO   [E6DF41\C36451] Auto-router pass #5 on board 'd89a331373f533d42ade500eb371ff46' was completed in 39.30 seconds with the score of 978.95 (30 unrouted), using 935.17 CPU seconds and the job allocated 618.72 GB of memory so far.
+2026-11-01 08:16:34.510 INFO   [E6DF41\C36451] Auto-router pass #6 on board '6c5d145e4424c644d039eaf3a47443a2' was completed in 36.44 seconds with the score of 979.44 (28 unrouted), using 971.48 CPU seconds and the job allocated 639.02 GB of memory so far.
+2026-11-01 08:17:07.123 INFO   [E6DF41\C36451] Auto-router pass #7 on board '567f5860c0e131018a4ce380cd6c94fa' was completed in 32.33 seconds with the score of 980.62 (23 unrouted), using 1002.91 CPU seconds and the job allocated 655.78 GB of memory so far.
+2026-11-01 08:17:36.529 INFO   [E6DF41\C36451] Auto-router pass #8 on board '2da4587e42038b6638bce1df7750e275' was completed in 29.12 seconds with the score of 980.85 (22 unrouted), using 1032.38 CPU seconds and the job allocated 671.72 GB of memory so far.
+2026-11-01 08:18:02.872 INFO   [E6DF41\C36451] Auto-router pass #9 on board '0e224433c2bcbe85b820cc806d102531' was completed in 26.10 seconds with the score of 980.85 (22 unrouted), using 1058.06 CPU seconds and the job allocated 686.13 GB of memory so far.
+2026-11-01 08:18:28.979 INFO   [E6DF41\C36451] Auto-router pass #10 on board 'aa86479e12c73c0de6e5fca6b4a8b41a' was completed in 25.86 seconds with the score of 980.85 (22 unrouted), using 1083.67 CPU seconds and the job allocated 700.64 GB of memory so far.
+2026-11-01 08:18:55.904 INFO   [E6DF41\C36451] Auto-router pass #11 on board '64bb9324fa0bc41ce009da4e7fbc5772' was completed in 26.64 seconds with the score of 980.85 (22 unrouted), using 1110.17 CPU seconds and the job allocated 715.22 GB of memory so far.
+2026-11-01 08:19:23.073 INFO   [E6DF41\C36451] Restoring an earlier board that has the score of 980.85 (22 unrouted).
+2026-11-01 08:19:23.074 INFO   [E6DF41\C36451] Auto-router pass #12 on board '0e224433c2bcbe85b820cc806d102531' was completed in 0.00 seconds with the score of 980.85 (22 unrouted), using 1136.88 CPU seconds and the job allocated 729.76 GB of memory so far.
+2026-11-01 08:19:45.114 INFO   [E6DF41\C36451] Auto-router pass #13 on board '0e224433c2bcbe85b820cc806d102531' was completed in 21.93 seconds with the score of 980.85 (22 unrouted), using 1158.34 CPU seconds and the job allocated 743.92 GB of memory so far.
+2026-11-01 08:20:06.774 INFO   [E6DF41\C36451] Auto-router pass #14 on board 'f4420083c6895c21ff347ae53747b884' was completed in 21.46 seconds with the score of 980.85 (22 unrouted), using 1179.98 CPU seconds and the job allocated 758.29 GB of memory so far.
+2026-11-01 08:20:28.132 INFO   [E6DF41\C36451] Auto-router pass #15 on board '93a2a0db83781408f3599ddb4e3fefd5' was completed in 21.18 seconds with the score of 980.85 (22 unrouted), using 1200.58 CPU seconds and the job allocated 772.32 GB of memory so far.
+2026-11-01 08:20:50.392 INFO   [E6DF41\C36451] Restoring an earlier board that has the score of 980.85 (22 unrouted).
+2026-11-01 08:20:50.392 INFO   [E6DF41\C36451] Auto-router pass #16 on board '0e224433c2bcbe85b820cc806d102531' was completed in 0.00 seconds with the score of 980.85 (22 unrouted), using 1222.23 CPU seconds and the job allocated 786.46 GB of memory so far.
+2026-11-01 08:21:12.349 INFO   [E6DF41\C36451] Auto-router pass #17 on board '0e224433c2bcbe85b820cc806d102531' was completed in 21.83 seconds with the score of 980.85 (22 unrouted), using 1243.86 CPU seconds and the job allocated 800.65 GB of memory so far.
+2026-11-01 08:21:34.861 INFO   [E6DF41\C36451] Auto-router pass #18 on board 'bd08768e27eb748a58efce5a7c11680c' was completed in 22.33 seconds with the score of 980.85 (22 unrouted), using 1266.53 CPU seconds and the job allocated 815.20 GB of memory so far.
+2026-11-01 08:21:34.961 INFO   [E6DF41\C36451] The router's best score (980.85) has not improved by more than 0.5 points since pass #8. Stopping the auto-router after 18 passes (22 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net 'GND' (20 unrouted connections):
+    - U9-11@3  ->  via
+    - U14-11@3  ->  via
+    - via  ->  U6-4
+    - via  ->  U3-4
+    - U2-3  ->  via
+    - U32-5  ->  U32-6
+    - U2-2  ->  U2-3
+    - U18-11  ->  U18-10
+    - U22-11  ->  U22-10
+    - via  ->  U32-13
+    - via  ->  D3-1
+    - via  ->  D6-1
+    - via  ->  U34-2
+    - U35-2  ->  via
+    - D14-3  ->  via
+    - U18-5  ->  via
+    - Q6-2  ->  via
+    - Q7-2  ->  via
+    - U16-2  ->  via
+    - U11-2  ->  via
+  Net 'VDD12_B' (1 unrouted connection):
+    - C53-1  ->  C54-1
+  Net 'VLI' (1 unrouted connection):
+    - U32-8  ->  U32-11
+2026-11-01 08:21:35.029 INFO   [E6DF41\C36451] Auto-router session completed: started with 863 unrouted nets, completed in 21 minutes 29.16 seconds, final score: 980.85 (22 unrouted), using 1266.53 total CPU seconds, 815.20 GB total allocated, and 1979.64 MB peak heap usage.

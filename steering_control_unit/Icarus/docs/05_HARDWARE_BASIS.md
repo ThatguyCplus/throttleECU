@@ -9,15 +9,17 @@
 
 | Block | Part | Qty | Reused from throttle? | Notes |
 |---|---|---|---|---|
-| MCU CH-A, CH-B | **F280049CPZQR** (TMS320F280049C-Q1, LQFP-100 PZ) | 2 | Same die and footprint; the throttle uses F280049CPZS | The **PZQR** suffix is the TÜV-listed functional-safety part (datasheet Table 3-1). PZS is quality-managed only |
-| Clock CH-A | SiT2024B 10 MHz MEMS | 1 | Yes (U6) | CH-B runs on internal INTOSC2 for clock diversity |
+| MCU CH-A | **F280049CPZQR** (TMS320F280049C-Q1, LQFP-100 PZ) | 1 | Same die and footprint; the throttle uses F280049CPZS | The **PZQR** suffix is the TÜV-listed functional-safety part (datasheet Table 3-1). PZS is quality-managed only |
+| MCU CH-B (rev 0.7) | **TMS5700432BPZQQ1** (TMS570LS0432-Q1, LQFP-100 PZ, 14 × 14 mm) | 1 | No: diverse on purpose | Arm Cortex-R4F, dual core in lockstep, ECC flash/RAM, CPU/RAM self-test, ESM nERROR. Core 1.2 V (1.14–1.32 V, ≤ 135 mA, 145 mA in LBIST), I/O + flash + ADC 3.3 V. No DAC, no FSI. Pins from SPNS186C |
+| CH-B core supply (rev 0.7) | TLV73312PQDRVRQ1 (TLV733P-Q1, WSON-6) from +5V0_B, + TPS3702CX12QDDCRQ1 into nPORRST | 2 | No | DRV pinout differs from the SOT-23 one (OUT 1, GND 3, EN 4, IN 6). 0.55 W worst case in the thermal pad |
+| Clock CH-A | SiT2024B 10 MHz MEMS | 1 | Yes (U6) | CH-B (rev 0.7) uses a 16 MHz quartz crystal, load caps to KELVIN_GND only: different clock technology |
 | CAN | TCAN3404-Q1 (SOIC-8) | 2 | Yes (U7) | One per channel, same bus. 120 Ω termination by solder jumper (as throttle R27/JP) |
 | CAN ESD | ESD2CAN24-Q1 or similar | 2 | New | Throttle has none on CAN |
 | Buck | LMR38020-Q1 set to **5.0 V** + 10 µH | 2 | Yes (U5, L1), output changed from 3.3 V | One per channel (SM-16). A feeds the overlay op-amps; B feeds the CH-C guard |
-| LDO | TPS7B81-Q1, 3.3 V fixed | 2 | New | One per channel, for supply independence |
-| Supervisor | TPS3702-Q1 window | 2 | Yes (U9), ×2 | One per channel: 5V0 + that channel's 3V3 |
+| LDO | **TPS7B8233-Q1**, 3.3 V, 300 mA, WSON-6 2×2 mm (DRV) | 2 | New | TPS7B8133-Q1 (150 mA) was too tight: F280049C IDDIO max is 113 mA (SPRS945) plus TCAN3404 and the clock. Same DRV pinout |
+| Supervisor | TPS3702CX50 (5 V window, SET = VDD → 4.80 / 5.20 V) | 2 | Yes (U9), ×2 | One per channel. **Correction (rev 0.6):** an AEC-Q100 TPS3702-Q1 does exist (SBVS261C; TPS3702CX50QDDCRQ1, same DDC package and pinout). Now used for all three |
 | Watchdog | TPS3850G33-Q1 (window WDT + 3V3 OV/UV supervisor, VSON-10) | 2 | New | One per MCU. TPS3851-Q1 was rejected: timeout-only, it cannot catch early service |
-| Enable logic | SN74LVC1G11-Q1 (3-input AND) | 1 | New | CH-A: GPIO · WDO_A · PG_A |
+| Enable logic | SN74LVC1G11-Q1 (3-input AND) ×2, SN74LVC1G08-Q1 (2-input AND) ×1 | 3 | New | 1G11: GPIO · ERRORSTS · SUP_OK per channel. 1G08: 2oo2 clear of the guard latch (R7) |
 | Dynamic enable | Charge pump (2× BAS21 + 2 caps) → N-MOSFET | 2 | BAS21, MMBT2222A/N-FET reused | CH-B low side, one for each coil |
 | Coil high side | TPS1H100-Q1 | 2 | Yes (U2), ×2 | One per coil, driven by CH-A. Current sense to CH-A ADC |
 | Guard coil FET | Automotive N-MOSFET, logic level | 1 | New | CH-C, in series with both coil returns |
@@ -56,7 +58,7 @@ Check the TPS7B81-Q1 current rating against the F280049C datasheet's worst-case 
 | eCAP / XBAR inputs | VSP, NEP | VSP, NEP |
 | GPIO in | WLP, RT+, IG1, disengage NO + NC, SUP_OK (WDO + OV/UV, read back) | Same set |
 | GPIO out | EN_A, WDI_A, status LED | PWM_EN_B (charge pump), WDI_B, driver indicator (low side) |
-| Comms | CANA (TCAN A), FSI TX/RX ↔ CH-B, SCI debug | CANA (TCAN B), FSI TX/RX ↔ CH-A, SCI debug |
+| Comms | CANA (TCAN A), SCI-B ↔ CH-B (rev 0.7, GPIO12/13), SCI debug | DCAN1 (TCAN B), SCI/LIN ↔ CH-A (pins 94/95), cTI-20 JTAG |
 
 The F28004x has 3 ADCs (more than 20 channels on the 100-pin package), 2 buffered DAC outputs, 2 CAN, 1 FSI TX + RX. Both channels fit with spare pins. Confirm the exact pin mux, and which pins DACA/DACB come out on, from the datasheet pin tables before the schematic.
 

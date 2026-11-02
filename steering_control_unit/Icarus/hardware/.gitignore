@@ -1,0 +1,15 @@
+# KiCad's own timestamped backups
+icarus-backups/
+
+# Intermediate boards from placement and routing runs (regenerable, ~7 MB each).
+# Tracked: the routed rev 0.7 board, its placement, and the routed rev 0.5 board.
+gen/route/*.kicad_pcb
+!gen/route/A_SGSS_cskpin_routed.kicad_pcb
+!gen/route/icarus_rev05_routed.kicad_pcb
+gen/configs/*.kicad_pcb
+!gen/configs/A_SGSS_cskpin.kicad_pcb
+
+# scratch DRC report and the working route files (the kept routes are gen/route/A_*.dsn/.ses/.log)
+gen/route/drc.rpt
+gen/route/icarus.dsn
+gen/route/icarus.ses
