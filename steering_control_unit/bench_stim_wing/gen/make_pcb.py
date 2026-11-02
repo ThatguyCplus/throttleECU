@@ -20,8 +20,9 @@ PRJ = os.path.normpath(os.path.join(HERE, ".."))
 PCB = os.path.join(PRJ, design.PROJECT + ".kicad_pcb")
 NET = os.path.join(PRJ, design.PROJECT + ".net")
 DSN = os.path.join(HERE, "route", design.PROJECT + ".dsn")
-SES = os.path.join(HERE, "route", design.PROJECT + ".ses")
+SES = os.path.join(HERE, design.PROJECT + ".ses")    # the accepted routing, committed
 DRC = os.path.join(HERE, "route", "drc.rpt")
+PLACED = os.path.join(HERE, "route", "placed.kicad_pcb")   # finish always starts from this
 FP_ROOT = os.environ.get("KICAD_FOOTPRINT_DIR") or next(
     (p for p in ["/usr/share/kicad/footprints", r"C:\Program Files\KiCad\10.0\share\kicad\footprints"]
      if os.path.isdir(p)), "")
@@ -132,6 +133,27 @@ def rules(board):
     ds.SetAuxOrigin(pt(0, design.BOARD_H))   # bottom-left corner: origin for Gerbers and CPL
 
 
+def write_project():
+    """KiCad 7+ keeps net classes in the .kicad_pro: write them there so DRC (and
+    KiCad 10 when you open the board) uses the same rules the router used."""
+    import json
+    def cls(name, width, via, drill):
+        return {"name": name, "clearance": CLEARANCE, "track_width": width, "via_diameter": via,
+                "via_drill": drill, "microvia_diameter": 0.3, "microvia_drill": 0.1,
+                "diff_pair_width": 0.2, "diff_pair_gap": 0.25, "diff_pair_via_gap": 0.25,
+                "line_style": 0, "pcb_color": "rgba(0, 0, 0, 0.000)", "schematic_color": "rgba(0, 0, 0, 0.000)",
+                "wire_width": 6, "bus_width": 12}
+    classes = [cls("Default", TRACK_SIG, 0.45, 0.2)] + [
+        cls(n, w, 0.6 if w >= 0.4 else 0.45, 0.3 if w >= 0.4 else 0.2) for n, w, _ in NETCLASSES]
+    patterns = [{"netclass": n, "pattern": m} for n, _w, members in NETCLASSES for m in members]
+    pro = {"meta": {"filename": design.PROJECT + ".kicad_pro", "version": 1},
+           "net_settings": {"classes": classes, "meta": {"version": 3}, "net_colors": None,
+                            "netclass_assignments": None, "netclass_patterns": patterns}}
+    with open(os.path.join(PRJ, design.PROJECT + ".kicad_pro"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump(pro, f, indent=2)
+        f.write("\n")
+
+
 def setup_netclasses(board, nets):
     ns = board.GetDesignSettings().m_NetSettings
     dflt = ns.m_DefaultNetClass
@@ -212,6 +234,7 @@ def zone(board, layer, net, outline_pts=None, priority=0):
 def build(route=True):
     import placement
     make_footprint_lib()
+    write_project()
     comps, pads = read_netlist()
     board = pcbnew.CreateEmptyBoard()
     board.SetCopperLayerCount(LAYERS)
@@ -238,6 +261,7 @@ def build(route=True):
         for k, v in c["fields"].items():
             if k not in ("Footprint", "Datasheet", "Description"):
                 fp.SetProperty(k, v)
+        fp.SetLocalClearance(0)            # e.g. MSOP-10 carries 0.2 mm; the board rule (0.127) applies instead
         if side == "B":
             flip(fp)
         fp.Reference().SetVisible(False)   # silk labels the functions instead; assembly uses the CPL
@@ -303,6 +327,8 @@ def place():
     if not pcbnew.ExportSpecctraDSN(board, DSN):
         raise SystemExit("DSN export failed")
     dsn_classes()
+    import shutil
+    shutil.copyfile(PCB, PLACED)
     print("placed", len(board.GetFootprints()), "footprints; wrote", PCB, "and", DSN)
 
 
@@ -323,8 +349,7 @@ def import_ses(board):
     res = find(routes, "resolution")[0]
     scale = {"um": 1e-3, "mm": 1.0, "mil": 0.0254}[str(res[1])] / float(res[2])   # -> mm
     layers = {board.GetLayerName(l): l for l in range(pcbnew.PCB_LAYER_ID_COUNT)}
-    for t in list(board.GetTracks()):
-        board.Remove(t)
+    # finish() starts from the placed board, which has no tracks yet
     n_seg = n_via = 0
     for net in find(find(routes, "network_out")[0], "net"):
         ni = board.FindNet(str(net[1]))
@@ -356,6 +381,43 @@ def import_ses(board):
     print(f"imported {n_seg} track segments and {n_via} vias from {os.path.basename(SES)}")
 
 
+def manual_routes(board):
+    """Hand-placed stubs and vias from placement.MANUAL_ROUTES, for the last few
+    connections Freerouting leaves open. They belong to this routing result:
+    re-check them (DRC) whenever the board is re-routed."""
+    import placement
+    tracks = list(board.GetTracks())        # one snapshot (KiCad 7 SWIG: don't re-list after edits)
+    near = lambda p, x, y: abs(pcbnew.ToMM(p.x) - OX - x) < 0.02 and abs(pcbnew.ToMM(p.y) - OY - y) < 0.02
+    for item in getattr(placement, "MANUAL_ROUTES", []):
+        kind, net = item[0], board.FindNet(item[1])
+        if kind == "delete":
+            _, name, x1, y1, x2, y2 = item
+            hit = [t for t in tracks if t.GetNetname() == name and not isinstance(t, pcbnew.PCB_VIA)
+                   and ((near(t.GetStart(), x1, y1) and near(t.GetEnd(), x2, y2))
+                        or (near(t.GetStart(), x2, y2) and near(t.GetEnd(), x1, y1)))]
+            assert len(hit) == 1, ("manual delete matched", len(hit), item)
+            board.Remove(hit[0])
+            tracks.remove(hit[0])
+        elif kind == "via":
+            _, _, x, y = item
+            v = pcbnew.PCB_VIA(board)
+            v.SetPosition(pt(x, y))
+            v.SetWidth(mm(0.45))
+            v.SetDrill(mm(0.2))
+            v.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu)
+            v.SetNet(net)
+            board.Add(v)
+        else:
+            _, _, layer, x1, y1, x2, y2, w = item
+            t = pcbnew.PCB_TRACK(board)
+            t.SetStart(pt(x1, y1))
+            t.SetEnd(pt(x2, y2))
+            t.SetWidth(mm(w))
+            t.SetLayer(getattr(pcbnew, layer))
+            t.SetNet(net)
+            board.Add(t)
+
+
 def resilk(board):
     """Replace the board's free silk text with placement.silkscreen (no re-route needed)."""
     import placement
@@ -366,9 +428,12 @@ def resilk(board):
 
 
 def finish():
+    import shutil
+    shutil.copyfile(PLACED, PCB)
     board = pcbnew.LoadBoard(PCB)
+    # silk comes from the placed board (place re-applies placement.silkscreen)
     import_ses(board)
-    resilk(board)
+    manual_routes(board)
     gnd = board.FindNet("GND")
     for z in list(board.Zones()):
         if not z.GetIsRuleArea() and z.GetLayer() != pcbnew.In1_Cu:

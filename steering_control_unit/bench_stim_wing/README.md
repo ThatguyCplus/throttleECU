@@ -9,7 +9,11 @@ A FeatherWing for the EPS logger stack that does four jobs:
 
 It sits **between the Adalogger and the OLED FeatherWing**, on stacking headers, and every cable connector is right-angle and exits a board edge. The brief is [HANDOFF.md](HANDOFF.md).
 
-> **Status: design only, nothing ordered.** The schematic and board are generated and routed. Read [Before ordering](#before-ordering): several part numbers and the JLC rotations still need a human check.
+> **Status: routed, nothing ordered.** The board is fully routed: **DRC 0 errors, 0 unconnected** (KiCad 7). The Gerbers, BOM and CPL are in [fab/](fab/). Read [Before ordering](#before-ordering) first: several part numbers, the relay pinout and the JLC rotations still need a human check.
+
+| Top | Back (seen from below) |
+|---|---|
+| ![top](doc/top.png) | ![back](doc/back.png) |
 
 ## Safety model
 
@@ -149,10 +153,10 @@ GND, 12V, 5V, 3V3, USB, NEP, VSP, VT3, VT6, AUXC, AUXD, ARM, P6, P7, GND.
 | Item | Value |
 |---|---|
 | Layers | 4: **F.Cu** parts + signals + GND pour, **In1.Cu** solid GND, **In2.Cu** signals + GND pour, **B.Cu** parts + signals + GND pour |
-| Signal tracks | 0.2 mm (mA and below) |
+| Signal tracks | 0.15 mm (mA and below) |
 | Power tracks | +12 V path and IG1 0.5 mm; +5 V, USB, buck SW, SAS and ARM 0.4 mm; 3V3 0.3 mm |
-| Clearance | 0.15 mm |
-| Vias | 0.5/0.25 mm signal, 0.6/0.3 mm power |
+| Clearance | 0.127 mm (JLC's 4-layer process goes to 0.09 mm) |
+| Vias | 0.45/0.2 mm signal, 0.6/0.3 mm power |
 | Assembly | **Both sides** (SMD top and back). The back carries only parts ≤ 1.25 mm tall |
 
 ## Files
@@ -161,26 +165,38 @@ GND, 12V, 5V, 3V3, USB, NEP, VSP, VT3, VT6, AUXC, AUXD, ARM, P6, P7, GND.
 |---|---|
 | [bench_stim_wing.kicad_sch](bench_stim_wing.kicad_sch) / [schematic PDF](doc/bench_stim_wing_schematic.pdf) | Schematic (generated) |
 | [bench_stim_wing.kicad_pcb](bench_stim_wing.kicad_pcb) | Board, 50.8 × 22.86 mm (FeatherWing), 4 layers |
-| [doc/](doc/) | Layer renders of the top and back |
+| [doc/](doc/) | Layer renders of the top and back (KiCad 7's CLI has no 3D render) |
 | [fab/](fab/) | Gerbers + drill (zipped), JLC BOM and CPL. SMD parts only; connectors, headers, JP1 and test pads are excluded |
-| [gen/](gen/) | Generators. Everything comes from [gen/design.py](gen/design.py) (parts and nets) and [gen/placement.py](gen/placement.py) (positions and silk) |
+| [gen/](gen/) | Generators. Everything comes from [gen/design.py](gen/design.py) (parts and nets) and [gen/placement.py](gen/placement.py) (positions, silk, hand stubs). [gen/bench_stim_wing.ses](gen/bench_stim_wing.ses) is the accepted Freerouting result |
 
 ## Rebuilding
 
-The board was generated in a Linux cloud session with **KiCad 7.0.11**, the version Ubuntu ships (KiCad 10's PPA wasn't reachable there), and **Freerouting 2.0.1** on Java 21. The files are written in KiCad 7's format. KiCad 10 opens them and asks to upgrade on save. Upgrading is fine, but then the generators would overwrite your edits, so pick one way of working.
+The board was generated in a Linux cloud session. It used **KiCad 7.0.11**, the version Ubuntu ships, because KiCad 10's PPA wasn't reachable there. Routing used **Freerouting 1.9.0** on Java 21, under `xvfb-run`. The files are written in KiCad 7's format. KiCad 10 opens them and asks to upgrade on save. Upgrading is fine, but then the generators would overwrite your edits, so pick one way of working.
 
 ```bash
 cd gen
-sh route.sh            # schematic -> netlist -> parity check -> place -> route -> pour + DRC -> fab
+sh route.sh --keep-routing   # rebuild everything from the committed routing (bench_stim_wing.ses)
+sh route.sh                  # full re-route with Freerouting (a different result every run)
 ```
 
-`route.sh` expects `kicad-cli` and a Python that can `import pcbnew` (`PY=...`). It also needs the Freerouting jar (`JAR=...`). On Windows with KiCad 10, point `PY` at KiCad's bundled `python.exe`, and set `KICAD_SYMBOL_DIR` / `KICAD_FOOTPRINT_DIR` if the libraries aren't found.
+`route.sh` expects `kicad-cli` and a Python that can `import pcbnew` (`PY=...`). A full re-route also needs the Freerouting 1.9 jar (`JAR=...`). On Windows with KiCad 10, point `PY` at KiCad's bundled `python.exe`, and set `KICAD_SYMBOL_DIR` / `KICAD_FOOTPRINT_DIR` if the libraries aren't found.
+
+**How it got to 0 unconnected:**
+- **Freerouting version.** 2.0.1 ignored its pass limit and never finished, so routing uses 1.9.0 with `-oit 100`. Without that flag the post-route optimiser runs for hours.
+- **Finer signal rules.** Freerouting left 11 connections open at 0.2/0.15 mm, so signal tracks went down to 0.15 mm with 0.127 mm clearance.
+- **Hand fixes for the last two connections** ([placement.py](gen/placement.py) `MANUAL_ROUTES`). KiCad 7 exports some back-side pads to Freerouting on the wrong layer, which left these two open. [find_via.py](gen/find_via.py) searches for clear via spots:
+  - C5 gets a short stub and a via up to the BUCK_SW track.
+  - A BUCK_EN segment is re-run at y = 15.4 mm.
+  - R25's GND pad gets a via to the In1 plane. **That via is in the pad.** It's fine for a 100 k pull-down, but ask JLC to plug/tent vias, or nudge it in KiCad 10.
+- **Net classes live in [bench_stim_wing.kicad_pro](bench_stim_wing.kicad_pro),** so KiCad 10 opens the board with the same rules.
+- **One signal on In1.** Freerouting ran one track (IG1_G, DC) on In1. That leaves a small slot in the GND plane there, which is harmless for these low-speed signals.
+- **What DRC still reports.** The remaining entries are cosmetic: silk labels smaller than 0.8 mm or partly under copper, and J2's outline reaching the board edge, which is deliberate since it's an edge connector. The rest are library-table warnings from the build machine.
 
 `check_netlist.py` takes the place of ERC here, since KiCad 7's CLI can't run ERC. It checks every pin in the exported netlist against `design.py`. **Run ERC once in KiCad 10 anyway.**
 
 ## Before ordering
 
-1. **Run ERC and DRC in KiCad 10.** DRC here was KiCad 7's.
+1. **Run ERC and DRC in KiCad 10.** DRC here was KiCad 7's: 0 errors and 0 unconnected, not counting the cosmetic silk items.
 2. **Check the relay pinout** against Omron's G6K datasheet: coil 1/8, COM 3/6, NC 2/7, NO 4/5. That pinout came from KiCad's G6K-2 symbol. If NC and NO are swapped, the board fails the wrong way.
 3. **Fill in the missing LCSC numbers.** Parts with an empty "JLCPCB Part #" in the BOM need an in-stock match picked at upload: LMR16006, MCP4728, MCP6004, TCA9534, Si2319, BAT54S, PMEG6010, SMBJ24CA, G6K, fuses/PTCs, 22 µH, and the 1206 50 V capacitors. The LCSC numbers that are filled in were entered from memory, so confirm that each one resolves to the stated MPN.
 4. **Check every CPL rotation** in JLC's preview, on both sides. Watch especially the diodes, LEDs, SOT-23s and the relay, since a polarity error there matters.

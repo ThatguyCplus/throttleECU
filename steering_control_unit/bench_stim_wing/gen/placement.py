@@ -111,6 +111,25 @@ for i in range(len(design.TEST_PADS)):
     PLACE[f"TP{i + 1}"] = (TP_X0 + TP_PITCH * i, TP_Y, 0, B)
 
 
+# Stubs + vias for the connections Freerouting left open (see make_pcb.manual_routes).
+MANUAL_ROUTES = [
+    # C5 (bootstrap, back) to the BUCK_SW track that runs over it on the top
+    ("via", "BUCK_SW", 14.30, 9.03),
+    ("track", "BUCK_SW", "B_Cu", 14.30, 8.88, 14.30, 9.03, 0.25),
+    # R25's GND pad sat on a pour island under an F.Cu BUCK_EN diagonal: move
+    # BUCK_EN down to y 15.4 (between C4 and D4) and drop a GND via on the pad.
+    ("delete", "BUCK_EN", 19.85, 13.12, 19.85, 14.01),
+    ("delete", "BUCK_EN", 19.85, 14.01, 18.73, 15.14),
+    ("delete", "BUCK_EN", 18.73, 15.14, 17.99, 15.14),
+    ("delete", "BUCK_EN", 17.99, 15.14, 17.68, 15.45),
+    ("track", "BUCK_EN", "F_Cu", 19.85, 13.12, 19.85, 15.4, 0.15),
+    ("track", "BUCK_EN", "F_Cu", 19.85, 15.4, 17.68, 15.4, 0.15),
+    ("track", "BUCK_EN", "F_Cu", 17.68, 15.4, 17.68, 15.45, 0.15),
+    ("via", "GND", 18.90, 14.91),
+    # R25's GND pad was left on a pour island: via down to the In1 plane
+]
+
+
 def silkscreen(board, text, pcbnew):
     FS, BS = pcbnew.F_SilkS, pcbnew.B_SilkS
     # Top: only what fits between parts.
