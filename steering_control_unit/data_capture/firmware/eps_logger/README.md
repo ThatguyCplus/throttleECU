@@ -30,6 +30,8 @@ If the board doesn't show a port for upload, double-tap reset to enter the bootl
 
 ## Use
 
+Powered from a USB power bank, the logger floats. With the [bench stim wing](../../../bench_stim_wing/README.md) it can run from 12 V instead. In that case wire the 12 V return to the ECU end of A4: see [STACK_MODES.md](../../STACK_MODES.md).
+
 1. **On the bench (USB only):** open a serial monitor at 115200.
    - `s` shows card, RTC and ADC status.
    - `t<unix seconds>` sets the clock.

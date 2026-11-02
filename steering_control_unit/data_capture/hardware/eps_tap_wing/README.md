@@ -76,6 +76,8 @@ JLCPCB's standard minimum is 0.127 mm, so these widths have plenty of margin. A 
 
 ## The stack
 
+The tap wing also stacks with the [bench stim wing](../../../bench_stim_wing/README.md), which can power everything from 12 V and drive the EPS inputs. **When the stack runs from 12 V, its ground must go to the ECU end of A4 (PG)**, not chassis: see [STACK_MODES.md](../../STACK_MODES.md) for every combination.
+
 ```
   OLED FeatherWing
   Adalogger FeatherWing

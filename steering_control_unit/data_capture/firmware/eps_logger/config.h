@@ -20,7 +20,7 @@
 #define CFG_PIN_VBAT   A1    // U1D output  — PA05, ADC0 AIN5
 #define CFG_PIN_VT3    A2    // U1A output  — PB08, ADC1 AIN0 (or ADC0 AIN2)
 #define CFG_PIN_VT6    A3    // U1B output  — PB09, ADC0 AIN3
-#define CFG_PIN_IMOT   A4    // HSTS016L via 10k/18k — PA04, ADC0 AIN4
+#define CFG_PIN_IMOT   A4    // HSTS016L via 10k/47k (tap wing) or 10k/18k (Proto Wing) — PA04, ADC0 AIN4
 
 // SAMD51 ADC input numbers for the pins above (datasheet I/O multiplexing;
 // PB08 = ADC1 AIN0 is the same mapping Adafruit's Grand Central M4 variant uses)
@@ -43,7 +43,11 @@
 
 #define CFG_PIN_SD_CS  10    // Adalogger FeatherWing default
 #define CFG_PIN_LED    LED_BUILTIN   // D13
-// Leave D4 (CAN 5 V boost enable) and A6 (battery monitor divider) unconnected.
+// Leave A6 (battery monitor divider) unconnected. D4 (PA14) and TX (PB16) are free on
+// the Feather M4 CAN (CAN boost enable and standby are internal pins PB13/PB12); the
+// bench stim wing uses them for its NEP/VSP outputs. This sketch never drives them.
+// TC3 is the sample tick here: stim firmware must use TCC1/TCC2 (D4) and TC6/TCC0 (TX).
+// Running with the stim wing: see ../../STACK_MODES.md (grounding!).
 
 // ═══════════════════════════════════
 // FRONT END (must match the board you built)

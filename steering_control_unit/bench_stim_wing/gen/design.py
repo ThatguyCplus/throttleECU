@@ -149,7 +149,7 @@ FEATHER_PINS = {
 }
 # Only these pins connect. Everything else the logger and tap wing already use
 # (A0-A5, D5, D6, D9-D13, SPI, RX) passes straight through the stacking headers.
-# D4 = SAMD51 PA14 (TC3/WO0, TCC1/WO2); TX = PB16 (TC6/WO0, TCC0/WO4): two
+# D4 = SAMD51 PA14 (TCC1/WO2, TCC2/WO0; not TC3, the logger's sample tick); TX = PB16 (TC6/WO0, TCC0/WO4): two
 # independent timers. Checked against Adafruit's Feather M4 CAN schematic: D4
 # only goes to the header (CAN standby/boost are internal pins PB12/PB13).
 FEATHER_NETS = {
