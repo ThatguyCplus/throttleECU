@@ -137,7 +137,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 | Block | Parts | Notes |
 |---|---|---|
 | 12 V input | F1 2 A fast fuse → D1 SS34 (reverse polarity) → D2 SMBJ24CA TVS → C1 10 µF/50 V | Everything on +12 V is rated ≥ 40 V; the TVS clamps a load dump to ~39 V |
-| 5 V | U1 LMR16006 (60 V, 0.6 A, 0.7 MHz), L1 22 µH, D4 catch diode, 56k/10k → 5.05 V | ~250 mA load: stack ~150 mA, relays 2 × 28 mA, LEDs |
+| 5 V | U1 LMR16006 (40 V, 65 V transient, 0.6 A, 0.7 MHz), L1 22 µH, D4 catch diode, 56k/10k → 5.05 V | ~250 mA load: stack ~150 mA, relays 2 × 28 mA, LEDs |
 | Feather feed | D6 PMEG6010 → Feather USB pin | See [USB and 12 V at the same time](#usb-and-12-v-at-the-same-time) |
 | SAS power | Q1 Si2319 high side, Q2 2N7002, F2 0.1 A PTC | Expander P0. **JP1** (open as shipped): bridge for "SAS always on", for use with the unmodified logger firmware |
 | IG1 out | Q3 Si2319, Q4 + Q5 in series (IG1_EN **and** ARM), F4 0.5 A PTC | Expander P1 |
@@ -209,10 +209,43 @@ sh route.sh                  # full re-route with Freerouting (a different resul
 
 1. **ERC and DRC already pass in KiCad 10.0.8** (see Status). Open the board in your own KiCad 10 once anyway. If you save it there, KiCad upgrades the file and the generators would overwrite your edits.
 2. **Check the relay pinout** against Omron's G6K datasheet: coil 1/8, COM 3/6, NC 2/7, NO 4/5. That pinout came from KiCad's G6K-2 symbol. If NC and NO are swapped, the board fails the wrong way.
-3. **Fill in the missing LCSC numbers.** Parts with an empty "JLCPCB Part #" in the BOM need an in-stock match picked at upload: LMR16006, MCP4728, MCP6004, TCA9534, Si2319, BAT54S, PMEG6010, SMBJ24CA, G6K, fuses/PTCs, 22 µH, and the 1206 50 V capacitors. The LCSC numbers that are filled in were entered from memory, so confirm that each one resolves to the stated MPN.
+3. **Check stock on the LCSC numbers.** Every part in the BOM now has an LCSC number, each matched to its listing in November 2026 (see [JLCPCB parts](#jlcpcb-parts)). Stock moves, so re-check at upload. Use the listed alternatives if a part has run out.
 4. **Check every CPL rotation** in JLC's preview, on both sides. Watch especially the diodes, LEDs, SOT-23s and the relay, since a polarity error there matters.
 5. **Check the stack gap** with the real stacking headers, relays and the OLED.
 6. **Confirm LMR16006's FB voltage (0.765 V)** against the datasheet. The output is 5.05 V with 56k/10k.
+
+## JLCPCB parts
+
+All 35 SMD line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/bench_stim_wing_bom_jlc.csv).
+
+| Part | LCSC | Notes |
+|---|---|---|
+| LMR16006YQDDCRQ1 buck | C544521 | Extended. TI rates it **40 V, 65 V transient**. The TVS clamps at ~39 V |
+| MCP4728-E/UN DAC | C108207 | Extended |
+| MCP6004-I/ST op-amp | C185811 | Extended. **Low stock** when checked; alternative is UMW MCP6004T-I/ST, C32713110 (same TSSOP-14 pinout) |
+| TCA9534PWR expander | C783615 | Extended |
+| Si2319CDS-T1-GE3 P-FET | C146287 | Vishay. Avoid the "-JSM" copy, C18191323, which has a different rating |
+| G6K-2F-Y DC5 relay | C231389 | In stock. C1560486 is the same MPN but listed unavailable |
+| SWPA4030S220MT 22 µH | C83472 | Isat 1.3 A |
+| SMBJ24CA TVS | C1973089 | Bourns. Every SMBJ24CA listing found is Extended |
+| PMEG6010CEH Schottky | C110797 | Stock may be 0; alternative is PMEG6010CEH-QX, C5311567 |
+| SS34 Schottky | C8678 | Basic, but marked "not recommended for new designs"; alternative is FOSAN C5119706 |
+| BAT54S | C171786 | |
+| 2 A fuse, 1206 | C3105 | Littelfuse 0466002.NRHF, the halogen-free version of 0466002.NR |
+| 0.1 A PTC, 60 V | C2153714 | Littelfuse 1206L010/60WR |
+| 0.5 A PTC, 30 V | C7542947 | LUTE 1206L050/30NR. No LCSC listing found for the Littelfuse 1206L050/30WR |
+| 10 µF 50 V 1206 | C13585 | |
+| 4.7 µF 50 V 1206 | C51205 | |
+| 10 µF 25 V 0805 | C15850 | Basic |
+| 100 nF 50 V 0603 | C14663 | Basic. Showed out of stock on one LCSC page |
+| 0402 resistors (100R, 470R, 1k, 10k, 12k, 22k, 33k, 100k) | C25076, C25117, C11702, C25744, C25752, C25768, C25779, C25741 | UNI-ROYAL, Basic |
+| 56k 0402 | C25796 | UNI-ROYAL. **Extended**, not Basic |
+| 4.7k 0603 | C23162 | Basic |
+| 2N7002 | C8545 | Basic |
+| 1N4148WS | C2128 | Basic |
+| LEDs 0603 (red, yellow, blue, green) | C2286, C72038, C72041, C72043 | Basic per a community library listing; not confirmed on JLC's own pages |
+
+**About 13 Extended part types,** at about $3 each in setup fees. Swapping R3 56k for a Basic value would mean recomputing the 5 V divider. Not worth it.
 
 ## Firmware (next)
 

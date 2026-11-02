@@ -5,7 +5,7 @@ from the netlist KiCad exports from that schematic, plus PLACE below.
 
 What the board does (see ../README.md and ../HANDOFF.md):
   * takes 12 V (bench supply or car battery) through a fuse, reverse-polarity
-    diode and TVS, and makes 5 V with a 60 V-rated buck;
+    diode and TVS, and makes 5 V with a 40 V (65 V transient) buck;
   * feeds that 5 V to the Feather's USB pin through a Schottky (Adafruit's
     usual way to power a Feather from a Wing), so the logger stack needs no
     power bank;
@@ -50,8 +50,8 @@ MSOP10 = "Package_SO:MSOP-10_3x3mm_P0.5mm"
 FUSE1206 = "Fuse:Fuse_1206_3216Metric"
 GH = "Connector_JST:JST_GH_SM{n:02d}B-GHS-TB_1x{n:02d}-1MP_P1.25mm_Horizontal"
 
-# Part numbers: (MPN, JLCPCB/LCSC part #). An empty LCSC number means "pick the
-# in-stock match at upload": better than guessing a number that's wrong.
+# Part numbers: (MPN, JLCPCB/LCSC part #). Every LCSC number was checked against
+# its LCSC/JLCPCB listing (Nov 2026). Stock moves: re-check at upload.
 PARTS_LIB = {
     "100R": ("0402WGF1000TCE", "C25076"),
     "470R": ("0402WGF4700TCE", "C25117"),
@@ -66,24 +66,24 @@ PARTS_LIB = {
     "100nF": ("CL05B104KO5NNNC", "C1525"),          # 0402 X7R 16 V: logic rails only
     "100nF 50V": ("CC0603KRX7R9BB104", "C14663"),   # 0603 X7R 50 V: anything on 12 V
     "10uF 25V": ("CL21A106KAYNNNE", "C15850"),      # 0805 X5R 25 V
-    "4.7uF 50V": ("CL31B475KBHNNNE", ""),           # 1206 X7R 50 V, buck input
-    "10uF 50V": ("CL31A106KBHNNNE", ""),            # 1206 X5R 50 V, 12 V bulk
+    "4.7uF 50V": ("CL31B475KBHNNNE", "C51205"),           # 1206 X7R 50 V, buck input
+    "10uF 50V": ("CL31A106KBHNNNE", "C13585"),            # 1206 X5R 50 V, 12 V bulk
     "1N4148WS": ("1N4148WS", "C2128"),
-    "SS34": ("SS34", "C8678"),                       # 3 A 40 V Schottky, SMA
-    "PMEG6010CEH": ("PMEG6010CEH", ""),             # 1 A 60 V Schottky, SOD-123F
-    "SMBJ24CA": ("SMBJ24CA", ""),                    # 600 W TVS, 24 V stand-off
-    "BAT54S": ("BAT54S", ""),
+    "SS34": ("SS34", "C8678"),                       # 3 A 40 V Schottky, SMA (MDD; alt. FOSAN C5119706)
+    "PMEG6010CEH": ("PMEG6010CEH,115", "C110797"),  # 1 A 60 V Schottky, SOD-123F (alt. -QX C5311567)
+    "SMBJ24CA": ("SMBJ24CA (Bourns)", "C1973089"),  # 600 W TVS, 24 V stand-off
+    "BAT54S": ("BAT54S", "C171786"),
     "2N7002": ("2N7002", "C8545"),
-    "Si2319CDS": ("SI2319CDS-T1-GE3", ""),          # P-FET -40 V, Vgs +/-20 V
-    "LMR16006YQ": ("LMR16006YQDDCRQ1", ""),         # 60 V 0.6 A buck, 0.7 MHz
-    "22uH": ("SWPA4030S220MT", ""),                 # 4x4x3 mm shielded, Isat ~0.9 A
-    "MCP4728": ("MCP4728-E/UN", ""),
-    "MCP6004": ("MCP6004-I/ST", ""),
-    "TCA9534": ("TCA9534PWR", ""),
-    "G6K-2F-Y 5V": ("G6K-2F-Y DC5", ""),
-    "FUSE 2A": ("0466002.NR", ""),                  # Littelfuse 466 series, 1206 fast 63 V
-    "PTC 0.1A": ("1206L010/60WR", ""),              # 1206 PTC, 0.1 A hold, 60 V
-    "PTC 0.5A": ("1206L050/30WR", ""),              # 1206 PTC, 0.5 A hold
+    "Si2319CDS": ("SI2319CDS-T1-GE3", "C146287"),   # P-FET -40 V, Vgs +/-20 V (Vishay)
+    "LMR16006YQ": ("LMR16006YQDDCRQ1", "C544521"),  # 40 V (65 V transient) 0.6 A buck, 0.7 MHz
+    "22uH": ("SWPA4030S220MT", "C83472"),           # 4x4x3 mm shielded, Isat 1.3 A
+    "MCP4728": ("MCP4728-E/UN", "C108207"),
+    "MCP6004": ("MCP6004-I/ST", "C185811"),         # low stock: alt. UMW MCP6004T-I/ST C32713110
+    "TCA9534": ("TCA9534PWR", "C783615"),
+    "G6K-2F-Y 5V": ("G6K-2F-Y DC5", "C231389"),     # Omron, in stock (C1560486 is the same MPN, unavailable)
+    "FUSE 2A": ("0466002.NRHF", "C3105"),           # Littelfuse 466, 1206 very fast 2 A 63 V (halogen-free)
+    "PTC 0.1A": ("1206L010/60WR", "C2153714"),      # Littelfuse 1206 PTC, 0.1 A hold, 60 V
+    "PTC 0.5A": ("1206L050/30NR (LUTE)", "C7542947"),  # 1206 PTC, 0.5 A hold, 30 V
     "LED RED": ("KT-0603R", "C2286"),
     "LED GRN": ("KT-0603G", "C72043"),
     "LED YEL": ("KT-0603Y", "C72038"),
@@ -178,7 +178,7 @@ LEDIND("D3", "R1", "GRN", "+12V", "12V", r="10k")      # ~1 mA at 12 V
 # catch diode. 0.7 MHz (Y version) with 22 uH gives ~0.2-0.3 A ripple.
 add("U1", "Regulator_Switching:LMR16006YQ", "LMR16006YQ", "Package_TO_SOT_SMD:SOT-23-6",
     {"1": "BUCK_CB", "2": "GND", "3": "BUCK_FB", "4": "BUCK_EN", "5": "+12V", "6": "BUCK_SW"},
-    note="60 V 0.6 A buck, 5 V out")
+    note="40 V (65 V transient) 0.6 A buck, 5 V out")
 C("C3", "4.7uF 50V", "+12V", "GND", "Buck input, at VIN", fp=C1206)
 C("C4", "100nF 50V", "+12V", "GND", "Buck input HF, at VIN/GND pins", fp=C0603)
 R("R2", "100k", "+12V", "BUCK_EN", "Buck always on when 12 V is present")
