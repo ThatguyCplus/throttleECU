@@ -14,7 +14,7 @@ import pcbnew
 
 import make_pcb as M
 
-CLEAR = 0.15
+CLEAR = float(__import__("os").environ.get("FV_CLEAR", "0.15"))
 VIA_R = 0.225
 STUB_W = 0.25
 

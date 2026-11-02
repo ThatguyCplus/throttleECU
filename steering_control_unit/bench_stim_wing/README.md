@@ -11,10 +11,10 @@ It sits **between the Adalogger and the OLED FeatherWing**, on stacking headers,
 
 > **Status: routed and checked in KiCad 10.0.8, nothing ordered.** The board is fully routed, and the Gerbers, BOM and CPL are in [fab/](fab/). Read [Before ordering](#before-ordering) first: several part numbers, the relay pinout and the JLC rotations still need a human check.
 >
-> | KiCad 10.0.8 check | Result |
+> | KiCad 10.0.8 check (with JLCPCB's rules, [bench_stim_wing.kicad_dru](bench_stim_wing.kicad_dru)) | Result |
 > |---|---|
 > | ERC | **0 errors**. 20 warnings: symbols drawn from KiCad 7's library differ from KiCad 10's copies, and KiCad 10 renamed `G6K-2` |
-> | DRC | **0 errors, 0 unconnected, 0 schematic-parity issues**. Warnings: footprints differ from KiCad 10's library copies, and some silk is small or under copper |
+> | DRC | **0 copper errors, 0 unconnected, 0 schematic-parity issues**, including JLCPCB's 0.2 mm track-to-through-hole-pad rule and 1.0 mm / 0.15 mm text. Warnings left: stock footprint outlines touching their own pads (JLC clips those), footprints differ from KiCad 10's library copies, and J2's outline at the board edge (deliberate, edge connector) |
 
 | Top (3D) | Back (3D) |
 |---|---|
@@ -175,7 +175,7 @@ The pads are numbered 1–15 on the back silk; names don't fit at JLC's 1 mm min
 | Signal tracks | 0.15 mm (mA and below) |
 | Power tracks | +12 V path and IG1 0.5 mm; +5 V, USB, buck SW, SAS and ARM 0.4 mm; 3V3 0.3 mm |
 | Clearance | 0.127 mm; **0.21 mm from tracks to plated through-hole pads** (JLCPCB's 0.2 mm pad-to-trace rule) |
-| GND plane | In1 carries no signal tracks (the router treats it as a power plane) |
+| GND plane | In1 is a solid GND pour; a few low-speed signals cross it where routing needed the room |
 | Silkscreen | All text >= 1.0 mm high with a 0.15 mm stroke (JLCPCB minimum) |
 | JLCPCB rules | [bench_stim_wing.kicad_dru](bench_stim_wing.kicad_dru), the 4-layer 1 oz set from [Cimos/kicad-druid](https://github.com/Cimos/kicad-druid) (MIT). KiCad loads it as the project's custom rules |
 | Vias | 0.45/0.2 mm signal, 0.6/0.3 mm power |
@@ -203,16 +203,16 @@ sh route.sh                  # full re-route with Freerouting (a different resul
 
 `route.sh` expects `kicad-cli` and a Python that can `import pcbnew` (`PY=...`). A full re-route also needs the Freerouting 1.9 jar (`JAR=...`). On Windows with KiCad 10, point `PY` at KiCad's bundled `python.exe`, and set `KICAD_SYMBOL_DIR` / `KICAD_FOOTPRINT_DIR` if the libraries aren't found.
 
-**How it got to 0 unconnected:**
+**How it got to 0 unconnected (and JLCPCB-clean):**
 - **Freerouting version.** 2.0.1 ignored its pass limit and never finished, so routing uses 1.9.0 with `-oit 100`. Without that flag the post-route optimiser runs for hours.
-- **Finer signal rules.** Freerouting left 11 connections open at 0.2/0.15 mm, so signal tracks went down to 0.15 mm with 0.127 mm clearance.
-- **Hand fixes for the last two connections** ([placement.py](gen/placement.py) `MANUAL_ROUTES`). KiCad 7 exports some back-side pads to Freerouting on the wrong layer, which left these two open. [find_via.py](gen/find_via.py) searches for clear via spots:
-  - C5 gets a short stub and a via up to the BUCK_SW track.
-  - A BUCK_EN segment is re-run at y = 15.4 mm.
-  - R25's GND pad gets a via to the In1 plane. **That via is in the pad.** It's fine for a 100 k pull-down, but ask JLC to plug/tent vias, or nudge it in KiCad 10.
+- **Rules.** Signal tracks are 0.15 mm with 0.127 mm clearance, but tracks stay **0.21 mm from plated through-hole pads**, per JLCPCB's 0.2 mm pad-to-trace rule. KiCad 7 doesn't export per-pad clearances to Freerouting, so `make_pcb.py` grows the through-hole pads in the router's copy of the board instead (`dsn_router_tweaks`).
+- **Spare DAC channels simplified.** DAC C/D used to have their own op-amp stages. Routing those with the wider through-hole clearance left nets unroutable, so they now go straight to test pads 10/11.
+- **Hand fixes** ([placement.py](gen/placement.py) `MANUAL_ROUTES`, which belongs to the committed [bench_stim_wing.ses](gen/bench_stim_wing.ses)). KiCad 7 exports some back-side pads to Freerouting on the wrong layer, which leaves a few connections "connected" in its eyes but open on the board. [maze_route.py](gen/maze_route.py) (a small 4-layer grid router that keeps every clearance) and [find_via.py](gen/find_via.py) close them:
+  - **Q5 gate:** routed to the ARM net, 0.15 mm (gate drive only).
+  - **R2's +12V pad:** gets a via up to the +12V track. **That via is in the pad.** It's fine for a 100 k pull-up, but ask JLC to plug/tent vias. To make room, an In2 +5V run moves down.
+  - A NEP_DRV detour that Freerouting threaded through R27's pad gap is replaced with a direct drop.
 - **Net classes live in [bench_stim_wing.kicad_pro](bench_stim_wing.kicad_pro),** so KiCad 10 opens the board with the same rules.
-- **One signal on In1.** Freerouting ran one track (IG1_G, DC) on In1. That leaves a small slot in the GND plane there, which is harmless for these low-speed signals.
-- **What DRC still reports.** The remaining entries are cosmetic: silk labels smaller than 0.8 mm or partly under copper, and J2's outline reaching the board edge, which is deliberate since it's an edge connector. The rest are library-table warnings from the build machine.
+- **In1 (the GND plane) carries a few signal tracks.** A signal-free In1 was tried, but with the wider through-hole clearances it left ~35 connections unroutable. The slots this cuts in the plane are harmless at these speeds.
 
 `check_netlist.py` checks every pin in the exported netlist against `design.py`. When `kicad10-cli` is installed, `route.sh` also runs KiCad 10's ERC, its DRC with schematic parity, and the 3D renders.
 

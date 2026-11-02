@@ -29,11 +29,8 @@ VIA_COST, IN1_PENALTY = 25.0, 3.0
 # (net, from item, to item). Items: ("pad", ref, num) or ("track", layer, x, y) =
 # the same-net track nearest (x, y) on that layer, or ("via", x, y).
 JOBS = [
-    # (net, from, to, track width mm). These three carry microamps (gate/enable
-    # pull-ups), so a 0.25 mm stub is plenty even on the +12V / ARM nets.
-    ("+12V", ("pad", "R6", "1"), ("track", pcbnew.F_Cu, 7.1, 15.1), 0.25),
-    ("+12V", ("pad", "R2", "1"), ("net",), 0.15),
-    ("/ARM", ("pad", "Q5", "1"), ("net",), 0.25),
+    # (net, from, to, track width mm)
+    ("+5V", ("via", 13.84, 7.2), ("net",), 0.4),
 ]
 
 
@@ -152,7 +149,11 @@ def item_cells(board, g, net, item):
         if exclude:
             board.BuildConnectivity()
             conn = board.GetConnectivity()
-            start = next(p for p in board.FindFootprintByReference(exclude[0]).Pads() if p.GetNumber() == exclude[1])
+            if exclude[0] == "via":
+                start = min((t for t in board.GetTracks() if isinstance(t, pcbnew.PCB_VIA) and t.GetNetname() == net),
+                            key=lambda t: math.hypot(mm2(t.GetPosition())[0] - exclude[1], mm2(t.GetPosition())[1] - exclude[2]))
+            else:
+                start = next(p for p in board.FindFootprintByReference(exclude[0]).Pads() if p.GetNumber() == exclude[1])
             todo = [start]
             while todo:
                 it = todo.pop()
@@ -354,7 +355,7 @@ def main():
         blocked, viablock = obstacles(board, g, net, width / 2, via_r)
         src, _ = item_cells(board, g, net, a)
         if b[0] == "net":
-            b = ("net", (a[1], a[2]))
+            b = ("net", a if a[0] == "via" else (a[1], a[2]))
         dst, goal_xy = item_cells(board, g, net, b)
         path = astar(g, blocked, viablock, src, dst, goal_xy)
         if path is None:

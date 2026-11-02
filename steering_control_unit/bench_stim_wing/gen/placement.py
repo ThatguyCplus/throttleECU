@@ -114,22 +114,41 @@ for i in range(len(design.TEST_PADS)):
 
 # Stubs + vias for the connections Freerouting left open (see make_pcb.manual_routes).
 MANUAL_ROUTES = [
-    # Freerouting threaded NEP_DRV and NEP_STIM through R27's pad gap on top of each
-    # other: drop that NEP_DRV detour and run R27.1 straight down to the NEP_DRV track.
-    ("delete", "/NEP_DRV", 20.0, 13.89, 19.888, 13.89),
-    ("delete", "/NEP_DRV", 19.888, 13.89, 19.477, 14.3),
-    ("delete", "/NEP_DRV", 19.477, 14.3, 19.477, 14.571),
-    ("delete", "/NEP_DRV", 19.477, 14.571, 19.508, 14.602),
-    ("delete", "/NEP_DRV", 19.508, 14.602, 19.508, 14.602),
-    ("delete", "/NEP_DRV", 19.508, 14.602, 19.674, 14.436),
-    ("delete", "/NEP_DRV", 19.674, 14.436, 20.326, 14.436),
-    ("delete", "/NEP_DRV", 20.326, 14.436, 20.524, 14.634),
-    ("track", "/NEP_DRV", "B_Cu", 20.0, 13.89, 20.524, 13.89, 0.15),
-    ("track", "/NEP_DRV", "B_Cu", 20.524, 13.89, 20.524, 14.634, 0.15),
-    # R6 (Q1 gate pull-up) to +12V: via + top-side stub (maze_route.py)
-    ("via", "+12V", 7.95, 13.7),
-    ("track", "+12V", "F_Cu", 7.95, 13.7, 7.8, 14.15, 0.25),
-    ("track", "+12V", "F_Cu", 7.8, 14.15, 7.1, 15.1, 0.25),
+    # Freerouting sees some back-side pads on the wrong layer, so it leaves these
+    # "connected" to top copper right above them. Fixes for bench_stim_wing.ses:
+    # Q5 gate (ARM): short stub + via to the ARM copper above (find_via.py).
+    # R2.1 (+12V, BUCK_EN pull-up): move the In2 +5V run from y 7.55 down to y 9.5
+    # to free the spot, then via in R2's pad + top stub to the +12V track.
+    ("delete", "+5V", 9.623, 7.5492, 13.491, 7.5492),
+    ("delete", "+5V", 13.491, 7.5492, 13.84, 7.2001),
+    ("via", "+12V", 12.1, 7.92),
+    ("track", "+12V", "F_Cu", 12.1, 7.92, 12.1, 8.42, 0.25),
+    # +5V via at (13.84, 7.2) re-joined on In2 after the R2 fix (maze_route.py)
+    ("track", "+5V", "In2_Cu", 13.84, 7.2, 13.6, 7.45, 0.4),
+    ("track", "+5V", "In2_Cu", 13.6, 7.45, 12.45, 8.4, 0.4),
+    ("track", "+5V", "In2_Cu", 12.45, 8.4, 12.2, 8.5, 0.4),
+    ("track", "+5V", "In2_Cu", 12.2, 8.5, 10.6, 8.35, 0.4),
+    ("track", "+5V", "In2_Cu", 10.6, 8.35, 10.4, 8.25, 0.4),
+    ("track", "+5V", "In2_Cu", 10.4, 8.25, 9.57, 8.25, 0.4),
+    # Q5 gate (ARM): maze_route.py, 0.15 mm (gate drive only)
+    ("track", "/ARM", "B_Cu", 13.86, 12.65, 14.5, 12.4, 0.15),
+    ("track", "/ARM", "B_Cu", 14.5, 12.4, 16.55, 12.25, 0.15),
+    ("track", "/ARM", "B_Cu", 16.55, 12.25, 16.7, 12.1, 0.15),
+    ("track", "/ARM", "B_Cu", 16.7, 12.1, 17.0, 10.35, 0.15),
+    ("track", "/ARM", "B_Cu", 17.0, 10.35, 17.1, 10.25, 0.15),
+    ("track", "/ARM", "B_Cu", 17.1, 10.25, 18.0, 9.65, 0.15),
+    ("track", "/ARM", "B_Cu", 18.0, 9.65, 18.3, 9.6, 0.15),
+    ("track", "/ARM", "B_Cu", 18.3, 9.6, 19.0, 9.95, 0.15),
+    ("track", "/ARM", "B_Cu", 19.0, 9.95, 21.15, 10.2, 0.15),
+    ("track", "/ARM", "B_Cu", 21.15, 10.2, 21.3, 10.15, 0.15),
+    ("track", "/ARM", "B_Cu", 21.3, 10.15, 21.45, 10.0, 0.15),
+    ("track", "/ARM", "B_Cu", 21.45, 10.0, 21.55, 9.9, 0.15),
+    ("track", "/ARM", "B_Cu", 21.55, 9.9, 21.55, 9.55, 0.15),
+    ("track", "/ARM", "B_Cu", 21.55, 9.55, 21.35, 9.35, 0.15),
+    ("track", "/ARM", "B_Cu", 21.35, 9.35, 21.05, 9.15, 0.15),
+    ("via", "/ARM", 21.05, 9.15),
+    ("track", "/ARM", "F_Cu", 21.05, 9.15, 24.0, 9.25, 0.15),
+    ("track", "/ARM", "F_Cu", 24.0, 9.25, 26.3, 9.25, 0.15),
 ]
 
 
