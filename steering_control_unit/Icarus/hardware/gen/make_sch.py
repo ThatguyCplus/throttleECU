@@ -48,7 +48,40 @@ CUSTOM_SYMS = {
                       ("11", "EP", "B", "passive")]),
     "SQJ147ELP": ("Q", [("5", "D", "L", "passive"), ("1", "S", "R", "passive"), ("2", "S", "R", "passive"),
                         ("3", "S", "R", "passive"), ("4", "G", "B", "input")]),
+    # TLV733P-Q1 in the DRV (WSON-6) package: SBVS283F Table 5-1. NOT the SOT-23 (DBV) pin order.
+    "TLV73312_DRV": ("U", [("6", "IN", "L", "power_in"), ("4", "EN", "L", "input"), ("1", "OUT", "R", "power_out"),
+                           ("2", "NC", "R", "no_connect"), ("5", "NC", "R", "no_connect"), ("3", "GND", "B", "power_in"),
+                           ("7", "EP", "B", "passive")]),
+    # TMS570LS0432 100-pin PZ: every pin from SPNS186C Tables 4-1 .. 4-16 (rev 0.7, CH-B monitor).
+    "TMS570LS0432": ("U", [(n, nm, "L", "bidirectional") for n, nm in (
+        ("1", "GIOA0/SPI3nCS3"), ("2", "GIOA1/SPI3nCS2"), ("5", "GIOA2/SPI3nCS1"), ("8", "GIOA3/SPI2nCS3"),
+        ("9", "GIOA4/SPI2nCS2"), ("10", "GIOA5/EXTCLKIN"), ("12", "GIOA6/SPI2nCS1/N2HET31"), ("18", "GIOA7/N2HET29"),
+        ("19", "N2HET0"), ("22", "N2HET2"), ("25", "N2HET4"), ("26", "N2HET6"), ("74", "N2HET8"), ("83", "N2HET10"),
+        ("89", "N2HET12"), ("90", "N2HET14"), ("97", "N2HET16"), ("98", "N2HET18"), ("11", "N2HET22"),
+        ("64", "N2HET24"), ("58", "ADEVT/N2HET28"), ("27", "MIBSPI1nCS2/N2HET20/N2HET19"),
+        ("39", "MIBSPI1nCS3/N2HET26"), ("93", "MIBSPI1nCS1/EQEPS/N2HET17"), ("68", "MIBSPI1nENA/N2HET23/N2HET30"),
+        ("73", "MIBSPI1nCS0"), ("65", "MIBSPI1SIMO"), ("66", "MIBSPI1SOMI"), ("67", "MIBSPI1CLK"),
+        ("23", "SPI2nCS0"), ("70", "SPI2SIMO"), ("69", "SPI2SOMI"), ("71", "SPI2CLK"), ("35", "SPI3SIMO"),
+        ("34", "SPI3SOMI"), ("36", "SPI3CLK/EQEPA"), ("37", "SPI3nENA/EQEPB"), ("38", "SPI3nCS0/EQEPI"),
+        ("62", "CAN1TX"), ("63", "CAN1RX"), ("91", "CAN2TX"), ("92", "CAN2RX"), ("95", "LINTX"), ("94", "LINRX"),
+        ("84", "ECLK"), ("75", "TMS"), ("77", "TDI"))]
+        + [("78", "TDO", "L", "output"), ("79", "TCK", "L", "input"), ("76", "~{TRST}", "L", "input"),
+           ("80", "RTCK", "L", "output")]
+        + [(n, nm, "R", "input") for n, nm in (
+            ("42", "ADIN0"), ("49", "ADIN1"), ("51", "ADIN2"), ("52", "ADIN3"), ("54", "ADIN4"), ("55", "ADIN5"),
+            ("56", "ADIN6"), ("43", "ADIN7"), ("57", "ADIN8"), ("48", "ADIN9"), ("50", "ADIN10"), ("53", "ADIN11"),
+            ("40", "ADIN16"), ("41", "ADIN17"), ("44", "ADIN20"), ("45", "ADIN21"))]
+        + [("46", "VCCAD/ADREFHI", "R", "power_in"), ("47", "VSSAD/ADREFLO", "R", "power_in"),
+           ("31", "~{PORRST}", "R", "input"), ("81", "~{RST}", "R", "bidirectional"),
+           ("82", "~{ERROR}", "R", "bidirectional"), ("14", "OSCIN", "R", "input"), ("16", "OSCOUT", "R", "output"),
+           ("15", "KELVIN_GND", "R", "passive"), ("24", "TEST", "R", "input"), ("3", "FLTP1", "R", "passive"),
+           ("4", "FLTP2", "R", "passive")]
+        + [(n, "VCC", "B", "power_in") for n in ("13", "21", "30", "32", "61", "88", "99")]
+        + [(n, "VCCIO", "B", "power_in") for n in ("6", "28", "60", "85")]
+        + [("96", "VCCP", "B", "power_in")]
+        + [(n, "VSS", "B", "power_in") for n in ("7", "17", "20", "29", "33", "59", "72", "86", "87", "100")]),
 }
+assert sorted(int(p[0]) for p in CUSTOM_SYMS["TMS570LS0432"][1]) == list(range(1, 101)), "TMS570: all 100 pins once"
 
 
 def uid(*key):
@@ -120,6 +153,8 @@ def _pin_type_fix(name, num, pname, ptype):
         return "open_collector"                  # UV/OV are open-drain on TPS3702-Q1
     if name == "TPS1H100" and pname == "OUT":
         return "passive"                         # one output across three pins
+    if name in ("LM66100DCK", "MCP73833-xxx-MF", "TPS61092") and ptype == "power_out":
+        return "passive"                         # ORed / battery-backed rails: PWR_FLAG marks the source
     if name in VENDOR_SYMS and pname == "GND":
         return "power_in"                        # some vendor symbols mark GND as power_out
     if name == "F280049C" and pname.startswith(("VDD", "VSS")):

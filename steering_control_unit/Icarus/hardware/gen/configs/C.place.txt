@@ -1,0 +1,3 @@
+top    columns need 24.2 / 19.4 / 17.5 mm, spare 22.1 mm
+bottom columns need 26.1 / 32.3 mm, spare 25.9 mm
+region 'ch_b' needs 45.0 mm of height, has 38.6

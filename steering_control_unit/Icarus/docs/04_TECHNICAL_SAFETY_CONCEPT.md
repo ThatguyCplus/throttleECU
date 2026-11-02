@@ -37,7 +37,7 @@
   CH-A DACA ─ RC slew limit ─ Δ gain (sets Δmax) ─┬─► +Δ to VT3 summer
                                                   └─ inverter ─► −Δ to VT6 summer
 
-  CH-A ⇄ FSI (CRC, counter) ⇄ CH-B         CAN: TCAN3404-Q1 (CH-A)  +  TCAN3404-Q1 (CH-B), same bus
+  CH-A ⇄ UART (CRC, counter) ⇄ CH-B        CAN: TCAN3404-Q1 (CH-A)  +  TCAN3404-Q1 (CH-B), same bus
   VSP / NEP / WLP / RT+ / IG1 / disengage (2 contacts) → separate dividers per channel
 ```
 
@@ -58,8 +58,8 @@ A trip latches GUARD_OK low (a flip-flop or SR latch reset only by key-off) and 
 | SM-02 | **Series high-side (CH-A) + low-side (CH-B) coil switches.** Either one de-energizes K1 | 1oo2 shutdown | FSR-01, -09 |
 | SM-03 | **Hardware AND of each channel's enable with its window watchdog and supply-good** | MCU hang, runaway, early or late service, rail fault | FSR-10, -11 |
 | SM-04 | **Dynamic enable on CH-B.** The FET gate is fed by a charge pump from a PWM, so a stuck-high or stuck-low pin gives OFF | GPIO stuck-at faults | FSR-01 |
-| SM-05 | **Analog authority limit.** Δ = k·(V_DAC − V_mid). The DAC can't leave 0–3.3 V, so \|Δ\| ≤ 1.65·k = Δmax | Any software or MCU error | FSR-02 |
-| SM-06 | **Single DAC with a hardware inverter for VT6.** Antisymmetry comes from the circuit, not from two software paths | Asymmetric offset that would trip the EPS average check | FSR-03 |
+| SM-05 | **Analog authority limit, inside the summers (rev 0.3).** Each summer adds k·(DCMD − VMID) with k = 1.1 k / 10 k = 0.110, set by 0.1 % resistor ratios. The DAC can't leave 0–3.3 V, so the commanded offset is ≤ 0.18 V; and because the ratio sits in the summer itself, a railed op-amp anywhere upstream (DAC buffer, VMID buffer) is bounded to k·(5 − 1.65) = 0.37 V. Rev 0.2 had the attenuator ahead of a follower, so a railed follower could apply ~3.3 V until the relays reacted | Any software or MCU error, and op-amp faults ahead of the summer | FSR-02 |
+| SM-06 | **Single DAC, mirrored summers.** The VT3 and VT6 summers use the same four 0.1 % values with DCMD and VMID swapped, giving +kΔ and −kΔ from one command. No separate inverter stage (rev 0.3) | Asymmetric offset that would trip the EPS average check | FSR-03 |
 | SM-07 | **RC slew limit on Δ** (τ TBD-DATA, about 10 ms) | Steps and oscillation | FSR-05 |
 | SM-08 | **EPS-side readback on both channels.** Checks EPS-side − sensor-side = commanded Δ ± ε, and that VT3_out + VT6_out = VT3_raw + VT6_raw | Op-amp, resistor, DAC and relay faults, including a welded contact | FSR-03, -04 |
 | SM-09 | **Relay proof-test at key-on.** Energize with Δ = 0, confirm both contacts moved by readback with a test offset in a safe window, then release. Also checks coil current (TPS1H100 sense) and the low-side node | Latent welded or open relay, coil-driver faults | FSR-12 |
@@ -70,8 +70,12 @@ A trip latches GUARD_OK low (a flip-flop or SR latch reset only by key-off) and 
 | SM-14 | **Two cascaded changeover relays (K1, K2).** The overlay needs both energized; each coil is cross-driven (high side from one channel, low side from the other) | A welded relay contact, a single coil-driver short | FSR-01 |
 | SM-15 | **CH-C analog guard.** Window comparators on the out − raw difference and on the sum, latched trip, own supply (+5V0_B), cuts all coils | Errors in both MCUs at once, including common-cause software/silicon faults | FSR-02, -03, -04 |
 | SM-20 | **Guard referenced to CH-B's expected Δ (R2).** CH-B's DAC, through the same slew filter and attenuator as CH-A, makes REF3/REF6 = VMID ∓ Δexp. These are the D3/D6 references, so the software-free guard trips if CH-A applies a Δ that CH-B did not independently expect | A wrong CH-A command inside the envelope | FSR-04, decomposition |
+| SM-21 | **Supervisor self-test at key-on (R5).** A 10 k resistor sits between +5V0 and the TPS3702 SENSE pin; SUPTEST pulls SENSE to 2.5 V, UV must assert and SUP_OK must drop (read back on SUPOK_MON). UV path only; a stuck-on test FET disables that channel, which is safe | Latent loss of the 5 V window supervisor | LFM |
+| SM-22 | **2oo2 clear of the guard latch (R7).** The latch's CLR path goes through an AND of a CH-A GPIO and a CH-B GPIO. Rev 0.2 let CH-B alone clear a real trip | A monitor-channel fault un-latching the guard | FSR-16 |
+| SM-23 | **Speed-dependent authority in hardware (rev 0.4).** A CH-C speed stage with no software: its own VSP divider → comparator squarer → SN74LVC1G123 one-shot (~2.2 ms per pulse) → RC average → comparator with hysteresis. Above v_switch (TBD-DATA, ~40 mph) it pulls SPEED_HI_N low. A TS5A3159-Q1 then feeds the summers a half-amplitude command (VMID + ½(DCMD − VMID)). **Every failure direction is safe:** IN low, floating or unpowered selects HALF (NC contact); an open switch leaves DCMD_SEL on VMID through 100 k (zero overlay). Both MCUs read SPDHI back and compare it with their own speed | Too much overlay at high speed (HE1, HE5) | FSR-17 |
+| SM-24 | **Backup overvoltage cutoff (rev 0.4).** A TPS3702CX50 on the LiPo boost output (VBK5) drives an inverter FET onto the CE pins of both LM66100 ideal diodes. An OV at 5.20 V, a dead supervisor's open output, or an open FET all leave CE pulled high: backup off | A boost fault reaching both 5 V rails at once (common cause) | FSR-11, DFA |
 | SM-16 | **Separate regulator chain per channel** (buck + LDO + supervisor) | Common-cause supply over- or undervoltage | FSR-11, DFA |
-| SM-17 | **Guard self-test at key-on.** With the relays released, CH-B turns on GUARD_TEST, which pulls TH_HD low and forces a trip. Both MCUs see GTRIP, the GNODE readback shows the guard FET off, then CH-B clears the latch (GUARD_RST, INIT only). R3 proposes testing every window on its own | Latent CH-C failure | LFM |
+| SM-17 | **Guard self-test at key-on (rev 0.3), every window.** Relays released. GUARD_TEST collapses the threshold ladder: the D3, D6 and sum high comparators must trip. GTEST_LO opens the ladder-bottom FET so every threshold rises: the three low comparators must trip. Each trip is seen on GTRIP by both MCUs and on the GNODE readback, then cleared 2oo2 (SM-22). The ladder-bottom FET is normally on with a pull-up, so a stuck-low GPIO only causes a safe trip | Latent CH-C failure, any comparator | LFM |
 
 ## 3. Software safety mechanisms (both channels unless noted)
 
@@ -80,7 +84,7 @@ A trip latches GUARD_OK low (a flip-flop or SR latch reset only by key-off) and 
 | SW-01 | E2E check on commands: CRC-8/16, rolling counter, 50 ms timeout, range and rate check | A, B |
 | SW-02 | Engage envelope: VSP speed and CAN speed agree within ±10 %, inside the allowed window; EPS lamp OFF; RT+ ON; Vcc2 4.75–5.25 V; IG1 ON; no latched fault | A, B |
 | SW-03 | Driver override: \|VT3_raw − VT6_raw\| converted to driver torque > T_override (TBD-DATA) → ramp-out | A, B |
-| SW-04 | Cross-channel check over FSI: state, Δ command, sequence counter, CRC. The monitor recomputes the allowed Δ envelope, not the control law (diverse) | A, B |
+| SW-04 | Cross-channel check over the UART link (rev 0.7: F280049C SCI-B ⇄ TMS570 SCI; FSI before): state, Δ command, sequence counter, CRC. The monitor recomputes the allowed Δ envelope, not the control law (diverse) | A, B |
 | SW-05 | Readback comparison (SM-08) at ≥ 1 kHz. Mismatch debounce ≤ 5 ms | A, B |
 | SW-06 | MCU self-tests per the F28004x safety manual: flash ECC, RAM ECC/parity, CPU and PIE tests, DCC clock check, missing-clock detect, ADC self-test (VREFLO/VREFHI conversions), DAC loop-back | A, B |
 | SW-07 | Patterns from the throttle ECU's `safety.c`: POST RAM march, config range check, RAM canary, fault bitmap, latched safe state | A, B |
@@ -111,7 +115,7 @@ Watchdog-detected faults depend on the watchdog window. TPS3850-Q1 preset (CWD 1
 | Coupling factor | Risk | Measure |
 |---|---|---|
 | Shared protected battery input | Load dump or reverse battery hits both chains | TVS, rev-FET, fuse. Beyond that point each channel has its own buck, LDO and supervisor (SM-16). Losing either chain drops its enables, which is safe |
-| Same MCU type (systematic) | Common silicon or compiler bug | Different clock sources (CH-A external SiT2024, CH-B internal INTOSC2); diverse monitor algorithm (envelope check vs control law); separate builds and memory maps; use only TI-qualified tools |
+| Same MCU type (systematic) | Common silicon or compiler bug | **Removed in rev 0.7: diverse MCUs.** CH-A C28x F280049C (C2000 compiler), CH-B Arm Cortex-R4F TMS570LS0432 with lockstep cores (Arm compiler, HALCoGen). Different clocks (CH-A SiT2024 MEMS, CH-B 16 MHz quartz); diverse monitor algorithm (envelope check vs control law) |
 | Shared CAN bus | Corrupt or replayed commands | E2E protection; each channel has its own transceiver; the monitor validates independently |
 | Shared PCB and connector | Contamination, a cracked board | Conformal coat, creepage between the VBAT and analog areas, connector with locking and seals |
 | Same relay type for K1 and K2 | Both weld from the same overload or contamination | Dry-circuit switching only (µA, no load to weld); key-on proof-test of each relay on its own (SM-09); consider two different relay vendors |

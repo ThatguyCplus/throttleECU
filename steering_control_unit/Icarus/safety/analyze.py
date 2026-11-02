@@ -23,14 +23,19 @@ def fit(p):
     if lib == "Device:C":
         return 1.0 if any(k in v for k in ("10uF", "22uF")) else 0.5
     table = {"Device:R": 0.2, "Device:C_Polarized": 5, "Device:L": 0.5, "Device:FerriteBead_Small": 0.2,
-             "Device:Fuse": 1, "Jumper:SolderJumper_2_Open": 0.1, "Device:LED": 1, "Device:D_Schottky": 0.5,
+             "Device:Fuse": 1, "Jumper:SolderJumper_2_Open": 0.1, "Connector:TestPoint": 0.05, "Device:LED": 1, "Device:D_Schottky": 0.5,
              "Diode:1N4148WS": 0.5, "Diode:BAS21": 0.5, "Diode:BZX84Cxx": 1, "Device:D_Zener": 2,
              "Power_Protection:NUP2105L": 1, "Transistor_FET:Q_NMOS_GSD": 2, "icarus:SQJ147ELP": 5,
-             "Amplifier_Operational:TLV9064": 8, "Comparator:LM339": 6, "74xGxx:74LVC1G11": 2,
+             "Amplifier_Operational:TLV9064": 8, "Comparator:LM339": 6, "74xGxx:74LVC1G11": 2, "74xGxx:74LVC1G08": 2,
              "74xGxx:74AUC1G74": 3, "Power_Supervisor:TPS3702": 5, "icarus:TPS3850": 5,
              "Regulator_Linear:TPS7B8133DRV": 8, "icarus:LMR38020": 15, "icarus:F280049C": 100,
              "icarus:TCAN3404": 10, "icarus:TPS1H100": 10, "icarus:SIT2024B": 5, "Relay:G6K-2": 20,
-             "Connector:Conn_ARM_JTAG_SWD_10": 1, "Connector_Generic:Conn_01x03": 1}
+             "Connector:Conn_ARM_JTAG_SWD_10": 1, "Connector_Generic:Conn_01x03": 1,
+             "Device:Polyfuse": 2, "Battery_Management:MCP73833-xxx-MF": 10, "Regulator_Switching:TPS61092": 15,
+             "Power_Management:LM66100DCK": 5, "Analog_Switch:TS5A3159DBV": 3, "74xGxx:74LVC1G123": 3,
+             "Device:Thermistor_NTC": 1, "Connector_Generic:Conn_01x02": 1,
+             "icarus:TMS570LS0432": 100, "icarus:TLV73312_DRV": 8, "Device:Crystal_GND24": 5,   # rev 0.7 CH-B
+             "Connector_Generic:Conn_02x10_Odd_Even": 1}
     if lib == "Connector_Generic:Conn_01x20":
         return 0.0                                  # modelled per pin / pair below
     return table[lib]
@@ -50,6 +55,8 @@ for el in M.ELEMENTS:
         for p in design.PARTS:
             if p["sheet"] == sheet and (p["group"] or "").startswith(gp):
                 if "libs_only" in el and p["lib"] not in el["libs_only"]:
+                    continue
+                if p["lib"] in el.get("libs_skip", ()):
                     continue
                 refs.append(p)
     for sheet, gp, lib in el.get("extra", []):

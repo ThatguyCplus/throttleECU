@@ -1,0 +1,239 @@
+2026-11-01 18:00:17.135 INFO   Freerouting v2.1.2-SNAPSHOT (build-date: 2026-04-19)
+2026-11-01 18:00:17.165 WARN   No default constructor found for field: filterByNet
+2026-11-01 18:00:18.177 INFO   Settings merged successfully from 4 source(s)
+2026-11-01 18:00:18.192 WARN   Failed to check for new version
+2026-11-01 18:00:18.294 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 18:00:18.897 INFO   Settings merged successfully from 5 source(s)
+2026-11-01 18:00:18.899 INFO   [422161\34B121] Job '422161\34B121' started at 2026-11-02T02:00:18.898014Z.
+2026-11-01 18:01:30.626 WARN   UndoableObjects.save_for_undo: object node not found
+2026-11-01 18:19:36.861 INFO   [422161\34B121] Auto-router pass #1 on board '5958b9a0ff17503e2e584437eab58a31' was completed in 19 minutes 17.39 seconds with the score of 898.34 (355 unrouted), using 1138.97 CPU seconds and the job allocated 530.30 GB of memory so far.
+2026-11-01 18:29:45.814 INFO   [422161\34B121] Auto-router pass #2 on board '0614ba33f20f6164d047508be1c5f2bc' was completed in 10 minutes 8.22 seconds with the score of 925.03 (269 unrouted), using 1737.80 CPU seconds and the job allocated 815.36 GB of memory so far.
+2026-11-01 18:38:50.724 INFO   [422161\34B121] Auto-router pass #3 on board '5ad36dae6ff376aed39b020b07d42236' was completed in 9 minutes 4.15 seconds with the score of 934.05 (238 unrouted), using 2272.39 CPU seconds and the job allocated 1047.73 GB of memory so far.
+2026-11-01 18:47:59.556 INFO   [422161\34B121] Auto-router pass #4 on board 'bf89adb49f31f726238c15817bc2e83e' was completed in 9 minutes 7.67 seconds with the score of 937.23 (226 unrouted), using 2811.03 CPU seconds and the job allocated 1241.76 GB of memory so far.
+2026-11-01 18:55:42.573 INFO   [422161\34B121] Auto-router pass #5 on board 'b92ae483162cb111dc1dc01577babdcf' was completed in 7 minutes 41.82 seconds with the score of 941.97 (208 unrouted), using 3265.23 CPU seconds and the job allocated 1426.36 GB of memory so far.
+2026-11-01 19:01:46.274 INFO   [422161\34B121] Auto-router pass #6 on board '12d8430a8a180491b2e853814a75c74a' was completed in 6 minutes 2.85 seconds with the score of 942.13 (208 unrouted), using 3622.50 CPU seconds and the job allocated 1595.00 GB of memory so far.
+2026-11-01 19:08:26.816 INFO   [422161\34B121] Auto-router pass #7 on board '565c1dd20b350dc02f6b0eb8e3cb613d' was completed in 6 minutes 39.70 seconds with the score of 944.62 (198 unrouted), using 4016.97 CPU seconds and the job allocated 1762.47 GB of memory so far.
+2026-11-01 19:14:39.559 INFO   [422161\34B121] Auto-router pass #8 on board '2e3ef13f7e779fdb84c5e2c55fc4596c' was completed in 6 minutes 11.78 seconds with the score of 944.66 (198 unrouted), using 4382.80 CPU seconds and the job allocated 1912.99 GB of memory so far.
+2026-11-01 19:21:06.170 INFO   [422161\34B121] Auto-router pass #9 on board '89f196cd5ea2ec5b9dd450126b2e736f' was completed in 6 minutes 25.68 seconds with the score of 944.03 (201 unrouted), using 4763.06 CPU seconds and the job allocated 2072.95 GB of memory so far.
+2026-11-01 19:27:18.489 INFO   [422161\34B121] Auto-router pass #10 on board 'b28281a38bffd35fab85d54e88762a73' was completed in 6 minutes 11.36 seconds with the score of 945.53 (195 unrouted), using 5129.33 CPU seconds and the job allocated 2224.01 GB of memory so far.
+2026-11-01 19:33:52.938 INFO   [422161\34B121] Auto-router pass #11 on board '33cc8c1eaf9c5b4e5fc58c43aba854b3' was completed in 6 minutes 33.50 seconds with the score of 945.83 (194 unrouted), using 5516.30 CPU seconds and the job allocated 2378.98 GB of memory so far.
+2026-11-01 19:40:10.105 INFO   [422161\34B121] Auto-router pass #12 on board 'd9cd08ea4c17bcaaeee923aa823b405f' was completed in 6 minutes 15.77 seconds with the score of 946.33 (192 unrouted), using 5886.59 CPU seconds and the job allocated 2522.12 GB of memory so far.
+2026-11-01 19:45:48.884 INFO   [422161\34B121] Auto-router pass #13 on board '72bbe361ee38f30c1c868d3609a760b4' was completed in 5 minutes 37.81 seconds with the score of 946.35 (192 unrouted), using 6218.94 CPU seconds and the job allocated 2664.51 GB of memory so far.
+2026-11-01 19:51:24.797 INFO   [422161\34B121] Auto-router pass #14 on board '1245491919dbcb13002a7778a53c3c5e' was completed in 5 minutes 35.00 seconds with the score of 946.59 (191 unrouted), using 6549.66 CPU seconds and the job allocated 2805.10 GB of memory so far.
+2026-11-01 19:57:09.568 INFO   [422161\34B121] Auto-router pass #15 on board 'fdbdda6e1368494042dacd5854276a84' was completed in 5 minutes 43.85 seconds with the score of 946.83 (190 unrouted), using 6887.39 CPU seconds and the job allocated 2948.24 GB of memory so far.
+2026-11-01 20:02:34.863 INFO   [422161\34B121] Restoring an earlier board that has the score of 946.83 (190 unrouted).
+2026-11-01 20:02:34.863 INFO   [422161\34B121] Auto-router pass #16 on board 'b750cc1b52ae0b9076d645742ea958d6' was completed in 5 minutes 24.32 seconds with the score of 946.83 (190 unrouted), using 7207.69 CPU seconds and the job allocated 3082.07 GB of memory so far.
+2026-11-01 20:06:56.751 INFO   [422161\34B121] Auto-router pass #17 on board 'b750cc1b52ae0b9076d645742ea958d6' was completed in 4 minutes 21.44 seconds with the score of 946.56 (191 unrouted), using 7464.05 CPU seconds and the job allocated 3215.10 GB of memory so far.
+2026-11-01 20:11:35.432 INFO   [422161\34B121] Auto-router pass #18 on board '3242d96f6b2947f8fd90e077d3ec36aa' was completed in 4 minutes 37.95 seconds with the score of 946.81 (190 unrouted), using 7738.38 CPU seconds and the job allocated 3358.13 GB of memory so far.
+2026-11-01 20:16:10.387 INFO   [422161\34B121] Auto-router pass #19 on board 'ee19d2d56756a3bf28e16df1bba60007' was completed in 4 minutes 34.21 seconds with the score of 946.56 (191 unrouted), using 8008.77 CPU seconds and the job allocated 3496.58 GB of memory so far.
+2026-11-01 20:20:51.585 INFO   [422161\34B121] Restoring an earlier board that has the score of 946.83 (190 unrouted).
+2026-11-01 20:20:51.586 INFO   [422161\34B121] Auto-router pass #20 on board 'b750cc1b52ae0b9076d645742ea958d6' was completed in 0.00 seconds with the score of 946.83 (190 unrouted), using 8285.56 CPU seconds and the job allocated 3640.12 GB of memory so far.
+2026-11-01 20:25:15.078 INFO   [422161\34B121] Auto-router pass #21 on board 'b750cc1b52ae0b9076d645742ea958d6' was completed in 4 minutes 23.02 seconds with the score of 946.56 (191 unrouted), using 8544.61 CPU seconds and the job allocated 3775.63 GB of memory so far.
+2026-11-01 20:29:52.680 INFO   [422161\34B121] Auto-router pass #22 on board '235311072f943e6ff3fda5121f24f0d7' was completed in 4 minutes 36.86 seconds with the score of 946.81 (190 unrouted), using 8818.38 CPU seconds and the job allocated 3920.73 GB of memory so far.
+2026-11-01 20:29:53.134 INFO   [422161\34B121] The router's best score (946.33) has not improved by more than 0.5 points since pass #12. Stopping the auto-router after 22 passes (190 items still unconnected).
+The following connections could not be routed -- please review your design (e.g. check pad clearances, trace width rules, and available routing space):
+  Net 'GND' (118 unrouted connections):
+    - C90-2  ->  via
+    - via  ->  C114-2
+    - U34-6  ->  via
+    - via  ->  U16-11@3
+    - R157-2  ->  via
+    - via  ->  C160-2
+    - via  ->  U6-4
+    - U6-3  ->  via
+    - via  ->  C79-2
+    - via  ->  U33-11
+    - U34-6  ->  U34-7
+    - U24-10  ->  U24-11
+    - U24-11  ->  U24-12
+    - via  ->  C91-2
+    - C45-2  ->  via
+    - via  ->  C44-2
+    - C151-2  ->  via
+    - C140-2  ->  via
+    - via  ->  C84-2
+    - C21-2  ->  via
+    - C80-2  ->  via
+    - via  ->  C85-2
+    - C87-2  ->  via
+    - via  ->  C88-2
+    - C76-2  ->  via
+    - via  ->  C72-2
+    - via  ->  C74-2
+    - C116-2  ->  via
+    - via  ->  C95-2
+    - via  ->  C115-2
+    - C97-2  ->  via
+    - C98-2  ->  via
+    - C94-2  ->  via
+    - via  ->  C92-2
+    - C152-2  ->  via
+    - C141-2  ->  via
+    - via  ->  C93-2
+    - C46-2  ->  via
+    - C47-2  ->  via
+    - U8-7  ->  via
+    - U6-7  ->  via
+    - via  ->  R50-2
+    - via  ->  R86-2
+    - R33-2  ->  via
+    - via  ->  R88-2
+    - R28-2  ->  via
+    - R13-2  ->  via
+    - R94-2  ->  via
+    - via  ->  R92-2
+    - R17-2  ->  via
+    - R58-2  ->  via
+    - R84-2  ->  via
+    - R98-2  ->  via
+    - via  ->  R159-2
+    - via  ->  R109-2
+    - R48-2  ->  via
+    - R231-2  ->  via
+    - R209-2  ->  via
+    - R238-2  ->  via
+    - U33-5  ->  via
+    - U32-15@6  ->  U32-15
+    - U31-15@6  ->  U31-15
+    - via  ->  U12-11
+    - U34-13  ->  via
+    - via  ->  U34-10
+    - via  ->  U12-5
+    - U34-17@2  ->  via
+    - U34-13  ->  U34-17@8
+    - D7-1  ->  via
+    - via  ->  C73-2
+    - D5-1  ->  via
+    - via  ->  C96-2
+    - C157-2  ->  via
+    - via  ->  C19-2
+    - C81-2  ->  via
+    - U34-10  ->  U34-17@9
+    - U34-7  ->  U34-17@7
+    - U12-11@2  ->  via
+    - U24-10  ->  via
+    - U13-2  ->  via
+    - via  ->  U7-2
+    - U34-17@10  ->  U34-17@7
+    - U34-17@7  ->  U34-17@6
+    - U34-17@6  ->  U34-17@3
+    - U34-17@2  ->  U34-17@1
+    - U34-17@1  ->  U34-17
+    - via  ->  C158-2
+    - via  ->  C156-2
+    - C20-2  ->  via
+    - via  ->  Q11-2
+    - Q4-2  ->  via
+    - D32-3  ->  via
+    - via  ->  U22-11
+    - via  ->  Q3-2
+    - via  ->  U19-11
+    - via  ->  TP20-1
+    - via  ->  TP10-1
+    - U31-15@1  ->  via
+    - via  ->  U14-2
+    - J1-3  ->  J1-5
+    - C18-2  ->  via
+    - C17-2  ->  via
+    - via  ->  C159-2
+    - U16-5  ->  U16-11@1
+    - via  ->  U31-15@2
+    - U32-15@1  ->  U32-15@5
+    - U32-15@1  ->  U32-15@2
+    - U32-15@6  ->  U32-15@3
+    - U31-15@2  ->  U31-15@6
+    - U31-15@5  ->  U31-15@4
+    - U31-15@3  ->  U31-15@6
+    - J1-3  ->  via
+    - U1-1  ->  via
+    - R161-2  ->  via
+    - via  ->  U5-9
+    - J1-9  ->  via
+    - U32-15@6  ->  U32-15@4
+    - U32-2  ->  U32-15@3
+  Net '+3V3_A' (23 unrouted connections):
+    - via  ->  R247-1
+    - U11-4  ->  via
+    - C46-1  ->  via
+    - C45-1  ->  via
+    - via  ->  R26-1
+    - via  ->  R240-1
+    - via  ->  U13-5
+    - R21-1  ->  C30-1
+    - via  ->  U14-3
+    - via  ->  C47-1
+    - via  ->  U12-6
+    - R25-1  ->  via
+    - R24-1  ->  R25-1
+    - via  ->  U13-5
+    - via  ->  R21-1
+    - FB1-1  ->  R21-1
+    - via  ->  C43-1
+    - U12-10  ->  U12-1
+    - C46-1  ->  via
+    - D25-1  ->  conductionarea
+    - TP23-1  ->  C47-1
+    - D25-1  ->  via
+    - D36-1  ->  conductionarea
+  Net '+3V3_B' (6 unrouted connections):
+    - R244-1  ->  via
+    - C20-1  ->  via
+    - via  ->  TP24-1
+    - conductionarea  ->  via
+    - conductionarea  ->  C58-1
+    - via  ->  U6-6
+  Net '+5V0_A' (7 unrouted connections):
+    - via  ->  U3-2
+    - via  ->  U22-4
+    - U2-6  ->  U3-1
+    - U36-6  ->  C163-1
+    - U21-5  ->  U36-6
+    - conductionarea  ->  via
+    - C163-1  ->  conductionarea
+  Net '+5V0_B' (17 unrouted connections):
+    - U6-1  ->  U6-2
+    - C95-1  ->  via
+    - via  ->  C19-1
+    - U7-5  ->  U7-4
+    - via  ->  U7-5
+    - C111-1  ->  via
+    - C17-1  ->  via
+    - U7-5  ->  C21-1
+    - C18-1  ->  R15-1
+    - U6-1  ->  via
+    - via  ->  U6-1
+    - R15-1  ->  via
+    - R12-1  ->  C18-1
+    - R15-1  ->  C17-1
+    - via  ->  conductionarea
+    - U25-4  ->  via
+    - via  ->  via
+  Net 'VBAT_P' (12 unrouted connections):
+    - U32-9  ->  U32-8
+    - U31-8  ->  U31-9
+    - U31-10  ->  U31-9
+    - via  ->  via
+    - via  ->  U1-3
+    - U31-10  ->  C121-1
+    - conductionarea  ->  R188-1
+    - U5-3  ->  via
+    - R2-1  ->  via
+    - U32-10  ->  TP2-1
+    - via  ->  R188-1
+    - C1-1  ->  conductionarea
+  Net '/ch_a/CWD_A' (1 unrouted connection):
+    - U12-2  ->  R25-2
+  Net '/ch_b/CWD_B' (1 unrouted connection):
+    - U16-2  ->  R40-2
+  Net '/ch_b/KELVIN_B' (1 unrouted connection):
+    - U15-15  ->  Y1-2
+  Net '/guard/TESTD' (1 unrouted connection):
+    - R148-1  ->  Q7-3
+  Net 'RAW3M_A' (1 unrouted connection):
+    - R81-2  ->  U10-9
+  Net 'VBAT_IN' (1 unrouted connection):
+    - F1-1@1  ->  F1-1
+  Net 'VMID_B' (1 unrouted connection):
+    - R105-2  ->  U24-5
+2026-11-01 20:29:53.388 INFO   [422161\34B121] Auto-router session completed: started with 1055 unrouted nets, completed in 2 hours 29 minutes 34.20 seconds, final score: 946.81 (190 unrouted), using 8818.38 total CPU seconds, 3920.73 GB total allocated, and 1689.73 MB peak heap usage.
+2026-11-01 20:57:23.377 INFO   [422161\34B121] Optimizer pass #1 was completed in 27 minutes 29.27 seconds with the score of 946.81 (189 unrouted).

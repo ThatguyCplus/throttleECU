@@ -27,7 +27,7 @@ Even if both MCUs fail in the same way (common-cause software or silicon), the o
 
 | Requirement | Decomposed into | Independence argument |
 |---|---|---|
-| SG1/SG2: no unintended or un-overridable overlay (D) | **CH-A control + plausibility: ASIL B(D)** | Separate MCU, clock source, LDO, watchdog, firmware build. See `04_TECHNICAL_SAFETY_CONCEPT.md` §6 |
+| SG1/SG2: no unintended or un-overridable overlay (D) | **CH-A control + plausibility: ASIL B(D)** | **Diverse MCUs (rev 0.7):** CH-A is a C28x F280049C, CH-B an Arm Cortex-R4F TMS570LS0432 with lockstep cores. Separate clock (MEMS vs quartz), LDO, watchdog, toolchain and firmware. See `04_TECHNICAL_SAFETY_CONCEPT.md` §6 |
 | | **CH-B monitor + enable path + hardware limiter: ASIL B(D)** | Same independence measures. The hardware limiter needs no software |
 
 The F280049C (F280049CPZQR) is TÜV-certified for hardware integrity up to ASIL B, with systematic capability up to ASIL D. That matches a B(D)+B(D) split.
@@ -57,6 +57,8 @@ The "→" column shows which channel or element carries each requirement:
 | FSR-14 | Icarus shall not load the torque-sensor lines (sensor-side input impedance ≥ 1 MΩ, protected) or the shared VSP/NEP lines. | 3 | A | HW |
 | FSR-15 | Loss of overlay while engaged shall be reported on CAN and to the driver indicator within 200 ms. | 4 | B | A, B |
 | FSR-16 | After a critical fault, pass-through is latched until the next ignition cycle. | 1 | D | A, B |
+| FSR-17 | The overlay authority shall fall with vehicle speed: hardware halves it above v_switch (SM-23), and firmware culls Δ further along a speed table that CH-A and CH-B both apply. The speed source for the hardware stage shall be independent of both MCUs. | 1, 5 | D | HW, A, B |
+| FSR-18 | Loss of 12 V shall not leave the overlay connected (relay coils are never backed up). The secondary 1S LiPo supply shall keep both MCUs and CH-C alive long enough to report the dropout (SG4) and shall not be able to over-voltage both channels at once (SM-24). | 1, 4 | D | HW |
 
 ## 3. Safe states and transitions
 

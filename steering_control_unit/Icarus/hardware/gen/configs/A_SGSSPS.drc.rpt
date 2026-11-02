@@ -1,0 +1,2627 @@
+** Drc report for icarus.kicad_pcb **
+** Created on 2026-11-01T17:33:46 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 203 DRC violations **
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.2922 mm, 90.4960 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(123.8457 mm, 123.8779 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(137.2586 mm, 70.2105 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(160.8550 mm, 77.8650 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.6604 mm, 95.2460 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(163.0650 mm, 78.9150 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(164.7950 mm, 66.4549 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.7450 mm, 62.5450 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(157.6150 mm, 59.2400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(138.2750 mm, 131.9864 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.1150 mm, 72.4400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(136.5888 mm, 65.7582 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.5975 mm, 53.2185 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(162.2550 mm, 81.6450 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(164.8950 mm, 62.6281 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.9455 mm, 90.8510 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(120.1650 mm, 119.8950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.3425 mm, 58.5950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.0950 mm, 59.3095 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(161.5738 mm, 77.7517 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.4025 mm, 59.0750 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(173.9025 mm, 58.5750 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(123.2100 mm, 124.1400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.8575 mm, 56.5950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(152.7754 mm, 69.8003 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(163.1650 mm, 61.8400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.1425 mm, 62.5450 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(121.9650 mm, 78.0932 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(122.6650 mm, 119.8950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.2988 mm, 76.8508 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(163.1650 mm, 65.8400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(180.4575 mm, 57.5950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(165.4224 mm, 70.0667 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(180.4575 mm, 56.5950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(166.1650 mm, 70.6650 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(157.9700 mm, 56.1299 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.2300 mm, 67.8950 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.5000 mm, 61.3400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(118.4150 mm, 121.6450 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.6025 mm, 57.6150 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(120.9150 mm, 121.6450 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(165.3868 mm, 74.1792 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(125.3911 mm, 121.3262 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(195.3187 mm, 65.7350 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(147.5150 mm, 61.3400 mm): Via [+3V3_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.9700 mm, 132.7850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.6950 mm, 139.4660 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(124.7150 mm, 134.5150 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.1400 mm, 93.0359 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(151.7700 mm, 114.3850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.1250 mm, 131.6499 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(169.5875 mm, 57.8950 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(131.7935 mm, 118.8073 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.1371 mm, 85.7410 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(169.5875 mm, 56.9450 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(117.5338 mm, 133.6389 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(171.4850 mm, 56.9450 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.8150 mm, 85.6066 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(190.8775 mm, 82.2466 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.9450 mm, 137.4960 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(158.2700 mm, 127.3350 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.1050 mm, 96.2210 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(164.1550 mm, 117.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(122.0389 mm, 136.1338 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(183.6050 mm, 96.0510 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(174.4450 mm, 136.9960 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(143.8050 mm, 123.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(120.1650 mm, 132.5650 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(187.7850 mm, 121.9971 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(151.4800 mm, 110.6850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(122.6650 mm, 132.5650 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.6456 mm, 138.5856 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.6321 mm, 104.1510 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(185.7450 mm, 99.3445 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(181.2042 mm, 115.5332 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.9850 mm, 94.6710 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(183.1450 mm, 136.0360 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(181.0000 mm, 136.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(183.2450 mm, 99.3445 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.8850 mm, 137.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(192.0050 mm, 94.5910 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(156.9800 mm, 110.6850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(186.7850 mm, 95.9710 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(178.2001 mm, 115.3982 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.6850 mm, 140.9660 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(121.1150 mm, 134.3150 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(191.7150 mm, 62.6286 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.5850 mm, 92.4710 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(157.2700 mm, 114.3850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(195.3187 mm, 85.1600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(125.4150 mm, 136.3150 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(188.6350 mm, 59.9915 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.1721 mm, 82.7775 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.0541 mm, 123.0125 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(162.3155 mm, 132.3305 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.6375 mm, 134.3015 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.3950 mm, 122.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(147.7400 mm, 109.1300 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.1471 mm, 101.5275 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(143.1774 mm, 99.8571 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(181.0000 mm, 135.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(178.2875 mm, 140.9660 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(172.1950 mm, 135.4610 mm): Via [+3V3_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.3350 mm, 141.5129 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(165.8700 mm, 124.8033 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(152.5175 mm, 71.4200 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(117.2917 mm, 118.2923 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(148.7725 mm, 119.2000 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.1238 mm, 72.2374 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(153.6285 mm, 72.3248 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.2600 mm, 120.0013 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(153.4901 mm, 76.7250 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(116.6425 mm, 118.1831 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.6450 mm, 135.2629 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.3400 mm, 117.3399 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(153.2323 mm, 71.6271 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(156.7200 mm, 72.0435 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(165.6863 mm, 120.0800 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(153.9346 mm, 71.5753 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.5725 mm, 134.5129 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(156.0800 mm, 72.3937 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(190.1000 mm, 65.1050 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.3201 mm, 119.5550 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(151.4415 mm, 74.9257 mm): Via [+5V0_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(146.6096 mm, 101.7775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(168.6250 mm, 61.4450 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.0071 mm, 103.4775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(156.4230 mm, 99.1775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(156.3721 mm, 96.3895 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(180.2250 mm, 69.2275 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.1721 mm, 99.2775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(180.7025 mm, 107.1670 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(185.8250 mm, 69.9775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(118.0675 mm, 126.3117 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(179.6150 mm, 81.3966 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(176.3930 mm, 134.5833 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.2050 mm, 79.4951 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(178.4950 mm, 65.6100 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(178.5750 mm, 80.3716 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(150.7921 mm, 101.2575 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(151.0971 mm, 98.7775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(190.7235 mm, 83.4500 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(179.9350 mm, 65.5900 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(146.6096 mm, 102.7275 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.1850 mm, 126.0171 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(186.0350 mm, 71.3400 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(170.6500 mm, 60.1450 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.7750 mm, 107.1670 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(180.5325 mm, 134.0813 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.5971 mm, 98.6275 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(185.0700 mm, 127.6320 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.3971 mm, 99.2775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.7150 mm, 123.3796 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(168.6250 mm, 60.1450 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(118.5425 mm, 123.8040 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(190.3650 mm, 128.7671 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(149.5171 mm, 94.4075 mm): Via [+5V0_B] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(190.2100 mm, 113.3870 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(131.8727 mm, 121.6901 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(181.7108 mm, 116.4759 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.2400 mm, 72.1150 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(174.9704 mm, 116.9870 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(140.7150 mm, 95.3175 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(126.8295 mm, 117.3060 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.9455 mm, 89.8910 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(186.8350 mm, 84.3716 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(130.3050 mm, 111.2850 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(176.8950 mm, 123.2321 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.7750 mm, 106.2070 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.1850 mm, 89.1175 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(141.0900 mm, 88.3175 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.5100 mm, 125.3670 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(152.4594 mm, 112.0259 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(148.9450 mm, 67.8771 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(126.2850 mm, 131.8350 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(124.5700 mm, 65.6328 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.3100 mm, 83.7500 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(182.6000 mm, 114.7570 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.9692 mm, 76.3488 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(185.8700 mm, 61.2299 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(150.3700 mm, 134.2029 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(178.3550 mm, 93.5510 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(146.5200 mm, 141.0864 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(114.4968 mm, 119.4184 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(115.1750 mm, 129.2550 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(175.1425 mm, 56.1350 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.2300 mm, 65.9950 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(167.4481 mm, 61.9541 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(134.0923 mm, 125.6151 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.1020 mm, 87.3275 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(160.3950 mm, 109.4900 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.2071 mm, 103.4775 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(166.8500 mm, 61.4450 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(177.2100 mm, 102.8118 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(189.6250 mm, 117.2321 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(155.7856 mm, 135.3062 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(181.4250 mm, 113.7405 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(164.8517 mm, 76.9562 mm): Via [GND] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(148.1150 mm, 63.8400 mm): Via [GND] on F.Cu - B.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(135.5200 mm, 82.6800 mm): Segment on F.Silkscreen
+    @(121.4850 mm, 82.7932 mm): PTH pad 15 [GND] of U32
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(135.5200 mm, 82.6800 mm): Segment on F.Silkscreen
+    @(119.9850 mm, 82.7932 mm): PTH pad 15 [GND] of U32
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(112.5000 mm, 82.8800 mm): Segment on F.Silkscreen
+    @(121.4850 mm, 82.7932 mm): PTH pad 15 [GND] of U32
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(112.5000 mm, 82.8800 mm): Segment on F.Silkscreen
+    @(119.9850 mm, 82.7932 mm): PTH pad 15 [GND] of U32
+
+** Found 499 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.7150 mm, 134.3150 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+    @(119.4650 mm, 132.5650 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(120.2150 mm, 134.3150 mm): Track [+3V3_B] on F.Cu, length 0.9000 mm
+    @(120.1650 mm, 132.5650 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(120.2150 mm, 134.3150 mm): Track [+3V3_B] on F.Cu, length 0.9000 mm
+    @(122.0389 mm, 136.1338 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(121.9650 mm, 132.5650 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+    @(120.1650 mm, 132.5650 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.6650 mm, 132.5650 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(131.1700 mm, 118.4473 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(124.7150 mm, 134.5150 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(124.7150 mm, 136.3150 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(124.7150 mm, 136.3150 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+    @(122.7150 mm, 136.3150 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0221 mm, 99.2775 mm): Track [+3V3_B] on F.Cu, length 0.6000 mm
+    @(144.7771 mm, 85.1175 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0221 mm, 101.5275 mm): Track [+3V3_B] on F.Cu, length 1.1250 mm
+    @(143.1774 mm, 99.8571 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0221 mm, 101.5275 mm): Track [+3V3_B] on F.Cu, length 1.1250 mm
+    @(139.2721 mm, 103.5275 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0950 mm, 123.3600 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(131.7935 mm, 118.8073 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.3950 mm, 122.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(143.8050 mm, 123.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.7771 mm, 85.1175 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(143.0221 mm, 82.7775 mm): Track [+3V3_B] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.5950 mm, 122.3600 mm): Track [+3V3_B] on B.Cu, length 1.2000 mm
+    @(151.7700 mm, 114.3850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.0200 mm, 109.1300 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(144.1471 mm, 101.5275 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.0200 mm, 109.1300 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(150.7700 mm, 110.6850 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.7700 mm, 113.1850 mm): Track [+3V3_B] on B.Cu, length 1.2000 mm
+    @(151.4800 mm, 110.6850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.2700 mm, 110.6850 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(151.4800 mm, 110.6850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(157.2700 mm, 113.1850 mm): Track [+3V3_B] on B.Cu, length 1.2000 mm
+    @(156.9800 mm, 110.6850 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(157.2700 mm, 114.3850 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(160.9450 mm, 117.3600 mm): Pad 6 [+3V3_B] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.2700 mm, 128.5350 mm): Track [+3V3_B] on B.Cu, length 1.2000 mm
+    @(160.9450 mm, 117.3600 mm): Pad 6 [+3V3_B] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.2700 mm, 128.5350 mm): Track [+3V3_B] on B.Cu, length 1.2000 mm
+    @(158.7700 mm, 131.0350 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.7700 mm, 131.0350 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(155.0950 mm, 132.7850 mm): Track [+3V3_B] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(161.5200 mm, 131.5350 mm): Track [+3V3_B] on B.Cu, length 1.1250 mm
+    @(159.1250 mm, 131.6499 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(162.3155 mm, 132.3305 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(171.4750 mm, 135.4610 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.4450 mm, 117.3600 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(160.9450 mm, 117.3600 mm): Pad 6 [+3V3_B] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(168.5250 mm, 57.8950 mm): Track [+3V3_B] on F.Cu, length 1.0625 mm
+    @(168.5250 mm, 56.9450 mm): Track [+3V3_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(170.7750 mm, 56.9450 mm): Track [+3V3_B] on F.Cu, length 0.7100 mm
+    @(169.5875 mm, 56.9450 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(172.1950 mm, 135.4610 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(173.7250 mm, 136.9960 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.6400 mm, 121.4670 mm): Track [+3V3_B] on B.Cu, length 1.6000 mm
+    @(164.1550 mm, 117.3600 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.9750 mm, 140.9660 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(174.9750 mm, 139.4660 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(175.1750 mm, 137.0160 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+    @(174.4450 mm, 136.9960 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(175.6850 mm, 140.9660 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(177.2250 mm, 140.9660 mm): Track [+3V3_B] on B.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.2250 mm, 135.0160 mm): Track [+3V3_B] on B.Cu, length 0.8250 mm
+    @(177.2250 mm, 137.0160 mm): Track [+3V3_B] on B.Cu, length 1.6250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.2250 mm, 137.0160 mm): Track [+3V3_B] on B.Cu, length 1.6250 mm
+    @(175.8850 mm, 137.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.6375 mm, 134.3015 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(180.1750 mm, 135.0160 mm): Track [+3V3_B] on B.Cu, length 0.8250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.6456 mm, 138.5856 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(174.9750 mm, 139.4660 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.2001 mm, 115.3982 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(174.6400 mm, 121.4670 mm): Track [+3V3_B] on B.Cu, length 1.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3900 mm, 115.7170 mm): Track [+3V3_B] on B.Cu, length 1.2319 mm
+    @(181.2042 mm, 115.5332 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.0000 mm, 135.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(181.0000 mm, 136.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.0000 mm, 136.0160 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(182.4250 mm, 136.0360 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.2042 mm, 115.5332 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(182.8850 mm, 98.7210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.3850 mm, 96.2210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(182.8850 mm, 96.0510 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.3850 mm, 96.2210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(182.8850 mm, 98.7210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.8850 mm, 92.4710 mm): Track [+3V3_B] on F.Cu, length 0.7000 mm
+    @(182.8850 mm, 96.0510 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.9450 mm, 137.4960 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(183.1450 mm, 136.0360 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.8850 mm, 98.7210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(185.3850 mm, 98.7210 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.6050 mm, 96.0510 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(185.3850 mm, 95.9710 mm): Track [+3V3_B] on F.Cu, length 1.4000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3850 mm, 95.9710 mm): Track [+3V3_B] on F.Cu, length 1.4000 mm
+    @(188.7850 mm, 94.6710 mm): Track [+3V3_B] on F.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(187.0650 mm, 121.9971 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(181.8900 mm, 115.7170 mm): Track [+3V3_B] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.9950 mm, 60.6150 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(171.4850 mm, 56.9450 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.7850 mm, 94.6710 mm): Track [+3V3_B] on F.Cu, length 1.2000 mm
+    @(189.1400 mm, 93.0359 mm): Via [+3V3_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.8150 mm, 84.4966 mm): Track [+3V3_B] on F.Cu, length 1.1100 mm
+    @(189.8150 mm, 82.2466 mm): Track [+3V3_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.8150 mm, 84.4966 mm): Track [+3V3_B] on F.Cu, length 1.1100 mm
+    @(188.7850 mm, 92.4210 mm): Track [+3V3_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.9550 mm, 63.9450 mm): Track [+3V3_B] on F.Cu, length 1.5200 mm
+    @(189.8150 mm, 82.2466 mm): Track [+3V3_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.2850 mm, 94.5910 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+    @(188.7850 mm, 94.6710 mm): Track [+3V3_B] on F.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.7150 mm, 62.6286 mm): Via [+3V3_B] on F.Cu - B.Cu
+    @(188.9950 mm, 60.6150 mm): Track [+3V3_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(194.5987 mm, 85.1600 mm): Track [+3V3_B] on B.Cu, length 0.7200 mm
+    @(189.8150 mm, 82.2466 mm): Track [+3V3_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 134.1650 mm): Pad 1 [DISNC_B] of C148 on F.Cu
+    @(114.2150 mm, 136.6650 mm): Pad 1 [DISNC_B] of R225 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 136.6650 mm): Pad 1 [DISNC_B] of R225 on F.Cu
+    @(115.7150 mm, 136.6650 mm): Pad 2 [DISNC_B] of R224 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.7150 mm, 136.6650 mm): Pad 2 [DISNC_B] of R224 on F.Cu
+    @(117.7150 mm, 136.4150 mm): Pad 2 [DISNC_B] of D46 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.7150 mm, 136.4150 mm): Pad 2 [DISNC_B] of D46 on F.Cu
+    @(160.9450 mm, 118.8600 mm): Pad 9 [DISNC_B] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.6300 mm, 123.8040 mm): Track [+5V0_B] on B.Cu, length 0.9125 mm
+    @(117.6300 mm, 125.5540 mm): Track [+5V0_B] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.6300 mm, 123.8040 mm): Track [+5V0_B] on B.Cu, length 0.9125 mm
+    @(143.2971 mm, 103.4775 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.2971 mm, 99.2775 mm): Track [+5V0_B] on F.Cu, length 0.8750 mm
+    @(144.7971 mm, 99.2775 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.2971 mm, 103.4775 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+    @(145.5471 mm, 102.7275 mm): Track [+5V0_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.7971 mm, 99.2775 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+    @(144.7971 mm, 98.6275 mm): Track [+5V0_B] on F.Cu, length 0.8000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.5471 mm, 101.7775 mm): Track [+5V0_B] on F.Cu, length 1.0625 mm
+    @(144.7971 mm, 99.2775 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.5471 mm, 102.7275 mm): Track [+5V0_B] on F.Cu, length 1.0625 mm
+    @(145.5471 mm, 101.7775 mm): Track [+5V0_B] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.7971 mm, 98.7775 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+    @(150.0721 mm, 101.2575 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.7971 mm, 98.7775 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+    @(148.7971 mm, 94.4075 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.0721 mm, 101.2575 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+    @(146.6096 mm, 101.7775 mm): Via [+5V0_B] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.7971 mm, 98.7775 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+    @(155.2971 mm, 98.5275 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.2971 mm, 94.5275 mm): Track [+5V0_B] on F.Cu, length 2.1500 mm
+    @(155.2971 mm, 98.5275 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(168.0250 mm, 60.1450 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+    @(168.0250 mm, 61.4450 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(169.7750 mm, 60.1450 mm): Track [+5V0_B] on F.Cu, length 0.8750 mm
+    @(168.0250 mm, 60.1450 mm): Track [+5V0_B] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(169.7750 mm, 60.1450 mm): Track [+5V0_B] on F.Cu, length 0.8750 mm
+    @(177.7750 mm, 65.6100 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.0650 mm, 107.1670 mm): Pad 1 [+5V0_B] of C99 on F.Cu
+    @(155.2971 mm, 98.5275 mm): Track [+5V0_B] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(176.8450 mm, 78.8716 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+    @(177.8650 mm, 80.3716 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.2250 mm, 65.5900 mm): Pad 1 [+5V0_B] of C105 on F.Cu
+    @(177.7750 mm, 65.6100 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3950 mm, 134.0813 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(176.8950 mm, 134.0813 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5650 mm, 107.1670 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(177.0650 mm, 107.1670 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.6150 mm, 80.3716 mm): Track [+5V0_B] on F.Cu, length 1.0250 mm
+    @(177.8650 mm, 80.3716 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.2250 mm, 65.5900 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+    @(180.2250 mm, 68.0900 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(180.2250 mm, 68.0900 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(176.8450 mm, 78.8716 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3950 mm, 134.0813 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(184.7150 mm, 127.0171 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5650 mm, 107.1670 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(182.7150 mm, 124.5171 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5650 mm, 107.1670 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(190.1000 mm, 83.8100 mm): Track [+5V0_B] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.7150 mm, 127.0171 mm): Pad 1 [+5V0_B] of C95 on F.Cu
+    @(182.7150 mm, 124.5171 mm): Pad 4 [+5V0_B] of U23 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3250 mm, 71.3400 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+    @(180.2250 mm, 68.0900 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.8250 mm, 68.8400 mm): Track [+5V0_B] on F.Cu, length 1.1375 mm
+    @(185.3250 mm, 71.3400 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.4650 mm, 126.0171 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+    @(184.7150 mm, 127.0171 mm): Track [+5V0_B] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.4650 mm, 126.0171 mm): Track [+5V0_B] on F.Cu, length 0.7200 mm
+    @(189.2150 mm, 128.7671 mm): Pad 1 [+5V0_B] of TP22 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.1000 mm, 83.8100 mm): Track [+5V0_B] on B.Cu, length 0.7200 mm
+    @(179.6150 mm, 80.3716 mm): Track [+5V0_B] on F.Cu, length 1.0250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(103.5000 mm, 53.5000 mm): PTH pad 1 [GND] of H1
+    @(116.3950 mm, 58.5828 mm): Track [GND] on F.Cu, length 1.6500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.0000 mm, 79.5550 mm): PTH pad 2 [GND] of J4
+    @(113.7030 mm, 78.8452 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.0000 mm, 89.7150 mm): PTH pad 6 [GND] of J4
+    @(106.0000 mm, 97.3350 mm): PTH pad 9 [GND] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.0000 mm, 89.7150 mm): PTH pad 6 [GND] of J4
+    @(114.1650 mm, 85.3432 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(108.4988 mm, 133.3825 mm): PTH pad 2 [GND] of C1
+    @(114.2150 mm, 133.2050 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.1650 mm, 79.9932 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(113.7030 mm, 78.8452 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2050 mm, 78.3432 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(116.8125 mm, 77.9539 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 120.5350 mm): Pad 2 [GND] of C137 on F.Cu
+    @(114.4968 mm, 119.4184 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 120.5350 mm): Pad 2 [GND] of C137 on F.Cu
+    @(115.8550 mm, 120.7540 mm): Pad 2 [GND] of U36 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 135.6450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(114.4750 mm, 136.4437 mm): Track [GND] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 142.9625 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(103.5000 mm, 146.5000 mm): PTH pad 1 [GND] of H3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.4650 mm, 99.7150 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(106.0000 mm, 97.3350 mm): PTH pad 9 [GND] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 133.2050 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(115.9650 mm, 131.6950 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 133.2050 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(115.7150 mm, 135.1750 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.9350 mm, 81.8932 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(114.5250 mm, 80.6167 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.9350 mm, 81.8932 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(114.1650 mm, 85.3432 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 135.6450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(115.7150 mm, 135.1750 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.0799 mm, 116.9400 mm): Via [GND] on F.Cu - B.Cu
+    @(115.9650 mm, 119.0250 mm): Track [GND] on F.Cu, length 1.5200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.9650 mm, 116.5250 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(115.0799 mm, 116.9400 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.7150 mm, 122.5050 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(115.8550 mm, 120.7540 mm): Pad 2 [GND] of U36 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.8100 mm, 81.8932 mm): Via [GND] on F.Cu - B.Cu
+    @(119.9850 mm, 81.2932 mm): PTH pad 15 [GND] of U32
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.9650 mm, 129.1950 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(115.1750 mm, 129.2550 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.9650 mm, 129.1950 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(116.0800 mm, 125.5540 mm): Track [GND] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(116.0800 mm, 125.5540 mm): Pad 2 [GND] of C165 on B.Cu
+    @(115.9550 mm, 123.1540 mm): Pad 2 [GND] of U37 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(116.6850 mm, 129.1950 mm): Via [GND] on F.Cu - B.Cu
+    @(119.0050 mm, 128.7150 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(116.6850 mm, 129.1950 mm): Via [GND] on F.Cu - B.Cu
+    @(115.9650 mm, 131.6950 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.2550 mm, 138.1650 mm): Track [GND] on F.Cu, length 1.3100 mm
+    @(114.9125 mm, 137.2015 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.5550 mm, 117.0790 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(115.9650 mm, 116.5250 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.0050 mm, 119.7940 mm): Pad 2 [GND] of C162 on B.Cu
+    @(115.9650 mm, 119.0250 mm): Track [GND] on F.Cu, length 1.5200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.1150 mm, 143.9825 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(114.9350 mm, 142.9625 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.1450 mm, 67.5578 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(118.0450 mm, 58.5828 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.4300 mm, 117.0790 mm): Via [GND] on F.Cu - B.Cu
+    @(119.3600 mm, 116.6599 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.5250 mm, 134.5938 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(115.7150 mm, 135.1750 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.2000 mm, 139.4577 mm): Via [GND] on F.Cu - B.Cu
+    @(119.8500 mm, 139.0938 mm): Track [GND] on B.Cu, length 0.8125 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.2000 mm, 139.4577 mm): Via [GND] on F.Cu - B.Cu
+    @(119.2525 mm, 143.9825 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.6950 mm, 125.4950 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(117.2550 mm, 125.4950 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(121.4450 mm, 116.0450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(119.3600 mm, 116.6599 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(121.4450 mm, 128.7150 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(119.3600 mm, 129.3299 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(121.4850 mm, 81.2932 mm): PTH pad 15 [GND] of U32
+    @(123.7850 mm, 81.4932 mm): Track [GND] on B.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(121.4450 mm, 116.0450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(123.9022 mm, 120.1250 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.6000 mm, 135.1937 mm): Pad 2 [GND] of C156 on B.Cu
+    @(119.4000 mm, 134.5938 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.9950 mm, 139.0938 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(120.6625 mm, 139.0938 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(123.6950 mm, 65.6328 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(118.1450 mm, 67.5578 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.6000 mm, 135.1937 mm): Track [GND] on B.Cu, length 1.1250 mm
+    @(125.5650 mm, 131.8350 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(123.9570 mm, 107.1550 mm): Via [GND] on F.Cu - B.Cu
+    @(126.1950 mm, 101.0550 mm): Track [GND] on B.Cu, length 1.1250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(124.5700 mm, 65.6328 mm): Via [GND] on F.Cu - B.Cu
+    @(127.8450 mm, 66.3782 mm): Pad 2 [GND] of Q10 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(124.7715 mm, 70.8632 mm): Via [GND] on F.Cu - B.Cu
+    @(121.3975 mm, 74.0439 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(124.9850 mm, 81.4932 mm): Via [GND] on F.Cu - B.Cu
+    @(127.5600 mm, 77.7882 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(125.5650 mm, 119.1650 mm): Track [GND] on F.Cu, length 1.9200 mm
+    @(127.0650 mm, 118.1850 mm): Track [GND] on F.Cu, length 0.9100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(125.9350 mm, 73.0232 mm): Pad 2 [GND] of C129 on B.Cu
+    @(124.7715 mm, 70.8632 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(126.2850 mm, 131.8350 mm): Via [GND] on F.Cu - B.Cu
+    @(127.0650 mm, 130.8550 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(126.4650 mm, 99.7150 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(126.1950 mm, 101.0550 mm): Pad 2 [GND] of C153 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.0650 mm, 118.1850 mm): Track [GND] on F.Cu, length 0.9100 mm
+    @(128.5650 mm, 117.6850 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.0900 mm, 139.3688 mm): Track [GND] on B.Cu, length 1.6625 mm
+    @(123.6185 mm, 138.7337 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.1750 mm, 99.7150 mm): Via [GND] on F.Cu - B.Cu
+    @(131.3450 mm, 101.5550 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.4000 mm, 127.9173 mm): Pad 2 [GND] of R243 on B.Cu
+    @(128.5650 mm, 130.3550 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.7750 mm, 130.8550 mm): Via [GND] on F.Cu - B.Cu
+    @(128.5650 mm, 130.3550 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.8450 mm, 66.3782 mm): Pad 2 [GND] of Q10 on B.Cu
+    @(125.3950 mm, 70.5032 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.9797 mm, 74.6062 mm): Track [GND] on F.Cu, length 1.1500 mm
+    @(125.9350 mm, 73.0232 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.2700 mm, 77.7882 mm): Via [GND] on F.Cu - B.Cu
+    @(129.0600 mm, 78.4782 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.2700 mm, 77.7882 mm): Via [GND] on F.Cu - B.Cu
+    @(127.9797 mm, 74.6062 mm): Track [GND] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.5650 mm, 117.6850 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(128.5650 mm, 120.1250 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.5650 mm, 132.7950 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(127.7750 mm, 130.8550 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.5650 mm, 132.7950 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(128.0500 mm, 134.8438 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.8450 mm, 66.3782 mm): Track [GND] on B.Cu, length 1.1375 mm
+    @(129.2250 mm, 64.6328 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.5650 mm, 117.6850 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(129.5950 mm, 111.2850 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(129.2850 mm, 120.1250 mm): Via [GND] on F.Cu - B.Cu
+    @(131.8727 mm, 121.6901 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.0950 mm, 109.0950 mm): Pad 2 [GND] of R237 on B.Cu
+    @(130.3050 mm, 111.2850 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.3450 mm, 103.9950 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(131.3450 mm, 101.5550 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.0950 mm, 109.0950 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(132.0550 mm, 103.9950 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(132.4400 mm, 137.0938 mm): Track [GND] on B.Cu, length 1.1375 mm
+    @(128.0500 mm, 134.8438 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(132.5325 mm, 123.4423 mm): PTH pad 17 [GND] of U34
+    @(131.6700 mm, 123.7673 mm): Track [GND] on B.Cu, length 0.8125 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(132.6575 mm, 121.4798 mm): Track [GND] on B.Cu, length 0.8125 mm
+    @(132.5325 mm, 122.3423 mm): PTH pad 17 [GND] of U34
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.3950 mm, 59.0782 mm): Pad 2 [GND] of C121 on B.Cu
+    @(129.9450 mm, 58.3082 mm): Track [GND] on B.Cu, length 1.3200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.7950 mm, 67.9282 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(137.5000 mm, 71.7032 mm): Pad 2 [GND] of C123 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.7950 mm, 67.9282 mm): Pad 2 [GND] of U31 on B.Cu
+    @(133.9950 mm, 65.6282 mm): PTH pad 15 [GND] of U31
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.9950 mm, 64.1282 mm): PTH pad 15 [GND] of U31
+    @(133.3950 mm, 59.0782 mm): Track [GND] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.3950 mm, 59.0782 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(135.2950 mm, 58.3082 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(134.5575 mm, 128.1548 mm): Track [GND] on B.Cu, length 1.1250 mm
+    @(134.0923 mm, 125.6151 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(134.7700 mm, 125.4048 mm): Via [GND] on F.Cu - B.Cu
+    @(134.7325 mm, 124.5423 mm): PTH pad 17 [GND] of U34
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(136.0150 mm, 58.3082 mm): Via [GND] on F.Cu - B.Cu
+    @(136.9450 mm, 58.3482 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.4350 mm, 120.7850 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(134.7325 mm, 122.3423 mm): PTH pad 17 [GND] of U34
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.4350 mm, 132.8429 mm): Pad 2 [GND] of R58 on F.Cu
+    @(135.6825 mm, 128.1548 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.5000 mm, 71.7032 mm): Pad 2 [GND] of C123 on B.Cu
+    @(137.5300 mm, 73.2032 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(136.2575 mm, 118.4798 mm): Track [GND] on B.Cu, length 1.3000 mm
+    @(139.0350 mm, 119.2450 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.4350 mm, 132.8429 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(138.9350 mm, 132.9029 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.5000 mm, 71.7032 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(139.6550 mm, 70.8271 mm): Track [GND] on F.Cu, length 1.6370 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.5950 mm, 125.4173 mm): Track [GND] on B.Cu, length 1.3000 mm
+    @(135.4200 mm, 125.4048 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.9350 mm, 136.2229 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(138.9350 mm, 132.9029 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.0350 mm, 119.2450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(138.1450 mm, 120.7850 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.6450 mm, 136.2229 mm): Via [GND] on F.Cu - B.Cu
+    @(142.9850 mm, 138.9129 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.6550 mm, 70.8271 mm): Track [GND] on F.Cu, length 1.6370 mm
+    @(141.5600 mm, 68.4111 mm): Track [GND] on F.Cu, length 1.9500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.0350 mm, 119.2450 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(141.9850 mm, 121.2500 mm): Track [GND] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(140.0787 mm, 72.4084 mm): Via [GND] on F.Cu - B.Cu
+    @(140.6450 mm, 74.0771 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(140.2150 mm, 88.3175 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(139.1850 mm, 89.1175 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.9650 mm, 95.3175 mm): Track [GND] on F.Cu, length 1.7500 mm
+    @(143.0221 mm, 97.9775 mm): Track [GND] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.0900 mm, 88.3175 mm): Via [GND] on F.Cu - B.Cu
+    @(143.4650 mm, 87.3275 mm): Pad 1 [GND] of U5 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.1221 mm, 101.5275 mm): Track [GND] on F.Cu, length 1.1250 mm
+    @(140.3658 mm, 99.8962 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.2637 mm, 74.6958 mm): Via [GND] on F.Cu - B.Cu
+    @(141.4450 mm, 75.8271 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.9176 mm, 102.3230 mm): Via [GND] on F.Cu - B.Cu
+    @(142.3371 mm, 103.4775 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.3371 mm, 103.4775 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(138.9671 mm, 105.2775 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.9450 mm, 116.7250 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(143.0550 mm, 115.2250 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0221 mm, 97.9775 mm): Track [GND] on F.Cu, length 0.6000 mm
+    @(140.3658 mm, 99.8962 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0950 mm, 120.9000 mm): Pad 2 [GND] of C52 on B.Cu
+    @(141.9850 mm, 121.2500 mm): Track [GND] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0950 mm, 124.3200 mm): Pad 2 [GND] of C58 on B.Cu
+    @(142.2600 mm, 122.2763 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.9450 mm, 116.7250 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(144.9350 mm, 118.2400 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.0950 mm, 120.9000 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(144.3201 mm, 118.5950 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.8150 mm, 76.4150 mm): Pad 2 [GND] of C41 on B.Cu
+    @(141.8050 mm, 76.4507 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.3650 mm, 72.1150 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(146.2900 mm, 71.8400 mm): Pad 26 [GND] of U10 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.5000 mm, 60.3800 mm): Via [GND] on F.Cu - B.Cu
+    @(146.2900 mm, 62.3400 mm): Track [GND] on B.Cu, length 1.2250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.7900 mm, 63.8000 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(146.2900 mm, 63.8400 mm): Track [GND] on B.Cu, length 1.8250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.7900 mm, 66.8800 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(145.1067 mm, 68.6571 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.7900 mm, 66.8800 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(143.7900 mm, 63.8000 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.7971 mm, 97.9775 mm): Track [GND] on F.Cu, length 0.6000 mm
+    @(143.9096 mm, 98.6275 mm): Track [GND] on F.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.9350 mm, 118.2400 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(147.4350 mm, 119.8500 mm): Pad 5 [GND] of U20 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.4650 mm, 87.3275 mm): Track [GND] on F.Cu, length 1.6370 mm
+    @(145.8811 mm, 89.2325 mm): Track [GND] on F.Cu, length 1.9500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.1067 mm, 68.6571 mm): Via [GND] on F.Cu - B.Cu
+    @(143.4436 mm, 68.9158 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.5950 mm, 116.3600 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(142.9450 mm, 116.7250 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.5950 mm, 122.8600 mm): Pad 59 [GND] of U15 on B.Cu
+    @(143.0950 mm, 124.3200 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.8811 mm, 89.2325 mm): Pad 9 [GND] of U5 on F.Cu
+    @(148.0350 mm, 92.9550 mm): Track [GND] on B.Cu, length 1.9000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.1600 mm, 140.4629 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(143.8600 mm, 138.9129 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.2900 mm, 68.8400 mm): Track [GND] on B.Cu, length 1.2250 mm
+    @(146.2900 mm, 68.3400 mm): Track [GND] on B.Cu, length 1.2250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.2900 mm, 68.8400 mm): Track [GND] on B.Cu, length 1.2250 mm
+    @(146.2900 mm, 71.3400 mm): Track [GND] on B.Cu, length 1.2250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.4150 mm, 94.8675 mm): Track [GND] on F.Cu, length 1.7500 mm
+    @(145.3971 mm, 97.9775 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.5200 mm, 141.0864 mm): Via [GND] on F.Cu - B.Cu
+    @(148.7200 mm, 140.7129 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.8471 mm, 98.7775 mm): Track [GND] on F.Cu, length 1.3000 mm
+    @(145.3971 mm, 97.9775 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.1950 mm, 67.8771 mm): Track [GND] on F.Cu, length 1.7500 mm
+    @(147.5150 mm, 68.8400 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.5150 mm, 62.3400 mm): Via [GND] on F.Cu - B.Cu
+    @(147.4305 mm, 63.8087 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.6450 mm, 75.3271 mm): Track [GND] on F.Cu, length 1.7500 mm
+    @(147.3150 mm, 76.4150 mm): Track [GND] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.6450 mm, 75.3271 mm): Track [GND] on F.Cu, length 1.7500 mm
+    @(146.9025 mm, 72.4009 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(147.7300 mm, 133.0350 mm): Track [GND] on B.Cu, length 1.1200 mm
+    @(144.9700 mm, 131.2850 mm): Track [GND] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.2900 mm, 63.8400 mm): Track [GND] on B.Cu, length 1.8250 mm
+    @(150.8550 mm, 61.9450 mm): Track [GND] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(148.1471 mm, 98.7775 mm): Via [GND] on F.Cu - B.Cu
+    @(147.8221 mm, 102.7275 mm): Track [GND] on F.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(148.3100 mm, 131.0350 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(147.7300 mm, 133.0350 mm): Track [GND] on B.Cu, length 1.1200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(148.7700 mm, 128.5350 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(149.6800 mm, 130.4829 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(148.9450 mm, 67.8771 mm): Via [GND] on F.Cu - B.Cu
+    @(151.1050 mm, 67.4450 mm): Track [GND] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.6600 mm, 132.8229 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(148.3100 mm, 131.0350 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.6600 mm, 134.2029 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(147.1600 mm, 134.5129 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.6800 mm, 130.4829 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(148.3100 mm, 131.0350 mm): Pad 2 [GND] of C63 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.9089 mm, 86.9360 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(145.8811 mm, 89.2325 mm): Track [GND] on F.Cu, length 1.9500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.0150 mm, 133.4378 mm): Via [GND] on F.Cu - B.Cu
+    @(150.2900 mm, 132.5350 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.0150 mm, 133.4378 mm): Via [GND] on F.Cu - B.Cu
+    @(150.3700 mm, 134.2029 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.1650 mm, 111.2999 mm): Via [GND] on F.Cu - B.Cu
+    @(152.3100 mm, 110.6850 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.2971 mm, 94.4075 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(150.4104 mm, 95.4960 mm): Pad 2 [GND] of R33 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(149.6800 mm, 130.4829 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(153.8100 mm, 131.0350 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.4104 mm, 95.4960 mm): Pad 2 [GND] of R33 on B.Cu
+    @(146.4150 mm, 94.8675 mm): Track [GND] on F.Cu, length 1.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.8150 mm, 76.4150 mm): Track [GND] on B.Cu, length 0.8750 mm
+    @(149.3950 mm, 75.3271 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.9550 mm, 69.7450 mm): Track [GND] on F.Cu, length 0.9125 mm
+    @(151.1050 mm, 67.4450 mm): Track [GND] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.4104 mm, 95.4960 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(152.3471 mm, 98.5275 mm): Track [GND] on F.Cu, length 1.3000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.1749 mm, 119.7687 mm): Via [GND] on F.Cu - B.Cu
+    @(147.4350 mm, 119.8500 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.3100 mm, 110.6850 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(152.5200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.3471 mm, 99.8275 mm): Via [GND] on F.Cu - B.Cu
+    @(155.2171 mm, 101.5775 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.4089 mm, 91.7660 mm): Track [GND] on B.Cu, length 1.2318 mm
+    @(150.2971 mm, 94.4075 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.4594 mm, 112.0259 mm): Via [GND] on F.Cu - B.Cu
+    @(152.6650 mm, 111.2999 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.7150 mm, 78.6650 mm): Track [GND] on B.Cu, length 1.1250 mm
+    @(152.0242 mm, 77.5392 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.7700 mm, 113.1850 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(152.2700 mm, 113.1850 mm): Track [GND] on B.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(153.1600 mm, 118.5500 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(152.5806 mm, 114.3441 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(153.1600 mm, 119.2000 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(153.1600 mm, 118.5500 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(152.5200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(155.3100 mm, 110.6850 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(153.6530 mm, 75.6630 mm): Via [GND] on F.Cu - B.Cu
+    @(153.8550 mm, 74.7200 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.1050 mm, 65.9950 mm): Track [GND] on F.Cu, length 1.1250 mm
+    @(152.4050 mm, 67.4450 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.1050 mm, 77.3300 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(154.1550 mm, 76.1650 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.1050 mm, 77.3300 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(152.7150 mm, 78.6650 mm): Track [GND] on B.Cu, length 1.1250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.1650 mm, 131.6499 mm): Via [GND] on F.Cu - B.Cu
+    @(156.3100 mm, 131.0350 mm): Pad 2 [GND] of C50 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.6550 mm, 71.4200 mm): Track [GND] on F.Cu, length 0.6000 mm
+    @(153.6150 mm, 73.6650 mm): Track [GND] on B.Cu, length 1.4250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.8150 mm, 77.3300 mm): Via [GND] on F.Cu - B.Cu
+    @(155.8000 mm, 78.9950 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.0656 mm, 135.3062 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(153.5456 mm, 137.7663 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.0050 mm, 70.5325 mm): Track [GND] on F.Cu, length 1.2000 mm
+    @(154.6550 mm, 69.6450 mm): Track [GND] on F.Cu, length 0.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(154.0050 mm, 70.5325 mm): Track [GND] on F.Cu, length 1.2000 mm
+    @(155.2550 mm, 71.4200 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.3100 mm, 110.6850 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(156.0200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.7700 mm, 128.5350 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(156.3100 mm, 131.0350 mm): Pad 2 [GND] of C50 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.7856 mm, 135.3062 mm): Via [GND] on F.Cu - B.Cu
+    @(158.0531 mm, 136.5762 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(155.9692 mm, 76.3488 mm): Via [GND] on F.Cu - B.Cu
+    @(154.8150 mm, 77.3300 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.3546 mm, 101.5775 mm): Via [GND] on F.Cu - B.Cu
+    @(158.0604 mm, 100.3260 mm): Pad 9 [GND] of J1 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.6550 mm, 76.1650 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(158.6300 mm, 74.3700 mm): Pad 2 [GND] of U4 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.0200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(157.8100 mm, 110.6850 mm): Pad 2 [GND] of C54 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.9300 mm, 66.2750 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(155.2300 mm, 65.9950 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(157.2681 mm, 139.0762 mm): Via [GND] on F.Cu - B.Cu
+    @(159.5481 mm, 139.0163 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(157.7700 mm, 128.5350 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(156.3100 mm, 131.0350 mm): Pad 2 [GND] of C50 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(157.7700 mm, 128.5350 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(159.7300 mm, 131.0350 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.0604 mm, 89.2260 mm): Track [GND] on B.Cu, length 1.2318 mm
+    @(153.6407 mm, 91.7660 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.0604 mm, 97.7860 mm): Pad 5 [GND] of J1 on B.Cu
+    @(158.0604 mm, 100.3260 mm): Pad 9 [GND] of J1 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.4871 mm, 103.4775 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(156.3546 mm, 101.5775 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.6150 mm, 58.0150 mm): Track [GND] on B.Cu, length 1.2250 mm
+    @(159.1150 mm, 58.0150 mm): Track [GND] on B.Cu, length 1.2250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.6300 mm, 74.3700 mm): Pad 2 [GND] of U4 on F.Cu
+    @(158.1150 mm, 73.6650 mm): Pad 5 [GND] of U10 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.0531 mm, 136.5762 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(159.5531 mm, 135.5962 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.0531 mm, 136.5762 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(159.5481 mm, 139.0163 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.7979 mm, 56.8317 mm): Via [GND] on F.Cu - B.Cu
+    @(158.5750 mm, 55.5150 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.8300 mm, 63.0050 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(158.0675 mm, 66.2750 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.8300 mm, 63.0050 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(158.9321 mm, 59.1983 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.2700 mm, 113.1850 mm): Pad 100 [GND] of U15 on B.Cu
+    @(157.8100 mm, 110.6850 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.2850 mm, 55.5150 mm): Via [GND] on F.Cu - B.Cu
+    @(161.0750 mm, 55.5150 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.2922 mm, 89.2260 mm): Via [GND] on F.Cu - B.Cu
+    @(159.9455 mm, 89.8910 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.5200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(157.8100 mm, 110.6850 mm): Pad 2 [GND] of C54 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.5200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(159.2071 mm, 103.4775 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.8300 mm, 63.0050 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(161.9400 mm, 62.8400 mm): Track [GND] on B.Cu, length 1.2250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.0604 mm, 97.7860 mm): Track [GND] on B.Cu, length 1.6000 mm
+    @(159.6604 mm, 96.5160 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.6973 mm, 115.3780 mm): Via [GND] on F.Cu - B.Cu
+    @(158.3862 mm, 116.6425 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.7025 mm, 123.3083 mm): Via [GND] on F.Cu - B.Cu
+    @(158.9450 mm, 124.3600 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(160.9450 mm, 126.3600 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(157.7700 mm, 128.5350 mm): Pad 29 [GND] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.8862 mm, 122.6225 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(160.9450 mm, 122.8600 mm): Pad 17 [GND] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.5531 mm, 135.5962 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(160.5967 mm, 131.3170 mm): Track [GND] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(159.2700 mm, 113.1850 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(160.5762 mm, 115.1425 mm): Track [GND] on F.Cu, length 0.9100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.6300 mm, 74.3700 mm): Track [GND] on F.Cu, length 2.0625 mm
+    @(160.0750 mm, 76.1650 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(160.9450 mm, 117.8600 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(158.3862 mm, 116.6425 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(160.9450 mm, 124.3600 mm): Track [GND] on B.Cu, length 2.0000 mm
+    @(160.9450 mm, 126.3600 mm): Pad 24 [GND] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(160.9450 mm, 122.8600 mm): Track [GND] on B.Cu, length 1.2000 mm
+    @(163.4450 mm, 123.9000 mm): Pad 2 [GND] of C49 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(162.6050 mm, 77.4500 mm): Pad 1 [GND] of D6 on F.Cu
+    @(160.0750 mm, 76.8750 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(162.8301 mm, 116.7550 mm): Via [GND] on F.Cu - B.Cu
+    @(162.1450 mm, 117.8600 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.0200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(160.3950 mm, 109.4900 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.1650 mm, 62.8400 mm): Via [GND] on F.Cu - B.Cu
+    @(164.5000 mm, 61.6950 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.1650 mm, 64.8400 mm): Via [GND] on F.Cu - B.Cu
+    @(163.1650 mm, 62.8400 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.4200 mm, 131.5350 mm): Track [GND] on B.Cu, length 1.1250 mm
+    @(160.5967 mm, 131.3170 mm): Track [GND] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.4450 mm, 119.9000 mm): Pad 2 [GND] of C48 on B.Cu
+    @(162.1450 mm, 117.8600 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.4450 mm, 119.9000 mm): Pad 2 [GND] of C48 on B.Cu
+    @(160.9450 mm, 122.8600 mm): Track [GND] on B.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.0200 mm, 109.4900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(167.3454 mm, 107.2798 mm): Track [GND] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.4450 mm, 123.9000 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(164.7262 mm, 124.1175 mm): Pad 2 [GND] of C79 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(164.1350 mm, 72.5900 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(163.7650 mm, 76.6650 mm): Pad 2 [GND] of C30 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(164.4400 mm, 64.8800 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(163.1650 mm, 64.8400 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(164.5450 mm, 131.5350 mm): Via [GND] on F.Cu - B.Cu
+    @(163.9450 mm, 128.5100 mm): Track [GND] on B.Cu, length 1.1250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.1258 mm, 61.0638 mm): Via [GND] on F.Cu - B.Cu
+    @(165.3750 mm, 61.6950 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.1258 mm, 65.0638 mm): Via [GND] on F.Cu - B.Cu
+    @(165.6900 mm, 65.6450 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.6863 mm, 115.8925 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(163.4450 mm, 116.4000 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.6863 mm, 115.8925 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(169.8363 mm, 116.8525 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.6900 mm, 65.6450 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(165.8650 mm, 67.4550 mm): Track [GND] on B.Cu, length 0.9100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(166.2500 mm, 61.4450 mm): Track [GND] on F.Cu, length 0.6000 mm
+    @(165.3750 mm, 61.6950 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.6900 mm, 69.1450 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(166.6531 mm, 67.9100 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(166.6531 mm, 67.9100 mm): Via [GND] on F.Cu - B.Cu
+    @(169.1900 mm, 68.6450 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(167.0150 mm, 73.1650 mm): Pad 1 [GND] of U11 on B.Cu
+    @(164.1350 mm, 72.5900 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(167.3125 mm, 56.9450 mm): Via [GND] on F.Cu - B.Cu
+    @(170.7750 mm, 55.9850 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(169.7750 mm, 61.6950 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(167.4481 mm, 61.9541 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(170.5462 mm, 116.8525 mm): Via [GND] on F.Cu - B.Cu
+    @(173.7385 mm, 116.9870 mm): Track [GND] on B.Cu, length 1.2318 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(169.7750 mm, 61.6950 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(173.4725 mm, 62.5450 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(171.1362 mm, 124.3725 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(170.7627 mm, 121.2525 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(171.1362 mm, 125.0825 mm): Via [GND] on F.Cu - B.Cu
+    @(173.3700 mm, 125.3670 mm): Pad 4 [GND] of J3 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(171.2385 mm, 112.1570 mm): Pad 2 [GND] of R50 on B.Cu
+    @(170.5462 mm, 116.8525 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(172.7150 mm, 140.0660 mm): Via [GND] on F.Cu - B.Cu
+    @(174.0150 mm, 140.9660 mm): Pad 2 [GND] of C68 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(173.4725 mm, 62.5450 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(174.6325 mm, 59.5550 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.4325 mm, 56.1350 mm): Pad 2 [GND] of C44 on B.Cu
+    @(170.7750 mm, 55.9850 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.9704 mm, 116.9870 mm): Via [GND] on F.Cu - B.Cu
+    @(177.1450 mm, 118.7521 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.4325 mm, 56.1350 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(177.9075 mm, 56.0450 mm): Pad 11 [GND] of U12 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(175.1750 mm, 137.9760 mm): Pad 2 [GND] of C67 on B.Cu
+    @(174.0150 mm, 140.9660 mm): Pad 2 [GND] of C68 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(175.1750 mm, 137.9760 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(178.4500 mm, 137.5660 mm): Pad 11 [GND] of U16 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.1800 mm, 125.3670 mm): Track [GND] on B.Cu, length 1.6000 mm
+    @(173.3700 mm, 125.3670 mm): Track [GND] on B.Cu, length 1.6000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(176.8950 mm, 133.1213 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(175.6850 mm, 134.5560 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.1450 mm, 118.7521 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(176.8950 mm, 121.3121 mm): Track [GND] on F.Cu, length 1.9200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.1800 mm, 125.3670 mm): Pad 10 [GND] of J3 on B.Cu
+    @(177.0150 mm, 123.5171 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.2100 mm, 102.8118 mm): Via [GND] on F.Cu - B.Cu
+    @(177.0650 mm, 106.2070 mm): Pad 2 [GND] of C99 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.2100 mm, 102.8118 mm): Via [GND] on F.Cu - B.Cu
+    @(181.8350 mm, 101.4470 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.7350 mm, 123.5171 mm): Via [GND] on F.Cu - B.Cu
+    @(178.5650 mm, 123.4971 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(177.9075 mm, 59.1450 mm): Pad 11 [GND] of U12 on B.Cu
+    @(175.3425 mm, 59.5550 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.4075 mm, 59.1450 mm): Pad 11 [GND] of U12 on B.Cu
+    @(179.6325 mm, 58.5950 mm): Pad 5 [GND] of U12 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.4500 mm, 134.4660 mm): Pad 11 [GND] of U16 on B.Cu
+    @(177.6050 mm, 133.1213 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.5650 mm, 118.6796 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(177.8550 mm, 118.7521 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.9500 mm, 137.5660 mm): Pad 11 [GND] of U16 on B.Cu
+    @(180.1750 mm, 137.0160 mm): Track [GND] on B.Cu, length 0.8250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.2273 mm, 83.6841 mm): Via [GND] on F.Cu - B.Cu
+    @(177.6150 mm, 84.6716 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.2750 mm, 118.6796 mm): Via [GND] on F.Cu - B.Cu
+    @(181.0250 mm, 116.2921 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5150 mm, 94.4210 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(178.3550 mm, 93.5510 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.6150 mm, 83.1716 mm): Pad 1 [GND] of U29 on F.Cu
+    @(178.5750 mm, 81.3316 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.8850 mm, 96.2210 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(177.5950 mm, 97.0310 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.2250 mm, 64.6300 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(180.1601 mm, 63.9650 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.9575 mm, 62.5450 mm): Track [GND] on B.Cu, length 1.0625 mm
+    @(180.8475 mm, 63.2385 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(178.9575 mm, 62.5450 mm): Track [GND] on B.Cu, length 1.0625 mm
+    @(180.0901 mm, 61.5100 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.6325 mm, 58.5950 mm): Track [GND] on B.Cu, length 0.8250 mm
+    @(180.7050 mm, 61.1550 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(180.6050 mm, 96.2210 mm): Via [GND] on F.Cu - B.Cu
+    @(180.3900 mm, 94.4210 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(180.7750 mm, 63.6100 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(182.2275 mm, 63.9950 mm): Pad 2 [GND] of R29 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(180.9900 mm, 125.3670 mm): Track [GND] on B.Cu, length 1.6000 mm
+    @(179.2850 mm, 123.4971 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.1150 mm, 83.1716 mm): Track [GND] on F.Cu, length 1.0250 mm
+    @(180.1150 mm, 83.1716 mm): Track [GND] on F.Cu, length 1.0250 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.4250 mm, 113.7405 mm): Via [GND] on F.Cu - B.Cu
+    @(180.6219 mm, 114.4470 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.0250 mm, 127.0171 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(182.4050 mm, 127.0171 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.7500 mm, 141.0360 mm): Pad 2 [GND] of R43 on B.Cu
+    @(179.5000 mm, 140.9660 mm): Track [GND] on B.Cu, length 1.0625 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.8900 mm, 114.7570 mm): Pad 2 [GND] of C71 on B.Cu
+    @(181.4250 mm, 113.7405 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.4050 mm, 116.2921 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(181.0250 mm, 116.2921 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.4050 mm, 116.2921 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(181.8900 mm, 114.7570 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.7500 mm, 141.0360 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(182.6950 mm, 138.4512 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.5550 mm, 101.4470 mm): Via [GND] on F.Cu - B.Cu
+    @(183.2700 mm, 101.4470 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.6950 mm, 138.4512 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(181.0000 mm, 137.0160 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.7150 mm, 117.6546 mm): Via [GND] on F.Cu - B.Cu
+    @(182.7600 mm, 116.9070 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.7600 mm, 127.6320 mm): Via [GND] on F.Cu - B.Cu
+    @(184.4350 mm, 129.8812 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.7700 mm, 142.4160 mm): Pad 2 [GND] of R44 on B.Cu
+    @(181.7500 mm, 141.0360 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.1150 mm, 85.4216 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(182.1400 mm, 83.1716 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.7700 mm, 142.4160 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(196.5000 mm, 146.5000 mm): PTH pad 1 [GND] of H4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.5300 mm, 125.3670 mm): Pad 20 [GND] of J3 on B.Cu
+    @(182.4050 mm, 127.0171 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(182.6950 mm, 138.4512 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(185.1200 mm, 134.0813 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.6300 mm, 102.0705 mm): Via [GND] on F.Cu - B.Cu
+    @(188.2500 mm, 101.9470 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.6300 mm, 102.0705 mm): Via [GND] on F.Cu - B.Cu
+    @(185.2900 mm, 107.1670 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.7750 mm, 73.8000 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(180.2250 mm, 73.8150 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.1150 mm, 85.4216 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(186.1150 mm, 84.3716 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.1150 mm, 85.4216 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(186.1550 mm, 87.7391 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.6150 mm, 78.1216 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(186.3450 mm, 77.7216 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.3650 mm, 71.3400 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(184.4850 mm, 73.8000 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.3650 mm, 71.3400 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(186.8150 mm, 71.3400 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.5300 mm, 125.3670 mm): Track [GND] on B.Cu, length 1.6000 mm
+    @(185.6750 mm, 127.0171 mm): Pad 2 [GND] of C95 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.1200 mm, 134.0813 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(185.1200 mm, 133.4313 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.4350 mm, 129.8812 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(186.8750 mm, 129.8812 mm): Pad 2 [GND] of C98 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.4350 mm, 129.8812 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(185.1200 mm, 133.4313 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3850 mm, 96.6210 mm): Track [GND] on F.Cu, length 1.2000 mm
+    @(180.6050 mm, 96.2210 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.8250 mm, 63.1150 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(182.2275 mm, 63.9950 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.8700 mm, 61.2299 mm): Via [GND] on F.Cu - B.Cu
+    @(185.8250 mm, 63.1150 mm): Pad 12 [GND] of U26 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(186.1150 mm, 84.3716 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(185.3150 mm, 82.2466 mm): Track [GND] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.6750 mm, 127.0171 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(190.2150 mm, 126.3221 mm): Track [GND] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(186.4275 mm, 107.1670 mm): Via [GND] on F.Cu - B.Cu
+    @(190.0400 mm, 110.8670 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3150 mm, 82.2466 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(187.1637 mm, 80.7229 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3850 mm, 94.6710 mm): Track [GND] on F.Cu, length 1.2000 mm
+    @(189.7450 mm, 92.4210 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.3850 mm, 96.6210 mm): Track [GND] on F.Cu, length 1.2000 mm
+    @(185.3850 mm, 94.6710 mm): Track [GND] on F.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(187.0450 mm, 112.8670 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(181.8900 mm, 114.7570 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(187.1150 mm, 75.9266 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(186.3450 mm, 77.7216 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(187.1150 mm, 75.9266 mm): Track [GND] on F.Cu, length 0.8750 mm
+    @(184.4850 mm, 73.8000 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(187.9150 mm, 79.9716 mm): Track [GND] on F.Cu, length 1.0625 mm
+    @(186.7050 mm, 78.3451 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.5950 mm, 60.9050 mm): Track [GND] on B.Cu, length 0.9100 mm
+    @(185.8700 mm, 61.2299 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.5950 mm, 80.3300 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(190.0950 mm, 81.3100 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.6000 mm, 83.7500 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(186.8350 mm, 84.3716 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.8550 mm, 84.4966 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(188.6000 mm, 83.7500 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.9250 mm, 98.7210 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(185.3850 mm, 96.6210 mm): Track [GND] on F.Cu, length 1.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.9600 mm, 101.9470 mm): Via [GND] on F.Cu - B.Cu
+    @(188.9250 mm, 98.7210 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.2100 mm, 85.1115 mm): Via [GND] on F.Cu - B.Cu
+    @(190.6388 mm, 85.3900 mm): Pad 2 [GND] of C152 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.3100 mm, 64.3250 mm): Via [GND] on F.Cu - B.Cu
+    @(190.6388 mm, 65.9650 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.3831 mm, 61.3600 mm): Via [GND] on F.Cu - B.Cu
+    @(190.0950 mm, 61.8850 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(188.6650 mm, 119.7921 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(189.6250 mm, 117.2321 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.5000 mm, 113.3870 mm): Track [GND] on F.Cu, length 0.7100 mm
+    @(187.0450 mm, 112.8670 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(189.6250 mm, 117.2321 mm): Via [GND] on F.Cu - B.Cu
+    @(189.5000 mm, 113.3870 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.0550 mm, 88.7591 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(189.7450 mm, 92.4210 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.2100 mm, 113.3870 mm): Via [GND] on F.Cu - B.Cu
+    @(190.0400 mm, 110.8670 mm): Track [GND] on F.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.6041 mm, 62.3941 mm): Via [GND] on F.Cu - B.Cu
+    @(191.6000 mm, 64.3850 mm): Track [GND] on B.Cu, length 0.7200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.6388 mm, 85.3900 mm): Pad 2 [GND] of C152 on B.Cu
+    @(191.0909 mm, 84.3191 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(190.0550 mm, 88.7591 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(190.6388 mm, 85.3900 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.3050 mm, 67.2150 mm): Track [GND] on F.Cu, length 1.1375 mm
+    @(186.8150 mm, 71.3400 mm): Track [GND] on F.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.6000 mm, 64.3850 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(190.6388 mm, 65.9650 mm): Track [GND] on B.Cu, length 0.7100 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.8150 mm, 78.9516 mm): Track [GND] on F.Cu, length 0.7200 mm
+    @(190.8150 mm, 81.3100 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(193.0825 mm, 60.6150 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(196.5000 mm, 53.5000 mm): PTH pad 1 [GND] of H2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(193.0825 mm, 80.0400 mm): Track [GND] on B.Cu, length 0.7200 mm
+    @(192.5350 mm, 78.9516 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(194.6025 mm, 63.0750 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(193.4425 mm, 61.2385 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(194.6025 mm, 63.0750 mm): Track [GND] on B.Cu, length 0.7100 mm
+    @(192.3200 mm, 64.3850 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(194.6025 mm, 82.5000 mm): Pad 2 [GND] of C151 on B.Cu
+    @(193.4425 mm, 80.6635 mm): Via [GND] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.6850 mm, 83.4432 mm): Track [VBAT_P] on B.Cu, length 1.2000 mm
+    @(114.9350 mm, 83.4432 mm): Track [VBAT_P] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.6850 mm, 83.4432 mm): Track [VBAT_P] on B.Cu, length 1.2000 mm
+    @(117.6450 mm, 70.1328 mm): Pad 1 [VBAT_P] of TP2 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(116.3950 mm, 62.8828 mm): Track [VBAT_P] on F.Cu, length 1.6500 mm
+    @(122.1450 mm, 62.8828 mm): Track [VBAT_P] on F.Cu, length 1.1620 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(120.1450 mm, 67.6328 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(117.6450 mm, 70.1328 mm): Track [VBAT_P] on F.Cu, length 1.1500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(120.1450 mm, 67.6328 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(122.1450 mm, 65.6328 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.1450 mm, 65.6328 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(122.1450 mm, 62.8828 mm): Track [VBAT_P] on F.Cu, length 1.1620 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.0800 mm, 67.5828 mm): Track [VBAT_P] on F.Cu, length 1.1375 mm
+    @(125.2660 mm, 63.8891 mm): Via [VBAT_P] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(130.5450 mm, 61.8282 mm): Track [VBAT_P] on B.Cu, length 1.2000 mm
+    @(125.2660 mm, 63.8891 mm): Via [VBAT_P] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.1950 mm, 61.8282 mm): Track [VBAT_P] on B.Cu, length 1.2000 mm
+    @(131.8450 mm, 59.0782 mm): Track [VBAT_P] on B.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.4000 mm, 117.8800 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(103.4988 mm, 133.3825 mm): PTH pad 1 [VBAT_P] of C1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(131.4000 mm, 117.8800 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(133.4000 mm, 117.8800 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(133.4000 mm, 117.8800 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(143.4650 mm, 94.8675 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.6750 mm, 75.7271 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(138.5650 mm, 86.3475 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.6750 mm, 75.7271 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(128.0800 mm, 67.5828 mm): Track [VBAT_P] on F.Cu, length 1.1375 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.6750 mm, 75.7271 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(142.1950 mm, 74.0771 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(140.2150 mm, 89.8675 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(138.5650 mm, 86.3475 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.9650 mm, 92.3675 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+    @(143.4650 mm, 89.8675 mm): Track [VBAT_P] on F.Cu, length 1.6370 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(140.2150 mm, 89.8675 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+    @(143.4650 mm, 89.8675 mm): Track [VBAT_P] on F.Cu, length 1.6370 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.1950 mm, 70.8271 mm): Track [VBAT_P] on F.Cu, length 1.6370 mm
+    @(142.1950 mm, 74.0771 mm): Track [VBAT_P] on F.Cu, length 0.8750 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.8137 mm, 74.6958 mm): Via [VBAT_P] on F.Cu - B.Cu
+    @(144.6950 mm, 75.3271 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.4650 mm, 94.8675 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+    @(138.9650 mm, 92.3675 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.4450 mm, 75.3271 mm): Via [VBAT_P] on F.Cu - B.Cu
+    @(147.1950 mm, 70.8271 mm): Track [VBAT_P] on F.Cu, length 1.7500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.5950 mm, 61.8850 mm): Pad 1 [VBAT_P] of R204 on B.Cu
+    @(191.5950 mm, 81.3100 mm): Pad 1 [VBAT_P] of R226 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(191.5950 mm, 61.8850 mm): Pad 1 [VBAT_P] of R204 on B.Cu
+    @(148.9450 mm, 70.8271 mm): Via [VBAT_P] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3150 mm, 102.9670 mm): Pad 1 [/guard/EPS6_B] of R162 on F.Cu
+    @(179.5650 mm, 105.2170 mm): Pad 1 [/guard/EPS6_B] of U25 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5650 mm, 105.2170 mm): Pad 1 [/guard/EPS6_B] of U25 on F.Cu
+    @(179.5650 mm, 105.8670 mm): Pad 2 [/guard/EPS6_B] of U25 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5650 mm, 105.8670 mm): Pad 2 [/guard/EPS6_B] of U25 on F.Cu
+    @(183.5200 mm, 111.3170 mm): Pad 1 [/guard/EPS6_B] of R114 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.2700 mm, 103.0170 mm): Pad 1 [/guard/EPS6_B] of R119 on F.Cu
+    @(179.3150 mm, 102.9670 mm): Pad 1 [/guard/EPS6_B] of R162 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.5400 mm, 111.3170 mm): Pad 2 [/guard/D6P] of R114 on F.Cu
+    @(187.0400 mm, 111.3170 mm): Pad 2 [/guard/D6P] of R115 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(185.2900 mm, 107.8170 mm): Pad 10 [/guard/D6P] of U25 on F.Cu
+    @(184.5400 mm, 111.3170 mm): Pad 2 [/guard/D6P] of R114 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.9350 mm, 120.7250 mm): Pad 1 [DCMD_SEL] of R89 on F.Cu
+    @(142.9350 mm, 118.9750 mm): Pad 4 [DCMD_SEL] of U21 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.9350 mm, 118.9750 mm): Pad 4 [DCMD_SEL] of U21 on F.Cu
+    @(146.4350 mm, 114.9750 mm): Pad 1 [DCMD_SEL] of R66 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.4350 mm, 114.9750 mm): Pad 1 [DCMD_SEL] of R66 on F.Cu
+    @(139.1850 mm, 108.9750 mm): Pad 1 [DCMD_SEL] of TP15 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(162.2663 mm, 124.1175 mm): Pad 1 [DCMD_SEL] of R70 on F.Cu
+    @(146.4350 mm, 114.9750 mm): Pad 1 [DCMD_SEL] of R66 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.7163 mm, 125.6175 mm): Pad 1 [DCMD_SEL] of R75 on F.Cu
+    @(162.2663 mm, 124.1175 mm): Pad 1 [DCMD_SEL] of R70 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(165.0362 mm, 121.6175 mm): Pad 3 [/overlay/SUM3P_A] of U22 on F.Cu
+    @(163.2862 mm, 124.1175 mm): Pad 2 [/overlay/SUM3P_A] of R70 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(167.0362 mm, 124.1175 mm): Pad 2 [/overlay/SUM3P_A] of R69 on F.Cu
+    @(165.0362 mm, 121.6175 mm): Pad 3 [/overlay/SUM3P_A] of U22 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3950 mm, 132.1312 mm): Pad 1 [REF3_B] of U24 on F.Cu
+    @(179.3950 mm, 132.7812 mm): Pad 2 [REF3_B] of U24 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.3950 mm, 132.7812 mm): Pad 2 [REF3_B] of U24 on F.Cu
+    @(185.1450 mm, 139.1312 mm): Pad 1 [REF3_B] of TP27 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.4150 mm, 129.8812 mm): Pad 1 [REF3_B] of R106 on F.Cu
+    @(179.3950 mm, 132.1312 mm): Pad 1 [REF3_B] of U24 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.4150 mm, 129.8812 mm): Pad 1 [REF3_B] of R106 on F.Cu
+    @(177.0650 mm, 103.7970 mm): Pad 1 [REF3_B] of R111 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(180.8950 mm, 129.8812 mm): Pad 1 [REF3_B] of R108 on F.Cu
+    @(179.4150 mm, 129.8812 mm): Pad 1 [REF3_B] of R106 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.7700 mm, 128.5350 mm): Pad 43 [REF3M_B] of U15 on B.Cu
+    @(181.9150 mm, 129.8812 mm): Pad 2 [REF3M_B] of R108 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(181.9150 mm, 129.8812 mm): Pad 2 [REF3M_B] of R108 on F.Cu
+    @(183.4150 mm, 129.8812 mm): Pad 1 [REF3M_B] of R109 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.4150 mm, 129.8812 mm): Pad 1 [REF3M_B] of R109 on F.Cu
+    @(185.9150 mm, 129.8812 mm): Pad 1 [REF3M_B] of C98 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(183.3650 mm, 116.2921 mm): Pad 1 [/guard/RAW6IN_B] of C92 on F.Cu
+    @(183.3650 mm, 118.7921 mm): Pad 10 [/guard/RAW6IN_B] of U23 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(184.8650 mm, 116.2921 mm): Pad 2 [/guard/RAW6IN_B] of R100 on F.Cu
+    @(183.3650 mm, 116.2921 mm): Pad 1 [/guard/RAW6IN_B] of C92 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(161.9400 mm, 66.3400 mm): Pad 89 [/ch_a/LEDFLT_A] of U10 on B.Cu
+    @(163.9400 mm, 65.3400 mm): Pad 1 [/ch_a/LEDFLT_A] of R35 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(163.9400 mm, 64.3200 mm): Pad 2 [/ch_a/LI_FLT_A] of R35 on F.Cu
+    @(165.6900 mm, 64.0700 mm): Pad 2 [/ch_a/LI_FLT_A] of D9 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.8500 mm, 137.0938 mm): Pad 1 [+5V0_A_SRC] of U33 on B.Cu
+    @(119.8500 mm, 137.5938 mm): Pad 2 [+5V0_A_SRC] of U33 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.8500 mm, 137.0938 mm): Pad 1 [+5V0_A_SRC] of U33 on B.Cu
+    @(122.6000 mm, 137.0938 mm): Pad 1 [+5V0_A_SRC] of C156 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.8500 mm, 137.5938 mm): Pad 2 [+5V0_A_SRC] of U33 on B.Cu
+    @(121.0300 mm, 143.0938 mm): Pad 1 [+5V0_A_SRC] of R249 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(126.4050 mm, 138.3438 mm): Pad 1 [+5V0_A_SRC] of R248 on F.Cu
+    @(122.6000 mm, 137.0938 mm): Pad 1 [+5V0_A_SRC] of C156 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(126.4050 mm, 138.3438 mm): Pad 1 [+5V0_A_SRC] of R248 on F.Cu
+    @(156.5531 mm, 136.5762 mm): Pad 1 [+5V0_A_SRC] of R91 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(150.8550 mm, 58.9950 mm): Pad 1 [+5V0_A_SRC] of C7 on F.Cu
+    @(146.8550 mm, 58.9950 mm): Pad 2 [+5V0_A_SRC] of L1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.1050 mm, 64.4950 mm): Pad 1 [+5V0_A_SRC] of C8 on F.Cu
+    @(146.7350 mm, 65.4950 mm): Pad 1 [+5V0_A_SRC] of R4 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.1050 mm, 64.4950 mm): Pad 1 [+5V0_A_SRC] of C8 on F.Cu
+    @(151.6050 mm, 69.7450 mm): Pad 1 [+5V0_A_SRC] of U2 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.1050 mm, 64.4950 mm): Pad 1 [+5V0_A_SRC] of C8 on F.Cu
+    @(150.8550 mm, 58.9950 mm): Pad 1 [+5V0_A_SRC] of C7 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.6050 mm, 69.7450 mm): Pad 1 [+5V0_A_SRC] of U2 on F.Cu
+    @(156.1050 mm, 77.2450 mm): Pad 1 [+5V0_A_SRC] of R19 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(156.5531 mm, 136.5762 mm): Pad 1 [+5V0_A_SRC] of R91 on F.Cu
+    @(156.1050 mm, 77.2450 mm): Pad 1 [+5V0_A_SRC] of R19 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(115.9650 mm, 130.2150 mm): Pad 1 [DISNO_B] of R223 on F.Cu
+    @(114.4650 mm, 130.2150 mm): Pad 1 [DISNO_B] of C147 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(117.4650 mm, 130.2150 mm): Pad 2 [DISNO_B] of R222 on F.Cu
+    @(115.9650 mm, 130.2150 mm): Pad 1 [DISNO_B] of R223 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.4650 mm, 130.4650 mm): Pad 2 [DISNO_B] of D45 on F.Cu
+    @(117.4650 mm, 130.2150 mm): Pad 2 [DISNO_B] of R222 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(119.4650 mm, 130.4650 mm): Pad 2 [DISNO_B] of D45 on F.Cu
+    @(160.9450 mm, 118.3600 mm): Pad 8 [DISNO_B] of U15 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(116.4875 mm, 74.0039 mm): Pad 2 [/io/CANH_T] of JP1 on F.Cu
+    @(118.9875 mm, 73.2539 mm): Pad 1 [/io/CANH_T] of R186 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(118.9875 mm, 74.9039 mm): Pad 2 [/io/CAN_SPLIT] of R186 on F.Cu
+    @(119.4375 mm, 76.7539 mm): Pad 1 [/io/CAN_SPLIT] of R187 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(120.6875 mm, 75.0039 mm): Pad 1 [/io/CAN_SPLIT] of C130 on F.Cu
+    @(118.9875 mm, 74.9039 mm): Pad 2 [/io/CAN_SPLIT] of R186 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(125.9450 mm, 66.3782 mm): Pad 1 [GUARD_GATE] of Q10 on B.Cu
+    @(179.5950 mm, 85.4216 mm): Pad 2 [GUARD_GATE] of R149 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(179.5950 mm, 85.4216 mm): Pad 2 [GUARD_GATE] of R149 on F.Cu
+    @(182.0950 mm, 85.4216 mm): Pad 1 [GUARD_GATE] of R150 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.2150 mm, 102.1750 mm): Pad 2 [VT6_EPS] of R181 on F.Cu
+    @(106.0000 mm, 102.4150 mm): PTH pad 11 [VT6_EPS] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(114.4650 mm, 100.6750 mm): Pad 1 [VT6_EPS] of C128 on F.Cu
+    @(114.2150 mm, 102.1750 mm): Pad 2 [VT6_EPS] of R181 on F.Cu
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
