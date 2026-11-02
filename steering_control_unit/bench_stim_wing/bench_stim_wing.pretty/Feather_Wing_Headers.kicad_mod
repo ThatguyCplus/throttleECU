@@ -1,0 +1,288 @@
+(footprint "Feather_Wing_Headers"
+	(version 20221018)
+	(generator pcbnew)
+	(layer "F.Cu")
+	(descr "FeatherWing header pads (16 + 12 pin) and 4 mounting holes; no outline or courtyard")
+	(tags "Adafruit Feather")
+	(attr through_hole)
+	(pad "" np_thru_hole circle
+		(at 1.27 -3.81 270)
+		(size 3.2 3.2)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 01ebec13-0951-47f8-b1a1-27609b63fb4c)
+	)
+	(pad "" np_thru_hole circle
+		(at 1.27 41.91 270)
+		(size 2.54 2.54)
+		(drill 2.54)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 2e4ca45f-7d78-4637-a556-efa143c90dfb)
+	)
+	(pad "" np_thru_hole circle
+		(at 19.05 -3.81 270)
+		(size 3.2 3.2)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(tstamp fd6172d0-b6f6-4c8e-8d00-a3e867f7653c)
+	)
+	(pad "" np_thru_hole circle
+		(at 19.05 41.91 270)
+		(size 2.54 2.54)
+		(drill 2.54)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 00707351-0bfc-49be-a489-a47f91123a2e)
+	)
+	(pad "1" thru_hole rect
+		(at 0 0)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp c2b9672b-d2f3-4f72-baf7-7f791def08df)
+	)
+	(pad "2" thru_hole oval
+		(at 0 2.54)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 37eaa243-7f77-4303-a9f8-d64727e1fd36)
+	)
+	(pad "3" thru_hole oval
+		(at 0 5.08)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 4a18cfbb-45d3-4d8d-b710-fcbca9ed28e2)
+	)
+	(pad "4" thru_hole oval
+		(at 0 7.62)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 3782086c-3087-47fa-8780-40ebb8d4d6ce)
+	)
+	(pad "5" thru_hole oval
+		(at 0 10.16)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 80c2c435-13d7-4ba2-bd8f-3fd6b766d644)
+	)
+	(pad "6" thru_hole oval
+		(at 0 12.7)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp bd916932-6855-4045-ae20-0f44ac56caeb)
+	)
+	(pad "7" thru_hole oval
+		(at 0 15.24)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 4e9cd788-c2e6-4626-9648-bf2b539636d3)
+	)
+	(pad "8" thru_hole oval
+		(at 0 17.78)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 9fa97104-136f-41fc-be89-ff44566c620e)
+	)
+	(pad "9" thru_hole oval
+		(at 0 20.32)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 18ea84f7-87be-4269-b541-c80ac7a1cee2)
+	)
+	(pad "10" thru_hole oval
+		(at 0 22.86)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 7bdcadbd-b424-4291-99bf-32dd73569abc)
+	)
+	(pad "11" thru_hole oval
+		(at 0 25.4)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 24fd645b-b9f1-4d95-b546-46527b2434f1)
+	)
+	(pad "12" thru_hole oval
+		(at 0 27.94)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 7360590f-6584-49ea-ae7a-6c49ea5c531c)
+	)
+	(pad "13" thru_hole oval
+		(at 0 30.48)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp ebebfe3f-d44c-48b2-a92d-c2c48c86ce63)
+	)
+	(pad "14" thru_hole oval
+		(at 0 33.02)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 54e96d31-5c99-408d-9644-9fa18e1b45d8)
+	)
+	(pad "15" thru_hole oval
+		(at 0 35.56)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp f6ac4060-3fbb-40b1-9384-13346091bd74)
+	)
+	(pad "16" thru_hole oval
+		(at 0 38.1)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 20a94951-8ca0-40af-9616-4ced60d8254d)
+	)
+	(pad "17" thru_hole oval
+		(at 20.32 38.1 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp f78f6ff5-764d-4a15-b63d-a7b1d76a903f)
+	)
+	(pad "18" thru_hole oval
+		(at 20.32 35.56 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 5a82403c-fb58-40c4-81d2-fc2e768c7c0f)
+	)
+	(pad "19" thru_hole oval
+		(at 20.32 33.02 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 7d9c67ad-85b6-4b33-800f-5960402c05be)
+	)
+	(pad "20" thru_hole oval
+		(at 20.32 30.48 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp c17adf1d-f431-434d-b2ae-931e43ff9f86)
+	)
+	(pad "21" thru_hole oval
+		(at 20.32 27.94 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp cc3c72e3-5ca3-4b18-bbbd-fb7f818f8756)
+	)
+	(pad "22" thru_hole oval
+		(at 20.32 25.4 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp a3e9a5cb-5cd4-4160-b6d5-5899d0b41783)
+	)
+	(pad "23" thru_hole oval
+		(at 20.32 22.86 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 3a18a31c-69ce-4798-b85f-1983b9123ba7)
+	)
+	(pad "24" thru_hole oval
+		(at 20.32 20.32 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 164d75fb-29df-42ab-85da-e92941666b26)
+	)
+	(pad "25" thru_hole oval
+		(at 20.32 17.78 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp e5eb71e0-6bf1-488a-93df-64cba530a93e)
+	)
+	(pad "26" thru_hole oval
+		(at 20.32 15.24 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 8780d778-b3b1-49c3-902f-d7539a309132)
+	)
+	(pad "27" thru_hole oval
+		(at 20.32 12.7 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 7d71ff3d-3cc3-4ed5-a028-525bf5c4d8d3)
+	)
+	(pad "28" thru_hole oval
+		(at 20.32 10.16 180)
+		(size 2.6 1.6)
+		(drill 1
+			(offset 0.3 0)
+		)
+		(layers "*.Cu" "*.Mask")
+		(tstamp 715f9f20-c7bd-40c6-9898-7dd22a7527dd)
+	)
+)
