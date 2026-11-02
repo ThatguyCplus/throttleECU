@@ -281,7 +281,7 @@ C("C10", "100nF", "+3V3", "GND", "U2 decoupling")
 # MCP6004 on 5 V, non-inverting gain 1 + 12k/10k = 2.2: 2.048 V -> 4.5 V max,
 # so the torque lines can't be driven past the sensor's normal range.
 SECTION_PINS = {1: ("3", "2", "1"), 2: ("5", "6", "7"), 3: ("10", "9", "8"), 4: ("12", "13", "14")}
-OPAMP = [("A", "VT3_STIM"), ("B", "VT6_STIM"), ("C", "AUX_C"), ("D", "AUX_D")]
+OPAMP = [("A", "VT3_STIM"), ("B", "VT6_STIM")]
 U3_UNITS = {}
 for i, (ch, out) in enumerate(OPAMP):
     p, nn, o = SECTION_PINS[i + 1]
@@ -291,6 +291,10 @@ for i, (ch, out) in enumerate(OPAMP):
     R(f"R{41 + 4 * i}", "10k", neg, "GND", f"Gain set {ch}")
     R(f"R{42 + 4 * i}", "12k", oa, neg, f"Gain set {ch}: x2.2")
     R(f"R{43 + 4 * i}", "470R", oa, out, f"Output series {ch}")
+# Sections C and D are unused: parked as grounded followers (+ to GND, - to out).
+# The spare DAC channels C and D go straight to test pads instead (0-2.048 V).
+U3_UNITS[3] = {"10": "GND", "9": "OPC_PARK", "8": "OPC_PARK"}
+U3_UNITS[4] = {"12": "GND", "13": "OPD_PARK", "14": "OPD_PARK"}
 U3_UNITS[5] = {"4": "+5V", "11": "GND"}
 add("U3", "Amplifier_Operational:LM2902", "MCP6004", TSSOP14,
     {p: n for u in U3_UNITS.values() for p, n in u.items()}, units=U3_UNITS,
@@ -338,7 +342,7 @@ for ref, pins, val, note in [
 # Test pads (back side, bare pads)
 TEST_PADS = [("GND", "GND"), ("+12V", "12V"), ("+5V", "5V"), ("+3V3", "3V3"), ("VUSB", "USB"),
              ("NEP_STIM", "NEP"), ("VSP_STIM", "VSP"), ("VT3_STIM", "VT3"), ("VT6_STIM", "VT6"),
-             ("AUX_C", "AUXC"), ("AUX_D", "AUXD"), ("ARM", "ARM"), ("EXP_P6", "P6"), ("EXP_P7", "P7"),
+             ("DAC_C", "DACC"), ("DAC_D", "DACD"), ("ARM", "ARM"), ("EXP_P6", "P6"), ("EXP_P7", "P7"),
              ("GND", "GND")]
 for i, (net, _lbl) in enumerate(TEST_PADS):
     add(f"TP{i + 1}", "Connector:TestPoint", "TP", "TestPoint:TestPoint_Pad_D1.0mm", {"1": net},

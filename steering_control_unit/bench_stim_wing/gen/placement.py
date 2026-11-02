@@ -80,11 +80,11 @@ PLACE.update({
     "R3": (13.2, 8.4, 90, B),
     "C5": (14.3, 8.4, 90, B),
 })
-# Op-amp gain/series resistors: 2 rows of 8 under U3, channel by channel.
-for i in range(4):
+# Op-amp gain/series resistors under U3: one column per channel (A = VT3, B = VT6).
+for i in range(2):
     for k in range(4):
         n = 40 + 4 * i + k
-        PLACE[f"R{n}"] = (34.0 + 2.0 * i, 9.6 + 2.0 * k, 90, B)   # column = channel A-D
+        PLACE[f"R{n}"] = (34.5 + 3.5 * i, 9.6 + 2.0 * k, 90, B)
 PLACE["D16"] = (38.3, 18.4, 0, B)
 PLACE["D17"] = (42.3, 18.4, 0, B)
 

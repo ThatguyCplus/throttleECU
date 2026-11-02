@@ -20873,14 +20873,14 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:LM2902")
-		(at 215.9 425.45 0)
+		(at 218.44 425.45 0)
 		(unit 3)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "b8776f38-5946-520f-b8cc-97e6e8d5cae4")
 		(property "Reference" "U3"
-			(at 218.44 424.18 0)
+			(at 220.98 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20889,7 +20889,7 @@
 			)
 		)
 		(property "Value" "MCP6004"
-			(at 218.44 426.72 0)
+			(at 220.98 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20898,7 +20898,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 215.9 425.45 0)
+			(at 218.44 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20907,7 +20907,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 215.9 425.45 0)
+			(at 218.44 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20916,7 +20916,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 215.9 425.45 0)
+			(at 218.44 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20925,7 +20925,7 @@
 			)
 		)
 		(property "LCSC" "C185811"
-			(at 215.9 425.45 0)
+			(at 218.44 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20934,7 +20934,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 215.9 425.45 0)
+			(at 218.44 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20962,95 +20962,42 @@
 	)
 	(wire
 		(pts
+			(xy 210.82 422.91)
 			(xy 208.28 422.91)
-			(xy 205.74 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "af5868ce-47b3-5ac7-b9be-49837f426652")
-	)
-	(label "OPC_P"
-		(at 205.74 422.91 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "35075a4f-b461-5914-9e8f-241ef24abd00")
-	)
-	(wire
-		(pts
-			(xy 223.52 425.45)
-			(xy 226.06 425.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "796e53fa-a0f9-593f-8f92-0d5fbd2b35c4")
-	)
-	(label "OPC_OUT"
-		(at 226.06 425.45 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "32b59efc-a4fa-5dd1-a92c-012ab57b9096")
-	)
-	(wire
-		(pts
-			(xy 208.28 427.99)
-			(xy 205.74 427.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4a237b7a-8136-5fd0-adf6-356bb55c6981")
-	)
-	(label "OPC_N"
-		(at 205.74 427.99 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "d7bf6657-6a6a-5a25-b2e4-a0091eb0224d")
+		(uuid "10d1318f-b684-5b9c-a3f7-c043cbe9b8c3")
 	)
 	(symbol
-		(lib_id "Amplifier_Operational:LM2902")
-		(at 257.81 425.45 0)
-		(unit 4)
-		(in_bom yes)
-		(on_board yes)
+		(lib_id "power:GND")
+		(at 208.28 422.91 270)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
-		(uuid "e83c2dbe-a098-57e9-93bc-b565ee8997e7")
-		(property "Reference" "U3"
-			(at 260.35 424.18 0)
+		(uuid "70854b8e-bea8-52db-ab6f-d523d72d2058")
+		(property "Reference" "#PWR065"
+			(at 208.28 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				hide
 			)
 		)
-		(property "Value" "MCP6004"
-			(at 260.35 426.72 0)
+		(property "Value" "GND"
+			(at 204.47 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 257.81 425.45 0)
+		(property "Footprint" ""
+			(at 208.28 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21059,7 +21006,105 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 257.81 425.45 0)
+			(at 208.28 422.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "6c960a4d-068e-55a2-b6fa-204cc9a51d7f")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR065")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 226.06 425.45)
+			(xy 228.6 425.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd124a22-f1b6-5115-82c5-cb300ac72dac")
+	)
+	(label "OPC_PARK"
+		(at 228.6 425.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b2019a13-42d5-58fd-83a6-d92507dd0b99")
+	)
+	(wire
+		(pts
+			(xy 210.82 427.99)
+			(xy 208.28 427.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ffb0a8d-0a7e-5cc2-96cf-3dcc394bc551")
+	)
+	(label "OPC_PARK"
+		(at 208.28 427.99 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "24da466b-34ba-5909-8306-5d7a63eb5e35")
+	)
+	(symbol
+		(lib_id "Amplifier_Operational:LM2902")
+		(at 264.16 425.45 0)
+		(unit 4)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e83c2dbe-a098-57e9-93bc-b565ee8997e7")
+		(property "Reference" "U3"
+			(at 266.7 424.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MCP6004"
+			(at 266.7 426.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
+			(at 264.16 425.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21068,7 +21113,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 257.81 425.45 0)
+			(at 264.16 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21077,7 +21122,7 @@
 			)
 		)
 		(property "LCSC" "C185811"
-			(at 257.81 425.45 0)
+			(at 264.16 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21086,7 +21131,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 257.81 425.45 0)
+			(at 264.16 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21114,95 +21159,42 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 422.91)
-			(xy 247.65 422.91)
+			(xy 256.54 422.91)
+			(xy 254.0 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d9634d4e-9a4b-5df5-b160-4fcaca442214")
-	)
-	(label "OPD_P"
-		(at 247.65 422.91 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "08965848-1581-5a24-a8c1-174b348545bf")
-	)
-	(wire
-		(pts
-			(xy 250.19 427.99)
-			(xy 247.65 427.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cd5007f5-697d-583f-94e0-6c4a682622fe")
-	)
-	(label "OPD_N"
-		(at 247.65 427.99 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "587ef46d-a5f6-5f49-b613-aff6724c414e")
-	)
-	(wire
-		(pts
-			(xy 265.43 425.45)
-			(xy 267.97 425.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bc2413aa-aef4-5cf8-8bd0-ecd43cc25ee8")
-	)
-	(label "OPD_OUT"
-		(at 267.97 425.45 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3b246339-c5ea-5be5-8d4f-75bb0f87861c")
+		(uuid "b8e95bec-a903-5719-ba03-7f086e696660")
 	)
 	(symbol
-		(lib_id "Amplifier_Operational:LM2902")
-		(at 288.29 430.53 0)
-		(unit 5)
-		(in_bom yes)
-		(on_board yes)
+		(lib_id "power:GND")
+		(at 254.0 422.91 270)
+		(unit 1)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
-		(uuid "b482680a-7622-533e-be79-28ec3ea353ea")
-		(property "Reference" "U3"
-			(at 290.83 429.26 0)
+		(uuid "28a10ea4-ee7d-505c-9abd-9041e37b58df")
+		(property "Reference" "#PWR066"
+			(at 254.0 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				hide
 			)
 		)
-		(property "Value" "MCP6004"
-			(at 290.83 431.8 0)
+		(property "Value" "GND"
+			(at 250.19 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-			(at 288.29 430.53 0)
+		(property "Footprint" ""
+			(at 254.0 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21211,7 +21203,105 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 288.29 430.53 0)
+			(at 254.0 422.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(pin "1"
+			(uuid "38131208-b73a-5fbf-b1be-b8461ff24d81")
+		)
+		(instances
+			(project "bench_stim_wing"
+				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
+					(reference "#PWR066")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 256.54 427.99)
+			(xy 254.0 427.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0d7c39a-a2f7-5316-863b-d35788248a6e")
+	)
+	(label "OPD_PARK"
+		(at 254.0 427.99 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "90aebfbd-f892-5c6a-ae13-78f80d9f125f")
+	)
+	(wire
+		(pts
+			(xy 271.78 425.45)
+			(xy 274.32 425.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9b978f81-f1c6-5d2f-afaa-8b029108c80f")
+	)
+	(label "OPD_PARK"
+		(at 274.32 425.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "798e33aa-6d0f-5826-ab80-885e3985028f")
+	)
+	(symbol
+		(lib_id "Amplifier_Operational:LM2902")
+		(at 297.18 430.53 0)
+		(unit 5)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b482680a-7622-533e-be79-28ec3ea353ea")
+		(property "Reference" "U3"
+			(at 299.72 429.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MCP6004"
+			(at 299.72 431.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
+			(at 297.18 430.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "Datasheet" ""
+			(at 297.18 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21220,7 +21310,7 @@
 			)
 		)
 		(property "MPN" "MCP6004-I/ST"
-			(at 288.29 430.53 0)
+			(at 297.18 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21229,7 +21319,7 @@
 			)
 		)
 		(property "LCSC" "C185811"
-			(at 288.29 430.53 0)
+			(at 297.18 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21238,7 +21328,7 @@
 			)
 		)
 		(property "Notes" "Rail-to-rail quad on 5 V (6 V max)"
-			(at 288.29 430.53 0)
+			(at 297.18 430.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21263,25 +21353,25 @@
 	)
 	(wire
 		(pts
-			(xy 285.75 438.15)
-			(xy 285.75 440.69)
+			(xy 294.64 438.15)
+			(xy 294.64 440.69)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2ad961be-c2c9-5b60-9e01-f84dcb300bf6")
+		(uuid "75119c55-91ad-56d0-9550-6b83cfaf7fdd")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 285.75 440.69 0)
+		(at 294.64 440.69 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "70854b8e-bea8-52db-ab6f-d523d72d2058")
-		(property "Reference" "#PWR065"
-			(at 285.75 440.69 0)
+		(uuid "528efaba-afb4-5465-9f0a-804d2f2a7aef")
+		(property "Reference" "#PWR067"
+			(at 294.64 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21290,7 +21380,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 285.75 445.77 0)
+			(at 294.64 445.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21298,7 +21388,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 285.75 440.69 0)
+			(at 294.64 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21307,7 +21397,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 285.75 440.69 0)
+			(at 294.64 440.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21316,12 +21406,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "6c960a4d-068e-55a2-b6fa-204cc9a51d7f")
+			(uuid "10e876b8-3af9-50c1-b4e1-f9fefacdd3ac")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR065")
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -21329,25 +21419,25 @@
 	)
 	(wire
 		(pts
-			(xy 285.75 422.91)
-			(xy 285.75 420.37)
+			(xy 294.64 422.91)
+			(xy 294.64 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3e3697f6-b677-5889-92ea-2f8e5d29fed0")
+		(uuid "ab1a8319-a087-58c9-ab15-11242bdba06a")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 285.75 420.37 0)
+		(at 294.64 420.37 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "28a10ea4-ee7d-505c-9abd-9041e37b58df")
-		(property "Reference" "#PWR066"
-			(at 285.75 420.37 0)
+		(uuid "1be8ae7f-61ab-5e5c-a94f-ea626a638a80")
+		(property "Reference" "#PWR068"
+			(at 294.64 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21356,7 +21446,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 285.75 415.29 0)
+			(at 294.64 415.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21364,7 +21454,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 285.75 420.37 0)
+			(at 294.64 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21373,7 +21463,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 285.75 420.37 0)
+			(at 294.64 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21382,12 +21472,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "38131208-b73a-5fbf-b1be-b8461ff24d81")
+			(uuid "5175054f-f4a0-5681-9435-8bfeb743c6b1")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR066")
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
@@ -21395,14 +21485,14 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 307.34 426.72 0)
+		(at 314.96 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "3adfbb7a-a89a-5eb8-99af-092d3b48fcf8")
 		(property "Reference" "R40"
-			(at 309.88 425.45 0)
+			(at 317.5 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21411,7 +21501,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 309.88 427.99 0)
+			(at 317.5 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21420,7 +21510,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 307.34 426.72 0)
+			(at 314.96 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21429,7 +21519,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 307.34 426.72 0)
+			(at 314.96 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21438,7 +21528,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1002TCE"
-			(at 307.34 426.72 0)
+			(at 314.96 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21447,7 +21537,7 @@
 			)
 		)
 		(property "LCSC" "C25744"
-			(at 307.34 426.72 0)
+			(at 314.96 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21456,7 +21546,7 @@
 			)
 		)
 		(property "Notes" "DAC A to op-amp, limits current if 5 V is off"
-			(at 307.34 426.72 0)
+			(at 314.96 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21481,56 +21571,56 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 422.91)
-			(xy 307.34 420.37)
+			(xy 314.96 422.91)
+			(xy 314.96 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "870f5026-d7dd-5cc7-a217-ce8682b5ba6f")
+		(uuid "f01658c1-0967-5654-afa2-bc378adfaae6")
 	)
 	(label "DAC_A"
-		(at 307.34 420.37 90)
+		(at 314.96 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "1efaff88-e7db-5595-ae3d-5df087ce8010")
+		(uuid "a0cf95d3-64d4-5861-af48-addca901a944")
 	)
 	(wire
 		(pts
-			(xy 307.34 430.53)
-			(xy 307.34 433.07)
+			(xy 314.96 430.53)
+			(xy 314.96 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "754ff35e-be84-52bb-b2c1-a910b44f6228")
+		(uuid "3cad6e8e-7e43-5ddc-84f5-1a181cc725b2")
 	)
 	(label "OPA_P"
-		(at 307.34 433.07 270)
+		(at 314.96 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "88b494cb-2d23-5a46-a2bb-4873eb9ad3f6")
+		(uuid "cb6387fb-8878-523f-83e1-eff1334bb3de")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 325.12 426.72 0)
+		(at 332.74 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "a4b0c991-ccdc-5a58-9833-ea5fff0dc065")
 		(property "Reference" "R41"
-			(at 327.66 425.45 0)
+			(at 335.28 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21539,7 +21629,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 327.66 427.99 0)
+			(at 335.28 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21548,7 +21638,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 325.12 426.72 0)
+			(at 332.74 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21557,7 +21647,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 325.12 426.72 0)
+			(at 332.74 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21566,7 +21656,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1002TCE"
-			(at 325.12 426.72 0)
+			(at 332.74 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21575,7 +21665,7 @@
 			)
 		)
 		(property "LCSC" "C25744"
-			(at 325.12 426.72 0)
+			(at 332.74 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21584,7 +21674,7 @@
 			)
 		)
 		(property "Notes" "Gain set A"
-			(at 325.12 426.72 0)
+			(at 332.74 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21609,46 +21699,46 @@
 	)
 	(wire
 		(pts
-			(xy 325.12 422.91)
-			(xy 325.12 420.37)
+			(xy 332.74 422.91)
+			(xy 332.74 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6d9f7f03-527b-5184-a01b-a5bdf2293926")
+		(uuid "13171934-f4be-5efd-ab29-d1987146e200")
 	)
 	(label "OPA_N"
-		(at 325.12 420.37 90)
+		(at 332.74 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "eac38ff5-f2e6-5f6a-b969-630949c45cd5")
+		(uuid "c9c95311-f812-551f-869b-0c521bc5866a")
 	)
 	(wire
 		(pts
-			(xy 325.12 430.53)
-			(xy 325.12 433.07)
+			(xy 332.74 430.53)
+			(xy 332.74 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4d387546-45d8-5664-8ef9-ae1ee113404f")
+		(uuid "dc9210ab-5c7a-5713-a09f-0f33eadf04f3")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 325.12 433.07 0)
+		(at 332.74 433.07 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "528efaba-afb4-5465-9f0a-804d2f2a7aef")
-		(property "Reference" "#PWR067"
-			(at 325.12 433.07 0)
+		(uuid "2543825f-3bc3-52bf-8f95-a0128e45bf5a")
+		(property "Reference" "#PWR069"
+			(at 332.74 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21657,7 +21747,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 325.12 438.15 0)
+			(at 332.74 438.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21665,7 +21755,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 325.12 433.07 0)
+			(at 332.74 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21674,7 +21764,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 325.12 433.07 0)
+			(at 332.74 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21683,12 +21773,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "10e876b8-3af9-50c1-b4e1-f9fefacdd3ac")
+			(uuid "e58e6087-d486-5a50-aa46-b72751c6cace")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR067")
+					(reference "#PWR069")
 					(unit 1)
 				)
 			)
@@ -21696,14 +21786,14 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 342.9 426.72 0)
+		(at 350.52 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "88060c55-5024-50bc-ae0f-a9b7e3120129")
 		(property "Reference" "R42"
-			(at 345.44 425.45 0)
+			(at 353.06 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21712,7 +21802,7 @@
 			)
 		)
 		(property "Value" "12k"
-			(at 345.44 427.99 0)
+			(at 353.06 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21721,7 +21811,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 342.9 426.72 0)
+			(at 350.52 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21730,7 +21820,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 342.9 426.72 0)
+			(at 350.52 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21739,7 +21829,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1202TCE"
-			(at 342.9 426.72 0)
+			(at 350.52 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21748,7 +21838,7 @@
 			)
 		)
 		(property "LCSC" "C25752"
-			(at 342.9 426.72 0)
+			(at 350.52 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21757,7 +21847,7 @@
 			)
 		)
 		(property "Notes" "Gain set A: x2.2"
-			(at 342.9 426.72 0)
+			(at 350.52 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21782,56 +21872,56 @@
 	)
 	(wire
 		(pts
-			(xy 342.9 422.91)
-			(xy 342.9 420.37)
+			(xy 350.52 422.91)
+			(xy 350.52 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f1572606-1d43-53c0-ab8f-ee4242069f1d")
+		(uuid "a40db2c2-8620-5bd8-bc71-6bb4e7e80cc4")
 	)
 	(label "OPA_OUT"
-		(at 342.9 420.37 90)
+		(at 350.52 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "9418192a-53dc-5821-8269-acdfc264dee3")
+		(uuid "52088c32-0f0c-5e34-bffd-5debc83694f4")
 	)
 	(wire
 		(pts
-			(xy 342.9 430.53)
-			(xy 342.9 433.07)
+			(xy 350.52 430.53)
+			(xy 350.52 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "19aa07a9-a11e-5259-847a-0cc999000f3b")
+		(uuid "84bcfd5e-e326-51cf-b663-b21be6a457c9")
 	)
 	(label "OPA_N"
-		(at 342.9 433.07 270)
+		(at 350.52 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "cc4d585b-56a5-5964-9110-15508978f78c")
+		(uuid "6b334492-3cea-59ad-baed-04183725ec57")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 360.68 426.72 0)
+		(at 368.3 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "c5208cda-3514-548e-a2ae-b0c73126a057")
 		(property "Reference" "R43"
-			(at 363.22 425.45 0)
+			(at 370.84 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21840,7 +21930,7 @@
 			)
 		)
 		(property "Value" "470R"
-			(at 363.22 427.99 0)
+			(at 370.84 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21849,7 +21939,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 360.68 426.72 0)
+			(at 368.3 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21858,7 +21948,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 360.68 426.72 0)
+			(at 368.3 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21867,7 +21957,7 @@
 			)
 		)
 		(property "MPN" "0402WGF4700TCE"
-			(at 360.68 426.72 0)
+			(at 368.3 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21876,7 +21966,7 @@
 			)
 		)
 		(property "LCSC" "C25117"
-			(at 360.68 426.72 0)
+			(at 368.3 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21885,7 +21975,7 @@
 			)
 		)
 		(property "Notes" "Output series A"
-			(at 360.68 426.72 0)
+			(at 368.3 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21910,56 +22000,56 @@
 	)
 	(wire
 		(pts
-			(xy 360.68 422.91)
-			(xy 360.68 420.37)
+			(xy 368.3 422.91)
+			(xy 368.3 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c56197e5-0eb1-5183-8a72-a14542468cc4")
+		(uuid "67c18032-ec2f-5a61-a325-ca6f6ef6f19c")
 	)
 	(label "OPA_OUT"
-		(at 360.68 420.37 90)
+		(at 368.3 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "32bf4374-03d0-588c-b6b5-294b76721a75")
+		(uuid "fb3cd4ce-21d6-5442-9f43-40f50d928df8")
 	)
 	(wire
 		(pts
-			(xy 360.68 430.53)
-			(xy 360.68 433.07)
+			(xy 368.3 430.53)
+			(xy 368.3 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "866e88c8-8fad-5fc3-a4a8-0cf482569ab7")
+		(uuid "e647ba4e-3c04-5775-a647-e4e9e7236d67")
 	)
 	(label "VT3_STIM"
-		(at 360.68 433.07 270)
+		(at 368.3 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "d9f60d7f-5c32-52a4-824b-bc0fb634a7c1")
+		(uuid "087bd631-ff2b-570e-b424-9e9be6a8ece3")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 378.46 426.72 0)
+		(at 387.35 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "09175e14-2a5f-5d87-b703-be6cfe4b8c08")
 		(property "Reference" "R44"
-			(at 381.0 425.45 0)
+			(at 389.89 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21968,7 +22058,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 381.0 427.99 0)
+			(at 389.89 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21977,7 +22067,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 378.46 426.72 0)
+			(at 387.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21986,7 +22076,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 378.46 426.72 0)
+			(at 387.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21995,7 +22085,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1002TCE"
-			(at 378.46 426.72 0)
+			(at 387.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22004,7 +22094,7 @@
 			)
 		)
 		(property "LCSC" "C25744"
-			(at 378.46 426.72 0)
+			(at 387.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22013,7 +22103,7 @@
 			)
 		)
 		(property "Notes" "DAC B to op-amp, limits current if 5 V is off"
-			(at 378.46 426.72 0)
+			(at 387.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22038,56 +22128,56 @@
 	)
 	(wire
 		(pts
-			(xy 378.46 422.91)
-			(xy 378.46 420.37)
+			(xy 387.35 422.91)
+			(xy 387.35 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e21266c7-6d5c-5f73-8e5b-9bffe12d1c24")
+		(uuid "84cef78f-e0cf-54df-9737-4712c37ffa6c")
 	)
 	(label "DAC_B"
-		(at 378.46 420.37 90)
+		(at 387.35 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "e89deb09-4dd9-51f2-9ed8-72ce84d5dbd2")
+		(uuid "4ba711d8-b4ad-5cea-a011-9d167f01effb")
 	)
 	(wire
 		(pts
-			(xy 378.46 430.53)
-			(xy 378.46 433.07)
+			(xy 387.35 430.53)
+			(xy 387.35 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "43f857b2-6d30-59cd-ad12-c52e0441b2e9")
+		(uuid "708904fa-61c9-5d55-ad9a-74aff2131870")
 	)
 	(label "OPB_P"
-		(at 378.46 433.07 270)
+		(at 387.35 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "f4c2106e-241a-559b-8c84-174c3a0a7c1f")
+		(uuid "a20c6139-c279-5f48-8704-de895291802c")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 396.24 426.72 0)
+		(at 405.13 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "5c51ad80-bdc7-59c1-965b-3051bae09d0a")
 		(property "Reference" "R45"
-			(at 398.78 425.45 0)
+			(at 407.67 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22096,7 +22186,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 398.78 427.99 0)
+			(at 407.67 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22105,7 +22195,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 396.24 426.72 0)
+			(at 405.13 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22114,7 +22204,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 396.24 426.72 0)
+			(at 405.13 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22123,7 +22213,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1002TCE"
-			(at 396.24 426.72 0)
+			(at 405.13 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22132,7 +22222,7 @@
 			)
 		)
 		(property "LCSC" "C25744"
-			(at 396.24 426.72 0)
+			(at 405.13 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22141,7 +22231,7 @@
 			)
 		)
 		(property "Notes" "Gain set B"
-			(at 396.24 426.72 0)
+			(at 405.13 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22166,46 +22256,46 @@
 	)
 	(wire
 		(pts
-			(xy 396.24 422.91)
-			(xy 396.24 420.37)
+			(xy 405.13 422.91)
+			(xy 405.13 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "787ee4d5-eb53-573c-83f2-fa9562f53332")
+		(uuid "a29104ff-44fc-546c-a168-c283c2c543af")
 	)
 	(label "OPB_N"
-		(at 396.24 420.37 90)
+		(at 405.13 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "21e5eebc-ae0e-51a2-a31b-2735a9f4956d")
+		(uuid "6f670577-3d46-5d05-ab66-8db50e652685")
 	)
 	(wire
 		(pts
-			(xy 396.24 430.53)
-			(xy 396.24 433.07)
+			(xy 405.13 430.53)
+			(xy 405.13 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3e32f72a-3c7c-5928-b1b6-a860e6c4496d")
+		(uuid "a2b98d28-d17a-52f4-9a70-d84cb587ff1e")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 396.24 433.07 0)
+		(at 405.13 433.07 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "1be8ae7f-61ab-5e5c-a94f-ea626a638a80")
-		(property "Reference" "#PWR068"
-			(at 396.24 433.07 0)
+		(uuid "36b38590-9277-5aed-90ac-35c8ebd61555")
+		(property "Reference" "#PWR070"
+			(at 405.13 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22214,7 +22304,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 396.24 438.15 0)
+			(at 405.13 438.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22222,7 +22312,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 396.24 433.07 0)
+			(at 405.13 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22231,7 +22321,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 396.24 433.07 0)
+			(at 405.13 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22240,12 +22330,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "5175054f-f4a0-5681-9435-8bfeb743c6b1")
+			(uuid "8aeee2cd-48f8-54d0-a60f-dbd6b6b5ed5e")
 		)
 		(instances
 			(project "bench_stim_wing"
 				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR068")
+					(reference "#PWR070")
 					(unit 1)
 				)
 			)
@@ -22253,14 +22343,14 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 415.29 426.72 0)
+		(at 422.91 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "0bac9266-f1ba-50bb-9408-de5cb0b91630")
 		(property "Reference" "R46"
-			(at 417.83 425.45 0)
+			(at 425.45 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22269,7 +22359,7 @@
 			)
 		)
 		(property "Value" "12k"
-			(at 417.83 427.99 0)
+			(at 425.45 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22278,7 +22368,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 415.29 426.72 0)
+			(at 422.91 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22287,7 +22377,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 415.29 426.72 0)
+			(at 422.91 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22296,7 +22386,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1202TCE"
-			(at 415.29 426.72 0)
+			(at 422.91 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22305,7 +22395,7 @@
 			)
 		)
 		(property "LCSC" "C25752"
-			(at 415.29 426.72 0)
+			(at 422.91 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22314,7 +22404,7 @@
 			)
 		)
 		(property "Notes" "Gain set B: x2.2"
-			(at 415.29 426.72 0)
+			(at 422.91 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22339,56 +22429,56 @@
 	)
 	(wire
 		(pts
-			(xy 415.29 422.91)
-			(xy 415.29 420.37)
+			(xy 422.91 422.91)
+			(xy 422.91 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dfb4e3dc-8215-5e5c-8fa8-8765a48021dd")
+		(uuid "1c8e47d5-8cb7-5466-844f-85e218f752ef")
 	)
 	(label "OPB_OUT"
-		(at 415.29 420.37 90)
+		(at 422.91 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "ff305016-17d7-5bc5-9318-0886fb592697")
+		(uuid "6cf8d56d-e2ae-5a1e-9600-7aaf9b8fac37")
 	)
 	(wire
 		(pts
-			(xy 415.29 430.53)
-			(xy 415.29 433.07)
+			(xy 422.91 430.53)
+			(xy 422.91 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "584b213b-d0de-5226-877b-a7cb2a722530")
+		(uuid "615baba4-1bf7-55b6-ab30-dc7c75d258a3")
 	)
 	(label "OPB_N"
-		(at 415.29 433.07 270)
+		(at 422.91 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "b8e01aca-8a2e-58fe-980a-e1f4cf661ff8")
+		(uuid "9901badd-9b22-5439-8945-a1240d89d2a8")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 433.07 426.72 0)
+		(at 440.69 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "8273b40c-8dae-5cc4-9f3c-1467c8ecc2a7")
 		(property "Reference" "R47"
-			(at 435.61 425.45 0)
+			(at 443.23 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22397,7 +22487,7 @@
 			)
 		)
 		(property "Value" "470R"
-			(at 435.61 427.99 0)
+			(at 443.23 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22406,7 +22496,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 433.07 426.72 0)
+			(at 440.69 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22415,7 +22505,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 433.07 426.72 0)
+			(at 440.69 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22424,7 +22514,7 @@
 			)
 		)
 		(property "MPN" "0402WGF4700TCE"
-			(at 433.07 426.72 0)
+			(at 440.69 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22433,7 +22523,7 @@
 			)
 		)
 		(property "LCSC" "C25117"
-			(at 433.07 426.72 0)
+			(at 440.69 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22442,7 +22532,7 @@
 			)
 		)
 		(property "Notes" "Output series B"
-			(at 433.07 426.72 0)
+			(at 440.69 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22467,1170 +22557,56 @@
 	)
 	(wire
 		(pts
-			(xy 433.07 422.91)
-			(xy 433.07 420.37)
+			(xy 440.69 422.91)
+			(xy 440.69 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b03a8b33-75b9-5815-8508-f1420ec5729c")
+		(uuid "18d6ced3-aa3e-5347-92d5-cb9c4d16c0be")
 	)
 	(label "OPB_OUT"
-		(at 433.07 420.37 90)
+		(at 440.69 420.37 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "e39ab244-06ff-5876-a67d-bd82bf090ad9")
+		(uuid "78215fd4-d427-5833-8fc1-3e89f832e279")
 	)
 	(wire
 		(pts
-			(xy 433.07 430.53)
-			(xy 433.07 433.07)
+			(xy 440.69 430.53)
+			(xy 440.69 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "622fe1e1-dba1-527c-9b7d-0eefdc50d586")
+		(uuid "65bab580-becd-53fc-a0be-4045a0a287fd")
 	)
 	(label "VT6_STIM"
-		(at 433.07 433.07 270)
+		(at 440.69 433.07 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "3e5d505d-176d-5d89-b1ae-8fe12ba052f1")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 450.85 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b782d38f-8c97-5c6c-9452-b3d30f8d9e09")
-		(property "Reference" "R48"
-			(at 453.39 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k"
-			(at 453.39 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 450.85 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 450.85 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1002TCE"
-			(at 450.85 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25744"
-			(at 450.85 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "DAC C to op-amp, limits current if 5 V is off"
-			(at 450.85 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "245c1ee9-be84-5256-94a8-b863f76212c8")
-		)
-		(pin "2"
-			(uuid "da177f0e-58a7-5312-a000-38afba9b7e40")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R48")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 450.85 422.91)
-			(xy 450.85 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d0af6c14-cfb3-5faf-b60a-1b30230b8f09")
-	)
-	(label "DAC_C"
-		(at 450.85 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "204c11ad-7f02-58f0-a7ff-e181aeb9f9d1")
-	)
-	(wire
-		(pts
-			(xy 450.85 430.53)
-			(xy 450.85 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48950fd0-ace7-5368-808c-7ef0049e18e3")
-	)
-	(label "OPC_P"
-		(at 450.85 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "bf7b06b2-155d-5540-a3e5-7cf4a9f8468c")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 468.63 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "63d87f71-ea48-5efa-abc4-e588670d42d7")
-		(property "Reference" "R49"
-			(at 471.17 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k"
-			(at 471.17 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 468.63 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 468.63 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1002TCE"
-			(at 468.63 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25744"
-			(at 468.63 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Gain set C"
-			(at 468.63 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "935ef5b2-f0bb-595e-b113-a8634c18df5d")
-		)
-		(pin "2"
-			(uuid "4abcf19c-7401-57c2-b49b-e89dbabd0450")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R49")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 468.63 422.91)
-			(xy 468.63 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "afbf5182-6555-5e3a-b7a1-5d9df9f483c0")
-	)
-	(label "OPC_N"
-		(at 468.63 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b053be9a-7e0c-575b-8139-b71cf91d1a55")
-	)
-	(wire
-		(pts
-			(xy 468.63 430.53)
-			(xy 468.63 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "60d7c9cd-4c5a-5271-ab0a-575256de9b2a")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 468.63 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "2543825f-3bc3-52bf-8f95-a0128e45bf5a")
-		(property "Reference" "#PWR069"
-			(at 468.63 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Value" "GND"
-			(at 468.63 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 468.63 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 468.63 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "e58e6087-d486-5a50-aa46-b72751c6cace")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR069")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 486.41 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8d66ee1c-9fc3-5601-a562-015284570262")
-		(property "Reference" "R50"
-			(at 488.95 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "12k"
-			(at 488.95 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 486.41 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 486.41 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1202TCE"
-			(at 486.41 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25752"
-			(at 486.41 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Gain set C: x2.2"
-			(at 486.41 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "51a71e0c-4e58-5b6f-81ba-7305bb8ea348")
-		)
-		(pin "2"
-			(uuid "2098df53-c7fb-5b57-82aa-f58f012773d9")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R50")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 486.41 422.91)
-			(xy 486.41 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6f713d56-a6d3-51c2-8530-2212435b4fe9")
-	)
-	(label "OPC_OUT"
-		(at 486.41 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f8fe239e-9753-54b6-b1ca-6de1c3f9e43e")
-	)
-	(wire
-		(pts
-			(xy 486.41 430.53)
-			(xy 486.41 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a20d124d-79a3-58a9-b7bc-9dce8ff26a46")
-	)
-	(label "OPC_N"
-		(at 486.41 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "971514d0-c916-5205-9fa0-e376287cac13")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 505.46 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e2f5ccfb-b46f-573a-94bf-f75fdd692fa2")
-		(property "Reference" "R51"
-			(at 508.0 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "470R"
-			(at 508.0 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 505.46 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 505.46 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF4700TCE"
-			(at 505.46 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25117"
-			(at 505.46 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Output series C"
-			(at 505.46 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "e6d2c5d1-ad14-5786-aa35-b28f0e1b2607")
-		)
-		(pin "2"
-			(uuid "5753146b-9da3-5f40-ba9f-9a04c2b8ac83")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R51")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 505.46 422.91)
-			(xy 505.46 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "adac5b90-a659-5451-869f-afe6ceb3fe6e")
-	)
-	(label "OPC_OUT"
-		(at 505.46 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ee339f8a-f606-5a8e-9b29-aa7e2227cbcc")
-	)
-	(wire
-		(pts
-			(xy 505.46 430.53)
-			(xy 505.46 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3df2a09d-a5e6-5e14-a3e3-64b97c308e82")
-	)
-	(label "AUX_C"
-		(at 505.46 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "6a21c8bf-e3cb-5499-9447-50f07315f353")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 523.24 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f6f7919f-2b54-5896-86ca-e00d49c6d569")
-		(property "Reference" "R52"
-			(at 525.78 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k"
-			(at 525.78 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 523.24 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 523.24 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1002TCE"
-			(at 523.24 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25744"
-			(at 523.24 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "DAC D to op-amp, limits current if 5 V is off"
-			(at 523.24 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "1a1ee19b-2e26-5b7e-afbd-9858ab40644f")
-		)
-		(pin "2"
-			(uuid "614eab44-1635-5003-897a-595240d3bb19")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R52")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 523.24 422.91)
-			(xy 523.24 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "760852fd-97d3-57c2-8224-50bb01ab43b8")
-	)
-	(label "DAC_D"
-		(at 523.24 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3746d0c6-97cf-5297-8991-4d17bf06efa4")
-	)
-	(wire
-		(pts
-			(xy 523.24 430.53)
-			(xy 523.24 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "954d518c-7280-5dbf-8e6d-3be6d802837f")
-	)
-	(label "OPD_P"
-		(at 523.24 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "cf8b271a-f2e6-58ac-bbfe-58bdc0ae0433")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 541.02 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "43c19f6e-7f38-5ad4-a963-19bc2d662f14")
-		(property "Reference" "R53"
-			(at 543.56 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k"
-			(at 543.56 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 541.02 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 541.02 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1002TCE"
-			(at 541.02 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25744"
-			(at 541.02 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Gain set D"
-			(at 541.02 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "359a830d-8d82-5a28-a6a7-be7b916bf005")
-		)
-		(pin "2"
-			(uuid "24916c65-a2ae-5645-a2fb-623dac0eec46")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R53")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 541.02 422.91)
-			(xy 541.02 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d77eebfa-a3f0-5035-8dad-86986747be7f")
-	)
-	(label "OPD_N"
-		(at 541.02 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b3369460-af8c-51d5-bba4-f8664c728383")
-	)
-	(wire
-		(pts
-			(xy 541.02 430.53)
-			(xy 541.02 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "88a2cb0c-aa84-5aed-af10-bac00c300e86")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 541.02 433.07 0)
-		(unit 1)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "36b38590-9277-5aed-90ac-35c8ebd61555")
-		(property "Reference" "#PWR070"
-			(at 541.02 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Value" "GND"
-			(at 541.02 438.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 541.02 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 541.02 433.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "8aeee2cd-48f8-54d0-a60f-dbd6b6b5ed5e")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "#PWR070")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 558.8 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "cf0ff88c-b654-5f4c-aa2a-b65448e15b85")
-		(property "Reference" "R54"
-			(at 561.34 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "12k"
-			(at 561.34 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 558.8 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 558.8 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF1202TCE"
-			(at 558.8 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25752"
-			(at 558.8 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Gain set D: x2.2"
-			(at 558.8 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "8886dbb8-1112-5c37-b058-80bda1f3e33d")
-		)
-		(pin "2"
-			(uuid "ddf6f8c7-1c25-535d-a653-618a3a6e2615")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R54")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 558.8 422.91)
-			(xy 558.8 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4925a535-e476-5134-97ae-320abc5f00fe")
-	)
-	(label "OPD_OUT"
-		(at 558.8 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "cd511baf-8353-5324-8982-88e66d702ef9")
-	)
-	(wire
-		(pts
-			(xy 558.8 430.53)
-			(xy 558.8 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8838086f-0835-5304-a8eb-ae89ab7c1d10")
-	)
-	(label "OPD_N"
-		(at 558.8 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "d24140d1-1bf6-5650-b134-9efb63ae55d6")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 576.58 426.72 0)
-		(unit 1)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7bc98f3a-84cb-59c5-92d3-25b27dd8ff73")
-		(property "Reference" "R55"
-			(at 579.12 425.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "470R"
-			(at 579.12 427.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 576.58 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Datasheet" ""
-			(at 576.58 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "MPN" "0402WGF4700TCE"
-			(at 576.58 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "LCSC" "C25117"
-			(at 576.58 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(property "Notes" "Output series D"
-			(at 576.58 426.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				hide
-			)
-		)
-		(pin "1"
-			(uuid "20e03071-f488-5bd6-be5f-c5307a29807e")
-		)
-		(pin "2"
-			(uuid "540731ac-34ae-5041-a458-629ceda79ca4")
-		)
-		(instances
-			(project "bench_stim_wing"
-				(path "/20a78a7c-49e1-5d7a-86ea-fb8a02af50d2"
-					(reference "R55")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 576.58 422.91)
-			(xy 576.58 420.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "08b5b28a-ba13-53d7-8cb9-34146d8cbab4")
-	)
-	(label "OPD_OUT"
-		(at 576.58 420.37 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f125cba3-503e-50a6-99ff-8a479c5de2cd")
-	)
-	(wire
-		(pts
-			(xy 576.58 430.53)
-			(xy 576.58 433.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "38fdfa80-ee23-5629-ac02-72dc2ddad32e")
-	)
-	(label "AUX_D"
-		(at 576.58 433.07 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "da95e7f2-a048-56c1-b1e7-9c5805b7dfca")
+		(uuid "5b3c27f3-7f5f-57a4-9f4f-75322e332a02")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 594.36 426.72 0)
+		(at 458.47 426.72 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "8311f146-4ea8-5dd2-9775-f475ae5374d9")
 		(property "Reference" "C12"
-			(at 596.9 425.45 0)
+			(at 461.01 425.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23639,7 +22615,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 596.9 427.99 0)
+			(at 461.01 427.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23648,7 +22624,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 594.36 426.72 0)
+			(at 458.47 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23657,7 +22633,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 594.36 426.72 0)
+			(at 458.47 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23666,7 +22642,7 @@
 			)
 		)
 		(property "MPN" "CL05B104KO5NNNC"
-			(at 594.36 426.72 0)
+			(at 458.47 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23675,7 +22651,7 @@
 			)
 		)
 		(property "LCSC" "C1525"
-			(at 594.36 426.72 0)
+			(at 458.47 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23684,7 +22660,7 @@
 			)
 		)
 		(property "Notes" "U3 decoupling"
-			(at 594.36 426.72 0)
+			(at 458.47 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23709,25 +22685,25 @@
 	)
 	(wire
 		(pts
-			(xy 594.36 422.91)
-			(xy 594.36 420.37)
+			(xy 458.47 422.91)
+			(xy 458.47 420.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fd56a5e8-e772-55e6-bc25-0d66ed93e092")
+		(uuid "7f0404a7-baba-555e-9dd3-fee0335c7677")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 594.36 420.37 0)
+		(at 458.47 420.37 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "70eaa66c-5369-5a73-9d6f-fcb8ec03e2c9")
 		(property "Reference" "#PWR071"
-			(at 594.36 420.37 0)
+			(at 458.47 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23736,7 +22712,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 594.36 415.29 0)
+			(at 458.47 415.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23744,7 +22720,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 594.36 420.37 0)
+			(at 458.47 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23753,7 +22729,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 594.36 420.37 0)
+			(at 458.47 420.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23775,25 +22751,25 @@
 	)
 	(wire
 		(pts
-			(xy 594.36 430.53)
-			(xy 594.36 433.07)
+			(xy 458.47 430.53)
+			(xy 458.47 433.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "09f2e7c3-0655-5604-a63b-389fcb87225e")
+		(uuid "3443c927-d416-51eb-97d4-5e3588ea0ef3")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 594.36 433.07 0)
+		(at 458.47 433.07 0)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "0f112f33-b108-5529-90fe-cb7b9f16eb0a")
 		(property "Reference" "#PWR072"
-			(at 594.36 433.07 0)
+			(at 458.47 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23802,7 +22778,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 594.36 438.15 0)
+			(at 458.47 438.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23810,7 +22786,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 594.36 433.07 0)
+			(at 458.47 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23819,7 +22795,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 594.36 433.07 0)
+			(at 458.47 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23841,14 +22817,14 @@
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 618.49 422.91 0)
+		(at 482.6 422.91 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "07b9d3bb-aa14-53f3-8677-1957e102310a")
 		(property "Reference" "D16"
-			(at 621.03 421.64 0)
+			(at 485.14 421.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23857,7 +22833,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 621.03 424.18 0)
+			(at 485.14 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23866,7 +22842,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 618.49 422.91 0)
+			(at 482.6 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23875,7 +22851,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 618.49 422.91 0)
+			(at 482.6 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23884,7 +22860,7 @@
 			)
 		)
 		(property "MPN" "BAT54S"
-			(at 618.49 422.91 0)
+			(at 482.6 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23893,7 +22869,7 @@
 			)
 		)
 		(property "LCSC" "C171786"
-			(at 618.49 422.91 0)
+			(at 482.6 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23902,7 +22878,7 @@
 			)
 		)
 		(property "Notes" "VT3_STIM clamp to 0..5 V"
-			(at 618.49 422.91 0)
+			(at 482.6 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23930,25 +22906,25 @@
 	)
 	(wire
 		(pts
-			(xy 610.87 422.91)
-			(xy 608.33 422.91)
+			(xy 474.98 422.91)
+			(xy 472.44 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e06d2350-c860-5cc8-ae66-a2c9452de76c")
+		(uuid "5ca5b035-c440-5a4a-8e2f-e79fc3f2ce17")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 608.33 422.91 270)
+		(at 472.44 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "9acd88c0-592c-54ed-b79b-46d5a00816a4")
 		(property "Reference" "#PWR073"
-			(at 608.33 422.91 90)
+			(at 472.44 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23957,7 +22933,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 604.52 420.37 90)
+			(at 468.63 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23965,7 +22941,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 608.33 422.91 0)
+			(at 472.44 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23974,7 +22950,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 608.33 422.91 0)
+			(at 472.44 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23996,25 +22972,25 @@
 	)
 	(wire
 		(pts
-			(xy 626.11 422.91)
-			(xy 628.65 422.91)
+			(xy 490.22 422.91)
+			(xy 492.76 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0cdb8d50-540c-5d66-b217-6f8f6f46bf50")
+		(uuid "adccdf7b-f1a7-5884-ad9a-6877fd86459a")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 628.65 422.91 270)
+		(at 492.76 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "d7a0029d-eaf2-5ea3-88ea-145cd95daee2")
 		(property "Reference" "#PWR074"
-			(at 628.65 422.91 90)
+			(at 492.76 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24023,7 +22999,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 632.46 420.37 90)
+			(at 496.57 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24031,7 +23007,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 628.65 422.91 0)
+			(at 492.76 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24040,7 +23016,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 628.65 422.91 0)
+			(at 492.76 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24062,35 +23038,35 @@
 	)
 	(wire
 		(pts
-			(xy 618.49 427.99)
-			(xy 618.49 430.53)
+			(xy 482.6 427.99)
+			(xy 482.6 430.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a3858ff1-1532-54fc-9537-c86d4edf4c24")
+		(uuid "1555607a-08f6-5598-b597-27c1cf3ab0d8")
 	)
 	(label "VT3_STIM"
-		(at 618.49 430.53 270)
+		(at 482.6 430.53 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "9638f050-12b3-5fa9-9a8c-0d45cfd503c0")
+		(uuid "f4f80070-8510-5a9a-9101-c25262f72582")
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 646.43 422.91 0)
+		(at 510.54 422.91 0)
 		(unit 1)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "98b20dcb-9d30-5e6d-91cf-030d51f34d75")
 		(property "Reference" "D17"
-			(at 648.97 421.64 0)
+			(at 513.08 421.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24099,7 +23075,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 648.97 424.18 0)
+			(at 513.08 424.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24108,7 +23084,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 646.43 422.91 0)
+			(at 510.54 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24117,7 +23093,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 646.43 422.91 0)
+			(at 510.54 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24126,7 +23102,7 @@
 			)
 		)
 		(property "MPN" "BAT54S"
-			(at 646.43 422.91 0)
+			(at 510.54 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24135,7 +23111,7 @@
 			)
 		)
 		(property "LCSC" "C171786"
-			(at 646.43 422.91 0)
+			(at 510.54 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24144,7 +23120,7 @@
 			)
 		)
 		(property "Notes" "VT6_STIM clamp to 0..5 V"
-			(at 646.43 422.91 0)
+			(at 510.54 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24172,25 +23148,25 @@
 	)
 	(wire
 		(pts
-			(xy 638.81 422.91)
-			(xy 636.27 422.91)
+			(xy 502.92 422.91)
+			(xy 500.38 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "668b53ad-639f-5609-9f51-041e82d1e953")
+		(uuid "d1523aab-0307-5520-9b7a-27fc62e9ed00")
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 636.27 422.91 270)
+		(at 500.38 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "a7f857fb-4b89-5aa7-aeab-e799262e3ce2")
 		(property "Reference" "#PWR075"
-			(at 636.27 422.91 90)
+			(at 500.38 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24199,7 +23175,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 632.46 420.37 90)
+			(at 496.57 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24207,7 +23183,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 636.27 422.91 0)
+			(at 500.38 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24216,7 +23192,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 636.27 422.91 0)
+			(at 500.38 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24238,25 +23214,25 @@
 	)
 	(wire
 		(pts
-			(xy 654.05 422.91)
-			(xy 656.59 422.91)
+			(xy 518.16 422.91)
+			(xy 520.7 422.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5c411438-7d50-5eac-a87b-fe68e7b6361c")
+		(uuid "10c56ac2-43a8-52f2-92e7-4a0684ee575d")
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 656.59 422.91 270)
+		(at 520.7 422.91 270)
 		(unit 1)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "1e77e1db-2f45-5b85-bff9-2bb64994ddcf")
 		(property "Reference" "#PWR076"
-			(at 656.59 422.91 90)
+			(at 520.7 422.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24265,7 +23241,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 660.4 420.37 90)
+			(at 524.51 420.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24273,7 +23249,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 656.59 422.91 0)
+			(at 520.7 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24282,7 +23258,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 656.59 422.91 0)
+			(at 520.7 422.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24304,24 +23280,24 @@
 	)
 	(wire
 		(pts
-			(xy 646.43 427.99)
-			(xy 646.43 430.53)
+			(xy 510.54 427.99)
+			(xy 510.54 430.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "83f37225-a827-5b42-95f9-c763f5395197")
+		(uuid "b3602777-e465-575f-ab6c-745ac75f27db")
 	)
 	(label "VT6_STIM"
-		(at 646.43 430.53 270)
+		(at 510.54 430.53 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "f4add022-ff90-5715-85ba-ab9d7b31da16")
+		(uuid "f8a42bf6-ccfe-587b-83ae-0d41a197a551")
 	)
 	(text "I2C expander TCA9534 (0x20): powers up as inputs"
 		(at 20 456.46000000000004 0)
@@ -27966,7 +26942,7 @@
 		)
 		(uuid "5dab3c71-1fb0-5050-85aa-bad8a382f8e5")
 	)
-	(label "AUX_C"
+	(label "DAC_C"
 		(at 186.69 600.71 270)
 		(effects
 			(font
@@ -27974,7 +26950,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "be663acf-8cf8-5c67-87a9-d0a61d1fbd1b")
+		(uuid "cc5273e5-a746-5b60-862f-fa2a75ee3dbe")
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
@@ -28052,7 +27028,7 @@
 		)
 		(uuid "cadcce0c-f675-57ef-9220-ccb2753bc47b")
 	)
-	(label "AUX_D"
+	(label "DAC_D"
 		(at 204.47 600.71 270)
 		(effects
 			(font
@@ -28060,7 +27036,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "13e85d2a-3fe4-59b7-8d4a-86adf845781f")
+		(uuid "50722e13-75b0-5e1b-b42c-15bc8ca2e236")
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")

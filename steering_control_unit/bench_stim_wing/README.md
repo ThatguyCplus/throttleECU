@@ -144,7 +144,7 @@ The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The
 | Relays | K1 (VT3/VT6), K2 (NEP/VSP): G6K-2F-Y 5 V, Q6/Q7 drivers, 1N4148WS flyback | Expander P2, P3. Coils fed from ARM |
 | NEP | D4 (PA14) → Q8 → open drain, **4.7 kΩ to 12 V**, 100 Ω series | Like the ECM's open-collector output |
 | VSP | TX (PB16) → Q9 → open drain, **4.7 kΩ to 5 V**, 100 Ω series | Like the VSS |
-| Torque | U2 MCP4728 (I2C 0x60, 2.048 V ref, gain ×1) → U3 MCP6004 on 5 V, gain 2.2 → 470 Ω → BAT54S clamp | DAC A = VT3, B = VT6; C and D are spare outputs on test pads |
+| Torque | U2 MCP4728 (I2C 0x60, 2.048 V ref, gain ×1) → U3 MCP6004 on 5 V, gain 2.2 → 470 Ω → BAT54S clamp | DAC A = VT3, B = VT6. DAC C and D go **straight** to test pads 10/11 as spare 0–2.048 V outputs (unbuffered, ~mA); op-amp sections C/D are parked as grounded followers |
 | Expander | U4 TCA9534 (I2C **0x20**) | P0 SAS, P1 IG1, P2 K1, P3 K2 (outputs); P4 ARM sense, P5 12 V sense (inputs); P6/P7 on test pads |
 
 **Pulse output polarity.** GPIO high pulls the output low (open drain), and the idle level is high. Both D4 and TX sit on independent timers: PA14 on TC3/WO0 or TCC1/WO2, PB16 on TC6/WO0 or TCC0/WO4. The rates are low (NEP 1.5 pulses/rev: 22.5 Hz at 900 rpm; VSP ~1.24 Hz per mph, **unverified**), so plain `micros()` timing also works.
@@ -161,11 +161,11 @@ The pads are numbered 1–15 on the back silk; names don't fit at JLC's 1 mm min
 
 | TP | Net | TP | Net | TP | Net |
 |---|---|---|---|---|---|
-| 1 | GND | 6 | NEP out | 11 | AUX D (DAC D) |
+| 1 | GND | 6 | NEP out | 11 | DAC D (raw, 0–2.048 V) |
 | 2 | +12 V | 7 | VSP out | 12 | ARM |
 | 3 | +5 V | 8 | VT3 out | 13 | Expander P6 |
 | 4 | +3V3 | 9 | VT6 out | 14 | Expander P7 |
-| 5 | USB pin | 10 | AUX C (DAC C) | 15 | GND |
+| 5 | USB pin | 10 | DAC C (raw, 0–2.048 V) | 15 | GND |
 
 ## Design rules
 
