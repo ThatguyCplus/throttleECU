@@ -88,6 +88,10 @@ PARTS_LIB = {
     "LED GRN": ("KT-0603G", "C72043"),
     "LED YEL": ("KT-0603Y", "C72038"),
     "LED BLU": ("KT-0603B", "C72041"),
+    # JST GH right-angle SMD headers (extended parts): assembled by JLC
+    "GH 5": ("SM05B-GHS-TB(LF)(SN)", "C189896"),
+    "GH 6": ("SM06B-GHS-TB(LF)(SN)", "C133065"),
+    "GH 8": ("SM08B-GHS-TB(LF)(SN)", "C265111"),
 }
 MPN = {k: v[0] for k, v in PARTS_LIB.items()}
 LCSC = {k: v[1] for k, v in PARTS_LIB.items()}
@@ -337,7 +341,7 @@ for ref, pins, val, note in [
     nets = {str(i + 1): net for i, (net, _) in enumerate(pins)}
     nets["MP"] = "GND"
     add(ref, f"Connector_Generic_MountingPin:Conn_01x{n:02d}_MountingPin", val, GH.format(n=n), nets,
-        note=note, in_bom=False)
+        key=f"GH {n}", note=note)
 
 # Test pads (back side, bare pads)
 TEST_PADS = [("GND", "GND"), ("+12V", "12V"), ("+5V", "5V"), ("+3V3", "3V3"), ("VUSB", "USB"),

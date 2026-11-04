@@ -20,7 +20,9 @@ It sits **between the Adalogger and the OLED FeatherWing**, on stacking headers,
 |---|---|
 | ![top render](doc/render_top.png) | ![back render](doc/render_bottom.png) |
 
-The 3D renders show bare pads because the KiCad image used has no 3D models.
+![3D view](doc/render_iso.png)
+
+**Every part has a 3D model**, and the models ship with the project in [bench_stim_wing.3dshapes/](bench_stim_wing.3dshapes/). They're STEP files from KiCad's official library, referenced as `${KIPRJMOD}/bench_stim_wing.3dshapes/...`, so the 3D viewer and STEP export work on any machine with KiCad 7 to 10, whatever 3D libraries are installed. J1 shows the Feather stacking headers' female sockets (1×16 + 1×12). Only the test pads and the JP1 solder jumper have no model, because they're bare copper.
 
 | Top layers | Back layers (seen from below) |
 |---|---|
@@ -100,7 +102,7 @@ This wing and the [EPS tap wing](../data_capture/hardware/eps_tap_wing/README.md
 
 ## Connectors
 
-All connectors are right-angle, exit a board edge and are hand-soldered. The GH parts are SMD with locking latches: use JST GH housings (GHR-0xV-S) with SSHL-002T-P0.2 contacts, or buy pre-crimped GH leads.
+All connectors are right-angle and exit a board edge. **JLC assembles the three GH connectors** (J3, J4, J5: SMD, 1.25 mm pitch, awkward by hand). J2 (through-hole PH) and the Feather stacking headers are hand-soldered. The GH parts have locking latches: use JST GH housings (GHR-0xV-S) with SSHL-002T-P0.2 contacts, or buy pre-crimped GH leads.
 
 **J2, 12 V IN** (top edge, JST PH S2B-PH-K, 2 mm). Pin 1 (marked +) is +12 V and pin 2 is GND. 2 A fuse.
 
@@ -199,8 +201,9 @@ The pads are numbered 1–15 on the back silk; names don't fit at JLC's 1 mm min
 |---|---|
 | [bench_stim_wing.kicad_sch](bench_stim_wing.kicad_sch) / [schematic PDF](doc/bench_stim_wing_schematic.pdf) | Schematic (generated) |
 | [bench_stim_wing.kicad_pcb](bench_stim_wing.kicad_pcb) | Board, 50.8 × 22.86 mm (FeatherWing), 4 layers |
-| [doc/](doc/) | Layer renders of the top and back (KiCad 7's CLI has no 3D render) |
-| [fab/](fab/) | Gerbers + drill (zipped), JLC BOM and CPL. SMD parts only; connectors, headers, JP1 and test pads are excluded |
+| [doc/](doc/) | 3D renders (KiCad 10) and layer renders of the top and back |
+| [bench_stim_wing.3dshapes/](bench_stim_wing.3dshapes/) | The 3D models every footprint points to (KiCad library STEP files, CC-BY-SA 4.0 with the KiCad library exception) |
+| [fab/](fab/) | Gerbers + drill (zipped), JLC BOM and CPL. All SMD parts including the GH connectors; J1 (stacking headers), J2, JP1 and the test pads are excluded |
 | [gen/](gen/) | Generators. Everything comes from [gen/design.py](gen/design.py) (parts and nets) and [gen/placement.py](gen/placement.py) (positions, silk, hand stubs). [gen/bench_stim_wing.ses](gen/bench_stim_wing.ses) is the accepted Freerouting result |
 
 ## Rebuilding
@@ -233,13 +236,35 @@ sh route.sh                  # full re-route with Freerouting (a different resul
 1. **ERC and DRC already pass in KiCad 10.0.8** (see Status). Open the board in your own KiCad 10 once anyway. If you save it there, KiCad upgrades the file and the generators would overwrite your edits.
 2. **Check the relay pinout** against Omron's G6K datasheet: coil 1/8, COM 3/6, NC 2/7, NO 4/5. That pinout came from KiCad's G6K-2 symbol. If NC and NO are swapped, the board fails the wrong way.
 3. **Check stock on the LCSC numbers.** Every part in the BOM now has an LCSC number, each matched to its listing in November 2026 (see [JLCPCB parts](#jlcpcb-parts)). Stock moves, so re-check at upload. Use the listed alternatives if a part has run out.
-4. **Check every CPL rotation** in JLC's preview, on both sides. Watch especially the diodes, LEDs, SOT-23s and the relay, since a polarity error there matters.
+4. **Check every CPL rotation** in JLC's preview, on both sides. The CPL already applies the community rotation corrections (see [Ordering at JLCPCB](#ordering-at-jlcpcb)), but JLC's preview is the final word. Watch especially the diodes, LEDs, SOT-23s, the relays and the GH connectors, since a polarity error there matters.
 5. **Check the stack gap** with the real stacking headers, relays and the OLED.
 6. **Confirm LMR16006's FB voltage (0.765 V)** against the datasheet. The output is 5.05 V with 56k/10k.
 
+## Ordering at JLCPCB
+
+1. **PCB:** upload [fab/bench_stim_wing_gerbers.zip](fab/bench_stim_wing_gerbers.zip). 4 layers, 1.6 mm, 50.8 × 22.86 mm; the defaults are fine (the board follows JLC's 4-layer 1 oz rules in [bench_stim_wing.kicad_dru](bench_stim_wing.kicad_dru)).
+2. **Assembly:** turn on PCB Assembly, **both sides** (parts sit on top and back), Standard PCBA.
+3. Upload [fab/bench_stim_wing_bom_jlc.csv](fab/bench_stim_wing_bom_jlc.csv) and [fab/bench_stim_wing_cpl_jlc.csv](fab/bench_stim_wing_cpl_jlc.csv). The column names match JLC's templates, so no remapping is needed.
+4. Check stock and the placement preview, part by part (see [Before ordering](#before-ordering)).
+5. Hand-solder J1 (Feather stacking headers, Adafruit PID 2830) and J2 (JST PH S2B-PH-K) afterwards.
+
+How the CPL is made ([gen/export_fab.py](gen/export_fab.py)), the same way Bouni's [kicad-jlcpcb-tools](https://github.com/Bouni/kicad-jlcpcb-tools) plugin does it:
+
+- **Position:** the centre of each footprint's copper pads, measured from the board's bottom-left corner (the drill/aux origin), Y up.
+- **Rotation:** bottom-side angles are mirrored (180° − angle), then JLC's library offset is added per footprint, from the community database the plugin uses ([JLCKicadTools](https://github.com/matthewlai/JLCKicadTools) `cpl_rotations_db.csv`):
+
+| Footprint | Correction |
+|---|---|
+| SOT-23, SOT-23-6 | −90° |
+| TSSOP-14/16, MSOP-10 | 270° (MSOP-10 isn't listed; it's the same package as VSSOP-10) |
+| Omron G6K-2F-Y relay | 270° |
+| JST GH (and PH) | 180° |
+
+**Other tools:** the schematic symbols carry `MPN` and `LCSC` fields, which is what the kicad-jlcpcb-tools plugin and JLC's own KiCad workflow read. Opening the project with that plugin should therefore pick up every part number. All footprints and symbols use KiCad's standard library names (`Resistor_SMD:R_0402_1005Metric` and so on), plus the project's own `bench_stim_wing` libraries for the Feather headers and JP1, through `${KIPRJMOD}` library tables.
+
 ## JLCPCB parts
 
-All 35 SMD line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/bench_stim_wing_bom_jlc.csv).
+All 38 line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/bench_stim_wing_bom_jlc.csv).
 
 | Part | LCSC | Notes |
 |---|---|---|
@@ -254,6 +279,7 @@ All 35 SMD line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab
 | PMEG6010CEH Schottky | C110797 | Stock may be 0; alternative is PMEG6010CEH-QX, C5311567 |
 | SS34 Schottky | C8678 | Basic, but marked "not recommended for new designs"; alternative is FOSAN C5119706 |
 | BAT54S | C171786 | |
+| JST GH headers, SM05B / SM06B / SM08B-GHS-TB(LF)(SN) | C189896 / C133065 / C265111 | Extended. J4 / J3 / J5. C133065 showed 0 stock on one LCSC page |
 | 2 A fuse, 1206 | C3105 | Littelfuse 0466002.NRHF, the halogen-free version of 0466002.NR |
 | 0.1 A PTC, 60 V | C2153714 | Littelfuse 1206L010/60WR |
 | 0.5 A PTC, 30 V | C7542947 | LUTE 1206L050/30NR. No LCSC listing found for the Littelfuse 1206L050/30WR |
@@ -268,7 +294,7 @@ All 35 SMD line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab
 | 1N4148WS | C2128 | Basic |
 | LEDs 0603 (red, yellow, blue, green) | C2286, C72038, C72041, C72043 | Basic per a community library listing; not confirmed on JLC's own pages |
 
-**About 13 Extended part types,** at about $3 each in setup fees. Swapping R3 56k for a Basic value would mean recomputing the 5 V divider. Not worth it.
+**About 16 Extended part types,** at about $3 each in setup fees. Swapping R3 56k for a Basic value would mean recomputing the 5 V divider. Not worth it.
 
 ## Firmware (next)
 
