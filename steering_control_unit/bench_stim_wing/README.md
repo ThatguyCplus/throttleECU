@@ -117,6 +117,8 @@ All connectors are right-angle, exit a board edge and are hand-soldered. The GH 
 
 The Feather's terminal has a 120 Ω terminator behind a solder jumper (SJ2). The SAS bus here is two nodes, so close SJ2 unless the SAS end already terminates the bus.
 
+**Second microcontroller:** J3 is also the stack's port for another board. Splice its CAN-H/CAN-L into the pin 5/6 lead (no ground or power wire), keep exactly two terminators on the bus (about 60 Ω across H/L, powered off), and use IDs 0x6C0–0x6CF. See [AUX_LINK.md](../data_capture/AUX_LINK.md).
+
 **J4, TORQUE** (right end, top, JST GH 5-way). Break the torque sensor's VT3 and VT6 wires in a breakout harness: the CAR side goes to the sensor, the EPS side to the EPS.
 
 | Pin | Net |

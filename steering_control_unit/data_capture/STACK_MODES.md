@@ -75,6 +75,8 @@ They are designed to run **alone or together, in the car or on a bench EPS**. Th
 | Timers | **TC3** (1 kHz sample tick), EIC on D5/D6 | NEP on D4 (PA14): use **TCC1/WO2 or TCC2/WO0**, *not* TC3. VSP on TX (PB16): **TC6/WO0 or TCC0/WO4** |
 | Serial | USB only | USB only. TX is a GPIO here, so Serial1 is unavailable |
 
+**A second microcontroller** joins over the CAN bus (J3 pins 5/6), never the header: no pins are left. See [AUX_LINK.md](AUX_LINK.md).
+
 **No pin, address or timer clashes.** Firmware that combines both (for example a bench mode inside `eps_logger`) must keep TC3 for the sample tick and generate NEP/VSP on TCC1/TCC2 and TC6/TCC0.
 
 ## Before the first powered run with both
