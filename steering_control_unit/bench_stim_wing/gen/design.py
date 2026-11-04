@@ -70,7 +70,7 @@ PARTS_LIB = {
     "10uF 50V": ("CL31A106KBHNNNE", "C13585"),            # 1206 X5R 50 V, 12 V bulk
     "1N4148WS": ("1N4148WS", "C2128"),
     "SS34": ("SS34", "C8678"),                       # 3 A 40 V Schottky, SMA (MDD; alt. FOSAN C5119706)
-    "PMEG6010CEH": ("PMEG6010CEH,115", "C110797"),  # 1 A 60 V Schottky, SOD-123F (alt. -QX C5311567)
+    "PMEG6010CEH": ("PMEG6010CEH-QX", "C5311567"),  # 1 A 60 V Schottky, SOD-123F, AEC-Q101 (C110797 ,115 was out of stock)
     "SMBJ24CA": ("SMBJ24CA (Bourns)", "C1973089"),  # 600 W TVS, 24 V stand-off
     "BAT54S": ("BAT54S", "C171786"),
     "2N7002": ("2N7002", "C8545"),
@@ -78,16 +78,16 @@ PARTS_LIB = {
     "LMR16006YQ": ("LMR16006YQDDCRQ1", "C544521"),  # 40 V (65 V transient) 0.6 A buck, 0.7 MHz
     "22uH": ("SWPA4030S220MT", "C83472"),           # 4x4x3 mm shielded, Isat 1.3 A
     "MCP4728": ("MCP4728-E/UN", "C108207"),
-    "MCP6004": ("MCP6004-I/ST", "C185811"),         # low stock: alt. UMW MCP6004T-I/ST C32713110
+    "MCP6004": ("MCP6004T-I/ST", "C50282"),         # Microchip, tape & reel (C185811 tube version: low stock)
     "TCA9534": ("TCA9534PWR", "C783615"),
     "G6K-2F-Y 5V": ("G6K-2F-Y DC5", "C231389"),     # Omron, in stock (C1560486 is the same MPN, unavailable)
     "FUSE 2A": ("0466002.NRHF", "C3105"),           # Littelfuse 466, 1206 very fast 2 A 63 V (halogen-free)
     "PTC 0.1A": ("1206L010/60WR", "C2153714"),      # Littelfuse 1206 PTC, 0.1 A hold, 60 V
     "PTC 0.5A": ("1206L050/30NR (LUTE)", "C7542947"),  # 1206 PTC, 0.5 A hold, 30 V
     "LED RED": ("KT-0603R", "C2286"),
-    "LED GRN": ("KT-0603G", "C72043"),
-    "LED YEL": ("KT-0603Y", "C72038"),
-    "LED BLU": ("KT-0603B", "C72041"),
+    "LED GRN": ("KT-0603G", "C12624"),          # Hubei KENTO (C72043 Everlight: no stock)
+    "LED YEL": ("KT-0603Y", "C2287"),           # Hubei KENTO (C72038 Everlight: no stock)
+    "LED BLU": ("KT-0603B", "C2288"),           # Hubei KENTO (C72041 Everlight: no stock)
     # JST GH right-angle SMD headers (extended parts): assembled by JLC
     "GH 5": ("SM05B-GHS-TB(LF)(SN)", "C189896"),
     "GH 6": ("SM06B-GHS-TB(LF)(SN)", "C133065"),
