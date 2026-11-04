@@ -270,13 +270,13 @@ All 38 line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/ben
 |---|---|---|
 | LMR16006YQDDCRQ1 buck | C544521 | Extended. TI rates it **40 V, 65 V transient**. The TVS clamps at ~39 V |
 | MCP4728-E/UN DAC | C108207 | Extended |
-| MCP6004-I/ST op-amp | C185811 | Extended. **Low stock** when checked; alternative is UMW MCP6004T-I/ST, C32713110 (same TSSOP-14 pinout) |
+| MCP6004T-I/ST op-amp | C50282 | Extended. Microchip, tape & reel. Replaced C185811 (tube version: only 3 in stock at JLC). Fallback: UMW MCP6004T-I/ST, C32713110 |
 | TCA9534PWR expander | C783615 | Extended |
 | Si2319CDS-T1-GE3 P-FET | C146287 | Vishay. Avoid the "-JSM" copy, C18191323, which has a different rating |
 | G6K-2F-Y DC5 relay | C231389 | In stock. C1560486 is the same MPN but listed unavailable |
 | SWPA4030S220MT 22 µH | C83472 | Isat 1.3 A |
 | SMBJ24CA TVS | C1973089 | Bourns. Every SMBJ24CA listing found is Extended |
-| PMEG6010CEH Schottky | C110797 | Stock may be 0; alternative is PMEG6010CEH-QX, C5311567 |
+| PMEG6010CEH-QX Schottky | C5311567 | Extended. AEC-Q101 version of PMEG6010CEH, same SOD-123F part. Replaced C110797 (no stock at JLC) |
 | SS34 Schottky | C8678 | Basic, but marked "not recommended for new designs"; alternative is FOSAN C5119706 |
 | BAT54S | C171786 | |
 | JST GH headers, SM05B / SM06B / SM08B-GHS-TB(LF)(SN) | C189896 / C133065 / C265111 | Extended. J4 / J3 / J5. C133065 showed 0 stock on one LCSC page |
@@ -292,9 +292,9 @@ All 38 line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/ben
 | 4.7k 0603 | C23162 | Basic |
 | 2N7002 | C8545 | Basic |
 | 1N4148WS | C2128 | Basic |
-| LEDs 0603 (red, yellow, blue, green) | C2286, C72038, C72041, C72043 | Basic per a community library listing; not confirmed on JLC's own pages |
+| LEDs 0603, Hubei KENTO: red KT-0603R, yellow KT-0603Y, blue KT-0603B, green KT-0603G | C2286, C2287, C2288, C12624 | Red is Basic; the others are Extended. Replaced the Everlight C72038/C72041/C72043, which JLC had no stock of |
 
-**About 16 Extended part types,** at about $3 each in setup fees. Swapping R3 56k for a Basic value would mean recomputing the 5 V divider. Not worth it.
+**About 19 Extended part types,** at about $3 each in setup fees. Swapping R3 56k for a Basic value would mean recomputing the 5 V divider. Not worth it.
 
 ## Firmware (next)
 

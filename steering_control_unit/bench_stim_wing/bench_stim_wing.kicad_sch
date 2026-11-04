@@ -8458,7 +8458,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72043"
+		(property "LCSC" "C12624"
 			(at 173.99 149.86 0)
 			(effects
 				(font
@@ -9683,7 +9683,7 @@
 				hide
 			)
 		)
-		(property "MPN" "PMEG6010CEH,115"
+		(property "MPN" "PMEG6010CEH-QX"
 			(at 161.29 191.77 0)
 			(effects
 				(font
@@ -9692,7 +9692,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C110797"
+		(property "LCSC" "C5311567"
 			(at 161.29 191.77 0)
 			(effects
 				(font
@@ -11211,7 +11211,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72043"
+		(property "LCSC" "C12624"
 			(at 307.34 191.77 0)
 			(effects
 				(font
@@ -11375,7 +11375,7 @@
 				hide
 			)
 		)
-		(property "MPN" "PMEG6010CEH,115"
+		(property "MPN" "PMEG6010CEH-QX"
 			(at 340.36 191.77 0)
 			(effects
 				(font
@@ -11384,7 +11384,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C110797"
+		(property "LCSC" "C5311567"
 			(at 340.36 191.77 0)
 			(effects
 				(font
@@ -13147,7 +13147,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72043"
+		(property "LCSC" "C12624"
 			(at 226.06 241.3 0)
 			(effects
 				(font
@@ -15381,7 +15381,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72038"
+		(property "LCSC" "C2287"
 			(at 298.45 285.75 0)
 			(effects
 				(font
@@ -16462,7 +16462,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72038"
+		(property "LCSC" "C2287"
 			(at 154.94 328.93 0)
 			(effects
 				(font
@@ -17488,7 +17488,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72038"
+		(property "LCSC" "C2287"
 			(at 309.88 328.93 0)
 			(effects
 				(font
@@ -18553,7 +18553,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72041"
+		(property "LCSC" "C2288"
 			(at 143.51 378.46 0)
 			(effects
 				(font
@@ -19653,7 +19653,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C72041"
+		(property "LCSC" "C2288"
 			(at 288.29 378.46 0)
 			(effects
 				(font
@@ -20611,7 +20611,7 @@
 				hide
 			)
 		)
-		(property "MPN" "MCP6004-I/ST"
+		(property "MPN" "MCP6004T-I/ST"
 			(at 130.81 425.45 0)
 			(effects
 				(font
@@ -20620,7 +20620,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C185811"
+		(property "LCSC" "C50282"
 			(at 130.81 425.45 0)
 			(effects
 				(font
@@ -20763,7 +20763,7 @@
 				hide
 			)
 		)
-		(property "MPN" "MCP6004-I/ST"
+		(property "MPN" "MCP6004T-I/ST"
 			(at 172.72 425.45 0)
 			(effects
 				(font
@@ -20772,7 +20772,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C185811"
+		(property "LCSC" "C50282"
 			(at 172.72 425.45 0)
 			(effects
 				(font
@@ -20915,7 +20915,7 @@
 				hide
 			)
 		)
-		(property "MPN" "MCP6004-I/ST"
+		(property "MPN" "MCP6004T-I/ST"
 			(at 218.44 425.45 0)
 			(effects
 				(font
@@ -20924,7 +20924,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C185811"
+		(property "LCSC" "C50282"
 			(at 218.44 425.45 0)
 			(effects
 				(font
@@ -21112,7 +21112,7 @@
 				hide
 			)
 		)
-		(property "MPN" "MCP6004-I/ST"
+		(property "MPN" "MCP6004T-I/ST"
 			(at 264.16 425.45 0)
 			(effects
 				(font
@@ -21121,7 +21121,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C185811"
+		(property "LCSC" "C50282"
 			(at 264.16 425.45 0)
 			(effects
 				(font
@@ -21309,7 +21309,7 @@
 				hide
 			)
 		)
-		(property "MPN" "MCP6004-I/ST"
+		(property "MPN" "MCP6004T-I/ST"
 			(at 297.18 430.53 0)
 			(effects
 				(font
@@ -21318,7 +21318,7 @@
 				hide
 			)
 		)
-		(property "LCSC" "C185811"
+		(property "LCSC" "C50282"
 			(at 297.18 430.53 0)
 			(effects
 				(font
