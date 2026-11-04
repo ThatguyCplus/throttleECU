@@ -26,6 +26,8 @@ if [ "$1" != "--keep-routing" ]; then
   xvfb-run -a "${JAVA:-java}" -jar "$JAR" -de route/bench_stim_wing.dsn -do bench_stim_wing.ses -mp 40 -oit 100
 fi
 "$PY" make_pcb.py finish
+# 3D models: point every footprint at ../bench_stim_wing.3dshapes (--fetch downloads missing ones)
+"$PY" localize_3d.py --fetch
 "$PY" export_fab.py
 sh render_doc.sh
 # KiCad 10 sign-off when it's installed (gen/setup_kicad10.sh): ERC, DRC with
@@ -33,5 +35,6 @@ sh render_doc.sh
 if command -v kicad10-cli >/dev/null 2>&1; then
   (cd .. && kicad10-cli sch erc --severity-all -o gen/route/erc10.rpt bench_stim_wing.kicad_sch \
      && kicad10-cli pcb drc --schematic-parity --severity-all -o gen/route/drc10.rpt bench_stim_wing.kicad_pcb \
-     && for s in top bottom; do kicad10-cli pcb render --side $s --width 1600 --height 900 --quality high --floor -o doc/render_$s.png bench_stim_wing.kicad_pcb; done)
+     && for s in top bottom; do kicad10-cli pcb render --side $s --width 1600 --height 900 --quality high --floor -o doc/render_$s.png bench_stim_wing.kicad_pcb; done \
+     && kicad10-cli pcb render --rotate '-45,0,30' --zoom 1.2 --width 1600 --height 1000 --quality high --floor -o doc/render_iso.png bench_stim_wing.kicad_pcb)
 fi

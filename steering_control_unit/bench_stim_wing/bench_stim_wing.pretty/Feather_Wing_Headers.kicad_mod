@@ -285,4 +285,14 @@
 		(layers "*.Cu" "*.Mask")
 		(tstamp 715f9f20-c7bd-40c6-9898-7dd22a7527dd)
 	)
+	(model "${KIPRJMOD}/bench_stim_wing.3dshapes/PinSocket_1x16_P2.54mm_Vertical.step"
+	  (offset (xyz 0 0 0))
+	  (scale (xyz 1 1 1))
+	  (rotate (xyz 0 0 0))
+	)
+	(model "${KIPRJMOD}/bench_stim_wing.3dshapes/PinSocket_1x12_P2.54mm_Vertical.step"
+	  (offset (xyz 20.32 -10.16 0))
+	  (scale (xyz 1 1 1))
+	  (rotate (xyz 0 0 0))
+	)
 )

@@ -7,6 +7,7 @@ carries the same MPN / LCSC numbers as the schematic fields.
 """
 import csv
 import os
+import re
 import shutil
 import subprocess
 import zipfile
@@ -18,9 +19,19 @@ KICAD_CLI = shutil.which("kicad-cli") or r"C:\Program Files\KiCad\10.0\bin\kicad
 PRJ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 FAB = os.path.join(PRJ, "fab")
 PCB = os.path.join(PRJ, design.PROJECT + ".kicad_pcb")
-# JLC's library models of these packages sit rotated relative to KiCad's (same
-# correction the EPS tap wing used for TSSOP). Check every part in JLC's preview.
-JLC_ROTATION_OFFSET = {"TSSOP-14": -90, "TSSOP-16": -90, "MSOP-10": -90}
+# JLC's library models of these packages sit rotated relative to KiCad's. Entries
+# are the ones that match this board, from the community database that
+# kicad-jlcpcb-tools downloads (matthewlai/JLCKicadTools cpl_rotations_db.csv).
+# MSOP-10 isn't listed there; it is the same package as VSSOP-10 (270).
+# JLC's order preview is still the final word: check every part there.
+JLC_ROTATIONS = [
+    (r"^SOT-23", -90),                    # SOT-23 and SOT-23-6
+    (r"^TSSOP-", 270),
+    (r"^MSOP-10_", 270),
+    (r"^Relay_DPDT_Omron_G6K-2F-Y", 270),
+    (r"^JST_GH_SM", 180),
+    (r"^JST_PH_S", 180),
+]
 LAYERS = "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts"
 
 
@@ -56,21 +67,54 @@ def main():
             refs.sort(key=nat)
             w.writerow([value, ",".join(refs), fp, mpn, lcsc, len(refs)])
 
-    raw_pos = os.path.join(FAB, "pos_kicad.csv")
-    cli("pcb", "export", "pos", "--format", "csv", "--units", "mm", "--side", "both", "--smd-only",
-        "--use-drill-file-origin", "-o", raw_pos, PCB)
-    with open(raw_pos, newline="", encoding="utf-8") as f, \
-            open(os.path.join(FAB, design.PROJECT + "_cpl_jlc.csv"), "w", newline="", encoding="utf-8") as out:
+    write_cpl(os.path.join(FAB, design.PROJECT + "_cpl_jlc.csv"), set(r for refs in groups.values() for r in refs))
+    print("fab outputs in", FAB)
+
+
+def jlc_correction(fp_name):
+    """Rotation correction for the longest matching pattern (as kicad-jlcpcb-tools picks)."""
+    best = None
+    for pat, corr in JLC_ROTATIONS:
+        m = re.search(pat, fp_name)
+        if m and (best is None or len(m.group(0)) > best[0]):
+            best = (len(m.group(0)), corr)
+    return best[1] if best else 0
+
+
+def write_cpl(path, bom_refs):
+    """JLC placement file, computed the way Bouni's kicad-jlcpcb-tools does it:
+    position = centre of the footprint's copper pads, relative to the drill/aux
+    origin (board bottom-left), Y up; bottom-side angles mirrored (180 - a);
+    then the JLC library rotation correction for the footprint."""
+    import pcbnew
+    board = pcbnew.LoadBoard(PCB)
+    org = board.GetDesignSettings().GetAuxOrigin()
+    rows = []
+    for fp in board.GetFootprints():
+        ref = fp.GetReference()
+        if ref not in bom_refs:
+            continue
+        pads = [p for p in fp.Pads() if p.GetAttribute() != pcbnew.PAD_ATTRIB_NPTH and p.IsOnCopperLayer()]
+        bb = pads[0].GetBoundingBox()
+        for p in pads[1:]:
+            bb.Merge(p.GetBoundingBox())
+        c = bb.GetCenter()
+        bottom = fp.GetLayer() != pcbnew.F_Cu
+        rot = fp.GetOrientation().AsDegrees()
+        if bottom:
+            rot = 180 - rot
+        name = str(fp.GetFPID().GetLibItemName())
+        rot = (rot + jlc_correction(name)) % 360
+        rows.append((ref, pcbnew.ToMM(c.x - org.x), -pcbnew.ToMM(c.y - org.y), "Bottom" if bottom else "Top", rot))
+    missing = bom_refs - {r[0] for r in rows}
+    if missing:
+        raise SystemExit("BOM parts missing from the board: %s" % sorted(missing))
+    nat = lambda r: (r.rstrip("0123456789"), int(r[len(r.rstrip("0123456789")):] or 0))
+    with open(path, "w", newline="", encoding="utf-8") as out:
         w = csv.writer(out)
         w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
-        for row in csv.DictReader(f):
-            if row["Ref"] in design.HAND_SOLDERED:
-                continue
-            rot = float(row["Rot"]) + JLC_ROTATION_OFFSET.get(row["Package"].split("_")[0], 0)
-            w.writerow([row["Ref"], row["PosX"] + "mm", row["PosY"] + "mm",
-                        "Top" if row["Side"] == "top" else "Bottom", "%g" % (rot % 360)])
-    os.remove(raw_pos)
-    print("fab outputs in", FAB)
+        for ref, x, y, layer, rot in sorted(rows, key=lambda r: nat(r[0])):
+            w.writerow([ref, "%.4fmm" % x, "%.4fmm" % y, layer, "%g" % round(rot, 3)])
 
 
 if __name__ == "__main__":

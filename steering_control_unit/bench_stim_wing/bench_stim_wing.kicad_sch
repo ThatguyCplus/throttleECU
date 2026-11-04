@@ -24922,7 +24922,7 @@
 		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
 		(at 35.56 546.1 0)
 		(unit 1)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "4b9d9d99-d0a4-54ee-9b69-99087a90728c")
@@ -24954,6 +24954,24 @@
 			)
 		)
 		(property "Datasheet" ""
+			(at 35.56 546.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "MPN" "SM06B-GHS-TB(LF)(SN)"
+			(at 35.56 546.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "LCSC" "C133065"
 			(at 35.56 546.1 0)
 			(effects
 				(font
@@ -25242,7 +25260,7 @@
 		(lib_id "Connector_Generic_MountingPin:Conn_01x05_MountingPin")
 		(at 64.77 546.1 0)
 		(unit 1)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "734b2743-2eac-579c-8da0-e76e453cbffc")
@@ -25274,6 +25292,24 @@
 			)
 		)
 		(property "Datasheet" ""
+			(at 64.77 546.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "MPN" "SM05B-GHS-TB(LF)(SN)"
+			(at 64.77 546.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "LCSC" "C189896"
 			(at 64.77 546.1 0)
 			(effects
 				(font
@@ -25538,7 +25574,7 @@
 		(lib_id "Connector_Generic_MountingPin:Conn_01x08_MountingPin")
 		(at 92.71 548.64 0)
 		(unit 1)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "bc84c54c-de7d-59e8-9813-3a744b6a2709")
@@ -25570,6 +25606,24 @@
 			)
 		)
 		(property "Datasheet" ""
+			(at 92.71 548.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "MPN" "SM08B-GHS-TB(LF)(SN)"
+			(at 92.71 548.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				hide
+			)
+		)
+		(property "LCSC" "C265111"
 			(at 92.71 548.64 0)
 			(effects
 				(font

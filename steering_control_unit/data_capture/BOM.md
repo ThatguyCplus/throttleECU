@@ -10,6 +10,7 @@ Goal: the fewest parts that log the EPS **without being able to affect it**, bui
 | [tools/decode_log.py](tools/decode_log.py) | Turns a `.BIN` log into CSV and prints a summary |
 | [PROTO_BUILD.md](PROTO_BUILD.md) | Hand-build guide for section 3 on the FeatherWing Proto: layout, build order, bench tests |
 | [STACK_MODES.md](STACK_MODES.md) | **Running with the bench stim wing:** power and grounding for logger-only, stim-only and both together, in the car and on a bench EPS |
+| [AUX_LINK.md](AUX_LINK.md) | **Second microcontroller:** how another board (for example an OBD/IMA diag node) talks to the Feather over the stack's CAN bus: wiring, IDs 0x6C0–0x6CF, frames, interlocks |
 | [hardware/eps_tap_wing](hardware/eps_tap_wing/README.md) | **Assembled option:** a KiCad FeatherWing carrying all of section 3, with plug-in terminals. It replaces the Proto wing and the loose parts. |
 
 ## What the manual changed from v1
