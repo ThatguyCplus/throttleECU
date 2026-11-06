@@ -262,6 +262,21 @@ How the CPL is made ([gen/export_fab.py](gen/export_fab.py)), the same way Bouni
 
 **Other tools:** the schematic symbols carry `MPN` and `LCSC` fields, which is what the kicad-jlcpcb-tools plugin and JLC's own KiCad workflow read. Opening the project with that plugin should therefore pick up every part number. All footprints and symbols use KiCad's standard library names (`Resistor_SMD:R_0402_1005Metric` and so on), plus the project's own `bench_stim_wing` libraries for the Feather headers and JP1, through `${KIPRJMOD}` library tables.
 
+## Hand assembly: DigiKey parts
+
+[fab/bench_stim_wing_bom_digikey_x2.csv](fab/bench_stim_wing_bom_digikey_x2.csv) lists everything for **two bare boards**, with spares (passives rounded up to DigiKey's 10-piece breaks), plus optional JST mating housings and contacts. Upload it to DigiKey's BOM Manager, which matches by manufacturer part number. It's the same circuit as the JLC BOM, with DigiKey-stocked parts in place of the LCSC-only ones:
+
+| Refs | JLC part | DigiKey part | Check |
+|---|---|---|---|
+| LEDs | Hubei KENTO KT-0603x | Lite-On LTST-C191K(G/S/R)KT, LTST-C191TBKT | Same 0603 footprint. Lite-On marks the cathode differently: check before soldering |
+| D1 | MDD SS34 | Vishay SS34-E3/57T | |
+| L1 | Sunlord SWPA4030S220MT | Bourns SRN4026-220M | 4 × 4 mm, but check its pads against the footprint and Isat ≥ 0.9 A before ordering |
+| F4 | LUTE 1206L050/30NR (30 V) | Littelfuse 1206L050/24WR (24 V) | No 30 V 0.5 A 1206 PTC found at DigiKey. Fine at 12 V; load-dump spikes above 24 V are the TVS's job |
+| Resistors | UNI-ROYAL | YAGEO RC0402FR-07… / RC0603FR-07… | |
+| 2N7002 | generic | onsemi 2N7002LT1G | |
+
+Building by hand: solder the back first (it has the fine-pitch ICs and only low parts), then the top, relays last. JP1, the test pads and TP labels need nothing.
+
 ## JLCPCB parts
 
 All 38 line items have LCSC numbers in [fab/bench_stim_wing_bom_jlc.csv](fab/bench_stim_wing_bom_jlc.csv).
