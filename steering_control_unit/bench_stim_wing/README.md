@@ -270,7 +270,13 @@ How the CPL is made ([gen/export_fab.py](gen/export_fab.py)), the same way Bouni
 |---|---|---|---|
 | LEDs | Hubei KENTO KT-0603x | Lite-On LTST-C191K(G/S/R)KT, LTST-C191TBKT | Same 0603 footprint. Lite-On marks the cathode differently: check before soldering |
 | D1 | MDD SS34 | Vishay SS34-E3/57T | |
-| L1 | Sunlord SWPA4030S220MT | Bourns SRN4026-220M | 4 × 4 mm, but check its pads against the footprint and Isat ≥ 0.9 A before ordering |
+| L1 | Sunlord SWPA4030S220MT | Abracon ASPI-4030S-220M-T | 4 × 4 mm, Isat 1.3 A. Check its pads against the footprint |
+| D4, D6 | Nexperia PMEG6010CEH | Rohm RB160MM-60TR (SOD-123FL) | 60 V 1 A, fits the SOD-123F pads. Cathode band = pad 1 |
+| Q1, Q3 | Vishay Si2319CDS | Vishay SQ2319ADS-T1_GE3 | Same −40 V P-FET, automotive grade, same SOT-23 pinout |
+| D16, D17 | Nexperia BAT54S | onsemi BAT54SLT1G | Same series pinout |
+| Caps (1206, 0805, 0402) | Samsung | Murata GRM equivalents | Same value, voltage and dielectric |
+| J5 | JST SM08B-GHS-TB | same, from Mouser or LCSC | DigiKey out of stock until January 2027 |
+| Mating leads | loose crimp contacts | JST pre-crimped jumpers AGHGH28K152 (GH), ASPHSPH24K152 (PH) | Loose contacts are sold only by the reel. Cut each jumper in half: two leads |
 | F4 | LUTE 1206L050/30NR (30 V) | Littelfuse 1206L050/24WR (24 V) | No 30 V 0.5 A 1206 PTC found at DigiKey. Fine at 12 V; load-dump spikes above 24 V are the TVS's job |
 | Resistors | UNI-ROYAL | YAGEO RC0402FR-07… / RC0603FR-07… | |
 | 2N7002 | generic | onsemi 2N7002LT1G | |
