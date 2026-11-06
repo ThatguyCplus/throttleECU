@@ -18,8 +18,8 @@ F1,Littelfuse,0466002.NR,4,1,Fuse 2A 63V very fast 1206
 F4,Littelfuse,1206L050/24WR,4,1,PTC 0.5A hold 24V 1206 (JLC build used a 30V part; none at DigiKey)
 J3,JST,SM06B-GHS-TB(LF)(SN),3,1,GH 6-pin right-angle SMD header
 J4,JST,SM05B-GHS-TB(LF)(SN),3,1,GH 5-pin right-angle SMD header
-J5,JST,SM08B-GHS-TB(LF)(SN),3,1,GH 8-pin right-angle SMD header. DigiKey out until Jan 2027: buy from Mouser or LCSC (C265111)
-"K1,K2",Omron Electronics,G6K-2F-Y DC5,4,2,Relay DPDT 5V SMD. DigiKey: 4 due 27-Nov-2026; tape-and-reel G6K-2F-Y-TR DC5 is the same part
+J5,JST,SM08B-GHS-TB(LF)(SN),3,1,GH 8-pin right-angle SMD header. DigiKey out until Jan 2027: delete this line and buy 3 from Mouser (same MPN) or LCSC C265111
+"K1,K2",Omron Electronics,G6K-2F-Y-TR DC5,4,2,"Relay DPDT 5V SMD, tape & reel (same part as G6K-2F-Y DC5; that one is due 27-Nov-2026)"
 L1,Abracon LLC,ASPI-4030S-220M-T,3,1,"22uH shielded 4x4 mm, Isat 1.3A (SRN4026 only 0.67A)"
 "Q1,Q3",Vishay Siliconix,SQ2319ADS-T1_GE3,6,2,"P-MOSFET -40V 4.6A SOT-23, AEC-Q101 (Si2319CDS out of stock; fallback SQ2319CES-T1_GE3)"
 "Q2,Q4,Q5,Q6,Q7,Q8,Q9",onsemi,2N7002LT1G,20,7,N-MOSFET 60V SOT-23
