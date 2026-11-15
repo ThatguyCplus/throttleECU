@@ -1,0 +1,158 @@
+diff --git a/digikey_mcp_server.py b/digikey_mcp_server.py
+index 8470082..4da2475 100644
+--- a/digikey_mcp_server.py
++++ b/digikey_mcp_server.py
+@@ -3,6 +3,8 @@ import json
+ import logging
+ from fastmcp import FastMCP
+ from dotenv import load_dotenv
++import time
++from urllib.parse import quote, urlencode
+ import requests
+ 
+ # Configure logging
+@@ -16,7 +18,8 @@ logger = logging.getLogger(__name__)
+ load_dotenv()
+ CLIENT_ID = os.getenv("CLIENT_ID")
+ CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+-USE_SANDBOX = os.getenv("USE_SANDBOX", "true").lower() == "false"
++# Fixed: USE_SANDBOX=true means sandbox; unset or false means production.
++USE_SANDBOX = os.getenv("USE_SANDBOX", "false").strip().lower() == "true"
+ 
+ # DigiKey OAuth2 token endpoint
+ if USE_SANDBOX:
+@@ -44,24 +47,35 @@ def get_access_token():
+     
+     endpoint = "SANDBOX" if USE_SANDBOX else "PRODUCTION"
+     logger.info(f"Requesting token from {endpoint} with CLIENT_ID: {CLIENT_ID[:10]}...")
+-    resp = requests.post(TOKEN_URL, data=data, headers=headers)
++    resp = requests.post(TOKEN_URL, data=data, headers=headers, timeout=30)
+     
+     if resp.status_code != 200:
+         logger.error(f"OAuth error: {resp.status_code} - {resp.text}")
+         resp.raise_for_status()
+     
+     logger.info("Successfully obtained access token")
+-    return resp.json()["access_token"]
++    return resp.json()
++
++# Fixed: tokens expire after ~10 minutes, so fetch lazily and refresh before expiry.
++_token = {"value": None, "expires": 0.0}
++
++def _token_value(force: bool = False) -> str:
++    if force or not _token["value"] or time.time() > _token["expires"] - 60:
++        tok = get_access_token()
++        _token["value"] = tok["access_token"]
++        _token["expires"] = time.time() + float(tok.get("expires_in", 599))
++    return _token["value"]
+ 
+-# Get access token at startup
+-logger.info("=== STARTING DIGIKEY MCP SERVER ===")
+-access_token = get_access_token()
+-logger.info("=== SERVER READY ===")
++def _pn(product_number: str) -> str:
++    """Fixed: part numbers like MCP6004T-I/ST contain '/', so encode them for the URL path."""
++    return quote(product_number, safe="")
++
++logger.info("=== DIGIKEY MCP SERVER READY (%s) ===", "SANDBOX" if USE_SANDBOX else "PRODUCTION")
+ 
+ def _get_headers(customer_id: str = "0"):
+     """Get standard headers for DigiKey API requests."""
+     return {
+-        "Authorization": f"Bearer {access_token}",
++        "Authorization": f"Bearer {_token_value()}",
+         "X-DIGIKEY-Client-Id": CLIENT_ID,
+         "Content-Type": "application/json",
+         "X-DIGIKEY-Locale-Site": "US",
+@@ -77,10 +91,15 @@ def _make_request(method: str, url: str, headers: dict, data: dict = None) -> di
+     if data:
+         logger.debug(f"Request body: {json.dumps(data, indent=2)}")
+     
+-    if method.upper() == "GET":
+-        resp = requests.get(url, headers=headers)
+-    else:
+-        resp = requests.post(url, headers=headers, json=data)
++    def send():
++        if method.upper() == "GET":
++            return requests.get(url, headers=headers, timeout=30)
++        return requests.post(url, headers=headers, json=data, timeout=30)
++
++    resp = send()
++    if resp.status_code == 401:  # token expired early: refresh once and retry
++        headers["Authorization"] = f"Bearer {_token_value(force=True)}"
++        resp = send()
+     
+     logger.info(f"Response status: {resp.status_code}")
+     if resp.status_code != 200:
+@@ -135,7 +154,7 @@ def product_details(product_number: str, manufacturer_id: str = None, customer_i
+         manufacturer_id: Optional manufacturer ID for disambiguation
+         customer_id: Customer ID for pricing (default: "0")
+     """
+-    url = f"{API_BASE}/products/v4/search/{product_number}/productdetails"
++    url = f"{API_BASE}/products/v4/search/{_pn(product_number)}/productdetails"
+     headers = _get_headers(customer_id)
+     
+     params = {}
+@@ -143,7 +162,7 @@ def product_details(product_number: str, manufacturer_id: str = None, customer_i
+         params["manufacturerId"] = manufacturer_id
+     
+     if params:
+-        url += "?" + "&".join([f"{k}={v}" for k, v in params.items()])
++        url += "?" + urlencode(params)
+     
+     return _make_request("GET", url, headers)
+ 
+@@ -182,14 +201,14 @@ def search_product_substitutions(product_number: str, limit: int = 10, search_op
+         search_options: Filters like LeadFree,RoHSCompliant,InStock
+         exclude_marketplace: Exclude marketplace products (default: False)
+     """
+-    url = f"{API_BASE}/products/v4/search/{product_number}/substitutions"
++    url = f"{API_BASE}/products/v4/search/{_pn(product_number)}/substitutions"
+     headers = _get_headers()
+     
+     params = {"limit": limit, "excludeMarketPlaceProducts": exclude_marketplace}
+     if search_options:
+         params["searchOptionList"] = search_options
+     
+-    url += "?" + "&".join([f"{k}={v}" for k, v in params.items()])
++    url += "?" + urlencode(params)
+     return _make_request("GET", url, headers)
+ 
+ @mcp.tool()
+@@ -199,7 +218,7 @@ def get_product_media(product_number: str):
+     Args:
+         product_number: The product to get media for
+     """
+-    url = f"{API_BASE}/products/v4/search/{product_number}/media"
++    url = f"{API_BASE}/products/v4/search/{_pn(product_number)}/media"
+     headers = _get_headers()
+     return _make_request("GET", url, headers)
+ 
+@@ -212,11 +231,11 @@ def get_product_pricing(product_number: str, customer_id: str = "0", requested_q
+         customer_id: Customer ID for pricing (default: "0")
+         requested_quantity: Quantity for pricing calculation (default: 1)
+     """
+-    url = f"{API_BASE}/products/v4/search/{product_number}/productpricing"
++    url = f"{API_BASE}/products/v4/search/{_pn(product_number)}/productpricing"
+     headers = _get_headers(customer_id)
+     
+     params = {"requestedQuantity": requested_quantity}
+-    url += "?" + "&".join([f"{k}={v}" for k, v in params.items()])
++    url += "?" + urlencode(params)
+     
+     return _make_request("GET", url, headers)
+ 
+@@ -229,11 +248,11 @@ def get_digi_reel_pricing(product_number: str, requested_quantity: int, customer
+         requested_quantity: Quantity for DigiReel pricing
+         customer_id: Customer ID for pricing (default: "0")
+     """
+-    url = f"{API_BASE}/products/v4/search/{product_number}/digireelpricing"
++    url = f"{API_BASE}/products/v4/search/{_pn(product_number)}/digireelpricing"
+     headers = _get_headers(customer_id)
+     
+     params = {"requestedQuantity": requested_quantity}
+-    url += "?" + "&".join([f"{k}={v}" for k, v in params.items()])
++    url += "?" + urlencode(params)
+     
+     return _make_request("GET", url, headers)
+ 
