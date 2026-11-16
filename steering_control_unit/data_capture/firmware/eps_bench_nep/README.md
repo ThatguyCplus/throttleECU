@@ -38,7 +38,7 @@ Libraries: Adafruit CAN, Adafruit SH110X, Adafruit GFX.
    ```bash
    python steering_control_unit/data_capture/tools/feather_log.py COM7 bench_feather.log
    ```
-   Type `r900` and Enter to start NEP at 900 rpm, `r0` to stop, `z` to zero the SAS, `?` for status. OLED buttons: A on/off, B next preset (900/1200/1500/2000), C zero SAS.
+   Type `r900` and Enter to start NEP at 900 rpm, `r0` to stop, `z` to zero the SAS, `?` for status, `c0`/`c1` to stop/start printing every CAN frame. OLED buttons: A on/off, B next preset (900/1200/1500/2000), C zero SAS.
 4. Stop both after the test, then merge:
    ```bash
    python steering_control_unit/data_capture/tools/merge_hantek_feather.py scope.csv bench_feather.log merged.csv --sync CH4
@@ -51,7 +51,8 @@ The merged CSV keeps every scope column and adds `sas_deg`, `sas_dps`, `sas_zero
 
 | Line | Meaning |
 |---|---|
-| `N,<us>,<rpm>` | NEP command changed |
+| `N,<us>,<rpm>` | NEP command changed, and repeated once a second |
 | `A,<us>,<deg>,<dps>,<zeroed_deg>` | SAS frame, timestamped in the CAN interrupt |
+| `C,<us>,<id hex>,<ext>,<rtr>,<len>,<data hex>` | Every CAN frame on the bus (`c0` turns this off, `c1` back on) |
 | `S,<us>,<level>,<n>` | Sync edge on D13, timestamped as the pin changed. Intervals are pseudo-random 200–1000 ms |
 | `# ...` | Status and comments |

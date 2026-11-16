@@ -5,11 +5,14 @@
 // Outputs on USB serial (115200), one event per line:
 //   # ...                      comment / status
 //   N,<us>,<rpm>               NEP command changed (0 = off)
+//   N is also repeated once a second, so a log that starts mid-run still knows the rpm.
 //   A,<us>,<deg>,<dps>,<zeroed_deg>   SAS frame (CAN 0x25), timestamped in the CAN interrupt
+//   C,<us>,<id hex>,<ext>,<rtr>,<len>,<data hex>   every CAN frame on the bus (c0 turns off)
 //   S,<us>,<level>,<n>         sync edge on D13, timestamped the instant the pin changed
 // <us> is micros(): 32-bit, wraps every 71.6 min. tools/feather_log.py unwraps it.
 //
 // Serial commands:  r900  set rpm (0 = off, else 500..3000)   z  zero SAS   ?  status
+//                   c1 / c0  print every CAN frame on / off (default on)
 // OLED buttons:     A (D9) NEP on/off   B (D6) next rpm preset   C (D5) zero SAS
 //
 // Wiring (breadboard): see README.md next to this file.
@@ -50,25 +53,28 @@ static CANSAME5x CAN;
 static Adafruit_SH1107 oled(64, 128, &Wire);
 
 // ---------------------------------------------------------------- CAN ring buffer
-struct CanFrame { uint32_t us; uint8_t d[8]; uint8_t len; };
-static const uint8_t RING = 64;                 // power of two
+// Every frame is queued (not just the SAS), so the whole bus can be logged. 256 slots
+// cover the ~25 ms OLED redraw even on a fully loaded 500 kbit/s bus (~4400 frames/s).
+struct CanFrame { uint32_t us; uint32_t id; uint8_t d[8]; uint8_t len; uint8_t ext; uint8_t rtr; };
+static const uint16_t RING = 256;               // power of two; uint8_t indices wrap with it
 static volatile CanFrame ring[RING];
 static volatile uint8_t ringHead = 0, ringTail = 0;
 static volatile uint32_t ringDrops = 0, busFrames = 0;
+static bool canDump = true;                     // print a C line for every frame
 
 static void onCan(int size) {                   // runs in the CAN interrupt
   const uint32_t us = micros();
   busFrames++;
-  if (CAN.packetExtended() || CAN.packetRtr() || CAN.packetId() != SAS_CAN_ID || size < 6) {
-    while (CAN.available()) CAN.read();
-    return;
-  }
-  const uint8_t next = (ringHead + 1) & (RING - 1);
+  const uint8_t next = (uint8_t)(ringHead + 1);
   if (next == ringTail) { ringDrops++; while (CAN.available()) CAN.read(); return; }
   volatile CanFrame &f = ring[ringHead];
   f.us = us;
+  f.id = CAN.packetId();
+  f.ext = CAN.packetExtended();
+  f.rtr = CAN.packetRtr();
   f.len = 0;
-  while (CAN.available() && f.len < 8) f.d[f.len++] = CAN.read();
+  if (f.rtr) f.len = size > 8 ? 8 : (size < 0 ? 0 : size);   // RTR carries a DLC, no data
+  else while (CAN.available() && f.len < 8) f.d[f.len++] = CAN.read();
   while (CAN.available()) CAN.read();
   ringHead = next;
 }
@@ -88,10 +94,22 @@ static void drainCan() {
     CanFrame f;
     noInterrupts();
     f.us = ring[ringTail].us;
+    f.id = ring[ringTail].id;
+    f.ext = ring[ringTail].ext;
+    f.rtr = ring[ringTail].rtr;
     f.len = ring[ringTail].len;
     for (uint8_t i = 0; i < 8; i++) f.d[i] = ring[ringTail].d[i];
-    ringTail = (ringTail + 1) & (RING - 1);
+    ringTail = (uint8_t)(ringTail + 1);
     interrupts();
+    if (canDump) {
+      char hex[17];
+      static const char H[] = "0123456789ABCDEF";
+      const uint8_t nd = f.rtr ? 0 : f.len;
+      for (uint8_t i = 0; i < nd; i++) { hex[2 * i] = H[f.d[i] >> 4]; hex[2 * i + 1] = H[f.d[i] & 15]; }
+      hex[2 * nd] = 0;
+      Serial.printf("C,%lu,%lX,%u,%u,%u,%s\n", f.us, (unsigned long)f.id, f.ext, f.rtr, f.len, hex);
+    }
+    if (f.ext || f.rtr || f.id != SAS_CAN_ID || f.len < 6) continue;
     const float angle = signExtend(((f.d[0] & 0x0F) << 8) | f.d[1], 12) * 1.5f;
     const float frac  = signExtend((f.d[4] & 0xF0) >> 4, 4) * 0.1f;
     sasRate = signExtend(((f.d[4] & 0x0F) << 8) | f.d[5], 12);
@@ -158,11 +176,16 @@ static void handleSerial() {
     if (n == 0) continue;
     if (buf[0] == 'r') setRpm(atoi(buf + 1), "(serial)");
     else if (buf[0] == 'z') { zeroDeg = sasDeg; Serial.printf("# SAS zero %.1f\n", zeroDeg); }
-    else if (buf[0] == '?') {
-      Serial.printf("# rpm %u, SAS %s %.1f deg (zeroed %.1f), sas frames %lu, bus frames %lu, drops %lu, sync %lu\n",
-                    rpm, millis() - sasLastMs < SAS_STALE_MS ? "ok" : "STALE", sasDeg, sasDeg - zeroDeg,
-                    sasCount, busFrames, ringDrops, syncCount);
-    } else Serial.println("# commands: r<rpm>  z  ?");
+    else if (buf[0] == 'c') {
+      canDump = buf[1] != '0';
+      Serial.printf("# CAN frame dump %s\n", canDump ? "on" : "off");
+    } else if (buf[0] == '?') {
+      // Short lines: this core's printf truncates long output and drops the newline.
+      Serial.printf("# rpm %u, SAS %s %.1f deg (zeroed %.1f)\n",
+                    rpm, millis() - sasLastMs < SAS_STALE_MS ? "ok" : "STALE", sasDeg, sasDeg - zeroDeg);
+      Serial.printf("# frames: sas %lu, bus %lu, drops %lu\n", sasCount, busFrames, ringDrops);
+      Serial.printf("# sync %lu, can dump %s\n", syncCount, canDump ? "on" : "off");
+    } else Serial.println("# commands: r<rpm>  z  ?  c1/c0 (CAN dump)");
     n = 0;
   }
 }
@@ -224,15 +247,19 @@ void setup() {
   const bool canOk = CAN.begin(CAN_BITRATE);
   if (canOk) CAN.onReceive(onCan);
 
-  Serial.println("# eps_bench_nep: NEP on D4 -> XY-MOS, sync on D13, SAS 0x25 @ 500k");
-  Serial.println("# N,us,rpm | A,us,deg,dps,zeroed_deg | S,us,level,n");
+  Serial.println("# eps_bench_nep: NEP on D4 -> XY-MOS, sync on D13, SAS 0x25 @ 500k, all CAN frames");
+  Serial.println("# N,us,rpm | A,us,deg,dps,zeroed_deg | C,us,id,ext,rtr,len,hex | S,us,level,n");
   if (!canOk) Serial.println("# CAN start failed");
   Serial.printf("N,%lu,0\n", micros());
 }
 
 void loop() {
-  static uint32_t lastDraw = 0;
+  static uint32_t lastDraw = 0, lastRpmMs = 0;
   drainCan();
+  if (millis() - lastRpmMs >= 1000) {   // keep the rpm in every log, even one started mid-run
+    lastRpmMs = millis();
+    Serial.printf("N,%lu,%u\n", micros(), rpm);
+  }
   runSync();
   handleSerial();
   handleButtons();
