@@ -33,6 +33,8 @@ Icarus adds a **bounded, double-monitored steering torque** by intercepting the 
 | [docs/11_REV2_DESIGN_REVIEW.md](docs/11_REV2_DESIGN_REVIEW.md) | Parts 2–9 | **Rev 2.0 decision (2026-11-15):** safety PMIC per channel, LiPo backup / CH-C / speed stage cut, all-automotive BOM, FMEDA trade study (`safety/rev2_trade.py`) |
 | [docs/12_SELF_TEST.md](docs/12_SELF_TEST.md) | Parts 4–5 | Self-test windows (power-up, key-on engine off, parked post-run, driving), test list, added safety functions M1–M10 |
 | [docs/13_REV2_DATASHEET_FINDINGS.md](docs/13_REV2_DATASHEET_FINDINGS.md) | Part 5 | Datasheet check of the rev 2.0 parts; pin data in `hardware/gen/rev2_parts.py`. New risk D1: load dump vs the PMIC's 40 V rating |
+| [docs/14_EPS_DATA_GAME_PLAN.md](docs/14_EPS_DATA_GAME_PLAN.md) | Parts 3–5, 8 | **First EPS bench data (2026-11-16):** VT3/VT6 are in phase (A1 disproved), assist curve with a cliff, what changes in Icarus, bench campaign, safety plan, gates G1–G5 |
+| [docs/15_GAME_PLAN_SUMMARY.md](docs/15_GAME_PLAN_SUMMARY.md) | — | One-page version of doc 14 |
 | `safety/` | — | `element_model.py` (the model), `analyze.py` (the analysis), `fmeda.csv` |
 
 ## Related folders (read-only references)

@@ -68,7 +68,7 @@ Pin numbers, wire colours and expected voltages: `../../data_capture/EPS_PINOUT.
 
 | ID | Assumption | Verify by |
 |---|---|---|
-| A1 | The EPS reads VT3/VT6 as a differential torque, and its DTC 16 checks their **average**. Antisymmetric ±Δ keeps the average unchanged. | Logger capture of VT3/VT6 while steering |
+| A1 | ~~The EPS reads VT3/VT6 as a differential torque, and its DTC 16 checks their **average**. Antisymmetric ±Δ keeps the average unchanged.~~ **Disproved 2026-11-15:** bench captures show VT3 and VT6 move in phase with the same gain. F2, I1, FSR-03, FSR-06 and SM-06 still carry the old wording until change request CR-01 in `14_EPS_DATA_GAME_PLAN.md` is applied. | Done: `../../data_capture/bench_data/2026-11-15/` |
 | A2 | The EPS input filtering tolerates the relay's break-before-make gap (≤ 1–3 ms) without setting a DTC, with the hold capacitor fitted. | Bench test with the logger and repeated relay cycling |
 | A3 | Driver torque can overpower the maximum overlay at all speeds. | Measured steering-wheel force at the hardware limit |
 | A4 | Planner commands are untrusted (QM). Icarus provides all of the safety integrity. | Design rule |
