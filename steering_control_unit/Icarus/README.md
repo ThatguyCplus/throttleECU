@@ -30,6 +30,9 @@ Icarus adds a **bounded, double-monitored steering torque** by intercepting the 
 | [docs/05_HARDWARE_BASIS.md](docs/05_HARDWARE_BASIS.md) | Part 5 input | Parts (reused vs new), rails, MCU resource budget |
 | [docs/06_SAFETY_ELEMENT.md](docs/06_SAFETY_ELEMENT.md) | Parts 5, 9 | Safety element tree, ASIL allocation, analysis findings F1–F7, recommendations R1–R6 |
 | [docs/07_FMEDA_FTA.md](docs/07_FMEDA_FTA.md) | Part 5 §8–9 | Generated FMEDA (SPFM/LFM/PMHF), connector short analysis, cut sets, sensitivity |
+| [docs/11_REV2_DESIGN_REVIEW.md](docs/11_REV2_DESIGN_REVIEW.md) | Parts 2–9 | **Rev 2.0 decision (2026-11-15):** safety PMIC per channel, LiPo backup / CH-C / speed stage cut, all-automotive BOM, FMEDA trade study (`safety/rev2_trade.py`) |
+| [docs/12_SELF_TEST.md](docs/12_SELF_TEST.md) | Parts 4–5 | Self-test windows (power-up, key-on engine off, parked post-run, driving), test list, added safety functions M1–M10 |
+| [docs/13_REV2_DATASHEET_FINDINGS.md](docs/13_REV2_DATASHEET_FINDINGS.md) | Part 5 | Datasheet check of the rev 2.0 parts; pin data in `hardware/gen/rev2_parts.py`. New risk D1: load dump vs the PMIC's 40 V rating |
 | `safety/` | — | `element_model.py` (the model), `analyze.py` (the analysis), `fmeda.csv` |
 
 ## Related folders (read-only references)

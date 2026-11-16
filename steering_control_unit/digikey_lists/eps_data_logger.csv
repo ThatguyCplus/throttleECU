@@ -1,0 +1,10 @@
+Digi-Key Part Number,Manufacturer Part Number,Quantity,Customer Reference,Note
+1528-4759-ND,4759,1,Feather M4 CAN Express,
+1528-1621-ND,2922,1,Adalogger FeatherWing,
+1528-380-ND,380,1,CR1220 coin cell (RTC),
+1528-1560-ND,2886,1,Tap wing female headers 12+16,Soldered on the tap wing top
+2830-ND,2830,1,Adalogger stacking headers,Lets the Adalogger stack in the tower
+455-4083-ND,B15B-XASK-1(LF)(SN),1,"J2 EPS taps header, XA 15-pin",Hand-soldered on the tap wing back
+455-2161-ND,XAP-15V-1,2,"J2 mating housing, XA 15-pin",One spare
+455-3095-ND,ASXASXA22K305,8,"J2 leads, XA pre-crimped 12in",Cut each in half: 16 leads for 15 positions. Loose SXA contacts are reel-only (8000)
+277-1275-ND,1725672,1,J3 current clamp terminal,"Phoenix MPT 0,5/4-2,54"

@@ -37,15 +37,26 @@ Read this first if you're picking the work up. The facts below are kept current 
 - **Java 25 (Temurin JRE):** the session scratchpad, `.../scratchpad/jre25/jdk-25.0.5+8-jre/bin/java.exe`. It's temporary; re-download with the user's OK if it's gone.
 - **Freerouting:** `%USERPROFILE%/Documents/KiCad/10.0/3rdparty/plugins/app_freerouting_kicad-plugin/jar/freerouting-2.2.0.jar`.
 
-## State (2026-11-02)
+## State (2026-11-05)
 
 | Item | State |
 |---|---|
-| Schematic | **rev 0.7**: 567 parts, CH-B = TMS570LS0432-Q1 (diverse monitor), ERC 0, 292/292 nets match |
+| Schematic | **rev 0.9**: 640 parts. Adds Q901 (reversed-cell FET), D901 (low-cell cutoff), C901 (LM74700 ANODE cap), 3-way J5 with the NTC on the pack, 3 A fuse. New parts count from 901. ERC 2 warnings, both the unconnected PGA1I spare |
 | Safety analysis | SPFM 99.99 %, LFM 98.8 %, PMHF 0.086 FIT (placeholder rates); F14-F17 in docs/06 |
-| PCB | **rev 0.7, 100 × 100 mm, routed.** Config A (`ICARUS_CONFIG=A`), stack SGSS (F sig · In1 GND · In2 sig · B sig). Parts on both sides; test pads and LEDs float next to their signals, on top. **DRC `--severity-all`: 0 violations, 0 unconnected, 0 parity** (`gen/route/drc_rev07_final.rpt`). Fab outputs and renders in `hardware/fab/` and `hardware/doc/`. Board = `gen/route/A_SGSS_cskpin_routed.kicad_pcb` |
+| PCB | **rev 0.9, 100 x 100 mm, routed:** DRC 0, unconnected 0, parity 0. Config A (`ICARUS_CONFIG=A`, `ICARUS_TP_LABEL=4.5`), stack SGSS. About 266 mm of signals on In1 (docs/06 F25). Pin 18 PGA1_IN has no header (docs/09). **Routing has hand edits after `make_pcb.py finish`, so the `.kicad_pcb` is the source for copper; rerunning `place` loses them.** J5 on the bottom edge. `gen/widen_power.py` and `gen/dfm_fix.py` ran after routing. Order with 1 oz inner copper. Fab files in `hardware/fab`, details in docs/10 |
 | Earlier boards | Routed rev 0.5 (152 × 115) kept in `gen/route/icarus_rev05_routed.kicad_pcb` + `gen/route/fab_rev05/`. BOM review in docs/08 |
-| Last commit | `923742b` (rev 0.2). Rev 0.3 to 0.7 are **uncommitted** |
+| Last commit | Rev 0.9 is on branch `icarus-rev08-fab`, not pushed. `.kicad_prl` keeps the user's uncommitted edits |
+
+## Rev 2.0 decision (2026-11-15): read docs/11 first
+
+- **Architecture changed on paper, not yet in `design.py`.** Each channel gets a TPS65381A-Q1 safety PMIC (Q&A watchdog, MCU error pin, ENDRV) in place of buck + LDO + supervisors + TPS3850 + AND gate + charge pump.
+- **Cut:** LiPo backup, CH-C guard, speed stage SM-23, TPS1H100s, LM74700 ideal diode, 470 µF hold-up, blade fuse holder, spare headers, populated debug headers. **Kept:** both MCUs, two relays (K2 from a second vendor), cross-driven coils, resistor authority limit, both readbacks.
+- **Condition C1:** cutting CH-C rests on SM-26A (CH-A ERRORSTS + PMIC Q&A watchdog, ≥ 90 % DC). Without it the pessimistic case fails (11.2 FIT); reinstate CH-C then.
+- **Every part automotive grade**, no commercial substitutes; buy backordered -Q1 parts from TI direct.
+- **Self-test plan (docs/12):** tests with a real offset only while the EPS motor relay is open (key-on engine off, parked post-run), with CH-B enforcing that interlock through its relay switches. Adds M1–M10, including a hardware disengage in the coil return, coil shunts, OVL taps, redundant driver lamp, seat sense on J1 pin 14, and sleep / post-run hold.
+- **Datasheets checked (docs/13):** pin data in `hardware/gen/rev2_parts.py` (run it: self-check). K2 = Panasonic TX2SA-12V-Z, same pins as K1. No ERRORSTS inverter; PMIC POST_RUN latch replaces the self-hold transistors. **Open before the schematic:** D1 load-dump margin (PMIC 40 V abs max), D2 VDD1 FET, D7 ERRORSTS on GPIO28/29.
+- **Unexplored and blocking (2026-11-15): is a stuck Δmax controllable?** The FMEDA says how often the board fails, not how bad it is. Δmax and FTTI are still TBD-DATA, and cutting the speed stage made the Insight EPS's own speed-dependent assist (and its VSP input) part of the safety argument. Unknown: what the EPS does when VSP is lost; if it falls back to full assist, size Δmax at the highest assist gain, not "the highest speed". Measure on the bench EPS first: fixed offset vs motor current / rack torque at several VSP values and with VSP removed. The result sets the limit resistors and decides whether the speed stage returns.
+- **Next:** pick the open parts (doc 13 §3), then rewrite `design.py` for rev 2.0 and port the model into `element_model.py`.
 
 ## Rev 0.4 additions (this chunk)
 
