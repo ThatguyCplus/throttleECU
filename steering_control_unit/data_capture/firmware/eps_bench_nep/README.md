@@ -8,15 +8,19 @@ VSP is not driven, so the EPS sees 0 mph, which gives full assist. Never send sp
 
 | From | Through | To |
 |---|---|---|
-| Feather D4 | 10 kΩ | NPN base (2N3904 / 2N2222 / BC547). Emitter to GND |
-| +12 V (same supply as EPS IG1/+B) | 10 kΩ | NPN collector = **NEP node** |
+| Feather D4 | — | XY-MOS **TRIG** |
+| XY-MOS trigger GND and **VIN−** | — | T/S GND |
+| XY-MOS **OUT+** | — | +12 V (same supply as EPS IG1/+B) |
+| +12 V | 10 kΩ | XY-MOS **OUT−** = **NEP node** |
 | NEP node | — | EPS **B14** (NEP) and Hantek CH3 |
 | Feather D13 | — | Hantek **CH4** (sync) |
 | VT3 B10 / VT6 B8 | — | Hantek CH1 / CH2 (no divider needed, 1 MΩ input) |
-| T/S GND B9 | — | Feather GND, NPN emitter, **every** Hantek probe ground |
+| T/S GND B9 | — | Feather GND, XY-MOS VIN− and trigger GND, **every** Hantek probe ground |
 | Feather CAN-H / CAN-L | — | SAS, 120 Ω at each end of the bus. SAS on its own 12 V |
 
-- The transistor copies the ECM's open-collector output: idle high (12 V through the pull-up), pulled low on each pulse.
+- The XY-MOS low-side switch copies the ECM's open-collector output: idle high (12 V through the pull-up), pulled low while D4 is high. Same polarity as the old NPN, so the firmware didn't change.
+- Nothing is connected to the module's VIN+; OUT+ only ties its output side to 12 V. The module's trigger pull-down keeps the MOSFET off while the Feather boots, so NEP idles high.
+- At 900 rpm NEP is 22.5 Hz (3,000 rpm = 75 Hz), far below the module's ~20 kHz limit, so its slow gate turn-off doesn't matter.
 - Check the NEP node on CH3: it should swing about 0 V to above 8 V. The EPS input has its own pull-down; if the high level is low, put a second 10 kΩ in parallel with the pull-up (5 kΩ).
 - **In the car**, inject only on the EPS side of B14 with a breakout. That wire also feeds the gauges, ECM, MCM and TCM.
 - Feather and Hantek both plug into the same PC, so their grounds meet there too. Run a laptop on battery, or make sure the bench supply's negative isn't tied to mains earth somewhere else.

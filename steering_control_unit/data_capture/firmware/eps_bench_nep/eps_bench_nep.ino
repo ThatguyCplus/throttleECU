@@ -13,8 +13,10 @@
 // OLED buttons:     A (D9) NEP on/off   B (D6) next rpm preset   C (D5) zero SAS
 //
 // Wiring (breadboard): see README.md next to this file.
-//   D4  -> 10k -> NPN base (2N3904 / 2N2222; emitter to GND). Collector = NEP node.
-//          NEP node -> 10k -> +12 V (the EPS supply), NEP node -> EPS B14.
+//   D4  -> XY-MOS TRIG (trigger GND and VIN- -> T/S GND, OUT+ -> +12 V).
+//          XY-MOS OUT- = NEP node: 10k -> +12 V, and -> EPS B14 + Hantek CH3.
+//          D4 high = MOSFET on = NEP node pulled low; D4 low = node idles at 12 V.
+//          The module's trigger pull-down keeps NEP off while the Feather boots.
 //   D13 -> Hantek channel (sync). GND -> T/S GND and the Hantek probe grounds.
 //   CAN-H / CAN-L -> SAS, 120 ohm at each end of the bus.
 //
@@ -113,7 +115,7 @@ static void setRpm(uint16_t r, const char *why) {
     tone(NEP_PIN, rpm * NEP_PULSES_PER_REV / 60.0f);   // 50 % square wave, timer interrupt
   } else {
     noTone(NEP_PIN);
-    digitalWrite(NEP_PIN, LOW);                         // transistor off: line idles high
+    digitalWrite(NEP_PIN, LOW);                         // MOSFET off: line idles high
   }
   highSinceMs = rpm >= RPM_HIGH ? millis() : 0;
   Serial.printf("N,%lu,%u\n", micros(), rpm);
@@ -222,7 +224,7 @@ void setup() {
   const bool canOk = CAN.begin(CAN_BITRATE);
   if (canOk) CAN.onReceive(onCan);
 
-  Serial.println("# eps_bench_nep: NEP on D4, sync on D13, SAS 0x25 @ 500k");
+  Serial.println("# eps_bench_nep: NEP on D4 -> XY-MOS, sync on D13, SAS 0x25 @ 500k");
   Serial.println("# N,us,rpm | A,us,deg,dps,zeroed_deg | S,us,level,n");
   if (!canOk) Serial.println("# CAN start failed");
   Serial.printf("N,%lu,0\n", micros());
