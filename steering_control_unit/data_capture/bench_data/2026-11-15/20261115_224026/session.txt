@@ -1,0 +1,6 @@
+scope.csv     Hantek roll recording
+feather.log   10982 Feather lines
+merged.csv    aligned with D13 sync on CH4
+can.csv       5470 CAN frames, times on the scope axis
+
+merged 105 sync edges, residual 0.98 ms rms, 5470 CAN frames

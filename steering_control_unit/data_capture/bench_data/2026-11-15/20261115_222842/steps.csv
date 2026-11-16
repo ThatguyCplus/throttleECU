@@ -1,0 +1,13 @@
+# step windows; wall clock start 1794810525.132
+step,start_s,end_s,instruction
+baseline,0.0,5.039,HANDS OFF the wheel. Let it sit.
+right_slow,5.039,8.075,Turn RIGHT slowly to about 90 degrees.
+right_hold,8.075,12.085,HOLD at right. Keep a light steady push.
+right_return,12.085,15.086,Return slowly to CENTRE.
+off_1,15.086,18.086,HANDS OFF.
+left_slow,18.086,21.097,Turn LEFT slowly to about 90 degrees.
+left_hold,21.097,25.103,HOLD at left. Keep a light steady push.
+left_return,25.103,28.144,Return slowly to CENTRE.
+off_2,28.144,31.166,HANDS OFF.
+wiggle,31.166,36.215,"Quick small WIGGLES left-right, about 2 per second."
+off_3,36.215,40.237,HANDS OFF. Almost done.
