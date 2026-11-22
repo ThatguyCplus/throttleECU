@@ -8,6 +8,8 @@ scope CSV with the Feather's data added as extra columns on the scope's time axi
 
     sas_deg, sas_dps, sas_zeroed_deg   steering angle sensor (blank if stale > 0.25 s)
     nep_rpm                            NEP command the Feather was sending
+    vt3_cmd, vt6_cmd, d_cmd            DAC outputs eps_bench_steer was commanding (V lines;
+                                       blank for logs from eps_bench_nep)
 
     python merge_hantek_feather.py scope.csv bench_feather.log merged.csv --sync CH4
 
@@ -61,7 +63,7 @@ def scope_edges(t, v, lo, hi):
 
 
 def read_feather(path):
-    sync, sas, nep = [], [], []
+    sync, sas, nep, dac = [], [], [], []
     wraps, prev = 0, None
     with open(path, encoding="utf-8") as f:
         for line in f:
@@ -69,7 +71,7 @@ def read_feather(path):
                 continue
             _, msg = line.rstrip("\n").split("\t", 1)
             parts = msg.split(",")
-            if parts[0] not in ("S", "A", "N") or len(parts) < 3:
+            if parts[0] not in ("S", "A", "N", "V") or len(parts) < 3:
                 continue
             try:
                 us = int(parts[1])
@@ -86,7 +88,10 @@ def read_feather(path):
                 sas.append((t, float(parts[2]), float(parts[3]), float(parts[4])))
             elif parts[0] == "N":
                 nep.append((t, float(parts[2])))
-    return np.array(sync).reshape(-1, 2), np.array(sas).reshape(-1, 4), np.array(nep).reshape(-1, 2)
+            elif parts[0] == "V" and len(parts) >= 5:
+                dac.append((t, float(parts[2]), float(parts[3]), float(parts[4])))
+    return (np.array(sync).reshape(-1, 2), np.array(sas).reshape(-1, 4), np.array(nep).reshape(-1, 2),
+            np.array(dac).reshape(-1, 4))
 
 
 def match(ts, ds, tf, df, min_overlap=6):
@@ -132,9 +137,9 @@ def main() -> int:
         return 1
     t_scope = data[:, 0]
     ts, ds = scope_edges(t_scope, data[:, col], args.lo, args.hi)
-    sync, sas, nep = read_feather(args.feather_log)
+    sync, sas, nep, dac = read_feather(args.feather_log)
     print(f"scope: {len(t_scope)} samples, {len(ts)} sync edges | feather: {len(sync)} sync, "
-          f"{len(sas)} SAS, {len(nep)} NEP lines")
+          f"{len(sas)} SAS, {len(nep)} NEP, {len(dac)} DAC lines")
     if len(ts) < 6 or len(sync) < 6:
         print("need at least 6 sync edges in both files; is the sync channel right and wired to D13?")
         return 1
@@ -155,15 +160,19 @@ def main() -> int:
     t_nep = a * nep[:, 0] + b if len(nep) else np.array([])
     sas_cols = hold(t_scope, t_sas, sas[:, 1:], SAS_STALE_S) if len(sas) else np.full((len(t_scope), 3), np.nan)
     nep_col = hold(t_scope, t_nep, nep[:, 1:]) if len(nep) else np.full((len(t_scope), 1), np.nan)
+    # Commanded DAC outputs: each V line holds until the next (lines come on every change)
+    dac_cols = (hold(t_scope, a * dac[:, 0] + b, dac[:, 1:]) if len(dac)
+                else np.full((len(t_scope), 3), np.nan))
 
     with open(args.out_csv, "w", newline="", encoding="utf-8") as f:
         f.write(f"# merged {args.scope_csv} + {args.feather_log}; feather->scope a={a:.9f} b={b:.6f}\n")
         w = csv.writer(f)
-        w.writerow(header + ["sas_deg", "sas_dps", "sas_zeroed_deg", "nep_rpm"])
-        for row, sc, nc in zip(data, sas_cols, nep_col):
+        w.writerow(header + ["sas_deg", "sas_dps", "sas_zeroed_deg", "nep_rpm", "vt3_cmd", "vt6_cmd", "d_cmd"])
+        for row, sc, nc, dc in zip(data, sas_cols, nep_col, dac_cols):
             w.writerow([f"{x:.6g}" if not np.isnan(x) else "" for x in row]
                        + ["" if np.isnan(x) else f"{x:.1f}" for x in sc]
-                       + ["" if np.isnan(nc[0]) else f"{nc[0]:.0f}"])
+                       + ["" if np.isnan(nc[0]) else f"{nc[0]:.0f}"]
+                       + ["" if np.isnan(x) else f"{x:.4f}" for x in dc])
     print(f"wrote {args.out_csv}")
     return 0
 

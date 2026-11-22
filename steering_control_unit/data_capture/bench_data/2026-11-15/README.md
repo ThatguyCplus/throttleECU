@@ -1,5 +1,9 @@
 # EPS bench captures, 2026-11-15
 
+> **Disclaimer: for research and bench testing only.** This is experimental work on a removed
+> EPS unit on a test bench. It is not for use on a road vehicle, not safety-validated, and not
+> a product. Anyone who uses it does so at their own risk.
+
 Recorded with Scope1008 (Hantek 1008B, roll mode) and the eps_bench_nep Feather on COM11
 (firmware a7af0e3: every CAN frame, rpm every second). NEP 900 rpm (22.5 Hz) during each run,
 so the EPS assist was on.

@@ -19,7 +19,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("port", help="serial port, for example COM7 or /dev/ttyACM0")
     ap.add_argument("out", help="output log file")
-    ap.add_argument("--quiet", action="store_true", help="don't echo A/S lines to the console")
+    ap.add_argument("--quiet", action="store_true", help="don't echo A/S/C/V data lines to the console")
     args = ap.parse_args()
 
     ser = serial.Serial(args.port, 115200, timeout=0.2)
@@ -45,7 +45,7 @@ def main() -> int:
                 n += 1
                 if n % 200 == 0:
                     f.flush()
-                if not args.quiet or line[:1] not in "AS":
+                if not args.quiet or line[:1] not in "ASCV":
                     print(line)
         except KeyboardInterrupt:
             pass
